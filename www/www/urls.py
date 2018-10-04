@@ -24,11 +24,11 @@ urlpatterns = [
         },
         name='account_profile'
     ),
+    url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 
 
 if settings.DEBUG:
     urlpatterns += (
         url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-        url(r'^__debug__/', include(debug_toolbar.urls)),
     )

@@ -47,7 +47,7 @@ def process_report_task(report_id):
 
     try:
         report = Report.objects.get(id=report_id)
-    except Report.DoesNoExist:
+    except Report.DoesNotExist:
         logging.warning(f'Can not find report {report_id}')
         return
 

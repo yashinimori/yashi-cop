@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bank',
         'USER': 'bank',
-        'PASSWORD': 'bank123123',
+        'PASSWORD': 'bank777222',
         'HOST': 'bank-postgres',
         'PORT': '',
         'CONN_MAX_AGE': 60,
@@ -306,6 +306,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 LOGIN_REDIRECT_URL = '/dashboard'
 
 INSTALLED_APPS += (
+    'allauth_bootstrap4',
+    'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

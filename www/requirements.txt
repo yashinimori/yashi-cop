@@ -11,3 +11,5 @@ django-bootstrap-form==3.4
 celery==4.2.1
 django-post-office==3.1.0
 redis==2.10.6
+django-crispy-forms==1.7.2
+django-allauth-templates-bootstrap4==0.34.12
