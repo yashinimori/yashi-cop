@@ -24,7 +24,7 @@ class Report(BaseModel):
     status = models.CharField(choices=STATUSSES, max_length=100, db_index=True)
 
     def __str__(self):
-        return f'Rerpot: {self.status}'
+        return f'Report: {self.status}'
 
 
 class Transaction(BaseModel):

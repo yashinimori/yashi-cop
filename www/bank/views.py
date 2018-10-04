@@ -27,6 +27,18 @@ class DashboardView(DashboardMixin, ListView):
     def get_queryset(self):
         return Transaction.objects.all()
 
+    def get_context_data(self):
+        context = super().get_context_data()
+
+        context.update({
+            'successful_count': len(Transaction.objects.filter(result='successful')),
+            'failed_count': len(Transaction.objects.filter(result='failed')),
+            'neutral_count': len(Transaction.objects.filter(result='neutral')),
+            'total_count': len(Transaction.objects.all()),
+        })
+
+        return context
+
 
 class ReportsView(DashboardMixin, ListView):
     template_name = "reports.html"

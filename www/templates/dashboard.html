@@ -29,11 +29,8 @@
           <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Unsuccessful %</span>
-            <span class="info-box-number">
-              10
-              <small>%</small>
-            </span>
+            <span class="info-box-text">Successful %</span>
+            <span class="info-box-number">{{ successful_count }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -45,8 +42,8 @@
           <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Unworked</span>
-            <span class="info-box-number">700</span>
+            <span class="info-box-text">Failed</span>
+            <span class="info-box-number">{{ failed_count }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -62,8 +59,8 @@
           <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Worked</span>
-            <span class="info-box-number">1300</span>
+            <span class="info-box-text">Neutral</span>
+            <span class="info-box-number">{{ neutral_count }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -76,7 +73,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Total</span>
-            <span class="info-box-number">2,000</span>
+            <span class="info-box-number">{{ total_count }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
