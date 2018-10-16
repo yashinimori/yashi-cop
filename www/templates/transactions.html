@@ -29,7 +29,7 @@
           <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Successful %</span>
+            <span class="info-box-text">Successful</span>
             <span class="info-box-number">{{ successful_count }}</span>
           </div>
           <!-- /.info-box-content -->
@@ -107,19 +107,21 @@
                   <th>Disp AMNT</th>
                   <th>Auth Code</th>
                   <th>Result</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {% for transaction in object_list %}
                 <tr>
                   <td>{{ transaction.trans_date }}</td>
-                  <td>{{ transaction.atm }}</td>
+                  <td>{{ transaction.atm |default:''}}</td>
                   <td>{{ transaction.card }}</td>
-                  <td>{{ transaction.trans_amount }}</td>
+                  <td>{{ transaction.trans_amount|default:'' }}</td>
                   <td>{{ transaction.currency }}</td>
                   <td>{{ transaction.disp_amount }}</td>
                   <td>{{ transaction.auth_code }}</td>
                   <td>{{ transaction.result }}</td>
+                  <td><a href="{% url 'transaction_view' pk=transaction.id %}" class="btn btn-info" role="button" aria-pressed="true">View</a></td>
                 </tr>
                 {% endfor %}
             </table>

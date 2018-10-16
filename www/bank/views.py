@@ -1,5 +1,5 @@
 # django
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -21,8 +21,8 @@ class DashboardBaseView(DashboardMixin, TemplateView):
     pass
 
 
-class DashboardView(DashboardMixin, ListView):
-    template_name = "dashboard.html"
+class TransactionsView(DashboardMixin, ListView):
+    template_name = "transactions.html"
 
     def get_queryset(self):
         return Transaction.objects.all()
@@ -45,3 +45,20 @@ class ReportsView(DashboardMixin, ListView):
 
     def get_queryset(self):
         return Report.objects.all()
+
+
+class ViewTransactionView(DashboardMixin, DetailView):
+    model = Transaction
+    template_name = 'transaction_view.html'
+
+
+class UploadReportView(DashboardMixin, CreateView):
+    template_name = 'report_upload.html'
+    fields = ('log', )
+    model = Report
+    success_url = '/'
+
+    def get_initial(self):
+        return {
+            'status': 'new',
+        }

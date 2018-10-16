@@ -7,7 +7,7 @@ from bank.actions import parse_report_action
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'log', 'status')
+    list_display = ('id', 'log', 'log_hash', 'status')
     list_filter = ('status', )
     actions = (parse_report_action, )
 

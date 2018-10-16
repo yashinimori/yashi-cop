@@ -8,14 +8,16 @@ from django.views.static import serve
 
 # other
 import debug_toolbar
-from bank.views import DashboardView, ReportsView
+from bank.views import TransactionsView, ReportsView, ViewTransactionView, UploadReportView
 
 
 urlpatterns = [
-    path('', DashboardView.as_view(), name='home'),
+    path('', TransactionsView.as_view(), name='home'),
+    path('transaction/<pk>/view', ViewTransactionView.as_view(), name='transaction_view'),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^reports/', ReportsView.as_view(), name='reports_view'),
+    path('report/', ReportsView.as_view(), name='report_list'),
+    path('report/upload', UploadReportView.as_view(), name='report_upload'),
 
     url(r'^accounts/profile/?$',
         PasswordChangeView.as_view(),
