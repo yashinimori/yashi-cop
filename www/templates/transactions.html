@@ -113,14 +113,14 @@
               <tbody>
                 {% for transaction in object_list %}
                 <tr>
-                  <td>{{ transaction.trans_date }}</td>
+                  <td>{{ transaction.trans_date|default:'' }}</td>
                   <td>{{ transaction.atm |default:''}}</td>
-                  <td>{{ transaction.card }}</td>
+                  <td>{{ transaction.card|default:'' }}</td>
                   <td>{{ transaction.trans_amount|default:'' }}</td>
-                  <td>{{ transaction.currency }}</td>
-                  <td>{{ transaction.disp_amount }}</td>
-                  <td>{{ transaction.auth_code }}</td>
-                  <td>{{ transaction.result }}</td>
+                  <td>{{ transaction.currency|default:'' }}</td>
+                  <td>{{ transaction.disp_amount|default:'' }}</td>
+                  <td>{{ transaction.auth_code|default:'' }}</td>
+                  <td>{{ transaction.result|default:'' }}</td>
                   <td><a href="{% url 'transaction_view' pk=transaction.id %}" class="btn btn-info" role="button" aria-pressed="true">View</a></td>
                 </tr>
                 {% endfor %}
