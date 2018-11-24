@@ -23,9 +23,9 @@ do
   fi
 done
 
-#git tag -a "$tag" -m "Production $now"
+git tag -a "$tag" -m "Production $now"
 
-#git push origin master
-#git push origin "$tag"
+git push origin master
+git push origin "$tag"
 
 docker stack deploy -c docker-swarm.yml bank --with-registry-auth --prune
