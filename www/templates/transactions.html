@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block title %}Incoming chargebacks{% endblock %}
+{% block title %}Transactions{% endblock %}
 
 {% block content %}
 
@@ -87,7 +87,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Incoming chargebacks</h3>
+            <h3 class="card-title">Transactions</h3>
             <div class="card-tools">
 
             </div>
@@ -100,13 +100,13 @@
               <thead>
                 <tr>
                   <th>Trans Date</th>
-                  <th>Terminal</th>
-                  <th>Client</th>
-                  <th>Amount</th>
+                  <th>ATM</th>
+                  <th>PAN</th>
+                  <th>Tran AMNT</th>
                   <th>Cur</th>
                   <th>Disp AMNT</th>
                   <th>Auth Code</th>
-                  <th>Status</th>
+                  <th>Result</th>
                   <th>Action</th>
                   <th>Manual action</th>
                 </tr>
@@ -136,10 +136,8 @@
                 {% endfor %}
             </table>
             {% else %}
-            <p>No chargebacks</p>
+            <p>No transactions</p>
             {% endif %}
-
-            <a href="#" class="btn btn-danger">Commit all</a>
           </div>
           <!-- /.card-body -->
         </div>
