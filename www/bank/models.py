@@ -5,6 +5,7 @@ import hashlib
 from django.db import models
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 # my
 from bank.tasks import process_report_task
@@ -64,6 +65,11 @@ class Transaction(BaseModel):
         ('neutral', 'Neutral'),
     )
 
+    STATUSSES = (
+        ('accepted', 'Accepted'),
+        ('declined', 'Declined'),
+    )
+
     chb_date = models.DateTimeField(null=True, blank=True)
     trans_date = models.DateTimeField(null=True, blank=True)
     atm = models.CharField(max_length=100, null=True, blank=True)
@@ -80,6 +86,9 @@ class Transaction(BaseModel):
 
     report = models.ForeignKey(Report, on_delete=models.CASCADE, null=True)
 
+    comment = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=20, null=True, blank=True, choices=STATUSSES)
+
     class Meta():
         index_together = (
             ('utrnno', 'report'),
@@ -93,3 +102,24 @@ class Transaction(BaseModel):
 def save_report_event(sender, instance, created, **kwargs):
     if created:
         process_report_task.apply_async(args=(instance.id, ))
+
+
+class UserProfile(BaseModel):
+    CATEGORIES = (
+        ('test', 'Test'),
+        ('dispute', 'Dispute'),
+        ('administrative', 'Administrative'),
+    )
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    category = models.CharField(max_length=100, choices=CATEGORIES, null=True, blank=True)
+    position = models.CharField(max_length=100, null=True, blank=True)
+    organization = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    email = models.EmailField(max_length=200, null=True, blank=True)
+
+
+@receiver(models.signals.post_save, sender=get_user_model())
+def create_user_profile_event(sender, instance, created, **kwargs):
+    if created:        
+        user_profile = UserProfile.objects.create(user=instance)
+        assert user_profile

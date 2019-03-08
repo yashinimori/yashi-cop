@@ -1,10 +1,13 @@
 # django
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, View, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # my
 from bank.models import Transaction, Report
+from bank.forms import SettingsForm
 
 
 class DashboardMixin(object):
@@ -62,3 +65,60 @@ class UploadReportView(DashboardMixin, CreateView):
         return {
             'status': 'new',
         }
+
+
+class AcceptedView(DashboardMixin, ListView):
+    template_name = "transactions.html"
+
+    def get_queryset(self):
+        return Transaction.objects.filter(status='accepted')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data.update({
+            'filter': 'accepted',
+        })
+        return data
+
+
+class DeclinedView(DashboardMixin, ListView):
+    template_name = "transactions.html"
+
+    def get_queryset(self):
+        return Transaction.objects.filter(status='declined')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data.update({
+            'filter': 'declined',
+        })
+        return data
+
+
+class ActionView(DashboardMixin, View):
+    def post(self, request):
+        trans_ids = self.request.POST.getlist('ids[]')
+        action = self.request.POST.get('action')
+        assert action in ('accept', 'decline')
+
+        query = Transaction.objects.filter(id__in=trans_ids)
+        for transaction in query:
+            if action == 'accept':
+                transaction.status = 'accepted'
+                transaction.save()
+            elif action == 'decline':
+                transaction.status = 'declined'
+                transaction.save()
+
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+
+
+class SettingsView(DashboardMixin, UpdateView):
+    form_class = SettingsForm
+    template_name = 'settings.html'
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def get_object(self):
+        return self.request.user.userprofile

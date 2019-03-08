@@ -1,0 +1,70 @@
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+  <ul
+    class="nav nav-pills nav-sidebar flex-column"
+    data-widget="treeview"
+    role="menu"
+    data-accordion="false"
+  >
+    <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+
+    <li>
+      <a
+        href="{% url 'home' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-table"></i>
+        <p>
+          All transactions
+        </p>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'accepted' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'accepted' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-check"></i>
+        <p>
+          Accepted disputes
+        </p>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'declined' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'declined' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-close"></i>
+        <p>
+          Declined disputes
+        </p>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'report_list' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'report_list' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-book"></i>
+        <p>
+          ATM Report
+        </p>
+      </a>
+    </li>
+    <li>
+    <a
+        href="{% url 'settings' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
+    >
+        <i class="nav-icon fa fa-user"></i>
+        <p>
+        Settings
+        </p>
+    </a>
+    </li>
+      
+    </ul>
+</nav>
+<!-- /.sidebar-menu -->

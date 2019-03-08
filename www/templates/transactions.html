@@ -13,7 +13,15 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-          <li class="breadcrumb-item active">Incoming chargebacks</li>
+          <li class="breadcrumb-item active">
+            {% if filter == 'accepted' %}
+              Accepted disputes
+            {% elif filter == 'declined' %}
+              Declined disputes
+            {% else %}
+              All transactions
+            {% endif %}
+          </li>
         </ol>
       </div>
     </div>
@@ -23,65 +31,9 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box">
-          <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Successful</span>
-            <span class="info-box-number">{{ successful_count }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-          <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Failed</span>
-            <span class="info-box-number">{{ failed_count }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-
-      <!-- fix for small devices only -->
-      <div class="clearfix hidden-md-up"></div>
-
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-          <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Neutral</span>
-            <span class="info-box-number">{{ neutral_count }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-          <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Total</span>
-            <span class="info-box-number">{{ total_count }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
+    {% if not filter %}
+      {% include "stats.html" %}
+    {% endif %}
 
     <div class="row">
       <div class="col-12">
@@ -96,9 +48,15 @@
 
           <div class="card-body">
             {% if object_list %}
+              <form method="POST" action="{% url 'action' %}">
+                {% csrf_token %}
             <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
+                  {% if not filter %}
+                  <th></th>
+                  {% endif %}
+                  <th>ID</th>
                   <th>Trans Date</th>
                   <th>ATM</th>
                   <th>PAN</th>
@@ -107,13 +65,16 @@
                   <th>Disp AMNT</th>
                   <th>Auth Code</th>
                   <th>Result</th>
-                  <th>Action</th>
-                  <th>Manual action</th>
+                  <th>Comment</th>
                 </tr>
               </thead>
               <tbody>
                 {% for transaction in object_list %}
                 <tr>
+                  {% if not filter %}
+                  <td><input type="checkbox" name="ids[]" value="{{ transaction.id }}" /></td>
+                  {% endif %}
+                  <td><a href="{% url 'transaction_view' pk=transaction.id %}">{{ transaction.id }}</a></td>
                   <td>{{ transaction.trans_date|default:'' }}</td>
                   <td>{{ transaction.atm |default:''}}</td>
                   <td>{{ transaction.card|default:'' }}</td>
@@ -122,19 +83,17 @@
                   <td>{{ transaction.disp_amount|default:'' }}</td>
                   <td>{{ transaction.auth_code|default:'' }}</td>
                   <td>{{ transaction.result|default:'' }}</td>
-                  <td>
-                    {% if transaction.result == 'successful' %}
-                      <a href="{% url 'transaction_view' pk=transaction.id %}" class="btn btn-warning">Decline</a>
-                    {% elif transaction.result == 'failed' %}
-                      <a href="{% url 'transaction_view' pk=transaction.id %}" class="btn btn-success">Accept</a>
-                    {% endif %}
-                  </td>
-                  <td>
-                    <a href="{% url 'transaction_view' pk=transaction.id %}" class="btn btn-info" role="button" aria-pressed="true">View</a>
-                  </td>
+                  <td>{{ transaction.comment|default:'' }}</td>
                 </tr>
                 {% endfor %}
             </table>
+
+                {% if not filter %}
+                <button class="btn btn-success" name="action" value="accept">Accept all</button>
+
+                <button class="btn btn-warning" name="action" value="decline">Decline all</button>
+                {% endif %}
+              </form>
             {% else %}
             <p>No transactions</p>
             {% endif %}
