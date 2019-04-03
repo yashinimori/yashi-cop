@@ -50,9 +50,13 @@ class ReportsView(DashboardMixin, ListView):
         return Report.objects.all()
 
 
-class ViewTransactionView(DashboardMixin, DetailView):
+class ViewTransactionView(DashboardMixin, UpdateView):
     model = Transaction
     template_name = 'transaction_view.html'
+    fields = ['comment', ]
+
+    def get_success_url(self):
+        return reverse('home')
 
 
 class UploadReportView(DashboardMixin, CreateView):
