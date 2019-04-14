@@ -21,7 +21,7 @@
       </div>
     </div><!-- /.container-fluid -->
   </section>
-  
+
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
@@ -31,13 +31,15 @@
             <div class="card-header">
               <h3 class="card-title">Transaction </h3>
               <div class="card-tools">
-  
+
               </div>
             </div>
             <!-- /.card-header -->
-  
+
             <div class="card-body">
-                {{ object.raw|linebreaksbr }}
+              <!-- {{object.raw|linebreaksbr}} -->
+              {% include "pdf.html" %}
+
             </div>
             <!-- /.card-body -->
           </div>
@@ -46,8 +48,12 @@
         <!-- /.col -->
       </div>
     </div>
-  
-    <form method="post" role="form">
+
+
+      <a href="{% url 'transaction_view_pdf' pk=object.id %}" class="btn btn-primary btn-flat" target="blank">PDF</a>
+      <hr>
+
+    <form method="post" role="form" id="select-mod">
       {% if form.errors %}
           <p class="errornote">
               {% if form.errors.items|length == 1 %}
@@ -57,19 +63,43 @@
               {% endif %}
           </p>
       {% endif %}
-  
+
       {% csrf_token %}
+
 
       {% bootstrap_form form %}
 
       {% buttons %}
-          <input class="btn btn-primary btn-flat" type="submit" value="{% trans 'Save comment' %}">
+          <input type="hidden" name="pk" value="{{object.id}}">
+
+          <input class="btn btn-primary btn-flat" type="submit" value="{% trans 'Save' %}" id="inp-dat">
       {% endbuttons %}
   </form>
-    
+
     </div><!-- /.container-fluid -->
 </div>
-  
+
 </section>
-  
+
+<script type="text/javascript">
+var select = document.querySelector('[name="status"]')
+function ready() {
+  if(select.value == 'accepted' || select.value == 'declined') {
+    select.disabled = true;
+  };
+};
+  document.addEventListener("DOMContentLoaded", ready);
+  document.querySelector('#inp-dat').onclick = function(e) {
+    if (!select.value) {
+      alert('Please select status');
+      e.preventDefault();
+    };
+    select.disabled = false;
+  };
+
+select.onchange = function() {
+  document.querySelector('#sel').setAttribute('value', select.value)
+};
+
+</script>
 {% endblock %}

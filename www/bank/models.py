@@ -65,9 +65,11 @@ class Transaction(BaseModel):
         ('neutral', 'Neutral'),
     )
 
+
     STATUSSES = (
         ('accepted', 'Accepted'),
         ('declined', 'Declined'),
+        ('pended', 'Pended'),
     )
 
     chb_date = models.DateTimeField(null=True, blank=True)
@@ -120,6 +122,6 @@ class UserProfile(BaseModel):
 
 @receiver(models.signals.post_save, sender=get_user_model())
 def create_user_profile_event(sender, instance, created, **kwargs):
-    if created:        
+    if created:
         user_profile = UserProfile.objects.create(user=instance)
         assert user_profile

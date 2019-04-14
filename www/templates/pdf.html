@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <body>
+  <table cellpadding="5px">
+    <tr>
+      <th><h4>Transaction description</h4></th>
+    </tr>
+    <tr>
+      <td><i>CHB date</i></td>
+      <td>{{object.chb_date}}</td>
+    </tr>
+    <tr>
+      <td><i>Transaction ID</i></td>
+      <td>{{object.utrnno}}</td>
+    </tr>
+    <tr>
+      <td><i>PAN</i></td>
+      <td>{{object.pan}}</td>
+    </tr>
+    <tr>
+      <td><i>Transaction ammount</i></td>
+      <td>{{object.trans_amount}}</td>
+    </tr>
+    <tr>
+      <td><i>Transaction currency</i></td>
+      <td>{{object.currency}}</td>
+    </tr>
+    <tr>
+      <td><i>Display amount</i></td>
+      <td>{{object.disp_amount}}</td>
+    </tr>
+    <tr>
+      <td><i>Terminal ID</i></td>
+      <td>{{object.atm}}</td>
+    </tr>
+    <tr>
+      <td><i>Transaction date</i></td>
+      <td>{{object.trans_date}}</td>
+    </tr>
+    <tr>
+      <td><i>Authorization code</i></td>
+      <td>{{object.auth_code}}</td>
+    </tr>
+    <tr>
+      <td><i>Result</i></td>
+        <td>{{object.result}}</td>
+    </tr>
+  </table>
+<hr>
+  <h4>Original log</h4>
+  {{object.raw|linebreaksbr}}
+
+  </body>
+</html>
