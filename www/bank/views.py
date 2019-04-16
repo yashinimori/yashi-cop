@@ -10,8 +10,6 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from django.db.models import Q
 import os
-# from weasyprint import HTML
-# import tempfile
 
 
 # my
@@ -65,8 +63,8 @@ class ViewTransactionView(DashboardMixin, UpdateView):
     fields = ['comment', 'status']
 
     def get_success_url(self):
-        transaction, template, context, html, path_pdf = util_for_pdf(int(self.request.POST.get('pk')))
-        if self.request.POST.get('status') == 'pended' and not os.path.exists(path_pdf):
+        html, path_pdf = data_for_pdf(self.object)
+        if self.request.POST.get('status') == 'declined' and not os.path.exists(path_pdf):
             with open(path_pdf, 'w+b') as result:
                 pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
         return reverse('home')
@@ -120,12 +118,17 @@ class ActionView(DashboardMixin, View):
 
         query = Transaction.objects.filter(id__in=trans_ids)
         for transaction in query:
+            print(transaction.status)
             if action == 'accept':
                 transaction.status = 'accepted'
                 transaction.save()
             elif action == 'decline':
                 transaction.status = 'declined'
                 transaction.save()
+                if not os.path.exists(path_pdf):
+                    html, path_pdf = data_for_pdf(transaction)
+                    with open(path_pdf, 'w+b') as result:
+                        pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
 
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
 
@@ -140,9 +143,11 @@ class SettingsView(DashboardMixin, UpdateView):
     def get_object(self):
         return self.request.user.userprofile
 
-class ViewTransactionPdf(View):
-    def get(self, request, pk):
-        transaction, template, context, html, path_pdf = util_for_pdf(pk)
+class ViewTransactionPdf(DashboardMixin, DetailView):
+    model = Transaction
+
+    def render_to_response(self, request):
+        html, path_pdf = data_for_pdf(self.object)
         result = BytesIO()
         pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
         if not pdf.err:
@@ -152,10 +157,9 @@ class ViewTransactionPdf(View):
         return None
 
 
-def util_for_pdf(pk):
-    transaction = Transaction.objects.get(pk = pk)
+def data_for_pdf(transaction):
     template = get_template('pdf.html')
     context = {'object': transaction}
     html = template.render(context)
     path_pdf = 'static/pdf/' + str(transaction.utrnno) + '.pdf'
-    return transaction, template, context, html, path_pdf
+    return html, path_pdf
