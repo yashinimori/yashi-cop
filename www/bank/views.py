@@ -118,6 +118,7 @@ class ActionView(DashboardMixin, View):
 
         query = Transaction.objects.filter(id__in=trans_ids)
         for transaction in query:
+            print(transaction.status)
             if action == 'accept':
                 transaction.status = 'accepted'
                 transaction.save()
