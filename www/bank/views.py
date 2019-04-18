@@ -151,7 +151,7 @@ class ViewTransactionPdf(DashboardMixin, DetailView):
             return HttpResponseServerError()
 
         response = HttpResponse(result.getvalue(), content_type = 'application/pdf')
-        response['Content-Disposition'] = 'inline; filename=' + path_pdf
+        response['Content-Disposition'] = f'inline; filename={self.object.utrnno}.pdf'
         return response
 
 
