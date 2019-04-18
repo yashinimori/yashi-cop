@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.urls import reverse
+from django.conf import settings
 from django.shortcuts import render
 from django.template.loader import render_to_string, get_template
 from io import BytesIO
@@ -63,10 +64,8 @@ class ViewTransactionView(DashboardMixin, UpdateView):
     fields = ['comment', 'status']
 
     def get_success_url(self):
-        html, path_pdf = data_for_pdf(self.object)
-        if self.request.POST.get('status') == 'declined' and not os.path.exists(path_pdf):
-            with open(path_pdf, 'w+b') as result:
-                pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
+        if self.object.status == 'declined':
+            save_transaction_pdf(self.object)
         return reverse('home')
 
 
@@ -124,10 +123,8 @@ class ActionView(DashboardMixin, View):
             elif action == 'decline':
                 transaction.status = 'declined'
                 transaction.save()
-                if not os.path.exists(path_pdf):
-                    html, path_pdf = data_for_pdf(transaction)
-                    with open(path_pdf, 'w+b') as result:
-                        pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
+
+                save_transaction_pdf(transaction)
 
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
 
@@ -147,7 +144,7 @@ class ViewTransactionPdf(DashboardMixin, DetailView):
     model = Transaction
 
     def render_to_response(self, request):
-        html, path_pdf = data_for_pdf(self.object)
+        html = render_transaction_for_pdf(self.object)
         result = BytesIO()
         pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
         if pdf.err:
@@ -158,9 +155,19 @@ class ViewTransactionPdf(DashboardMixin, DetailView):
         return response
 
 
-def data_for_pdf(transaction):
+def render_transaction_for_pdf(transaction):
     template = get_template('pdf.html')
-    context = {'object': transaction}
-    html = template.render(context)
-    path_pdf = 'static/pdf/' + str(transaction.utrnno) + '.pdf'
-    return html, path_pdf
+    html = template.render({'object': transaction})
+    return html
+
+
+def save_transaction_pdf(transaction):
+    base_directory = os.path.join(settings.MEDIA_ROOT, 'pdf')
+    if not os.path.exists(base_directory):
+        os.mkdir(base_directory)
+    path_pdf = os.path.join(base_directory, f'{transaction.utrnno}.pdf')
+    
+    if not os.path.exists(path_pdf):
+        html = render_transaction_for_pdf(transaction)
+        with open(path_pdf, 'w+b') as result:
+            pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
