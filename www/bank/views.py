@@ -2,7 +2,7 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, View, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.urls import reverse
 from django.shortcuts import render
 from django.template.loader import render_to_string, get_template
@@ -118,7 +118,6 @@ class ActionView(DashboardMixin, View):
 
         query = Transaction.objects.filter(id__in=trans_ids)
         for transaction in query:
-            print(transaction.status)
             if action == 'accept':
                 transaction.status = 'accepted'
                 transaction.save()
@@ -143,6 +142,7 @@ class SettingsView(DashboardMixin, UpdateView):
     def get_object(self):
         return self.request.user.userprofile
 
+
 class ViewTransactionPdf(DashboardMixin, DetailView):
     model = Transaction
 
@@ -150,11 +150,12 @@ class ViewTransactionPdf(DashboardMixin, DetailView):
         html, path_pdf = data_for_pdf(self.object)
         result = BytesIO()
         pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), result)
-        if not pdf.err:
-            response = HttpResponse(result.getvalue(), content_type = 'application/pdf')
-            response['Content-Disposition'] = 'inline; filename=' + path_pdf
-            return response
-        return None
+        if pdf.err:
+            return HttpResponseServerError()
+
+        response = HttpResponse(result.getvalue(), content_type = 'application/pdf')
+        response['Content-Disposition'] = 'inline; filename=' + path_pdf
+        return response
 
 
 def data_for_pdf(transaction):

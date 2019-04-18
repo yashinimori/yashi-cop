@@ -9,12 +9,13 @@ from django.views.static import serve
 # other
 import debug_toolbar
 from bank.views import TransactionsView, ReportsView, ViewTransactionView, UploadReportView, \
-    AcceptedView, DeclinedView, ActionView, SettingsView
+    AcceptedView, DeclinedView, ActionView, SettingsView, ViewTransactionPdf
 
 
 urlpatterns = [
     path('', TransactionsView.as_view(), name='home'),
     path('transaction/<pk>/view', ViewTransactionView.as_view(), name='transaction_view'),
+    path('transaction/<pk>/pdf', ViewTransactionPdf.as_view(), name='transaction_view_pdf'),
     path('accepted', AcceptedView.as_view(), name='accepted'),
     path('declined', DeclinedView.as_view(), name='declined'),
     path('action', ActionView.as_view(), name='action'),
