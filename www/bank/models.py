@@ -6,6 +6,8 @@ from django.db import models
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from datetime import timedelta
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # my
 from bank.tasks import process_report_task
@@ -90,6 +92,15 @@ class Transaction(BaseModel):
 
     comment = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, null=True, blank=True, choices=STATUSSES)
+    deadline_date = models.DateTimeField(null=True, blank=True, editable=False)
+    date_stamp_select = models.DateTimeField(null=True, blank=True)
+    scoring = models.IntegerField(null=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+    def save(self):
+        if self.result == 'successful':
+            self.scoring = 100
+        self.deadline_date = self.chb_date + timedelta(days=45)
+        super(Transaction, self).save()
 
     class Meta():
         index_together = (

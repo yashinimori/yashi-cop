@@ -50,7 +50,7 @@
     </div>
 
 
-      <a href="{% url 'transaction_view_pdf' pk=object.id %}" class="btn btn-primary btn-flat" target="blank">PDF</a>
+      <a href="{% url 'transaction_view_pdf' pk=object.id %}" class="btn btn-primary" target="blank">PDF</a>
       <hr>
 
     <form method="post" role="form" id="select-mod">
@@ -69,10 +69,15 @@
 
       {% bootstrap_form form %}
 
+
+      <label for="time_passed">Time has passed (days)</label>
+      <input class="form-control" type="text" id="time_passed" value="0" disabled>
+
+<br>
       {% buttons %}
           <input type="hidden" name="pk" value="{{object.id}}">
 
-          <input class="btn btn-primary btn-flat" type="submit" value="{% trans 'Save' %}" id="inp-dat">
+          <input class="btn btn-primary" type="submit" value="{% trans 'Save' %}" id="inp-dat">
       {% endbuttons %}
   </form>
 
@@ -82,20 +87,42 @@
 </section>
 
 <script type="text/javascript">
-var select = document.querySelector('[name="status"]')
+var select = document.querySelector('[name="status"]');
+var date_stamp = document.querySelector('[name="date_stamp_select"]');
+
+document.addEventListener("DOMContentLoaded", ready);
+document.addEventListener('change', date_stamp_change)
+
 function ready() {
+  date_stamp.disabled = true;
   if(select.value == 'accepted' || select.value == 'declined') {
     select.disabled = true;
+    if(date_stamp.value){
+      var date_different = Math.floor((new Date() - new Date(+date_stamp.value.slice(0,4), +date_stamp.value.slice(5,7)-1, +date_stamp.value.slice(8,10))) / (1000 * 60 * 60 * 24));
+      document.querySelector('#time_passed').value = (date_different < 1) ? '0' : date_different;
+  } else {
+    date_stamp.value = '';
+  };
   };
 };
-  document.addEventListener("DOMContentLoaded", ready);
-  document.querySelector('#inp-dat').onclick = function(e) {
-    if (!select.value) {
-      alert('Please select status');
-      e.preventDefault();
-    };
-    select.disabled = false;
+
+function date_stamp_change() {
+  if(select.value == 'accepted' || select.value == 'declined') {
+    var d = new Date();
+    date_stamp.value = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();
+  } else {
+      date_stamp.value = '';
   };
+};
+
+document.querySelector('#inp-dat').onclick = function(e) {
+  if (!select.value) {
+    alert('Please select status');
+    e.preventDefault();
+  };
+  select.disabled = false;
+  date_stamp.disabled = false;
+};
 
 </script>
 {% endblock %}
