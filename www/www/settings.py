@@ -357,3 +357,13 @@ CELERY_BEAT_SCHEDULE = {
         'args': (),
     },
 }
+
+
+########################################################################################################################
+# Mastercom
+########################################################################################################################
+MASTERCOM_CONSUMER_KEY = 'V_Rifu2NxUIMqSYzuV4tHsvs2uYmz6g3uFYqdF-xb341002e!0a140d6ab45046089494456300ea818b0000000000000000'
+
+MASTERCOM_KEY_ALIAS = 'bankparser'
+MASTERCOM_KEY_PASSWORD = 'bankparser123'
+MASTERCOM_KEY = os.path.join(BASE_DIR, 'keys', 'bankparser-sandbox.p12')
