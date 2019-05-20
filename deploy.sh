@@ -4,7 +4,7 @@ set -e
 
 git checkout master
 
-eval $(docker-machine env main)
+eval $(docker-machine env core)
 
 docker build -t hub.ferumflex.com/ferumflex/bank:prod . && docker push hub.ferumflex.com/ferumflex/bank:prod
 
