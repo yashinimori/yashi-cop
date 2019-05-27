@@ -16,3 +16,11 @@ Config.setEnvironment("sandbox");
 def list_queues():
     responseList = Queues.retrieveQueueNames()
     return responseList.get("list")
+
+
+def get_queue_claims(queue_name):
+    map_obj = RequestMap()
+    map_obj.set("queue-name", queue_name)
+    
+    responseList = Queues.retrieveClaimsFromQueue(map_obj)
+    return responseList.get("list")

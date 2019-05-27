@@ -356,6 +356,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),
         'args': (),
     },
+    'load_claims': {
+        'task': 'bank.tasks.load_claims_task',
+        'schedule': crontab(minute='30'),
+        'args': (),
+    },
 }
 
 

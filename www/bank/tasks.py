@@ -14,6 +14,8 @@ from www.celery import app
 # other
 from admin_logs.decorators import log
 from post_office import mail
+from bank import mastercom
+from bank.models import Claim
 
 
 TRANSACTION_START = '-> TRANSACTION START'
@@ -192,6 +194,18 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
     return transaction
 
-# from bank.tasks import process_report_task, parse_transaction
-# txs = process_report_task(1)
-# t = parse_transaction(txs[0])
+
+@app.task(ignore_result=True)
+@log('Load claims task')
+def load_claims_task():
+    for queue in mastercom.list_queues():
+        res_claims = mastercom.get_queue_claims(queue['queueName'])
+
+        for res_claim in res_claims:
+            data = {}
+            for key, value in res_claim.items():
+                new_key, _ = re.subn('([A-Z])', '_\\1', key)
+                data[new_key.lower()] = value
+
+            claim_id = data.pop('claim_id')
+            Claim.objects.get_or_create(claim_id=claim_id, defaults=data)

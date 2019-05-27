@@ -7,9 +7,6 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
-# my
-from bank.tasks import process_report_task
-
 
 class BaseModel(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -102,6 +99,7 @@ class Transaction(BaseModel):
 
 @receiver(models.signals.post_save, sender=Report)
 def save_report_event(sender, instance, created, **kwargs):
+    from bank.tasks import process_report_task
     if created:
         process_report_task.apply_async(args=(instance.id, ))
 
@@ -125,3 +123,40 @@ def create_user_profile_event(sender, instance, created, **kwargs):
     if created:
         user_profile = UserProfile.objects.create(user=instance)
         assert user_profile
+
+
+class Claim(BaseModel):
+    acquirer_id = models.CharField(max_length=100)
+    acquirer_ref_num = models.CharField(max_length=200)
+
+    primary_account_num = models.CharField(max_length=100)
+    claim_id = models.CharField(max_length=100, unique=True)
+
+    clearing_due_date = models.DateField()
+    clearing_network = models.CharField(max_length=20)
+
+    due_date = models.DateField()
+
+    is_accurate = models.BooleanField()
+    is_acquirer = models.BooleanField()
+    is_issuer = models.BooleanField()
+    is_open = models.BooleanField()
+
+    issuer_id = models.CharField(max_length=100)
+    last_modified_by = models.CharField(max_length=100)
+
+    last_modified_date = models.DateTimeField()
+    merchant_id = models.CharField(max_length=100)
+
+    progress_state = models.CharField(max_length=100)
+
+    claim_value = models.CharField(max_length=100)
+    
+    queue_name = models.CharField(max_length=100)
+    create_date = models.DateField()
+
+    transaction_id = models.CharField(max_length=100)
+    claim_type = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Claim {self.transaction_id} {self.claim_value}"

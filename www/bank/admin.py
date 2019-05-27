@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 
 # my
-from bank.models import Transaction, Report, UserProfile
+from bank.models import Transaction, Report, UserProfile, Claim
 from bank.actions import parse_report_action
 
 
@@ -51,7 +51,12 @@ class TransactionAdmin(admin.ModelAdmin):
     date_hierarchy = 'create_date'
 
 
+class ClaimAdmin(admin.ModelAdmin):
+    list_display = ('id', 'claim_id', 'transaction_id', 'claim_value')
+
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(Claim, ClaimAdmin)
