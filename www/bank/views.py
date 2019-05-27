@@ -61,7 +61,7 @@ class ReportsView(DashboardMixin, ListView):
 class ViewTransactionView(DashboardMixin, UpdateView):
     model = Transaction
     template_name = 'transaction_view.html'
-    fields = ['comment', 'status']
+    fields = ['comment', 'status', 'date_stamp_select']
 
     def get_success_url(self):
         if self.object.status == 'declined':
@@ -123,7 +123,6 @@ class ActionView(DashboardMixin, View):
             elif action == 'decline':
                 transaction.status = 'declined'
                 transaction.save()
-
                 save_transaction_pdf(transaction)
 
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
@@ -138,7 +137,6 @@ class SettingsView(DashboardMixin, UpdateView):
 
     def get_object(self):
         return self.request.user.userprofile
-
 
 class ViewTransactionPdf(DashboardMixin, DetailView):
     model = Transaction
@@ -166,7 +164,7 @@ def save_transaction_pdf(transaction):
     if not os.path.exists(base_directory):
         os.mkdir(base_directory)
     path_pdf = os.path.join(base_directory, f'{transaction.utrnno}.pdf')
-    
+
     if not os.path.exists(path_pdf):
         html = render_transaction_for_pdf(transaction)
         with open(path_pdf, 'w+b') as result:
