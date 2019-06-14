@@ -52,6 +52,18 @@
       <td><i>Scoring</i></td>
         <td>{{object.scoring}} %</td>
     </tr>
+    
+    {% if object.magazine1_amount or object.magazine2_amount or object.magazine3_amount or object.magazine4_amount %}
+      <tr>
+        <td><i>Magazines</i></td>
+        <td>
+          1: {{ object.magazine1_amount }}<br />
+          2: {{ object.magazine2_amount }}<br />
+          3: {{ object.magazine3_amount }}<br />
+          4: {{ object.magazine4_amount }}<br />
+        </td>
+      </tr>
+    {% endif %}
   </table>
 <hr>
   <h4>Original log</h4>
