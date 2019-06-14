@@ -2,7 +2,7 @@
 \.DS_Store
 env/
 __pycache__
-celerybeat-schedule
+www/celerybeat-schedule
 *\.pyc
 *\.sqlite3
 www/reports

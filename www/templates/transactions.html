@@ -65,6 +65,7 @@
                   <th>Disp AMNT</th>
                   <th>Auth Code</th>
                   <th>Result</th>
+                  <th>Magazine</th>
                   <th>Comment</th>
                 </tr>
               </thead>
@@ -83,6 +84,14 @@
                   <td>{{ transaction.disp_amount|default:'' }}</td>
                   <td>{{ transaction.auth_code|default:'' }}</td>
                   <td>{{ transaction.result|default:'' }}</td>
+                  <td>
+                    {% if transaction.magazine1_amount or transaction.magazine2_amount or transaction.magazine3_amount or transaction.magazine4_amount %}
+                      1: {{ transaction.magazine1_amount }}<br />
+                      2: {{ transaction.magazine2_amount }}<br />
+                      3: {{ transaction.magazine3_amount }}<br />
+                      4: {{ transaction.magazine4_amount }}<br />
+                    {% endif %}
+                  </td>
                   <td>{{ transaction.comment|default:'' }}</td>
                 </tr>
                 {% endfor %}

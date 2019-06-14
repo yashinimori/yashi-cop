@@ -3,6 +3,7 @@ import logging
 import re
 import datetime
 import decimal
+import traceback
 
 # django
 from django.utils.timezone import make_aware
@@ -15,7 +16,7 @@ from www.celery import app
 from admin_logs.decorators import log
 from post_office import mail
 from bank import mastercom
-from bank.models import Claim
+from bank.models import Claim, ATM
 
 
 TRANSACTION_START = '-> TRANSACTION START'
@@ -118,9 +119,11 @@ def process_report_task(report_id):
 
         report.status = 'finished'
         report.save()
-    except Exception:
+    except Exception as e:
         report.status = 'error'
+        report.error = str(e) + '\n' + traceback.format_exc()
         report.save()
+        raise 
 
 
 def parse_transaction(transaction_lines, previous_transaction=None):
@@ -142,11 +145,24 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         atm_match = re.search('ATM: ([0-9a-zA-Z]+)', line, re.M)
         if atm_match:
-            transaction.atm = atm_match.group(1)
+            atm_uid = atm_match.group(1)
+            atm, _ = ATM.objects.get_or_create(uid=atm_uid)
+            transaction.atm = atm
 
         amount_match = re.search('AMOUNT ([0-9]+) ENTERED', line, re.M)
         if amount_match:
             transaction.trans_amount = decimal.Decimal(amount_match.group(1)) / decimal.Decimal('100.0')
+
+        magazine_match = re.search('CASH WITHDRAWAL\s+[0-9.,]+\s+[a-zA-Z]+\s+([0-9]+)\s*-\s*([0-9]+)\s*-\s*([0-9]+)\s*-\s*([0-9]+)', line, re.M)
+        if magazine_match and len(magazine_match.groups()) >= 4:
+            try:
+                parts = []
+                for i in range(4):
+                    parts.append(int(magazine_match.group(i + 1)))
+                for i, value in enumerate(parts):
+                    setattr(transaction, f'magazine{i + 1}_amount', value)
+            except (ValueError, TypeError) as e:
+                raise
 
         if 'UAH' in line:
             transaction.currency = 'UAH'

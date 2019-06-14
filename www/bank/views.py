@@ -36,7 +36,7 @@ class TransactionsView(DashboardMixin, ListView):
     template_name = "transactions.html"
 
     def get_queryset(self):
-        return Transaction.objects.filter(Q(status='pended') | Q(status__isnull=True))
+        return Transaction.objects.filter(Q(status='pended') | Q(status__isnull=True)).select_related('atm')
 
     def get_context_data(self):
         context = super().get_context_data()

@@ -26,6 +26,7 @@ class Report(BaseModel):
     )
     log = models.FileField(upload_to='logs/%Y/%m/%d/')
     status = models.CharField(choices=STATUSSES, max_length=100, db_index=True, default=STATUSSES[0][0])
+    error = models.TextField(null=True, blank=True)
     log_hash = models.CharField(unique=True, max_length=256, db_index=True, null=True, blank=True)
 
     def __str__(self):
@@ -57,6 +58,18 @@ def generate_sha256(file):
 	return sha256
 
 
+class ATM(BaseModel):
+    uid = models.CharField(max_length=100, unique=True)
+
+    magazine1_amount = models.IntegerField(default=0)
+    magazine2_amount = models.IntegerField(default=0)
+    magazine3_amount = models.IntegerField(default=0)
+    magazine4_amount = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"ATM: {self.uid}"
+    
+
 class Transaction(BaseModel):
     RESULTS = (
         ('successful', 'Successful'),
@@ -73,7 +86,7 @@ class Transaction(BaseModel):
 
     chb_date = models.DateTimeField(null=True, blank=True)
     trans_date = models.DateTimeField(null=True, blank=True)
-    atm = models.CharField(max_length=100, null=True, blank=True)
+    atm = models.ForeignKey(ATM, on_delete=models.CASCADE, null=True, blank=True)
     pan = models.CharField(max_length=100, null=True, blank=True)
     trans_amount = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     currency = models.CharField(max_length=20, null=True, blank=True)
@@ -93,11 +106,10 @@ class Transaction(BaseModel):
     date_stamp_select = models.DateTimeField(null=True, blank=True)
     scoring = models.IntegerField(null=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
-    def save(self):
-        if self.result == 'successful':
-            self.scoring = 100
-        self.deadline_date = self.chb_date + timedelta(days=45)
-        super(Transaction, self).save()
+    magazine1_amount = models.IntegerField(default=0)
+    magazine2_amount = models.IntegerField(default=0)
+    magazine3_amount = models.IntegerField(default=0)
+    magazine4_amount = models.IntegerField(default=0)
 
     class Meta():
         index_together = (
@@ -106,6 +118,13 @@ class Transaction(BaseModel):
 
     def __str__(self):
         return f"{self.trans_date}, {self.currency}, {self.disp_amount}, {self.result} "
+
+    def save(self, *args, **kwargs):
+        if self.result == 'successful':
+            self.scoring = 100
+        if self.chb_date:
+            self.deadline_date = self.chb_date + timedelta(days=45)
+        return super().save(*args, **kwargs)
 
 
 @receiver(models.signals.post_save, sender=Report)
