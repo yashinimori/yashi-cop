@@ -26,7 +26,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = SERVER != 'prod'
 
 if SERVER == 'prod':
-    ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+    ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 else:
     ALLOWED_HOSTS = ['*']
 
