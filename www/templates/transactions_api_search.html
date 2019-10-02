@@ -1,0 +1,162 @@
+{% extends "index.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">
+              {% if filter == 'accepted' %}
+                Accepted disputes
+              {% elif filter == 'declined' %}
+                Declined disputes
+              {% else %}
+                All transactions
+              {% endif %}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Transactions</h3>
+              <div class="card-tools">
+
+              </div>
+            </div>
+            <!-- /.card-header -->
+
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-5 offset-1 mb-0">
+                  {{ form.pan|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-5 mb-0">
+                  {{ form.arn|as_crispy_field }}
+                </div>
+              </div>
+               <div class="form-row">
+                <div class="form-group col-md-5 offset-1 mb-0">
+                  {{ form.start_date|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-5 mb-0">
+                  {{ form.end_date|as_crispy_field }}
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </form>
+
+            <div class="card-body">
+              {% if object_list %}
+                <form method="POST" action="{% url 'action' %}">
+                  {% csrf_token %}
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      {% if not filter %}
+                        <th></th>
+                      {% endif %}
+                      <th>PAN</th>
+                      <th>Trans Date</th>
+                      <th>TerminalID</th>
+                      <th>Amount</th>
+                      <th>Currency</th>
+                      <th>IsClaim</th>
+                      <th>IsChargeback</th>
+                      <th>IsCase</th>
+                      <th>IsRetrieval</th>
+                      <th>Dispute Details</th>
+                      <th>Authorization Details</th>
+                      <th>Clearing Details</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for transaction in object_list %}
+                      <tr>
+                        {% if not filter %}
+                          <td><input type="checkbox" name="ids[]" value="{{ transaction.id }}"/></td>
+                        {% endif %}
+                        <td>{{ transaction.pan }}</td>
+                        <td>{{ transaction.auth_date_and_time }}</td>
+                        <td>{{ transaction.card_acceptor_terminal_id }}</td>
+                        <td>{{ transaction.amount_local }}</td>
+                        <td>{{ transaction.currency_code }}</td>
+                        <td class="text-center">
+                          {% if transaction.claim_id %}
+                            <i class="fa fa-check"></i>
+                          {% else %}
+                            <i class="fa fa-times"></i>
+                          {% endif %}
+                        </td>
+                        <td class="text-center">
+                          {% if transaction.is_chargeback_details %}
+                            <i class="fa fa-check"></i>
+                          {% else %}
+                            <i class="fa fa-times"></i>
+                          {% endif %}
+                        </td>
+                        <td>is case</td>
+                        <td>is retrieval<td>dispute details</td>
+                        <td>
+                          mccMessageId: <b>{{ transaction.mcc_message_id }}</b> <br>
+                          cardAcceptorName: <b>{{ transaction.card_acceptor_name }}</b> <br>
+                          cardholderActivatedTerminalLevel: <b>{{ transaction.catl }}</b> <br>
+                        </td>
+                        <td>
+                          electronicCommerceSecurityLevelIndicator: <b>{{ transaction.ecsli }}</b> <br>
+                          mastercardMappingServiceAccountNumber: <b>{{ transaction.mmsan }}</b> <br>
+                          CardholderAuthenticationMethod: <b>{{ transaction.cam }}</b> <br>
+                        </td>
+
+                      </tr>
+                    {% endfor %}
+                  </table>
+
+                  {% if not filter %}
+                    <button class="btn btn-success" name="action" value="accept">Accept all</button>
+
+                    <button class="btn btn-warning" name="action" value="decline">Decline all</button>
+                  {% endif %}
+                </form>
+              {% else %}
+                <p>No transactions</p>
+              {% endif %}
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+
+
+    </div><!-- /.container-fluid -->
+    </div>
+
+  </section>
+
+  <!-- /.content -->
+{% endblock %}

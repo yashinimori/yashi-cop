@@ -1,13 +1,13 @@
 # common
 import hashlib
+from datetime import timedelta, datetime
 
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 # django
 from django.db import models
 from django.dispatch import receiver
-from django.core.exceptions import ValidationError
-from django.contrib.auth import get_user_model
-from datetime import timedelta
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class BaseModel(models.Model):
@@ -190,3 +190,43 @@ class Claim(BaseModel):
 
     def __str__(self):
         return f"Claim {self.transaction_id} {self.claim_value}"
+
+
+class Chargeback(BaseModel):
+
+    queue_name = models.CharField(max_length=100)
+    claim_id = models.CharField(max_length=100, unique=True)
+    pan = models.CharField(max_length=100)
+    transaction_id = models.CharField(max_length=200)
+    acquirer_ref_num = models.CharField(max_length=100)
+    due_date = models.CharField(max_length=100)
+    card_acceptor_terminal_id = models.CharField(max_length=100)
+    authorization_date_and_time = models.CharField(max_length=100)
+    atm_transaction = models.ForeignKey(Transaction, null=True, on_delete=models.CASCADE, related_name='transaction')
+
+    @property
+    def authorization_date(self):
+        date = self.authorization_date_and_time[0:6]
+        date = datetime.strptime(date, '%d%m%y')
+        return date.strftime('%Y-%m-%d')
+
+    def __str__(self):
+        return f"Chargeback {id}"
+
+
+class ChargebackDetail(BaseModel):
+    RESULTS = (
+        ('accepted', 'Accepted'),
+        ('declined', 'Declined'),
+        ('pend', 'Pend'),
+    )
+    currency = models.CharField(max_length=100)
+    amount = models.CharField(max_length=100)
+    reason_code = models.CharField(max_length=100)
+    chargeback_type = models.CharField(max_length=100)
+    chargeback = models.ForeignKey(Chargeback, on_delete=models.CASCADE, related_name='chargeback_detail')
+    result = models.CharField(choices=RESULTS, max_length=100, null=True, blank=True)
+    result_date = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return f"ChargebackDetail {self.amount} {self.currency}"

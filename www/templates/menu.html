@@ -1,18 +1,18 @@
 <!-- Sidebar Menu -->
 <nav class="mt-2">
   <ul
-    class="nav nav-pills nav-sidebar flex-column"
-    data-widget="treeview"
-    role="menu"
-    data-accordion="false"
+      class="nav nav-pills nav-sidebar flex-column"
+      data-widget="treeview"
+      role="menu"
+      data-accordion="false"
   >
     <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
 
     <li>
       <a
-        href="{% url 'home' %}"
-        class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+          href="{% url 'home' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
       >
         <i class="nav-icon fa fa-table"></i>
         <p>
@@ -22,8 +22,8 @@
     </li>
     <li>
       <a
-        href="{% url 'accepted' %}"
-        class="nav-link {% if request.resolver_match.url_name == 'accepted' %}active{% endif %}"
+          href="{% url 'accepted' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'accepted' %}active{% endif %}"
       >
         <i class="nav-icon fa fa-check"></i>
         <p>
@@ -33,8 +33,8 @@
     </li>
     <li>
       <a
-        href="{% url 'declined' %}"
-        class="nav-link {% if request.resolver_match.url_name == 'declined' %}active{% endif %}"
+          href="{% url 'declined' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'declined' %}active{% endif %}"
       >
         <i class="nav-icon fa fa-close"></i>
         <p>
@@ -44,8 +44,8 @@
     </li>
     <li>
       <a
-        href="{% url 'report_list' %}"
-        class="nav-link {% if request.resolver_match.url_name == 'report_list' %}active{% endif %}"
+          href="{% url 'report_list' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'report_list' %}active{% endif %}"
       >
         <i class="nav-icon fa fa-book"></i>
         <p>
@@ -54,17 +54,39 @@
       </a>
     </li>
     <li>
-    <a
-        href="{% url 'settings' %}"
-        class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
-    >
+      <a
+          href="{% url 'settings' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
+      >
         <i class="nav-icon fa fa-user"></i>
         <p>
-        Settings
+          Settings
         </p>
-    </a>
+      </a>
     </li>
-      
-    </ul>
+    <li>
+      <a
+          href="{% url 'incoming_chargebacks' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'incoming_chargebacks' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-money"></i>
+        <p>
+          Incoming Chargebacks
+        </p>
+      </a>
+    </li>
+    <li>
+      <a
+          href="{% url 'transactions_search' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'transactions_search' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-search"></i>
+        <p>
+          Transaction View
+        </p>
+      </a>
+    </li>
+
+  </ul>
 </nav>
 <!-- /.sidebar-menu -->

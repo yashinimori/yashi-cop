@@ -1,23 +1,22 @@
 # common
-import logging
-import re
 import datetime
 import decimal
+import logging
+import re
 import traceback
-
-# django
-from django.utils.timezone import make_aware
-from django.utils import timezone
-
-# my
-from www.celery import app
 
 # other
 from admin_logs.decorators import log
+from django.utils import timezone
+# django
+from django.utils.timezone import make_aware
 from post_office import mail
-from bank import mastercom
-from bank.models import Claim, ATM
 
+from bank import mastercom
+# my
+from bank.mastercom import update_chargebacks
+from bank.models import Claim, ATM
+from www.celery import app
 
 TRANSACTION_START = '-> TRANSACTION START'
 TRANSACTION_END = '<- TRANSACTION END'
@@ -225,3 +224,9 @@ def load_claims_task():
 
             claim_id = data.pop('claim_id')
             Claim.objects.get_or_create(claim_id=claim_id, defaults=data)
+
+
+@app.task(ignore_result=True)
+@log('Load chargebacks task')
+def load_chargebacks_task():
+    update_chargebacks()

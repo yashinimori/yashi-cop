@@ -1,0 +1,109 @@
+{% extends "index.html" %}
+
+{% block title %}Incoming Chargebacks{% endblock %}
+
+{% block content %}
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">
+              Incoming Chargeback DECLINE
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Incoming Chargeback DECLINE</h3>
+              <div class="card-tools">
+
+              </div>
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+                <form method="POST" action="{% url 'decline_chargeback_action' %}">
+                  {% csrf_token %}
+                  <div style="overflow: scroll; width: 100%;">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Claim ID</th>
+                        <th>Dispute Type</th>
+                        <th>RC</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>MMT</th>
+                        <th>Documentation Indicator</th>
+                        <th>Document Attached Name</th>
+                        <th>Document Attached File</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input type="checkbox" name="ids[]" value="{{ transaction.id }}" /></td>
+                          <td>
+                            <input type="hidden" name="chargback_detail_id" value="{{ object.id }}">
+                            <input type="hidden" name="claim_id" value="{{ object.chargeback.claim_id }}">
+                            {{ object.chargeback.claim_id }}</td>
+                          <td>
+                            <input type="hidden" name="chargeback_type" value="SECOND_PRESENTMENT">
+                            SECOND_PRESENTMENT</td>
+                          <td>
+                            <input type="hidden" name="reason_code" value="2700">
+                            2700
+                          </td>
+                          <td>
+                            <input type="hidden" name="amount" value="{{ object.amount }}">
+                            {{ object.amount }}
+                          </td>
+                          <td>
+                            <input type="hidden" name="currency" value="{{ object.currency }}">
+                            {{ object.currency|default:'' }}</td>
+                          <td><input type="hidden" name="mmt" value="null"> null</td>
+                          <td><input type="hidden" name="doc_indicator" value="1"> 1</td>
+                          <td>secpres</td>
+                          <td>
+                            <input type="hidden" name="transaction_id" value="{{ object.chargeback.atm_transaction.id }}">
+                            <a href="{% url 'transaction_view_pdf' pk=object.chargeback.atm_transaction.id %}" target="blank">PDF</a></td>
+                          <td>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                          </td>
+                        </tr>
+                    </table>
+                  </div>
+                </form>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+
+
+    </div><!-- /.container-fluid -->
+    </div>
+
+  </section>
+
+  <!-- /.content -->
+{% endblock %}

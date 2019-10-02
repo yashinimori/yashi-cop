@@ -51,9 +51,6 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    {% if not filter %}
-                      <th></th>
-                    {% endif %}
                     <th>ID</th>
                     <th>Trans Date</th>
                     <th>ATM</th>
@@ -68,26 +65,37 @@
                   </tr>
                   </thead>
                   <tbody>
-                  {% for transaction in object_list %}
+                  {% for chargeback in object_list %}
                     <tr>
-                      {% if not filter %}
-                        <td><input type="checkbox" name="ids[]" value="{{ transaction.id }}"/></td>
-                      {% endif %}
-                      <td><a href="{% url 'transaction_view' pk=transaction.id %}">{{ transaction.id }}</a></td>
-                      <td>{{ transaction.trans_date|default:'' }}</td>
-                      <td>{{ transaction.atm |default:''}}</td>
-                      <td>{{ transaction.card|default:'' }}</td>
-                      <td>{{ transaction.trans_amount|default:'' }}</td>
-                      <td>{{ transaction.currency|default:'' }}</td>
-                      <td>{{ transaction.disp_amount|default:'' }}</td>
-                      <td>{{ transaction.auth_code|default:'' }}</td>
-                      <td>{{ transaction.result|default:'' }}</td>
+                      <td><a
+                          href="{% url 'transaction_view' pk=chargeback.atm_transaction.id %}">{{ chargeback.atm_transaction.id }}</a>
+                      </td>
+                      <td>{{ chargeback.atm_transaction.trans_date|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.atm |default:''}}</td>
+                      <td>{{ chargeback.atm_transaction.card|default:'' }}</td>
+                      <td>
+                        {% for detail in chargeback.chargeback_detail.all %}
+                          {% ifequal detail.result filter %}
+                            {{ detail.amount }}
+                          {% endifequal %}
+                        {% endfor %}
+                      </td>
+                      <td>
+                        {% for detail in chargeback.chargeback_detail.all %}
+                          {% ifequal detail.result filter %}
+                            {{ detail.currency }}
+                          {% endifequal %}
+                        {% endfor %}
+                      </td>
+                      <td>{{ chargeback.atm_transaction.disp_amount|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.auth_code|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.result|default:'' }}</td>
                       <td>
                         {% if transaction.magazine1_amount or transaction.magazine2_amount or transaction.magazine3_amount or transaction.magazine4_amount %}
-                          1: {{ transaction.magazine1_amount }}<br/>
-                          2: {{ transaction.magazine2_amount }}<br/>
-                          3: {{ transaction.magazine3_amount }}<br/>
-                          4: {{ transaction.magazine4_amount }}<br/>
+                          1: {{ chargeback.atm_transaction.magazine1_amount }}<br/>
+                          2: {{ chargeback.atm_transaction.magazine2_amount }}<br/>
+                          3: {{ chargeback.atm_transaction.magazine3_amount }}<br/>
+                          4: {{ chargeback.atm_transaction.magazine4_amount }}<br/>
                         {% endif %}
                       </td>
                       <td>{{ transaction.comment|default:'' }}</td>
@@ -105,6 +113,11 @@
         <!-- /.col -->
       </div>
     </div>
+
+
+    </div><!-- /.container-fluid -->
+    </div>
+
   </section>
 
   <!-- /.content -->

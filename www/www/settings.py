@@ -3,7 +3,9 @@ Django settings for www project.
 """
 
 import os
+
 import environ
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -305,7 +307,7 @@ INSTALLED_APPS += (
     'allauth.socialaccount',
     # 'allauth.socialaccount.providers.facebook',
 )
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ########################################################################################################################
 # Bootstrap
 ########################################################################################################################
@@ -348,11 +350,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),
         'args': (),
     },
-    'load_claims': {
-        'task': 'bank.tasks.load_claims_task',
-        'schedule': crontab(minute='30'),
+    'load_chargebacks': {
+        'task': 'bank.tasks.load_chargebacks_task',
+        'schedule': crontab(minute='*/30'),
         'args': (),
-    },
+    }
 }
 
 

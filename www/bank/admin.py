@@ -3,10 +3,9 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
 
-# my
-from bank.models import Transaction, Report, UserProfile, Claim, ATM
 from bank.actions import parse_report_action
-
+# my
+from bank.models import Transaction, Report, UserProfile, Claim, ATM, Chargeback, ChargebackDetail
 
 User = get_user_model()
 
@@ -75,3 +74,5 @@ admin.site.register(Report, ReportAdmin)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Claim, ClaimAdmin)
 admin.site.register(ATM, AMTAdmin)
+admin.site.register(Chargeback)
+admin.site.register(ChargebackDetail)
