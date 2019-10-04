@@ -87,6 +87,17 @@
       </a>
     </li>
 
+    <li>
+      <a
+          href="{% url 'fin_report' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'fin_report' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-search"></i>
+        <p>
+          Financial Report
+        </p>
+      </a>
+    </li>
   </ul>
 </nav>
 <!-- /.sidebar-menu -->

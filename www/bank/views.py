@@ -5,16 +5,17 @@ from io import BytesIO
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, View, UpdateView, FormView
+from django.views.generic.edit import FormMixin
 from xhtml2pdf import pisa
 
-from bank.forms import SettingsForm, TransactionApiSearchForm
+from bank.forms import SettingsForm, TransactionApiSearchForm, FinancialReportSearchForm
 # my
 from bank.mastercom import search_for_transactions, get_clearing_details, get_authorization_details, create_chargeback
 from bank.models import Transaction, Report, Chargeback, ChargebackDetail
@@ -79,7 +80,7 @@ class ViewTransactionView(DashboardMixin, UpdateView):
 
 class UploadReportView(DashboardMixin, CreateView):
     template_name = 'report_upload.html'
-    fields = ('log', )
+    fields = ('log',)
     model = Report
     success_url = '/'
 
@@ -93,7 +94,7 @@ class AcceptedView(DashboardMixin, ListView):
     template_name = "accepted_declined_transactions.html"
 
     def get_queryset(self):
-        return Chargeback.objects.filter(chargeback_detail__result='Accepted').\
+        return Chargeback.objects.filter(chargeback_detail__result='Accepted'). \
             prefetch_related('chargeback_detail').select_related('atm_transaction').distinct()
 
     def get_context_data(self, **kwargs):
@@ -108,7 +109,7 @@ class DeclinedView(DashboardMixin, ListView):
     template_name = "accepted_declined_transactions.html"
 
     def get_queryset(self):
-        return Chargeback.objects.filter(chargeback_detail__result='Declined').\
+        return Chargeback.objects.filter(chargeback_detail__result='Declined'). \
             prefetch_related('chargeback_detail').select_related('atm_transaction').distinct()
 
     def get_context_data(self, **kwargs):
@@ -127,7 +128,7 @@ class ActionView(DashboardMixin, View):
 
         chargbacks = Chargeback.objects.filter(id__in=chargback_ids).prefetch_related('chargeback_detail')
         for chargback in chargbacks:
-            chargback.chargeback_detail.filter(Q(result__isnull=True) | Q(result='Pend')).\
+            chargback.chargeback_detail.filter(Q(result__isnull=True) | Q(result='Pend')). \
                 update(result=action, result_date=datetime.now())
 
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
@@ -261,7 +262,8 @@ class TransactionsApiSearchView(DashboardMixin, FormView):
     @staticmethod
     def add_claim_id(transactions):
         transaction_ids = [transaction['transaction_id'] for transaction in transactions]
-        chargebacks = Chargeback.objects.filter(transaction_id__in=transaction_ids).prefetch_related('chargeback_detail')
+        chargebacks = Chargeback.objects.filter(transaction_id__in=transaction_ids).prefetch_related(
+            'chargeback_detail')
         for transaction in transactions:
             for chargeback in chargebacks:
                 if transaction['transaction_id'] == chargeback.transaction_id:
@@ -316,3 +318,60 @@ class TransactionsApiSearchView(DashboardMixin, FormView):
 
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
+
+
+class FinancialReportView(DashboardMixin, ListView, FormMixin):
+    template_name = "financial_report.html"
+    form_class = FinancialReportSearchForm
+
+    def get_queryset(self):
+        form = self.get_form()
+        result = []
+        if form.is_valid():
+            form_data = form.cleaned_data
+            terminal_id = form_data.get('terminal_id')
+            search_kwargs = {
+                'trans_date__month': form_data['date'].month,
+                'trans_date__day': form_data['date'].day,
+            }
+            if terminal_id:
+                search_kwargs.update({
+                    'atm__uid': terminal_id
+                })
+
+            qs = Transaction.objects.select_related('atm')
+            qs_filtered = qs.filter(**search_kwargs)
+            bins = []
+            for item in qs_filtered:
+                if not item.card or item.card and item.card[0:6] in bins:
+                    continue
+                bins.append(item.card[0:6])
+                item.quantity = qs.filter(card__startswith=item.card[0:6]).count()
+                item.amount = qs.filter(atm__uid=item.atm.uid, card__startswith=item.card[0:6]).\
+                    aggregate(Sum('trans_amount')).get('trans_amount__sum')
+                item.interchange_rate_percent = 1.1
+                if item.amount:
+                    percent = item.interchange_rate_percent / 100
+                    item.interchange_total = percent * float(item.amount)
+                    item.interchange_total = round(item.interchange_total, 2)
+                result.append(item)
+
+            qs_filtered.values('card').annotate(amount=Sum('trans_amount'))
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests: instantiate a form instance with the passed
+        POST variables and then check if it's valid.
+        """
+        return self.get(request, *args, **kwargs)

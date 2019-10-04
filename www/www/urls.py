@@ -11,7 +11,7 @@ from django.views.static import serve
 from bank.views import TransactionsView, ReportsView, ViewTransactionView, UploadReportView, \
     AcceptedView, DeclinedView, ActionView, SettingsView, ViewTransactionPdf, IncomingChargebacksView, \
     DeclineChargeback, ChargebackDetailDeclineView, TransactionsApiSearchView, ChargebackDetailPendView, \
-    ChargebackDetailAcceptView
+    ChargebackDetailAcceptView, FinancialReportView
 
 urlpatterns = [
     path('', TransactionsView.as_view(), name='home'),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('chargebacks/accept/<detail_pk>', ChargebackDetailAcceptView.as_view(), name='incoming_chargeback_accept'),
     path('chargebacks/decline', DeclineChargeback.as_view(), name='decline_chargeback_action'),
     path('transactions-search/', TransactionsApiSearchView.as_view(), name='transactions_search'),
+    path('financial-report/', FinancialReportView.as_view(), name='fin_report'),
     url(
         r'^profile$',
         PasswordChangeView.as_view(template_name='profile.html'),

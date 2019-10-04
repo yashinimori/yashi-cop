@@ -45,17 +45,17 @@ class Report(BaseModel):
 
 
 def generate_sha256(file):
-	sha = hashlib.sha256()
-	file.seek(0)
-	while True:
-		buf = file.read(104857600)
-		if not buf:
-			break
-		sha.update(buf)
-	sha256 = sha.hexdigest()
-	file.seek(0)
+    sha = hashlib.sha256()
+    file.seek(0)
+    while True:
+        buf = file.read(104857600)
+        if not buf:
+            break
+        sha.update(buf)
+    sha256 = sha.hexdigest()
+    file.seek(0)
 
-	return sha256
+    return sha256
 
 
 class ATM(BaseModel):
@@ -68,7 +68,7 @@ class ATM(BaseModel):
 
     def __str__(self):
         return f"ATM: {self.uid}"
-    
+
 
 class Transaction(BaseModel):
     RESULTS = (
@@ -76,7 +76,6 @@ class Transaction(BaseModel):
         ('failed', 'Failed'),
         ('neutral', 'Neutral'),
     )
-
 
     STATUSSES = (
         ('accepted', 'Accepted'),
@@ -131,7 +130,7 @@ class Transaction(BaseModel):
 def save_report_event(sender, instance, created, **kwargs):
     from bank.tasks import process_report_task
     if created:
-        process_report_task.apply_async(args=(instance.id, ))
+        process_report_task.apply_async(args=(instance.id,))
 
 
 class UserProfile(BaseModel):
@@ -181,7 +180,7 @@ class Claim(BaseModel):
     progress_state = models.CharField(max_length=100)
 
     claim_value = models.CharField(max_length=100)
-    
+
     queue_name = models.CharField(max_length=100)
     create_date = models.DateField()
 
@@ -193,7 +192,6 @@ class Claim(BaseModel):
 
 
 class Chargeback(BaseModel):
-
     queue_name = models.CharField(max_length=100)
     claim_id = models.CharField(max_length=100, unique=True)
     pan = models.CharField(max_length=100)

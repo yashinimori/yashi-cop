@@ -38,3 +38,9 @@ class TransactionApiSearchForm(forms.Form):
                 msg = "Searches can be completed for up to 730 days of history."
                 self.add_error('start_date', msg)
         return cleaned_data
+
+
+class FinancialReportSearchForm(forms.Form):
+    terminal_id = forms.CharField(label='Enter TerminalId', required=False)
+    date = forms.DateField(label='Enter date', input_formats=['%Y-%m-%d'],
+                                 widget=forms.DateInput(attrs={'placeholder': '2019-01-27'}))
