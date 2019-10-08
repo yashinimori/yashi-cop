@@ -67,8 +67,14 @@
                   <tbody>
                   {% for chargeback in object_list %}
                     <tr>
-                      <td><a
-                          href="{% url 'transaction_view' pk=chargeback.atm_transaction.id %}">{{ chargeback.atm_transaction.id }}</a>
+                      <td>
+                        {% if chargeback.atm_transaction.id %}
+                          <a href="{% url 'transaction_view' pk=chargeback.atm_transaction.id %}">
+                            {{ chargeback.atm_transaction.id }}
+                          </a>
+                        {% else %}
+                          {{ chargeback.atm_transaction.id }}
+                        {% endif %}
                       </td>
                       <td>{{ chargeback.atm_transaction.trans_date|default:'' }}</td>
                       <td>{{ chargeback.atm_transaction.atm |default:''}}</td>
