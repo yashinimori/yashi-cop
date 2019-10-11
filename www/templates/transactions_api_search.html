@@ -37,9 +37,8 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Transactions</h3>
+              <h3 class="card-title">Transaction Search</h3>
               <div class="card-tools">
-
               </div>
             </div>
             <!-- /.card-header -->
@@ -68,6 +67,11 @@
             </form>
 
             <div class="card-body">
+                <p class="text-muted"> The form provides all authorization and clearing details for chosen transaction </br>
+                    To test the form please provide the following data </br>
+                        PAN = 5488888888887192</br>
+                        Start date = 2019-10-01</br>
+                        End date = 2019-10-02</p>
               {% if object_list %}
                 <form method="POST" action="{% url 'action' %}">
                   {% csrf_token %}
@@ -79,15 +83,15 @@
                       {% endif %}
                       <th>PAN</th>
                       <th>Trans Date</th>
-                      <th>TerminalID</th>
+                      <th>TermID</th>
                       <th>Amount</th>
-                      <th>Currency</th>
+                      <th>Curr</th>
                       <th>IsClaim</th>
                       <th>IsChargeback</th>
                       <th>IsCase</th>
                       <th>IsRetrieval</th>
                       <th>Dispute Details</th>
-                      <th>Authorization Details</th>
+                      <th>Auth Details</th>
                       <th>Clearing Details</th>
 
                     </tr>

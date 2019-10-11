@@ -34,7 +34,6 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Incoming Chargebacks</h3>
-                <h4 class="card-subtitle">All incoming chargebacks for review</h4>
               <div class="card-tools">
 
               </div>
@@ -42,8 +41,13 @@
             <!-- /.card-header -->
 
             <div class="card-body">
+            <p class="text-muted">The section shows all incoming Chargebacks uploaded from Mastercom.
+                User can choose accept/decline action after reviewing transaction estimation provided.
+                The system forms Second Presentment and attaches relevant documentation to case.
+                List of transaction updates after action applied.</p>
               {% if object_list %}
                 <div style="overflow-x: scroll; width: 100%;">
+
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>

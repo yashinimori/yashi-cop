@@ -9,6 +9,28 @@
     <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
 
+   <li>
+      <a
+          href="{% url 'incoming_chargebacks' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'incoming_chargebacks' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-money"></i>
+        <p>
+          Incoming Chargebacks
+        </p>
+      </a>
+    </li>
+    <li>
+      <a
+          href="{% url 'transactions_search' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'transactions_search' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-search"></i>
+        <p>
+          Transaction View
+        </p>
+      </a>
+    </li>
     <li>
       <a
           href="{% url 'home' %}"
@@ -53,6 +75,19 @@
         </p>
       </a>
     </li>
+
+     <li>
+      <a
+          href="{% url 'fin_report' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'fin_report' %}active{% endif %}"
+      >
+        <i class="nav-icon fa fa-search"></i>
+        <p>
+          Financial Report
+        </p>
+      </a>
+    </li>
+
     <li>
       <a
           href="{% url 'settings' %}"
@@ -64,40 +99,9 @@
         </p>
       </a>
     </li>
-    <li>
-      <a
-          href="{% url 'incoming_chargebacks' %}"
-          class="nav-link {% if request.resolver_match.url_name == 'incoming_chargebacks' %}active{% endif %}"
-      >
-        <i class="nav-icon fa fa-money"></i>
-        <p>
-          Incoming Chargebacks
-        </p>
-      </a>
-    </li>
-    <li>
-      <a
-          href="{% url 'transactions_search' %}"
-          class="nav-link {% if request.resolver_match.url_name == 'transactions_search' %}active{% endif %}"
-      >
-        <i class="nav-icon fa fa-search"></i>
-        <p>
-          Transaction View
-        </p>
-      </a>
-    </li>
 
-    <li>
-      <a
-          href="{% url 'fin_report' %}"
-          class="nav-link {% if request.resolver_match.url_name == 'fin_report' %}active{% endif %}"
-      >
-        <i class="nav-icon fa fa-search"></i>
-        <p>
-          Financial Report
-        </p>
-      </a>
-    </li>
+
+
   </ul>
 </nav>
 <!-- /.sidebar-menu -->
