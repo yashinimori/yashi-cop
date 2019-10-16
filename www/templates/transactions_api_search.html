@@ -71,7 +71,9 @@
                     To test the form please provide the following data </br>
                         PAN = 5488888888887192</br>
                         Start date = 2019-10-01</br>
-                        End date = 2019-10-02</p>
+                        End date = 2019-10-02</br></br>
+                        The form can show PAN and Token number both for better transaction analysis.
+                </p>
               {% if object_list %}
                 <form method="POST" action="{% url 'action' %}">
                   {% csrf_token %}
