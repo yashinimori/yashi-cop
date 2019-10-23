@@ -28,7 +28,7 @@ mastercard-api-core==1.4.12
 mastercard-mastercom==5.0.0
 more-itertools==7.2.0
 oauthlib==3.1.0
-Pillow==6.1.0
+Pillow==6.2.0
 psycopg2-binary==2.8.3
 pycparser==2.19
 pyOpenSSL==19.0.0
