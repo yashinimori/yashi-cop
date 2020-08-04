@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">
+              {% if filter == 'accepted' %}
+                Accepted disputes
+              {% elif filter == 'declined' %}
+                Declined disputes
+              {% else %}
+                All transactions
+              {% endif %}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      {% if not filter %}
+        {% include "pages/stats.html" %}
+      {% endif %}
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Transactions</h3>
+              <div class="card-tools">
+
+              </div>
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+                <p class="text-muted">The section shows all transactions uploaded from ATM journal.
+                    The software gathers data from internal sources and estimates every transaction for successful completion.
+                    The table shows all successful, neutral and problem transactions.
+                User can choose action after reviewing transaction estimation provided.
+                List of transaction updates after action applied.</p>
+              {% if object_list %}
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    {% if not filter %}
+                      <th></th>
+                    {% endif %}
+                    <th>ID</th>
+                    <th>Trans Date</th>
+                    <th>ATM</th>
+                    <th>PAN</th>
+                    <th>Tran AMNT</th>
+                    <th>Cur</th>
+                    <th>Disp AMNT</th>
+                    <th>Auth Code</th>
+                    <th>Result</th>
+                    <th>Denomination</th>
+                    <th>Comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for transaction in object_list %}
+                    <tr>
+                      {% if not filter %}
+                        <td><input type="checkbox" name="ids[]" value="{{ transaction.id }}"/></td>
+                      {% endif %}
+                      <td><a href="{% url 'transaction_view' pk=transaction.id %}">{{ transaction.id }}</a></td>
+                      <td>{{ transaction.trans_date|default:'' }}</td>
+                      <td>{{ transaction.atm |default:''}}</td>
+                      <td>{{ transaction.card|default:'' }}</td>
+                      <td>{{ transaction.trans_amount|default:'' }}</td>
+                      <td>{{ transaction.currency|default:'' }}</td>
+                      <td>{{ transaction.disp_amount|default:'' }}</td>
+                      <td>{{ transaction.auth_code|default:'' }}</td>
+                      <td>{{ transaction.result|default:'' }}</td>
+                      <td>
+                        {% if transaction.magazine1_amount or transaction.magazine2_amount or transaction.magazine3_amount or transaction.magazine4_amount %}
+                          1: {{ transaction.magazine1_amount }}<br/>
+                          2: {{ transaction.magazine2_amount }}<br/>
+                          3: {{ transaction.magazine3_amount }}<br/>
+                          4: {{ transaction.magazine4_amount }}<br/>
+                        {% endif %}
+                      </td>
+                      <td>{{ transaction.comment|default:'' }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              {% else %}
+                <p>No transactions</p>
+              {% endif %}
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+  </section>
+
+  <!-- /.content -->
+{% endblock %}

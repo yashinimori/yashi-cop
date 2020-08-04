@@ -1,12 +1,4 @@
-\.git
-\.idea/
-\.DS_Store
-env/
-__pycache__
-www/celerybeat-schedule
-*\.pyc
-*\.sqlite3
-waves/
-byteball/
-www/reports
-node_modules/
+.*
+!.coveragerc
+!.env
+!.pylintrc

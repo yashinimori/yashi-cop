@@ -1,0 +1,131 @@
+{% extends "index.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">
+              {% if filter == 'accepted' %}
+                Accepted disputes
+              {% elif filter == 'declined' %}
+                Declined disputes
+              {% else %}
+                All transactions
+              {% endif %}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      {% if not filter %}
+        {% include "pages/stats.html" %}
+      {% endif %}
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Transactions</h3>
+              <div class="card-tools">
+
+              </div>
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+                <p class="text-muted">The section shows all transactions after dispute cycle ends</p>
+              {% if object_list %}
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Trans Date</th>
+                    <th>ATM</th>
+                    <th>PAN</th>
+                    <th>Tran AMNT</th>
+                    <th>Cur</th>
+                    <th>Disp AMNT</th>
+                    <th>Auth Code</th>
+                    <th>Result</th>
+                    <th>Magazine</th>
+                    <th>Comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for chargeback in object_list %}
+                    <tr>
+                      <td>
+                        {% if chargeback.atm_transaction.id %}
+                          <a href="{% url 'transaction_view' pk=chargeback.atm_transaction.id %}">
+                            {{ chargeback.atm_transaction.id }}
+                          </a>
+                        {% else %}
+                          {{ chargeback.atm_transaction.id }}
+                        {% endif %}
+                      </td>
+                      <td>{{ chargeback.atm_transaction.trans_date|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.atm |default:''}}</td>
+                      <td>{{ chargeback.atm_transaction.card|default:'' }}</td>
+                      <td>
+                        {% for detail in chargeback.chargeback_detail.all %}
+                          {% ifequal detail.result filter %}
+                            {{ detail.amount }}
+                          {% endifequal %}
+                        {% endfor %}
+                      </td>
+                      <td>
+                        {% for detail in chargeback.chargeback_detail.all %}
+                          {% ifequal detail.result filter %}
+                            {{ detail.currency }}
+                          {% endifequal %}
+                        {% endfor %}
+                      </td>
+                      <td>{{ chargeback.atm_transaction.disp_amount|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.auth_code|default:'' }}</td>
+                      <td>{{ chargeback.atm_transaction.result|default:'' }}</td>
+                      <td>
+                        {% if transaction.magazine1_amount or transaction.magazine2_amount or transaction.magazine3_amount or transaction.magazine4_amount %}
+                          1: {{ chargeback.atm_transaction.magazine1_amount }}<br/>
+                          2: {{ chargeback.atm_transaction.magazine2_amount }}<br/>
+                          3: {{ chargeback.atm_transaction.magazine3_amount }}<br/>
+                          4: {{ chargeback.atm_transaction.magazine4_amount }}<br/>
+                        {% endif %}
+                      </td>
+                      <td>{{ transaction.comment|default:'' }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              {% else %}
+                <p>No transactions</p>
+              {% endif %}
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+
+
+    </div><!-- /.container-fluid -->
+    </div>
+
+  </section>
+
+  <!-- /.content -->
+{% endblock %}
