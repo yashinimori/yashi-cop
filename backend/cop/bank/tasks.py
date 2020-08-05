@@ -1,20 +1,15 @@
-# common
 import datetime
 import decimal
 import logging
 import re
 import traceback
 
-# other
-# from admin_logs.decorators import log
 from django.utils import timezone
-# django
 from django.utils.timezone import make_aware
 from post_office import mail
 
 from config.celery_app import app
 from . import mastercom
-# my
 from .mastercom import update_chargebacks
 from .models import Claim, ATM
 
@@ -36,7 +31,6 @@ MARK_FAILED = [
 
 
 @app.task(ignore_result=True)
-# @log('Send emails')
 def send_regular_emails_task():
     logging.debug('Send emails')
     mail.send_queued()
@@ -211,7 +205,6 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
 
 @app.task(ignore_result=True)
-# @log('Load claims task')
 def load_claims_task():
     for queue in mastercom.list_queues():
         res_claims = mastercom.get_queue_claims(queue['queueName'])
