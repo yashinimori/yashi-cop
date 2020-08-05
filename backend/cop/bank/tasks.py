@@ -12,11 +12,11 @@ from django.utils import timezone
 from django.utils.timezone import make_aware
 from post_office import mail
 
-from bank import mastercom
-# my
-from bank.mastercom import update_chargebacks
-from bank.models import Claim, ATM
 from config.celery_app import app
+from . import mastercom
+# my
+from .mastercom import update_chargebacks
+from .models import Claim, ATM
 
 TRANSACTION_START = '-> TRANSACTION START'
 TRANSACTION_END = '<- TRANSACTION END'

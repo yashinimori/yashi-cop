@@ -15,10 +15,10 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from django.views.generic.edit import FormMixin
 from xhtml2pdf import pisa
 
-from bank.forms import SettingsForm, TransactionApiSearchForm, FinancialReportSearchForm
+from .forms import SettingsForm, TransactionApiSearchForm, FinancialReportSearchForm
 # my
-from bank.mastercom import search_for_transactions, get_clearing_details, get_authorization_details, create_chargeback
-from cop.bank.models import Transaction, Report, Chargeback, ChargebackDetail
+from .mastercom import search_for_transactions, get_clearing_details, get_authorization_details, create_chargeback
+from .models import Transaction, Report, Chargeback, ChargebackDetail
 
 
 class DashboardMixin(object):

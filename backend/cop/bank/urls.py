@@ -1,7 +1,7 @@
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import path
 
-from cop.bank.views import TransactionsView, ReportsView, ViewTransactionView, UploadReportView, \
+from .views import TransactionsView, ReportsView, ViewTransactionView, UploadReportView, \
     AcceptedView, DeclinedView, ActionView, SettingsView, ViewTransactionPdf, IncomingChargebacksView, \
     DeclineChargeback, ChargebackDetailDeclineView, TransactionsApiSearchView, ChargebackDetailPendView, \
     ChargebackDetailAcceptView, FinancialReportView
