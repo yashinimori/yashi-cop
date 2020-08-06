@@ -8,8 +8,8 @@ import { Authorization } from '../../../models/authorization.model';
 })
 export class LoginComponent {
   public data: Authorization;
-  
-  constructor(){
+
+  constructor() {
     this.data = new Authorization();
   }
 
@@ -20,7 +20,6 @@ export class LoginComponent {
 
     if(!this.data.password)
       return;
-
-    
+   
   }
 }
