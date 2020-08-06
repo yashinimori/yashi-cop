@@ -9,15 +9,32 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 
+import { WebsiteComponent } from './website/website.component';
+import { AppealsComponent } from './website/appeals/appeals.component';
+import { LoginComponent } from './authorisation/login/login.component';
+
 const routes: Routes = [
-  {path: '', redirectTo: 'website/appeals', pathMatch: 'full'},
-   {
-     path: 'pages',
-     loadChildren: () => import('./pages/pages.module')
-       .then(m => m.PagesModule),
-   },
- //   { path: '', redirectTo: 'pages', pathMatch: 'full' },
-    { path: '**', redirectTo: 'pages' },
+   // { path: 'authorisation/login', component: LoginComponent },
+  //  { path: '', redirectTo: 'authorisation/login', pathMatch: 'full'},
+  //  { path: '**', redirectTo: 'authorisation/login' },  
+
+    // {
+    //   path: 'pages',
+    //   loadChildren: () => import('./pages/pages.module')
+    //     .then(m => m.PagesModule),
+    // },
+    // { path: '', redirectTo: 'pages', pathMatch: 'full' },
+    // { path: '**', redirectTo: 'pages' },
+
+    {
+      path: 'ourpages',
+      loadChildren: () => import('./ourpages/ourpages.module')
+        .then(m => m.OurPagesModule),
+    },
+    { path: '', redirectTo: 'ourpages', pathMatch: 'full' },
+    { path: '**', redirectTo: 'ourpages' },
+
+    
 ];
 
 
