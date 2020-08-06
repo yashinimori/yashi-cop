@@ -13,13 +13,11 @@ export class LoginComponent {
     this.data = new Authorization();
   }
 
-
-  enter(){
-    if(!this.data.login)
+  enter() {
+    if (!this.data.login)
       return;
 
-    if(!this.data.password)
+    if (!this.data.password)
       return;
-   
   }
 }
