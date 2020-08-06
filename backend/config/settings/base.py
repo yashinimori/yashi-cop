@@ -301,6 +301,14 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
 
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'cop.core.api.serializers.user.UserRegistrationSerializer',
+        'user': 'cop.core.api.serializers.user.UserSerializer',
+        'current_user': 'cop.core.api.serializers.user.UserSerializer',
+    }
+}
+
 # Mastercard Credentials
 MASTERCOM_CONSUMER_KEY = env('MASTERCOM_CONSUMER_KEY')
 

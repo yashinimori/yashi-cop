@@ -42,6 +42,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Default user for cop.
     """
+    CARDHOLDER = 'cardholder'
     ROLES = (
         ('top_level', 'Top level'),
         ('security_officer', 'Security officer'),
@@ -49,7 +50,7 @@ class User(AbstractUser):
         ('chargeback_officer', 'Chargeback officer'),
         ('сс_branch', 'сс/branch'),
         ('merchant', 'Merchant'),
-        ('cardholder', 'Cardholder'),
+        (CARDHOLDER, 'Cardholder'),
     )
     username = None
     #: First and last name do not cover name patterns around the globe
@@ -74,3 +75,6 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    def __str__(self):
+        return self.email
