@@ -2,8 +2,6 @@ import { Component, TemplateRef } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
 import { DialogNamePromptComponent } from './dialog-name-prompt/dialog-name-prompt.component';
-import { DialogRegistrationComponent } from './dialog-registration/dialog-registration.component';
-import { DialogAuthorizationComponent } from './dialog-authorization/dialog-authorization.component';
 
 @Component({
   selector: 'ngx-dialog',
@@ -60,17 +58,6 @@ export class DialogComponent {
         context: 'this is some additional data passed to dialog',
         closeOnEsc: false,
       });
-  }
-
-
-  dlgRegistration() {
-    this.dialogService.open(DialogRegistrationComponent)
-      .onClose.subscribe(data => {  });
-  }
-
-  dlgAuthorization() {
-    this.dialogService.open(DialogAuthorizationComponent)
-    .onClose.subscribe(data => {  });
   }
 
 }

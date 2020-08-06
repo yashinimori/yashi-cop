@@ -22,8 +22,6 @@ import { ModalOverlaysComponent } from './modal-overlays.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { ShowcaseDialogComponent } from './dialog/showcase-dialog/showcase-dialog.component';
 import { DialogNamePromptComponent } from './dialog/dialog-name-prompt/dialog-name-prompt.component';
-import { DialogRegistrationComponent } from './dialog/dialog-registration/dialog-registration.component';
-import { DialogAuthorizationComponent } from './dialog/dialog-authorization/dialog-authorization.component';
 import { WindowComponent } from './window/window.component';
 import { WindowFormComponent } from './window/window-form/window-form.component';
 import { ToastrComponent } from './toastr/toastr.component';
