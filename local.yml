@@ -34,25 +34,25 @@ services:
     env_file:
       - ./.envs/.local/.postgres
 
-  docs:
-    image: cop_local_docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./backend/docs:/docs
-      - ./backend/config:/app/config
-      - ./backend/cop:/app/cop
-    ports:
-      - "7000:7000"
+#  docs:
+#    image: cop_local_docs
+#    container_name: docs
+#    build:
+#      context: .
+#      dockerfile: ./compose/local/docs/Dockerfile
+#    env_file:
+#      - ./.envs/.local/.django
+#    volumes:
+#      - ./backend/docs:/docs
+#      - ./backend/config:/app/config
+#      - ./backend/cop:/app/cop
+#    ports:
+#      - "7000:7000"
 
   redis:
     image: redis:5.0
     container_name: redis
-#
+
   celeryworker:
     <<: *django
     image: cop_local_celeryworker
