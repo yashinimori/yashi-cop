@@ -3,7 +3,6 @@ export class Registration {
   lastName: string;
   email: string; 
   telephone: string;
-  login: string;
-  
+  login: string;  
 }
 
