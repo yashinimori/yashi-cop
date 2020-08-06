@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 User = get_user_model()
@@ -56,6 +57,7 @@ class Terminal(BaseModel):
 
 
 class Stage(BaseModel):
+    # TODO change to ChoiceField
     name = models.CharField(max_length=999)
 
 
@@ -95,7 +97,8 @@ class Claim(BaseModel):
         ('fraud', 'Fraud'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
+    mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
 
     first_name = models.CharField(max_length=999, null=True, blank=True)
     last_name = models.CharField(max_length=999, null=True, blank=True)
@@ -117,6 +120,9 @@ class Claim(BaseModel):
     stage = models.ForeignKey(Stage, on_delete=models.PROTECT)
     result = models.CharField(choices=RESULTS_CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
+
+    answers = JSONField(max_length=999, blank=True, null=True)
+    reason_code = models.CharField(max_length=999, blank=True, null=True)
 
     due_date = models.DateTimeField(null=True, blank=True)
     dispute_date = models.DateTimeField(null=True, blank=True)
