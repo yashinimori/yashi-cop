@@ -1,9 +1,25 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthorisationComponent } from './authorisation.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { Routes, RouterModule } from '@angular/router';
+
+
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbDatepickerModule, NbIconModule,
+  NbInputModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbUserModule,
+} from '@nebular/theme';
+
+import { ThemeModule } from '../@theme/theme.module';
 
 const childrens = [
   {path: 'login', component: LoginComponent},
@@ -17,8 +33,26 @@ export const routes: Routes = [
 
 
 @NgModule({
-  declarations: [AuthorisationComponent, LoginComponent, RegistrationComponent],
+  declarations: [
+    AuthorisationComponent, 
+    LoginComponent, 
+    RegistrationComponent
+  ],
   imports: [
+
+    FormsModule,
+    ThemeModule,
+    NbInputModule,
+    NbCardModule,
+    NbButtonModule,
+    NbActionsModule,
+    NbUserModule,
+    NbCheckboxModule,
+    NbRadioModule,
+    NbDatepickerModule,
+    NbSelectModule,
+    NbIconModule,
+
     CommonModule,
     RouterModule.forChild(routes)
   ]

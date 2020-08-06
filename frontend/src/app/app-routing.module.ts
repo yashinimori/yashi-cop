@@ -11,13 +11,13 @@ import {
 
 const routes: Routes = [
   {path: '', redirectTo: 'website/appeals', pathMatch: 'full'},
-  {
-    path: 'pages',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
-  },
-//   { path: '', redirectTo: 'pages', pathMatch: 'full' },
-   { path: '**', redirectTo: 'pages' },
+   {
+     path: 'pages',
+     loadChildren: () => import('./pages/pages.module')
+       .then(m => m.PagesModule),
+   },
+ //   { path: '', redirectTo: 'pages', pathMatch: 'full' },
+    { path: '**', redirectTo: 'pages' },
 ];
 
 
