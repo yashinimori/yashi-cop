@@ -23,11 +23,11 @@ const routes: Routes = [{
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),
     },
-    {
-      path: 'autorization',
-      loadChildren: () => import('./autorization/autorization.module')
-        .then(m => m.AutorizationModule),
-    },
+    // {
+    //   path: 'autorization',
+    //   loadChildren: () => import('./autorization/autorization.module')
+    //     .then(m => m.AutorizationModule),
+    // },
     {
       path: 'forms',
       loadChildren: () => import('./forms/forms.module')
