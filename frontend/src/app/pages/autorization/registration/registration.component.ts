@@ -9,10 +9,9 @@ import { Registration } from '../../../models/registration.model';
 export class RegistrationComponent {
   public data: Registration;
 
-  constructor(){
+  constructor() {
     this.data = new Registration();
   }
-
 
   enter(){
     if(!this.data.email)
@@ -29,7 +28,5 @@ export class RegistrationComponent {
 
     if(!this.data.telephone)
       return;
-  
-    alert('save') ;
   }
 }
