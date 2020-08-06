@@ -42,7 +42,6 @@ import { LoginComponent } from './login/login.component';
     AutorizationComponent,
     RegistrationComponent,
     LoginComponent,
-    
   ],
 })
 export class AutorizationModule { }
