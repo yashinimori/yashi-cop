@@ -8,7 +8,7 @@ import { Registration } from '../../../models/registration.model';
 })
 export class RegistrationComponent {
   public data: Registration;
-  
+
   constructor(){
     this.data = new Registration();
   }
