@@ -13,20 +13,20 @@ export class RegistrationComponent {
     this.data = new Registration();
   }
 
-  enter(){
-    if(!this.data.email)
+  enter() {
+    if (!this.data.email)
       return;
 
-    if(!this.data.firstName)
+    if (!this.data.firstName)
       return;
 
-    if(!this.data.lastName)
+    if (!this.data.lastName)
       return;
 
-    if(!this.data.login)
+    if (!this.data.login)
       return;
 
-    if(!this.data.telephone)
+    if (!this.data.telephone)
       return;
   }
 }
