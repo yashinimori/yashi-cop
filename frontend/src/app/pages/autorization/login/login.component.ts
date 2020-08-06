@@ -11,7 +11,6 @@ export class LoginComponent {
   
   constructor(){
     this.data = new Authorization();
-    console.log('AuthorizationComponent - constructor');
   }
 
 
@@ -22,7 +21,6 @@ export class LoginComponent {
     if(!this.data.password)
       return;
 
-    console.log(this.data);
     
   }
 }

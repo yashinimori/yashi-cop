@@ -11,7 +11,6 @@ export class RegistrationComponent {
   
   constructor(){
     this.data = new Registration();
-    console.log('RegistrationComponent - constructor');
   }
 
 
@@ -31,8 +30,6 @@ export class RegistrationComponent {
     if(!this.data.telephone)
       return;
   
-    console.log(this.data);
-
     alert('save') ;
   }
 }
