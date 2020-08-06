@@ -44,6 +44,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Autorization',
+    icon: 'edit-2-outline',
+    children: [
+      {
+        title: 'Login',
+        link: '/pages/autorization/login',
+      },
+      {
+        title: 'Registration',
+        link: '/pages/autorization/registration',
+      },
+    ],
+  },
+  {
     title: 'Forms',
     icon: 'edit-2-outline',
     children: [
