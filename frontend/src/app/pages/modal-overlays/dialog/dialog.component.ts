@@ -65,23 +65,12 @@ export class DialogComponent {
 
   dlgRegistration() {
     this.dialogService.open(DialogRegistrationComponent)
-      .onClose.subscribe(data => {
-
-        if(data)
-          console.log(data); 
-        
-      });
+      .onClose.subscribe(data => {  });
   }
 
   dlgAuthorization() {
     this.dialogService.open(DialogAuthorizationComponent)
-    .onClose.subscribe(data => {
-
-      if(data)
-        console.log(data); 
-      
-    });
+    .onClose.subscribe(data => {  });
   }
-
 
 }
