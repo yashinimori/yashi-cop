@@ -24,7 +24,7 @@ urlpatterns = [
     path('transactions-search/', TransactionsApiSearchView.as_view(), name='transactions_search'),
     path('financial-report/', FinancialReportView.as_view(), name='fin_report'),
     path(
-        r'^profile$',
+        'profile',
         PasswordChangeView.as_view(template_name='profile.html'),
         name='account_profile',
     ),

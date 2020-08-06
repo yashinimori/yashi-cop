@@ -1,23 +1,28 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
-
-from cop.users.forms import UserChangeForm, UserCreationForm
+from django.utils.translation import ugettext_lazy as _
 
 User = get_user_model()
 
 
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
-    form = UserChangeForm
-    add_form = UserCreationForm
-    readonly_fields = ('registration_date',)
-    fieldsets = (("User",
-                  {"fields": (
-                      "role",
-                      "unit",
-                      "phone",
-                      "registration_date",
-                  )}),) + auth_admin.UserAdmin.fieldsets
-    list_display = ["username", "first_name", "last_name", "is_superuser"]
-    search_fields = ["first_name", "last_name"]
+    """Define admin model for custom User model with no email field."""
+
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2'),
+        }),
+    )
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('email', 'first_name', 'last_name')
+    ordering = ('email',)
