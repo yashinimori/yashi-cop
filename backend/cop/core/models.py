@@ -57,7 +57,18 @@ class Terminal(BaseModel):
 
 
 class Stage(BaseModel):
-    # TODO change to ChoiceField
+    PRE_MEDIATION = 'pre_mediation'
+    MEDIATION = 'mediation'
+    CHARGEBACK = 'chargeback'
+    CHARGEBACK_ESCALATION = 'chargeback_escalation'
+
+    STAGE_CHOICES = (
+        (PRE_MEDIATION, PRE_MEDIATION),
+        (MEDIATION, MEDIATION),
+        (CHARGEBACK, CHARGEBACK),
+        (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
+    )
+    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     name = models.CharField(max_length=999)
 
 
