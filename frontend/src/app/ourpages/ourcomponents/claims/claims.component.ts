@@ -3,6 +3,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
+import { TransferService } from '../../../share/services/transfer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-claims',
@@ -103,7 +105,8 @@ export class ClaimsComponent implements OnInit {
 
   source: LocalDataSource;
 
-  constructor(private datePipe: DatePipe) {
+  constructor(private datePipe: DatePipe, private transferService: TransferService,
+    private router: Router) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -143,6 +146,8 @@ export class ClaimsComponent implements OnInit {
   }
 
   onUserRowSelect(event): void {
+    this.transferService.cOPClaimID.next(event.cOPClaimID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
     console.log(event);
   }
 
