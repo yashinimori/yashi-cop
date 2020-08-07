@@ -62,9 +62,9 @@ export class ClaimsComponent implements OnInit {
         title: "Cума",
         type: 'number',
       },
-      currency: {
+      currencyName: {
         title: "Валюта",
-        type: 'number',
+        type: 'string',
       },
       authCode: {
         title: "Код авторизації",
@@ -105,20 +105,22 @@ export class ClaimsComponent implements OnInit {
 
   source: LocalDataSource;
 
-  constructor(private datePipe: DatePipe, private transferService: TransferService,
+  constructor(private datePipe: DatePipe, 
+    private transferService: TransferService,
     private router: Router) {
     this.claimsData = new Array<ClaimView>();
   }
 
   testData(){
     let t = new ClaimView();
+    
     t.cOPClaimID = 1111;
     t.pAN = 1234123412341234;
     t.transDate = new Date();
-    t.merchantName = 'merchantName';
+    t.merchantName = 'Rukavichka 1';
     t.terminalID = 12345678;
     t.amount = 1000.01;
-    t.currency = 1;
+    t.currencyName = 'грн';
     t.authCode = 123456;
     t.reasonCodeGroup = 1110001111000;
     t.stage = 'stage';

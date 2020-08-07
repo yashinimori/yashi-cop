@@ -1,0 +1,14 @@
+.div-panel{
+    display: flex;
+}
+
+label:first-child {
+    width: 38%;
+    text-transform: uppercase;
+}
+
+label:last-child {
+    width: 60%;
+    font-weight: bold;
+    text-transform: uppercase;
+}

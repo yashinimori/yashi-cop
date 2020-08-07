@@ -1,1 +1,83 @@
-<p>single-claim works!</p>
+<nb-card>
+    <nb-card-header>
+      Скарга
+    </nb-card-header>
+</nb-card>
+
+<div style="display: flex;height: 400px;">
+    <div style="width: 49%;height: 400px;">
+        <nb-card style="height: 400px;">
+            <nb-card-header>
+                Деталізація cкарги
+              </nb-card-header>
+            <nb-card-body>
+            
+                <div class="div-panel">
+                    <label>Номер карти</label> 
+                    <label>{{claimData.pAN}}</label>
+                </div>
+        
+                <div style="display: flex;">
+                    <label>П.І.Б.</label> 
+                    <label>{{claimData.fio}}</label> 
+                </div>
+
+                <div style="display: flex;">
+                    <label>Дата транзакції</label> 
+                    <label>{{getDateTrans}}</label> 
+                </div>
+
+                <div style="display: flex;">
+                    <label>Cума</label> 
+                    <label>{{claimData.currencyName}} {{claimData.amount}}</label> 
+                </div>
+
+                <div style="display: flex;">
+                    <label>Назва торговця</label> 
+                    <label>{{claimData.merchantName}}</label> 
+                </div>
+
+                <div style="display: flex;">
+                    <label>RC</label> 
+                    <label></label> 
+                </div>
+
+                <div style="display: flex;">
+                    <label>ARN</label> 
+                    <label></label> 
+                </div>
+
+
+
+            </nb-card-body>
+        
+        </nb-card>
+    
+    </div>
+
+    <div style="width: 49%;margin-left: 1%;height: 400px;">
+        <nb-card style="height: 400px;">
+
+            <nb-card-body>
+                <div style="height: 100px;">
+                    <label>Результат</label>
+                    <br>
+                </div>
+                
+                <div style="height: 200px;">
+                    <label>Коментар</label>
+                    <br>
+                </div>
+
+                <div style="height: 100px;">
+                    <label>Документи</label>
+                    <br>
+                </div>
+                
+            </nb-card-body>
+        
+        </nb-card>
+    
+    </div>
+</div>
+

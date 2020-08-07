@@ -8,4 +8,6 @@ export class ClaimView extends ClaimRegistration {
   actionNeeded: string;
   result: string;
   dueDate: Date;
+  currencyName: string;
+  fio: string;
 }
