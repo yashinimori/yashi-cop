@@ -5,7 +5,7 @@ export class ClaimView extends ClaimRegistration {
   merchantName: string;
   reasonCodeGroup: number;
   stage: string;
-  action: string;
+  actionNeeded: string;
   result: string;
   dueDate: Date;
 }
