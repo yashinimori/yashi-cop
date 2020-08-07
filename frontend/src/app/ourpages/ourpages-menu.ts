@@ -6,11 +6,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'layout-outline',
     children: [
       {
-        title: 'скарга',
+        title: 'список скарг',
         link: '/ourpages/ourcomponents/claims',
       },
       {
-        title: 'список скарг',
+        title: 'скарга',
         link: '/ourpages/ourcomponents/single-claim',
       },
           

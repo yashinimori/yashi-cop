@@ -15,6 +15,7 @@ import { OurComponentsRoutingModule } from './ourcomponents-routing.module';
 import { OurComponentsComponent } from './ourcomponents.component';
 import { ClaimsComponent } from './claims/claims.component';
 import { SingleClaimComponent } from './single-claim/single-claim.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { SingleClaimComponent } from './single-claim/single-claim.component';
     NbAccordionModule,
     NbUserModule,
     OurComponentsRoutingModule,
+    Ng2SmartTableModule,
   ],
   declarations: [
     OurComponentsComponent,

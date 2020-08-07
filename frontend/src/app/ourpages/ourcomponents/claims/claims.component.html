@@ -1,1 +1,13 @@
-<p>claims works!</p>
+<nb-card>
+    <nb-card-header>
+      Список скарг
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" 
+      (userRowSelect)="onUserRowSelect($event)"
+      (deleteConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+
+</nb-card>
