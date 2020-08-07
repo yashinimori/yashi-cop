@@ -27,7 +27,7 @@ const routes: Routes = [{
     {
       path: 'accordion',
       component: AccordionComponent,
-    },
+     },
     {
       path: 'tabs',
       component: TabsComponent,

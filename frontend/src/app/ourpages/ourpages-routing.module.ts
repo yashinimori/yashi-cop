@@ -7,11 +7,11 @@ const routes: Routes = [{
   path: '',
   component: OurPagesComponent,
   children: [
-    // {
-    //   path: 'cardholder',
-    //   loadChildren: () => import('./cardholder/cardholder.module')
-    //     .then(m => m.CardHolderModule),
-    // },
+    {
+       path: 'ourcomponents',
+       loadChildren: () => import('./ourcomponents/ourcomponents.module')
+         .then(m => m.OurComponentsModule),
+    },
     {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
@@ -19,7 +19,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'cardholder',
+      redirectTo: 'OurComponents',
       pathMatch: 'full',
     },
     // {

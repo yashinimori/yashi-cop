@@ -11,8 +11,10 @@ import {
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import { CardHolderRoutingModule } from './cardholder-routing.module';
-import { CardHolderComponent } from './cardholder.component';
+import { OurComponentsRoutingModule } from './ourcomponents-routing.module';
+import { OurComponentsComponent } from './ourcomponents.component';
+import { ClaimsComponent } from './claims/claims.component';
+import { SingleClaimComponent } from './single-claim/single-claim.component';
 
 @NgModule({
   imports: [
@@ -27,14 +29,16 @@ import { CardHolderComponent } from './cardholder.component';
     NbListModule,
     NbAccordionModule,
     NbUserModule,
-    CardHolderRoutingModule,
+    OurComponentsRoutingModule,
   ],
   declarations: [
-    CardHolderComponent,
-    
+    OurComponentsComponent,
+    ClaimsComponent,
+    SingleClaimComponent,
+        
   ],
   // providers: [
     
   // ],
 })
-export class CardHolderModule { }
+export class OurComponentsModule { }
