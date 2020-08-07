@@ -21,16 +21,31 @@ import {
 
 import { ThemeModule } from '../@theme/theme.module';
 
-const childrens = [
-  {path: 'login', component: LoginComponent},
-  {path: 'registration', component: RegistrationComponent}
-];
+// const childrens = [
+//   {path: 'login', component: LoginComponent},
+//   {path: 'registration', component: RegistrationComponent}
+// ];
 
-export const routes: Routes = [
-  {path: 'auth', redirectTo: 'auth/login', pathMatch: 'full'},
-  {path: 'auth', component: AuthorisationComponent, children: childrens},
-];
+// export const routes: Routes = [
+//   {path: 'auth', redirectTo: 'auth/login', pathMatch: 'full'},
+//   {path: 'auth', component: AuthorisationComponent, children: childrens},
+// ];
 
+// const routes: Routes = [{
+//   path: '',
+//   component: AuthorisationComponent,
+//   children: [
+//     {
+//       path: 'login',
+//       component: LoginComponent,
+//     },
+//     {
+//       path: 'registration',
+//       component: RegistrationComponent,
+//     },
+    
+//   ],
+// }];
 
 @NgModule({
   declarations: [
@@ -54,7 +69,7 @@ export const routes: Routes = [
     NbIconModule,
 
     CommonModule,
-    RouterModule.forChild(routes)
+    // RouterModule.forChild(routes)
   ]
 })
 export class AuthorisationModule { }

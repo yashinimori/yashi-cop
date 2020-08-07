@@ -12,6 +12,7 @@ import {
 import { WebsiteComponent } from './website/website.component';
 import { AppealsComponent } from './website/appeals/appeals.component';
 import { LoginComponent } from './authorisation/login/login.component';
+import { RegistrationComponent } from './authorisation/registration/registration.component';
 
 const routes: Routes = [
    // { path: 'authorisation/login', component: LoginComponent },
@@ -31,6 +32,29 @@ const routes: Routes = [
       loadChildren: () => import('./ourpages/ourpages.module')
         .then(m => m.OurPagesModule),
     },
+    {
+    path: 'auth',
+    component: NbAuthComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'registration',
+        component: RegistrationComponent,
+      }
+    ],
+  },
+    // {
+    //   path: 'auth',
+    //   loadChildren: () => import('./authorisation/authorisation.module')
+    //     .then(m => m.AuthorisationModule),
+    // },
     { path: '', redirectTo: 'ourpages', pathMatch: 'full' },
     { path: '**', redirectTo: 'ourpages' },
 
