@@ -36,7 +36,7 @@ class Bank(BaseModel):
 
 class Merchant(BaseModel):
     bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
-    merchant_id = models.CharField(max_length=15)
+    merchant_id = models.CharField(max_length=15, unique=True)
     merchant_name_legal = models.CharField(max_length=999)
     mcc = models.CharField(max_length=4)
     description = models.CharField(max_length=999)
@@ -52,7 +52,7 @@ class Merchant(BaseModel):
 
 
 class Terminal(BaseModel):
-    terminal_id = models.CharField(max_length=999)
+    terminal_id = models.CharField(max_length=999, unique=True)
     merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
 
 
@@ -75,7 +75,7 @@ class Stage(BaseModel):
 class Transaction(BaseModel):
     bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
     terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE, null=True, blank=True)
-    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
+    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT, null=True, blank=True)
     pan = models.CharField(max_length=16, null=True, blank=True)
     trans_amount = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     trans_currency = models.CharField(max_length=3, null=True, blank=True)
@@ -120,10 +120,39 @@ class Claim(BaseModel):
     arn = models.CharField(max_length=23, null=True, blank=True)
     flag = models.CharField(max_length=999, null=True, blank=True)
 
-    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
-    bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
-    terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE, blank=True, null=True)
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True)
+    merchant = models.ForeignKey(
+        Merchant,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='merchants',
+    )
+    bank = models.ForeignKey(
+        Bank,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='banks',
+    )
+    terminal = models.ForeignKey(
+        Terminal,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='terminals',
+    )
+    transaction = models.ForeignKey(
+        Transaction,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='transactions',
+    )
+
+    pan = models.CharField(max_length=16, null=True, blank=True)
+    merch_id = models.CharField(max_length=999, null=True, blank=True)
+    term_id = models.CharField(max_length=999, null=True, blank=True)
+
     reason_code_group = models.CharField(max_length=23, blank = True, null = True)
     action_needed = models.CharField(max_length=999)
     comment = models.TextField(null=True, blank=True)
