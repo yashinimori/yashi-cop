@@ -5,6 +5,8 @@ import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
+import { SelectorData } from '../../../share/models/selector-data.model';
+
 
 @Component({
   selector: 'ngx-single-claim',
@@ -12,22 +14,23 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./single-claim.component.scss']
 })
 export class SingleClaimComponent implements OnInit, OnDestroy {
-  claimData: ClaimView;
-
+  
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
     private router: Router) { }
 
     cOPClaimID: string;
-    isNewRecord: boolean = false;
+    isNewRecord: boolean = true;
     getClaimSubscription: Subscription = new Subscription();
+    claimData: ClaimView;
+    listMerchant: Array<SelectorData>;
+    listCurrency: Array<SelectorData>;
 
   ngOnInit(): void {
-   
+    this.claimData = new ClaimView();
 
     // this.cOPClaimID = this.transferService.cOPClaimID.getValue();
-    // this.claimData = new ClaimView();
 
     // this.isNewRecord = this.cOPClaimID.length == 0 ? true : false;
 
@@ -36,6 +39,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     // }
     
     this.getClaimsData(); //test
+
+    this.getListMerchant();
+    this.getListCurrency();
   }
 
   ngOnDestroy(): void {
@@ -63,9 +69,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.claimData.cOPClaimID = 1111;
     this.claimData.pAN = 1234123412341234;
     this.claimData.transDate = new Date();
+    this.claimData.merchantID = 1;
     this.claimData.merchantName = 'Rukavichka 1';
     this.claimData.terminalID = 12345678;
     this.claimData.amount = 1000.01;
+    this.claimData.currency = 1;
     this.claimData.currencyName = 'грн';
     this.claimData.authCode = 123456;
     this.claimData.reasonCodeGroup = 1110001111000;
@@ -76,4 +84,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     console.log(this.claimData);
 
   }
+
+  onClickFirstStep(){
+    console.log(this.claimData);
+
+  }
+
+  getListMerchant(){
+    this.listMerchant = new Array<SelectorData>();
+    this.listMerchant.push({id:1, caption:"Rukavichka 1"});
+    this.listMerchant.push({id:2, caption:"Rukavichka 2"});
+  }
+
+  getListCurrency(){
+    this.listCurrency = new Array<SelectorData>();
+    this.listCurrency.push({id:1, caption:"грн"});
+    this.listCurrency.push({id:2, caption:"долар"});
+    this.listCurrency.push({id:2, caption:"євро"});
+  }
+
 }

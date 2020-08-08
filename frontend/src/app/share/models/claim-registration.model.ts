@@ -6,4 +6,5 @@ export class ClaimRegistration {
   amount: number;
   currency: number;
   authCode: number;
+  comment: string;
 }

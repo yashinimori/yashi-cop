@@ -39,8 +39,6 @@ const COMPONENTS = [
   DialogComponent,
   ShowcaseDialogComponent,
   DialogNamePromptComponent,
-  // DialogRegistrationComponent,
-  // DialogAuthorizationComponent,
   WindowComponent,
   WindowFormComponent,
   PopoversComponent,
@@ -53,8 +51,6 @@ const COMPONENTS = [
 const ENTRY_COMPONENTS = [
   ShowcaseDialogComponent,
   DialogNamePromptComponent,
-  // DialogRegistrationComponent,
-  // DialogAuthorizationComponent,
   WindowFormComponent,
   NgxPopoverCardComponent,
   NgxPopoverFormComponent,

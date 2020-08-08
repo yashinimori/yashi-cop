@@ -15,50 +15,46 @@ import { LoginComponent } from './authorisation/login/login.component';
 import { RegistrationComponent } from './authorisation/registration/registration.component';
 
 const routes: Routes = [
-   // { path: 'authorisation/login', component: LoginComponent },
-  //  { path: '', redirectTo: 'authorisation/login', pathMatch: 'full'},
-  //  { path: '**', redirectTo: 'authorisation/login' },  
+ 
+//  {
+//    path: 'pages',
+//    loadChildren: () => import('./pages/pages.module')
+//      .then(m => m.PagesModule),
+//  },
+//  { path: '', redirectTo: 'pages', pathMatch: 'full' },
+//  { path: '**', redirectTo: 'pages' },
 
-    // {
-    //   path: 'pages',
-    //   loadChildren: () => import('./pages/pages.module')
-    //     .then(m => m.PagesModule),
-    // },
-    // { path: '', redirectTo: 'pages', pathMatch: 'full' },
-    // { path: '**', redirectTo: 'pages' },
+ {
+   path: 'ourpages',
+   loadChildren: () => import('./ourpages/ourpages.module')
+     .then(m => m.OurPagesModule),
+ },
+ {
+ path: 'auth',
+ component: NbAuthComponent,
+ children: [
+   {
+     path: '',
+     component: LoginComponent,
+   },
+   {
+     path: 'login',
+     component: LoginComponent,
+   },
+   {
+     path: 'registration',
+     component: RegistrationComponent,
+   }
+   ],
+ },
+ // {
+ //   path: 'auth',
+ //   loadChildren: () => import('./authorisation/authorisation.module')
+ //     .then(m => m.AuthorisationModule),
+ // },
+ { path: '', redirectTo: 'ourpages', pathMatch: 'full' },
+ { path: '**', redirectTo: 'ourpages' },
 
-    {
-      path: 'ourpages',
-      loadChildren: () => import('./ourpages/ourpages.module')
-        .then(m => m.OurPagesModule),
-    },
-    {
-    path: 'auth',
-    component: NbAuthComponent,
-    children: [
-      {
-        path: '',
-        component: LoginComponent,
-      },
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'registration',
-        component: RegistrationComponent,
-      }
-    ],
-  },
-    // {
-    //   path: 'auth',
-    //   loadChildren: () => import('./authorisation/authorisation.module')
-    //     .then(m => m.AuthorisationModule),
-    // },
-    { path: '', redirectTo: 'ourpages', pathMatch: 'full' },
-    { path: '**', redirectTo: 'ourpages' },
-
-    
 ];
 
 

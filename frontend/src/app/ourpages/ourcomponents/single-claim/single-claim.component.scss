@@ -1,14 +1,35 @@
 .div-panel{
     display: flex;
+    margin-bottom: 10px;
 }
 
-label:first-child {
+.label-caption {
     width: 38%;
     text-transform: uppercase;
 }
-
-label:last-child {
+.label-data {
     width: 60%;
     font-weight: bold;
     text-transform: uppercase;
+}
+.left-panel {
+    width: 49%;
+    height: 400px;
+}
+.right-panel {
+    width: 49%;
+    height: 400px;
+    margin-left: 2%;
+}
+.center {
+    text-align: center;
+}
+.input-data {
+    width: 60%;
+}
+.input-date {
+    width: 60%;
+}
+.selector-list {
+    width: 60%;   
 }

@@ -4,72 +4,71 @@
     </nb-card-header>
 </nb-card>
 
-<div style="display: flex;height: 400px;">
-    <div style="width: 49%;height: 400px;">
-        <nb-card style="height: 400px;">
-            <nb-card-header>
+<div *ngIf="!isNewRecord" class="div-panel" >
+    <div class="left-panel">
+       
+        <nb-card style="width: 100%; height: 400px;">
+            <nb-card-header style="width: 100%; text-align: center;">
                 Деталізація cкарги
               </nb-card-header>
             <nb-card-body>
             
                 <div class="div-panel">
-                    <label>Номер карти</label> 
-                    <label>{{claimData.pAN}}</label>
+                    <label class="label-caption">Номер карти</label> 
+                    <label class="label-data">{{claimData.pAN}}</label>
                 </div>
         
-                <div style="display: flex;">
-                    <label>П.І.Б.</label> 
-                    <label>{{claimData.fio}}</label> 
+                <div class="div-panel">
+                    <label class="label-caption">П.І.Б.</label> 
+                    <label class="label-data">{{claimData.fio}}</label> 
                 </div>
-
-                <div style="display: flex;">
-                    <label>Дата транзакції</label> 
-                    <label>{{getDateTrans}}</label> 
+    
+                <div class="div-panel">
+                    <label class="label-caption">Дата транзакції</label> 
+                    <label class="label-data">{{getDateTrans}}</label> 
                 </div>
-
-                <div style="display: flex;">
-                    <label>Cума</label> 
-                    <label>{{claimData.currencyName}} {{claimData.amount}}</label> 
+    
+                <div class="div-panel">
+                    <label class="label-caption">Cума</label> 
+                    <label class="label-data">{{claimData.currencyName}} {{claimData.amount}}</label> 
                 </div>
-
-                <div style="display: flex;">
-                    <label>Назва торговця</label> 
-                    <label>{{claimData.merchantName}}</label> 
+    
+                <div class="div-panel">
+                    <label class="label-caption">Назва торговця</label> 
+                    <label class="label-data">{{claimData.merchantName}}</label> 
                 </div>
-
-                <div style="display: flex;">
-                    <label>RC</label> 
-                    <label></label> 
+    
+                <div class="div-panel">
+                    <label class="label-caption">RC</label> 
+                    <label class="label-data"></label> 
                 </div>
-
-                <div style="display: flex;">
-                    <label>ARN</label> 
-                    <label></label> 
+    
+                <div class="div-panel">
+                    <label class="label-caption">ARN</label> 
+                    <label class="label-data"></label> 
                 </div>
-
-
-
+    
             </nb-card-body>
         
         </nb-card>
-    
     </div>
+  
 
-    <div style="width: 49%;margin-left: 1%;height: 400px;">
-        <nb-card style="height: 400px;">
+    <div class="right-panel">
+        <nb-card style="width: 100%; height: 400px;">
 
             <nb-card-body>
-                <div style="height: 100px;">
+                <div style="height: 30%;">
                     <label>Результат</label>
                     <br>
                 </div>
                 
-                <div style="height: 200px;">
+                <div style="height: 40%;">
                     <label>Коментар</label>
                     <br>
                 </div>
 
-                <div style="height: 100px;">
+                <div style="height: 30%;">
                     <label>Документи</label>
                     <br>
                 </div>
@@ -81,3 +80,78 @@
     </div>
 </div>
 
+<div *ngIf="isNewRecord" >
+    
+        <nb-card style="width: 49%; height: 450px;margin: auto;">
+            <nb-card-header style="width: 100%; text-align: center;">
+                Нове звернення
+              </nb-card-header>
+            <nb-card-body>
+            
+                <div class="div-panel" >
+                    <label class="label-caption">Номер карти</label> 
+                    <input class="input-data" nbInput placeholder="Номер карти" required [(ngModel)]="claimData.pAN">
+                </div>
+                
+                <div class="div-panel">
+                    <label class="label-caption">Дата транзакції</label> 
+                    <input class="input-date" nbInput 
+                        placeholder="Дата транзакції"
+                        [nbDatepicker]="formpicker"
+                        [(ngModel)]="claimData.transDate">
+                    <nb-datepicker #formpicker></nb-datepicker> 
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Торгова точка</label> 
+                    <nb-select class="selector-list" [(selected)]="claimData.merchantID" >
+                        <nb-option *ngFor="let item of listMerchant" [value]="item.id">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Terminal ID</label> 
+                    <input class="input-data" nbInput placeholder="Terminal ID" required [(ngModel)]="claimData.terminalID">
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Cума операції</label> 
+                    <input class="input-data" nbInput placeholder="Cума операції" required [(ngModel)]="claimData.amount">
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Валюта операції</label> 
+                    <nb-select class="selector-list" [(selected)]="claimData.currency" >
+                        <nb-option *ngFor="let item of listCurrency" [value]="item.id">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Код операції</label> 
+                    <input class="input-data" nbInput placeholder="Код операції" required [(ngModel)]="claimData.authCode">
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Коментарі</label> 
+                    <input class="input-data" nbInput placeholder="Код операції" required [(ngModel)]="claimData.comment">
+                </div>
+
+                <div class="div-panel">
+                    <label class="label-caption">Додати документи</label> 
+                    
+                </div>
+
+            </nb-card-body>
+            
+            <nb-card-footer>
+                <div class="center">
+                  <button  nbButton status="primary" (click)="onClickFirstStep()">До наступного кроку</button>
+                </div>
+              </nb-card-footer>
+        </nb-card>
+    
+</div>

@@ -7,7 +7,11 @@ import {
   NbListModule,
   NbRouteTabsetModule,
   NbStepperModule,
-  NbTabsetModule, NbUserModule,
+  NbTabsetModule, 
+  NbUserModule,
+  NbDatepickerModule, 
+  NbIconModule,
+  NbSelectModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -32,6 +36,10 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbUserModule,
     OurComponentsRoutingModule,
     Ng2SmartTableModule,
+    NbDatepickerModule, 
+    NbIconModule,
+    NbSelectModule,
+  
   ],
   declarations: [
     OurComponentsComponent,
