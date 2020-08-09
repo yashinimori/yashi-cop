@@ -12,6 +12,8 @@ import {
   NbDatepickerModule, 
   NbIconModule,
   NbSelectModule,
+  NbRadioModule,
+  NbInputModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -39,7 +41,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbDatepickerModule, 
     NbIconModule,
     NbSelectModule,
-  
+    NbRadioModule,
+    NbInputModule,
   ],
   declarations: [
     OurComponentsComponent,

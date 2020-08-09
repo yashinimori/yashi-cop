@@ -82,12 +82,11 @@
 
 <div *ngIf="isNewRecord" >
     
-        <nb-card style="width: 49%; height: 450px;margin: auto;">
+        <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; height: 450px;margin: auto;">
             <nb-card-header style="width: 100%; text-align: center;">
                 Нове звернення
               </nb-card-header>
             <nb-card-body>
-            
                 <div class="div-panel" >
                     <label class="label-caption">Номер карти</label> 
                     <input class="input-data" nbInput placeholder="Номер карти" required [(ngModel)]="claimData.pAN">
@@ -149,9 +148,58 @@
             
             <nb-card-footer>
                 <div class="center">
-                  <button  nbButton status="primary" (click)="onClickFirstStep()">До наступного кроку</button>
+                  <button  nbButton status="primary" (click)="onClickGoNextStep()">До наступного кроку</button>
                 </div>
               </nb-card-footer>
         </nb-card>
     
+
+        <nb-card *ngIf="stepNewRecord==2" style="width: 49%; height: 450px;margin: auto;">
+            <nb-card-header style="width: 100%; text-align: center;">
+                Додоткова інформація
+              </nb-card-header>
+            <nb-card-body>
+                <form [formGroup]="formRadioGroups" >
+                
+                <div >
+                    <label class="label-question center">Чи приймали Ви участь в трапзакції</label> 
+                    <nb-radio-group name="radioGroupQuery1" formControlName="radioGroupQuery1" 
+                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                        <nb-radio [value] = "1" >Так</nb-radio>
+                        <nb-radio [value] = "2" >Ні</nb-radio>
+                      </nb-radio-group>
+                </div>
+                
+                <div >
+                    <label class="label-question center">Де було проведено транзакцію?</label> 
+                    <nb-radio-group name="radioGroupQuery2" formControlName="radioGroupQuery2" 
+                        class="input-radio" [(ngModel)]="radioGroupQueryValue2">
+                        <nb-radio [value] = "1">ATM</nb-radio>
+                        <nb-radio [value] = "2">Онлайн</nb-radio>
+                        <nb-radio [value] = "3">Офлайн</nb-radio>
+                      </nb-radio-group>
+                </div>
+
+                <div >
+                    <label class="label-question center">Чи були отримані кошти?</label> 
+                    <nb-radio-group name="radioGroupQuery3" formControlName="radioGroupQuery3"
+                        class="input-radio" [(ngModel)]="radioGroupQueryValue3">
+                        <nb-radio [value] = "1">Так</nb-radio>
+                        <nb-radio [value] = "2">Ні</nb-radio>
+                      </nb-radio-group>
+                </div> 
+                </form> 
+
+            </nb-card-body>
+            
+            <nb-card-footer>
+                <div class="center">
+                  <button  nbButton status="primary" (click)="onClickSend()">Відправити</button>
+                </div>
+              </nb-card-footer>
+        </nb-card>
+
+
+    
+
 </div>

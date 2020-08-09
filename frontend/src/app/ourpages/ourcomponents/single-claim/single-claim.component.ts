@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
-
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -15,20 +15,48 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 })
 export class SingleClaimComponent implements OnInit, OnDestroy {
   
-  constructor(private datePipe: DatePipe, 
+  constructor(public fb: FormBuilder,
+    private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
     private router: Router) { }
 
-    cOPClaimID: string;
-    isNewRecord: boolean = true;
-    getClaimSubscription: Subscription = new Subscription();
-    claimData: ClaimView;
-    listMerchant: Array<SelectorData>;
-    listCurrency: Array<SelectorData>;
+  cOPClaimID: string;
+  isNewRecord: boolean = true;
+  getClaimSubscription: Subscription = new Subscription();
+  claimData: ClaimView;
+  listMerchant: Array<SelectorData>;
+  listCurrency: Array<SelectorData>;
+  stepNewRecord: number;
+  
+  exampleForm: any;
+  formRadioGroups: any;
+  radioGroupQuery1: any; 
+  radioGroupQuery2: any; 
+  radioGroupQuery3: any;
+
+  public radioGroupQueryValue1: number; 
+  public radioGroupQueryValue2: number; 
+  public radioGroupQueryValue3: number; 
+
+  // groupValue1;
+  // groupValue2;
 
   ngOnInit(): void {
+    console.log('ngOnInit');
+    // this.exampleForm = new FormGroup({
+    //   group1: new FormControl(),
+    //   group2: new FormControl()
+    // });
+
+    this.formRadioGroups = new FormGroup({
+      radioGroupQuery1: new FormControl(),
+      radioGroupQuery2: new FormControl(),
+      radioGroupQuery3: new FormControl()
+    });
+
     this.claimData = new ClaimView();
+    this.stepNewRecord = 1;
 
     // this.cOPClaimID = this.transferService.cOPClaimID.getValue();
 
@@ -85,9 +113,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
 
   }
 
-  onClickFirstStep(){
+  onClickGoNextStep(){
     console.log(this.claimData);
+    this.stepNewRecord = 2;
 
+    this.radioGroupQueryValue1 = 1;
+    this.radioGroupQueryValue2 = 1;
+    this.radioGroupQueryValue3 = 2;
+
+    console.log(this.radioGroupQueryValue1);
+    console.log(this.radioGroupQueryValue2);
+    console.log(this.radioGroupQueryValue3);
+
+    console.log('onClickGoNextStep');
+  }
+
+  onClickSend(){
+    //console.log(this.claimData);
+
+    console.log(this.radioGroupQueryValue1);
+    console.log(this.radioGroupQueryValue2);
+    console.log(this.radioGroupQueryValue3);
+    
   }
 
   getListMerchant(){

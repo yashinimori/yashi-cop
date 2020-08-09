@@ -1,3 +1,6 @@
+@import '../../../@theme/styles/themes';
+
+  
 .div-panel{
     display: flex;
     margin-bottom: 10px;
@@ -32,4 +35,17 @@
 }
 .selector-list {
     width: 60%;   
+}
+.label-question {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: auto;
+}
+
+.input-radio{
+    width: 38%;
+    display: flex; 
+    margin: auto; 
+    text-align: center;
 }
