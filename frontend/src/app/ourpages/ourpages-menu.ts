@@ -18,7 +18,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'TEST',
     icon: 'layout-outline',
-    hidden: true,
+    hidden: setHidden(),
     children: [
       {
         title: 'список скарг',
@@ -31,3 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
 ];
+
+function setHidden(){
+  return true;
+}

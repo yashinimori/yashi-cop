@@ -154,4 +154,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.listCurrency.push({id:2, caption:"євро"});
   }
 
+  
+
 }
