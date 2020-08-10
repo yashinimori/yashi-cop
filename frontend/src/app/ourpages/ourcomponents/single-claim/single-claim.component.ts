@@ -137,6 +137,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     
   }
 
+  onClickBack(){
+    this.stepNewRecord = 1;
+  }
+
   getListMerchant(){
     this.listMerchant = new Array<SelectorData>();
     this.listMerchant.push({id:1, caption:"Rukavichka 1"});
