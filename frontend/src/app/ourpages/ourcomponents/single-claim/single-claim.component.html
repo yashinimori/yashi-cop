@@ -87,9 +87,11 @@
                 Нове звернення
               </nb-card-header>
             <nb-card-body>
-                <div class="div-panel" >
+                <div class="div-panel" *ngIf="!this.fieldsStatus.pAN.invisible">
                     <label class="label-caption">Номер карти</label> 
-                    <input class="input-data" nbInput placeholder="Номер карти" required [(ngModel)]="claimData.pAN">
+                    <input class="input-data" nbInput placeholder="Номер карти"
+                     [required]="this.fieldsStatus.pAN.required" [readonly]="this.fieldsStatus.pAN.readonly"
+                      [(ngModel)]="claimData.pAN">
                 </div>
                 
                 <div class="div-panel">

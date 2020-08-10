@@ -7,6 +7,7 @@ import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -39,6 +40,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
   public radioGroupQueryValue2: number; 
   public radioGroupQueryValue3: number; 
 
+  role: string;
+
+  fieldsStatus: FieldsStatus;
+
   // groupValue1;
   // groupValue2;
 
@@ -48,6 +53,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     //   group1: new FormControl(),
     //   group2: new FormControl()
     // });
+
+    this.role = localStorage.getItem('role');
+
+    this.generateStatusFields();
+
 
     this.formRadioGroups = new FormGroup({
       radioGroupQuery1: new FormControl(),
@@ -77,6 +87,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.getClaimSubscription.unsubscribe();
   }
 
+  generateStatusFields() {
+
+    if(this.role == 'user') {
+      this.fieldsStatus = new FieldsStatus();
+      console.log(this.fieldsStatus);
+    }
+  }
   
   getClaimsData(){
     this.testData();

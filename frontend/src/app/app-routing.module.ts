@@ -13,6 +13,7 @@ import { WebsiteComponent } from './website/website.component';
 import { AppealsComponent } from './website/appeals/appeals.component';
 import { LoginComponent } from './authorisation/login/login.component';
 import { RegistrationComponent } from './authorisation/registration/registration.component';
+import { AuthGuard } from './share/auth.guard';
 
 const routes: Routes = [
  
@@ -28,6 +29,7 @@ const routes: Routes = [
       path: 'ourpages',
       loadChildren: () => import('./ourpages/ourpages.module')
         .then(m => m.OurPagesModule),
+        // canActivate: [AuthGuard]
     },
     {
     path: 'auth',
