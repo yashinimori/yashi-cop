@@ -43,20 +43,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
 
   fieldsStatus: FieldsStatus;
 
-  // groupValue1;
-  // groupValue2;
-
+  
   ngOnInit(): void {
     console.log('ngOnInit');
-    // this.exampleForm = new FormGroup({
-    //   group1: new FormControl(),
-    //   group2: new FormControl()
-    // });
-
+    
     this.role = localStorage.getItem('role');
     this.role = 'user';
     this.generateStatusFields();
-
 
     this.formRadioGroups = new FormGroup({
       radioGroupQuery1: new FormControl(),
@@ -79,6 +72,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
 
     this.getListMerchant();
     this.getListCurrency();
+
+    console.log('ngOnInit--------END');
   }
 
   ngOnDestroy(): void {
