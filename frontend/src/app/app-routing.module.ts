@@ -29,7 +29,7 @@ const routes: Routes = [
       path: 'ourpages',
       loadChildren: () => import('./ourpages/ourpages.module')
         .then(m => m.OurPagesModule),
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
     },
     {
     path: 'auth',

@@ -1,4 +1,4 @@
 export class Authorization {
-  login: string;
+  email: string;
   password: string;
 }

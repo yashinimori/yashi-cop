@@ -16,30 +16,46 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.data = new Authorization();
   }
   loginSubscription: Subscription = new Subscription();
+  getTokenSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
   }
 
   enter() {
-    console.log('click');
-    localStorage.setItem('token', 'erwer');
-    localStorage.setItem('role', 'user');
-    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
-    // this.loginSubscription = this.authService.login(this.data).subscribe({
-    //   next: (response: any) => {
-    //     console.log(response); 
-    //     localStorage.setItem('token', response.access);           
-    //   },
-    //   error: error => {
-    //     console.error('There was an error!', error);
-    //   },
-    //   complete: () => {
-    //     this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
-    //   }
-    // });
+    // localStorage.setItem('token', 'erwer');
+    // localStorage.setItem('role', 'user');
+    // this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+    this.getTokenSubscription = this.authService.getToken(this.data).subscribe({
+      next: (response: any) => {
+        console.log(response); 
+        localStorage.setItem('token', response.access);           
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.getUserInfo();
+      }
+    });
+  }
+
+  getUserInfo() {
+    this.loginSubscription = this.authService.login().subscribe({
+      next: (response: any) => {
+        console.log(response); 
+        localStorage.setItem('role', response.role);          
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.loginSubscription.unsubscribe();
+    this.getTokenSubscription.unsubscribe();
   }
 }

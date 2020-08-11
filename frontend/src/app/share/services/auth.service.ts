@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_LOGIN } from '../urlConstants';
+import { URL_CREATE_TOKEN, URL_LOGIN } from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,12 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  login(user: any) {
-    return this.http.post(URL_LOGIN, user);
+  getToken(user: any) {
+    return this.http.post(URL_CREATE_TOKEN, user);
+  }
+
+  login() {
+    return this.http.get(URL_LOGIN);
   }
 
 }
