@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 
 @Component({
@@ -16,8 +16,7 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 })
 export class SingleClaimComponent implements OnInit, OnDestroy {
   
-  constructor(public fb: FormBuilder,
-    private datePipe: DatePipe, 
+  constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
     private router: Router) { }
@@ -55,7 +54,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     // });
 
     this.role = localStorage.getItem('role');
-
+    this.role = 'user';
     this.generateStatusFields();
 
 
@@ -88,11 +87,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
   }
 
   generateStatusFields() {
-
-    if(this.role == 'user') {
-      this.fieldsStatus = new FieldsStatus();
-      console.log(this.fieldsStatus);
-    }
+    this.fieldsStatus = new FieldsStatus();
+    this.fieldsStatus.setStatusByRole(this.role);
+    console.log(this.fieldsStatus);
   }
   
   getClaimsData(){

@@ -13,37 +13,37 @@
               </nb-card-header>
             <nb-card-body>
             
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.pAN.invisible">
                     <label class="label-caption">Номер карти</label> 
                     <label class="label-data">{{claimData.pAN}}</label>
                 </div>
         
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">
                     <label class="label-caption">П.І.Б.</label> 
                     <label class="label-data">{{claimData.fio}}</label> 
                 </div>
     
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
                     <label class="label-caption">Дата транзакції</label> 
                     <label class="label-data">{{getDateTrans}}</label> 
                 </div>
     
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
                     <label class="label-caption">Cума</label> 
                     <label class="label-data">{{claimData.currencyName}} {{claimData.amount}}</label> 
                 </div>
     
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.merchantName.invisible">
                     <label class="label-caption">Назва торговця</label> 
                     <label class="label-data">{{claimData.merchantName}}</label> 
                 </div>
     
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
                     <label class="label-caption">RC</label> 
                     <label class="label-data"></label> 
                 </div>
     
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
                     <label class="label-caption">ARN</label> 
                     <label class="label-data"></label> 
                 </div>
@@ -87,61 +87,80 @@
                 Нове звернення
               </nb-card-header>
             <nb-card-body>
-                <div class="div-panel" *ngIf="!this.fieldsStatus.pAN.invisible">
+                <div class="div-panel" *ngIf="!fieldsStatus.pAN.invisible">
                     <label class="label-caption">Номер карти</label> 
                     <input class="input-data" nbInput placeholder="Номер карти"
-                     [required]="this.fieldsStatus.pAN.required" [readonly]="this.fieldsStatus.pAN.readonly"
-                      [(ngModel)]="claimData.pAN">
+                        [required]="fieldsStatus.pAN.required" 
+                        [readonly]="fieldsStatus.pAN.readonly"
+                        [(ngModel)]="claimData.pAN">
                 </div>
                 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
                     <label class="label-caption">Дата транзакції</label> 
                     <input class="input-date" nbInput 
                         placeholder="Дата транзакції"
                         [nbDatepicker]="formpicker"
+                        [required]="fieldsStatus.transDate.required" 
+                        [readonly]="fieldsStatus.transDate.readonly"
                         [(ngModel)]="claimData.transDate">
                     <nb-datepicker #formpicker></nb-datepicker> 
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
                     <label class="label-caption">Торгова точка</label> 
-                    <nb-select class="selector-list" [(selected)]="claimData.merchantID" >
+                    <nb-select class="selector-list" [(selected)]="claimData.merchantID"
+                        [required]="fieldsStatus.merchantID.required" 
+                        [disabled]="fieldsStatus.merchantID.readonly" >
                         <nb-option *ngFor="let item of listMerchant" [value]="item.id">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
                     <label class="label-caption">Terminal ID</label> 
-                    <input class="input-data" nbInput placeholder="Terminal ID" required [(ngModel)]="claimData.terminalID">
+                    <input class="input-data" nbInput placeholder="Terminal ID" 
+                        [required]="fieldsStatus.terminalID.required" 
+                        [readonly]="fieldsStatus.terminalID.readonly" 
+                        [(ngModel)]="claimData.terminalID">
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
                     <label class="label-caption">Cума операції</label> 
-                    <input class="input-data" nbInput placeholder="Cума операції" required [(ngModel)]="claimData.amount">
+                    <input class="input-data" nbInput placeholder="Cума операції" 
+                        [required]="fieldsStatus.amount.required" 
+                        [readonly]="fieldsStatus.amount.readonly" 
+                        [(ngModel)]="claimData.amount">
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
                     <label class="label-caption">Валюта операції</label> 
-                    <nb-select class="selector-list" [(selected)]="claimData.currency" >
+                    <nb-select class="selector-list" [(selected)]="claimData.currency"
+                        [required]="fieldsStatus.currency.required" 
+                        [disabled]="fieldsStatus.currency.readonly">
                         <nb-option *ngFor="let item of listCurrency" [value]="item.id">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.authCode.invisible">
                     <label class="label-caption">Код операції</label> 
-                    <input class="input-data" nbInput placeholder="Код операції" required [(ngModel)]="claimData.authCode">
+                    <input class="input-data" nbInput placeholder="Код операції" 
+                        [required]="fieldsStatus.authCode.required" 
+                        [readonly]="fieldsStatus.authCode.readonly"
+                        [(ngModel)]="claimData.authCode">
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
                     <label class="label-caption">Коментарі</label> 
-                    <input class="input-data" nbInput placeholder="Код операції" required [(ngModel)]="claimData.comment">
+                    <input class="input-data" nbInput placeholder="Код операції" 
+                        [required]="fieldsStatus.comment.required" 
+                        [readonly]="fieldsStatus.comment.readonly"
+                        [(ngModel)]="claimData.comment">
                 </div>
 
-                <div class="div-panel">
+                <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
                     <label class="label-caption">Додати документи</label> 
                     
                 </div>
