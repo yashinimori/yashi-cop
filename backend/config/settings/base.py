@@ -288,6 +288,8 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    'DEFAULT_PAGINATION_CLASS': 'cop.core.api.serializers.pagination.Pagination',
+    'PAGE_SIZE': 20,
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup

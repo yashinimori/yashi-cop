@@ -75,8 +75,9 @@ class ClaimSerializer(serializers.ModelSerializer):
     def assign_by_merch_id(self, merch_id, instance):
         merchant = get_object_or_404(Merchant, merch_id=merch_id)
         instance.merchant = merchant
-        terminal = get_object_or_404(Terminal, merchant=merchant)
-        instance.terminal = terminal
+        # TODO: decide which terminal to choose if there are multiple
+        # terminal = get_object_or_404(Terminal, merchant=merchant)
+        # instance.terminal = terminal
         instance.bank = merchant.bank
         instance.save()
 

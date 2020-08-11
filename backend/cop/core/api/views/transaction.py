@@ -13,18 +13,18 @@ class TransactionViewSet(viewsets.ModelViewSet):
     filterset_fields = (
         'bank__id',
         'bank__name_eng',
-        'terminal__terminal_id',
-        'merchant__merchant_name_legal',
-        'merchant__merchant_id',
+        'terminal__term_id',
+        'merchant__name_legal',
+        'merchant__merch_id',
         'auth_code',
     )
 
     search_fields = [
         'id',
         'bank__name_eng',
-        'terminal__terminal_id',
-        'merchant__merchant_name_legal',
-        'merchant__merchant_id',
+        'terminal__term_id',
+        'merchant__name_legal',
+        'merchant__merch_id',
         'pan',
         'trans_amount',
         'trans_currency',

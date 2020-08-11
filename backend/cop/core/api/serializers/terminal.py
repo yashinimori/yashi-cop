@@ -9,6 +9,6 @@ class TerminalSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'term_id',
-            'merchant',
+            'merchant__merch_id',
             'address',
         )
