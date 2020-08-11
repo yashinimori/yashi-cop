@@ -37,7 +37,7 @@ http:
 
     api:
 #      rule: "Host(`api0.chargebackoptimizer.com`)"
-      rule: "Host(`18.185.111.248`)"
+      rule: "Host(`18.185.111.248`) && PathPrefix(`/api`)"
       entryPoints:
         - web
       middlewares:
