@@ -25,19 +25,9 @@ entryPoints:
 
 http:
   routers:
-    admin:
-#      rule: "Host(`api0.chargebackoptimizer.com`) && PathPrefix(`/admin`)"
-      rule: "PathPrefix(`/admin`)"
-      entryPoints:
-        - web
-      middlewares:
-#        - redirect
-        - csrf
-      service: django
-
     api:
 #      rule: "Host(`api0.chargebackoptimizer.com`)"
-      rule: "Host(`18.185.111.248`) && PathPrefix(`/api`)"
+      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - web
       middlewares:
