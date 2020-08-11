@@ -27,13 +27,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
   claimData: ClaimView;
   listMerchant: Array<SelectorData>;
   listCurrency: Array<SelectorData>;
+  listQuestions: Array<SelectorData>;
   stepNewRecord: number;
-  
+  question: number;
   exampleForm: any;
-  formRadioGroups: any;
-  radioGroupQuery1: any; 
-  radioGroupQuery2: any; 
-  radioGroupQuery3: any;
+  formGroups: any;
+  groupQuery1: any; 
+  groupQuery2: any; 
+  groupQuery3: any;
+  groupQuery4: any;
+  groupQuery5: any;
+  groupQuery6: any;
+  groupQuery7: any;
+  groupQuery8: any;
+  groupQuery9: any;
+  groupQuery10: any;
+  groupQuery11: any;
+  groupQuery12: any;
+  groupQuery13: any;
+  groupQuery14: any;  
+  groupQuery15: any;
+  groupQuery16: any;
+
 
   public radioGroupQueryValue1: number; 
   public radioGroupQueryValue2: number; 
@@ -51,10 +66,26 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.role = 'user';
     this.generateStatusFields();
 
-    this.formRadioGroups = new FormGroup({
-      radioGroupQuery1: new FormControl(),
-      radioGroupQuery2: new FormControl(),
-      radioGroupQuery3: new FormControl()
+    this.formGroups = new FormGroup({
+      
+      groupQuery1: new FormControl(), 
+      groupQuery2: new FormControl(), 
+      groupQuery3: new FormControl(),
+      groupQuery4: new FormControl(),
+      groupQuery5: new FormControl(),
+      groupQuery6: new FormControl(),
+      groupQuery7: new FormControl(),
+      groupQuery8: new FormControl(),
+      groupQuery9: new FormControl(),
+      groupQuery10: new FormControl(),
+      groupQuery11: new FormControl(),
+      groupQuery12: new FormControl(),
+      groupQuery13: new FormControl(),
+      groupQuery14: new FormControl(),  
+      groupQuery15: new FormControl(),
+      groupQuery16: new FormControl(),
+
+
     });
 
     this.claimData = new ClaimView();
@@ -72,6 +103,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
 
     this.getListMerchant();
     this.getListCurrency();
+    this.getListQuestions();
 
     console.log('ngOnInit--------END');
   }
@@ -144,6 +176,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     console.log(this.radioGroupQueryValue2);
     console.log(this.radioGroupQueryValue3);
     
+    this.transferService.pAD.next(this.claimData.pAN.toString());
+    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
   onClickBack(){
@@ -163,6 +197,15 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.listCurrency.push({id:2, caption:"євро"});
   }
 
-  
+  getListQuestions(){
+    this.listQuestions = new Array<SelectorData>();
+    this.listQuestions.push({id:1, caption:"Дублювання транзакцій"});
+    this.listQuestions.push({id:2, caption:"Оплату проведено іншим способом"});
+    this.listQuestions.push({id:3, caption:"Товар або послугу повернено, але немає повернення коштів"});
+    this.listQuestions.push({id:4, caption:"Підписка була скасована, але суму було списано"});
+    this.listQuestions.push({id:5, caption:"Отримані товари були пошкоджені, або не такі, як було описано в замовлені"});
+    this.listQuestions.push({id:6, caption:"Неправильна сума або валюта транзакція"});
+    this.listQuestions.push({id:7, caption:"інша причина"});
+  }
 
 }

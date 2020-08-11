@@ -42,10 +42,15 @@
     font-weight: bold;
     margin: auto;
 }
-
 .input-radio{
-    width: 38%;
+    width: 100%;
     display: flex; 
     margin: auto; 
     text-align: center;
+}
+.selector-list-questions {
+    width: 100%;   
+}
+.control-input-questions {
+    width: 380px;   
 }

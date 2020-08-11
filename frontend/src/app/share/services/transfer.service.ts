@@ -7,4 +7,5 @@ import { BehaviorSubject } from 'rxjs';
 export class TransferService {
 
   public cOPClaimID: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public pAD: BehaviorSubject<string> = new BehaviorSubject<string>('');
 }
