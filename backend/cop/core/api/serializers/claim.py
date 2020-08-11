@@ -73,7 +73,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         read_only = ('merchant', 'bank', 'terminal')
 
     def assign_by_merch_id(self, merch_id, instance):
-        merchant = get_object_or_404(Merchant, merch_id=int(merch_id))
+        merchant = get_object_or_404(Merchant, merch_id=merch_id)
         instance.merchant = merchant
         terminal = get_object_or_404(Terminal, merchant=merchant)
         instance.terminal = terminal
@@ -81,7 +81,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         instance.save()
 
     def assign_by_term_id(self, term_id, instance):
-        terminal = get_object_or_404(Terminal, term_id=int(term_id))
+        terminal = get_object_or_404(Terminal, term_id=term_id)
         instance.terminal = terminal
         instance.merchant = terminal.merchant
         instance.bank = terminal.merchant.bank
@@ -91,8 +91,8 @@ class ClaimSerializer(serializers.ModelSerializer):
         documents = validated_data.pop('documents')
 
         instance = super().create(validated_data)
-        if validated_data['merch_id']:
+        if 'merch_id' in validated_data:
             self.assign_by_merch_id(validated_data['merch_id'], instance)
-        if validated_data['term_id']:
+        if 'term_id' in validated_data:
             self.assign_by_term_id(validated_data['term_id'], instance)
         return instance
