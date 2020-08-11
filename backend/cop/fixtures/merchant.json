@@ -1,0 +1,72 @@
+[
+  {
+    "model": "core.bank",
+    "pk": 1,
+    "fields": {
+      "bin": 400000,
+      "name_eng": "Bank A",
+      "name_uk": "Банк А",
+      "name_rus": "Банк А",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": 777777777,
+      "contact_email": "john.doe@cop.cop",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.bank",
+    "pk": 2,
+    "fields": {
+      "bin": 500000,
+      "name_eng": "Bank B",
+      "name_uk": "Банк Б",
+      "name_rus": "Банк Б",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": 777777777,
+      "contact_email": "john.doe@cop.cop",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.merchant",
+    "pk": 1,
+    "fields": {
+      "merch_id": 12345678,
+      "name_legal": "Merchant A",
+      "mcc": "mrch",
+      "description": "test merchant",
+      "telephone": 7777777,
+      "email": "john.doe@cop.cop",
+      "name_ips": "Merchant A",
+      "address": "adress",
+      "terminal_id": 12345678,
+      "contact_person": "John Doe",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 1,
+    "fields": {
+      "term_id": "00000001",
+      "merchant": 1,
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 2,
+    "fields": {
+      "term_id": "00000002",
+      "merchant": 1,
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  }
+]

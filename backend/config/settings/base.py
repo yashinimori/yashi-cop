@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
     "djoser",
     "corsheaders",
     "bootstrap3",

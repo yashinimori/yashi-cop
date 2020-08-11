@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Document, Terminal, Comment
+from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Document, Terminal, Comment, SurveyQuestion
 
 
 @admin.register(Bank)
@@ -40,4 +40,9 @@ class DocumentAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SurveyQuestion)
+class SurveyQuestionAdmin(admin.ModelAdmin):
     pass

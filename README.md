@@ -57,3 +57,6 @@ docker-compose -f local.yml exec postgres restore backup_2018_03_13T09_05_07.sql
 
 <h3>Commit structure</h3>
 Corresponds https://www.conventionalcommits.org/en/v1.0.0/
+
+<h3>Users</h3>
+ChargeBack Officer - zJf213Uyfbw_a
