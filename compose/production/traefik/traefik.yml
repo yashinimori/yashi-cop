@@ -17,7 +17,7 @@ certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
     acme:
-      email: "xandr@example.com"
+      email: "o.gavrina@chargebackoptimizer.com"
       storage: /etc/traefik/acme/acme.json
       # https://docs.traefik.io/master/https/acme/#httpchallenge
       httpChallenge:
@@ -25,9 +25,8 @@ certificatesResolvers:
 
 http:
   routers:
-    web-router:
-      rule: "Host(`example.com`) || Host(`www.example.com`)"
-      
+    admin:
+      rule: "Host(`api0.chargebackoptimizer.com`) && PathPrefix(`/admin`)"
       entryPoints:
         - web
       middlewares:
@@ -35,20 +34,19 @@ http:
         - csrf
       service: django
 
-    web-secure-router:
-      rule: "Host(`example.com`) || Host(`www.example.com`)"
-      
+    api:
+      rule: "Host(`api0.chargebackoptimizer.com`)"
       entryPoints:
-        - web-secure
+        - web
       middlewares:
-        - csrf
+        - redirect
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`example.com`)"
+      rule: "Host(`api0.chargebackoptimizer.com`)"
       entryPoints:
         - flower
       service: flower
