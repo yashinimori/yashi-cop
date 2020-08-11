@@ -1,8 +1,19 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import CharField, EmailField, DateField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from cop.bank.models import Claim
+
+
+def get_claim_field_help_text():
+    claim_fields_lst = Claim._meta.fields
+    claim_fields_help_test = 'Available fields: '
+    for i in claim_fields_lst:
+        claim_fields_help_test += f'{i.get_attname()}, '
+    return claim_fields_help_test
 
 
 class UserManager(BaseUserManager):
@@ -60,6 +71,7 @@ class User(AbstractUser):
     unit = CharField(max_length=200, null=True, blank=True)
     phone = CharField(max_length=13)
     email = EmailField(_('email address'), unique=True, max_length=999)
+    claim_fields = ArrayField(CharField(max_length=128), blank=True, null=True, help_text=get_claim_field_help_text())
     registration_date = DateField(auto_now_add=True, editable=False)
 
     USERNAME_FIELD = 'email'

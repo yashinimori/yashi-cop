@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
     "djoser",
     "corsheaders",
     "bootstrap3",
@@ -291,6 +292,7 @@ REST_FRAMEWORK = {
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/v1/.*$"
+CORS_ORIGIN_ALLOW_ALL = True
 # Your stuff...
 # ------------------------------------------------------------------------------
 

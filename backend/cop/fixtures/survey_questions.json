@@ -1,0 +1,146 @@
+[
+  {
+    "model": "core.surveyquestion",
+    "pk": 1,
+    "fields": {
+      "description": "Ви підтверджуєте, що брали участь у транзакції?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 2,
+    "fields": {
+      "description": "Чи Ви раніше робили транзакції у даного торговця?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 3,
+    "fields": {
+      "description": "Де знаходиться картка?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 4,
+    "fields": {
+      "description": "Вкажить дату викрадення",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 5,
+    "fields": {
+      "description": "Вам потрібні документи по транзакції для власних потреб",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 6,
+    "fields": {
+      "description": "Операцію було проведено в банкоматі?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 7,
+    "fields": {
+      "description": "Кошти не були отримані?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 8,
+    "fields": {
+      "description": "В повному обсязі чи частково?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 9,
+    "fields": {
+      "description": "Вкажіть яку суму не отриманих коштів",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 10,
+    "fields": {
+      "description": "Операція проведена в інтернеті?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 11,
+    "fields": {
+      "description": "Чи товар був отриманий/послуга надана?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 12,
+    "fields": {
+      "description": "Оберіть причину із списку",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 13,
+    "fields": {
+      "description": "Вкажіть яким чином було проведено оплату",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 14,
+    "fields": {
+      "description": "Вказати дату повернення",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 15,
+    "fields": {
+      "description": "Вкажить дату повернення",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 16,
+    "fields": {
+      "description": "Вкажить правильну суму та валюту",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  }
+]

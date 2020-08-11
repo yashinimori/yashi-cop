@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
+from rest_framework import serializers
 
 User = get_user_model()
 
@@ -21,6 +22,8 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 
 class UserSerializer(BaseUserSerializer):
+    claim_fields = serializers.CharField()
+
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + (
             'email',
@@ -29,6 +32,7 @@ class UserSerializer(BaseUserSerializer):
             'phone',
             'role',
             'unit',
+            'claim_fields',
             'registration_date',
         )
         read_only_fields = BaseUserSerializer.Meta.read_only_fields

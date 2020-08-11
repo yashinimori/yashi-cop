@@ -20,6 +20,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'cash_count',
             'error',
             'result',
+            'mcc',
             'trans_start',
             'trans_end',
             'pin_entered',

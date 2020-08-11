@@ -1,6 +1,8 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import ugettext_lazy as _
 
 User = get_user_model()
@@ -11,7 +13,7 @@ class UserAdmin(auth_admin.UserAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'role', 'claim_fields')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
@@ -26,3 +28,6 @@ class UserAdmin(auth_admin.UserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
+    formfield_overrides = {
+        ArrayField: {'widget': forms.Textarea(attrs={'rows': 5, 'cols': 50})},
+    }

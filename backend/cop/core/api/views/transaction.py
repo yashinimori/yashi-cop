@@ -10,13 +10,24 @@ class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all().order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
+    filterset_fields = (
+        'bank__id',
+        'bank__name_eng',
+        'terminal__terminal_id',
+        'merchant__merchant_name_legal',
+        'merchant__merchant_id',
+        'auth_code',
+    )
 
     search_fields = [
         'id',
-        'bank',
-        'terminal',
-        'merchant',
+        'bank__name_eng',
+        'terminal__terminal_id',
+        'merchant__merchant_name_legal',
+        'merchant__merchant_id',
         'pan',
+        'trans_amount',
+        'trans_currency',
         'auth_code',
         'approval_code',
         'cash_count',
