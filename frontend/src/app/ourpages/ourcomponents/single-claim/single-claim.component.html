@@ -181,204 +181,205 @@
             <nb-card-body>
                 <form [formGroup]="formGroups" >
                 
-                <div >
-                    <label class="label-question center">
-                        Ви підтверджуєте, що брали участь у транзакції?
-                    </label> 
-                    <nb-radio-group name="groupQuery1" formControlName="groupQuery1" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >ні</nb-radio>
-                        <nb-radio [value] = "2" >так</nb-radio>
-                      </nb-radio-group>
-                </div>
+                    <ng-template #one> 
+                        <label class="label-question center">
+                            Ви підтверджуєте, що брали участь у транзакції?
+                        </label> 
+                        <nb-radio-group name="groupQuery1" formControlName="groupQuery1" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >ні</nb-radio>
+                            <nb-radio [value] = "2" >так</nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
                 
-                <div >
-                    <label class="label-question center">
-                        Чи Ви раніше робили транзакції у даного торговця?
-                    </label> 
-                    <nb-radio-group name="groupQuery2" formControlName="groupQuery2" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue2">
-                        <nb-radio [value] = "1" >ні</nb-radio>
-                        <nb-radio [value] = "2" >так, але вважаю, що це шахрайство</nb-radio>
-                        <nb-radio [value] = "3" >так, але я не пам'ятаю транзакцію</nb-radio>
-                      </nb-radio-group>
-                </div>
                 
-                 <div >
-                    <label class="label-question center">
-                        Де знаходиться картка?
-                    </label> 
-                    <nb-radio-group name="groupQuery3" formControlName="groupQuery3" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >картка в моєму володінні
-                        </nb-radio>
-                        <nb-radio [value] = "2" >картка була загублена або вкрадена
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Вкажить дату викрадення
-                    </label> 
-                    <input class="control-input-questions" nbInput 
-                        placeholder="Вкажить дату викрадення"
-                        [nbDatepicker]="formpicker"
-                        [(ngModel)]="claimData.transDate"
-                        formControlName="groupQuery4"  >
-                    <nb-datepicker #formpicker></nb-datepicker> 
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Вам потрібні документи по транзакції для власних потреб
-                    </label> 
-                    <nb-radio-group name="groupQuery5" formControlName="groupQuery5" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >так
-                        </nb-radio>
-                        <nb-radio [value] = "2" >ні, я хочу подати заявку на повернення коштів
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Операцію було проведено в банкоматі?
-                    </label> 
-                    <nb-radio-group name="groupQuery6" formControlName="groupQuery6" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >так
-                        </nb-radio>
-                        <nb-radio [value] = "2" >ні, це була оплата товарів або послуг
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Кошти не були отримані?
-                    </label> 
-                    <nb-radio-group name="groupQuery7" formControlName="groupQuery7" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >ні, це була інша операція в цьому банкоматі
-                        </nb-radio>
-                        <nb-radio [value] = "2" >так
-                        </nb-radio>                     
-                      </nb-radio-group>
-                </div>
+                    <ng-template #two> 
+                        <label class="label-question center">
+                            Чи Ви раніше робили транзакції у даного торговця?
+                        </label> 
+                        <nb-radio-group name="groupQuery2" formControlName="groupQuery2" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue2">
+                            <nb-radio [value] = "1" >ні</nb-radio>
+                            <nb-radio [value] = "2" >так, але вважаю, що це шахрайство</nb-radio>
+                            <nb-radio [value] = "3" >так, але я не пам'ятаю транзакцію</nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
                 
-                <div >
-                    <label class="label-question center">
-                        В повному обсязі чи частково?
-                    </label> 
-                    <nb-radio-group name="groupQuery8" formControlName="groupQuery8" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >частково
-                        </nb-radio>
-                        <nb-radio [value] = "2" >в повному обсязі
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
+                    <ng-template #three>
+                        <label class="label-question center">
+                            Де знаходиться картка?
+                        </label> 
+                        <nb-radio-group name="groupQuery3" formControlName="groupQuery3" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >картка в моєму володінні
+                            </nb-radio>
+                            <nb-radio [value] = "2" >картка була загублена або вкрадена
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
 
-                <div >
-                    <label class="label-question center">
-                        Вкажіть яку суму не отриманих коштів
-                    </label> 
-                    <input class="input-data" nbInput placeholder="Вкажіть яку суму не отриманих коштів"
-                        name="groupQuery9" formControlName="groupQuery9" 
-                        >
-                </div>
+                    <ng-template #four>
+                        <label class="label-question center">
+                            Вкажить дату викрадення
+                        </label> 
+                        <input class="control-input-questions" nbInput 
+                            placeholder="Вкажить дату викрадення"
+                            [nbDatepicker]="formpicker"
+                            [(ngModel)]="claimData.transDate"
+                            formControlName="groupQuery4"  >
+                        <nb-datepicker #formpicker></nb-datepicker> 
+                    </ng-template>
 
-                <div >
-                    <label class="label-question center">
-                        Операція проведена в інтернеті?
-                    </label> 
-                    <nb-radio-group name="groupQuery10" formControlName="groupQuery10" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >так
-                        </nb-radio>
-                        <nb-radio [value] = "2" >ні
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
+                    <ng-template #five>
+                        <label class="label-question center">
+                            Вам потрібні документи по транзакції для власних потреб
+                        </label> 
+                        <nb-radio-group name="groupQuery5" formControlName="groupQuery5" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >так
+                            </nb-radio>
+                            <nb-radio [value] = "2" >ні, я хочу подати заявку на повернення коштів
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
 
-                <div >
-                    <label class="label-question center">
-                        Чи товар був отриманий/послуга надана?
-                    </label> 
-                    <nb-radio-group name="groupQuery11" formControlName="groupQuery11" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >ні
-                        </nb-radio>
-                        <nb-radio [value] = "2" >так
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
+                    <ng-template #six>
+                        <label class="label-question center">
+                            Операцію було проведено в банкоматі?
+                        </label> 
+                        <nb-radio-group name="groupQuery6" formControlName="groupQuery6" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >так
+                            </nb-radio>
+                            <nb-radio [value] = "2" >ні, це була оплата товарів або послуг
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
 
-                <div >
-                    <label class="label-question center">
-                        Оберіть причину із списку
-                    </label> 
-                    <nb-select name="groupQuery12" formControlName="groupQuery12"
-                        class="selector-list-questions" [(selected)]="question">
-                        <nb-option *ngFor="let item of listQuestions" [value]="item.id">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Вкажіть яким чином було проведено оплату
-                    </label> 
-                    <nb-radio-group name="groupQuery13" formControlName="groupQuery13" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >готівкою
-                        </nb-radio>
-                        <nb-radio [value] = "2" >іншою картою
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
-
-                <div >
-                    <label class="label-question center">
-                        Вкажить дату повернення
-                    </label> 
-                    <input class="input-date" nbInput 
-                        placeholder="Вкажить дату повернення"
-                        [nbDatepicker]="formpicker"
-                        name="groupQuery14" formControlName="groupQuery14" 
-                        [(ngModel)]="claimData.transDate">
-                    <nb-datepicker #formpicker></nb-datepicker> 
-                </div>
+                    <ng-template #seven>
+                        <label class="label-question center">
+                            Кошти не були отримані?
+                        </label> 
+                        <nb-radio-group name="groupQuery7" formControlName="groupQuery7" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >ні, це була інша операція в цьому банкоматі
+                            </nb-radio>
+                            <nb-radio [value] = "2" >так
+                            </nb-radio>                     
+                        </nb-radio-group>
+                    </ng-template>
                 
-                <div >
-                    <label class="label-question center">
-                        Чи Ви робили повернення товару?
-                    </label> 
-                    <nb-radio-group name="groupQuery15" formControlName="groupQuery15" 
-                        class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                        <nb-radio [value] = "1" >так
-                        </nb-radio>
-                        <nb-radio [value] = "2" >ні
-                        </nb-radio>
-                      </nb-radio-group>
-                </div>
+                    <ng-template #eight>
+                        <label class="label-question center">
+                            В повному обсязі чи частково?
+                        </label> 
+                        <nb-radio-group name="groupQuery8" formControlName="groupQuery8" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >частково
+                            </nb-radio>
+                            <nb-radio [value] = "2" >в повному обсязі
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
 
-                <div >
-                    <label class="label-question center">
-                        Вкажить правильну суму та валюту
-                    </label> 
-                    <input class="control-input-questions" nbInput placeholder="Cума"
-                        name="groupQuery16" formControlName="groupQuery16"  >
-                    <nb-select class="control-input-questions" [(selected)]="claimData.currency"
-                        name="groupQuery16" formControlName="groupQuery16">
-                        <nb-option *ngFor="let item of listCurrency" [value]="item.id">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
-                </div> 
+                    <ng-template #nine>
+                        <label class="label-question center">
+                            Вкажіть яку суму не отриманих коштів
+                        </label> 
+                        <input class="input-data" nbInput placeholder="Вкажіть яку суму не отриманих коштів"
+                            name="groupQuery9" formControlName="groupQuery9" 
+                            >
+                    </ng-template>
+
+                    <ng-template #ten>
+                        <label class="label-question center">
+                            Операція проведена в інтернеті?
+                        </label> 
+                        <nb-radio-group name="groupQuery10" formControlName="groupQuery10" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >так
+                            </nb-radio>
+                            <nb-radio [value] = "2" >ні
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #eleven>
+                        <label class="label-question center">
+                            Чи товар був отриманий/послуга надана?
+                        </label> 
+                        <nb-radio-group name="groupQuery11" formControlName="groupQuery11" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >ні
+                            </nb-radio>
+                            <nb-radio [value] = "2" >так
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #twelve>
+                        <label class="label-question center">
+                            Оберіть причину із списку
+                        </label> 
+                        <nb-select name="groupQuery12" formControlName="groupQuery12"
+                            class="selector-list-questions" [(selected)]="question">
+                            <nb-option *ngFor="let item of listQuestions" [value]="item.id">
+                                {{ item.caption }}
+                            </nb-option>
+                        </nb-select>
+                    </ng-template>
+
+                    <ng-template #thirteen>
+                        <label class="label-question center">
+                            Вкажіть яким чином було проведено оплату
+                        </label> 
+                        <nb-radio-group name="groupQuery13" formControlName="groupQuery13" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >готівкою
+                            </nb-radio>
+                            <nb-radio [value] = "2" >іншою картою
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #fourteen>
+                        <label class="label-question center">
+                            Вкажить дату повернення
+                        </label> 
+                        <input class="input-date" nbInput 
+                            placeholder="Вкажить дату повернення"
+                            [nbDatepicker]="formpicker"
+                            name="groupQuery14" formControlName="groupQuery14" 
+                            [(ngModel)]="claimData.transDate">
+                        <nb-datepicker #formpicker></nb-datepicker> 
+                    </ng-template>
+                
+                    <ng-template #fiveteen>
+                        <label class="label-question center">
+                            Чи Ви робили повернення товару?
+                        </label> 
+                        <nb-radio-group name="groupQuery15" formControlName="groupQuery15" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "1" >так
+                            </nb-radio>
+                            <nb-radio [value] = "2" >ні
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #sixteen>
+                        <label class="label-question center">
+                            Вкажить правильну суму та валюту
+                        </label> 
+                        <input class="control-input-questions" nbInput placeholder="Cума"
+                            name="groupQuery16" formControlName="groupQuery16"  >
+                        <nb-select class="control-input-questions" [(selected)]="claimData.currency"
+                            name="groupQuery16" formControlName="groupQuery16">
+                            <nb-option *ngFor="let item of listCurrency" [value]="item.id">
+                                {{ item.caption }}
+                            </nb-option>
+                        </nb-select>
+                    </ng-template> 
 
                 </form> 
 
