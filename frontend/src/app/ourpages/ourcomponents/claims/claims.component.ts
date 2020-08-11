@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
+import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ngx-claims',
   templateUrl: './claims.component.html',
   styleUrls: ['./claims.component.scss']
 })
-export class ClaimsComponent implements OnInit {
+export class ClaimsComponent implements OnInit, OnDestroy {
   claimsData: Array<ClaimView>;
 
   settings = {
@@ -107,9 +109,13 @@ export class ClaimsComponent implements OnInit {
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
-    private router: Router) {
+    private router: Router,
+    private httpServise: HttpService) {
     this.claimsData = new Array<ClaimView>();
   }
+
+
+  claimsSubscription: Subscription = new Subscription();
 
   testData(){
     let t = new ClaimView();
@@ -155,6 +161,25 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClaimsData();
+    this.loadClaims();
   }
 
+  loadClaims() {
+    this.claimsSubscription = this.httpServise.getClaimList().subscribe({
+      next: (response: any) => {
+        console.log(response); 
+               
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.claimsSubscription.unsubscribe();
+  }
 }

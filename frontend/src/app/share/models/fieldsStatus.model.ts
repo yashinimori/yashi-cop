@@ -121,6 +121,29 @@ export class FieldsStatus {
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                break; 
             } 
+            case 'top_level': { 
+                this.pAN = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.terminalID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.amount = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.currency = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.authCode = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.comment = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.stage = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+               break; 
+            }
             default: { 
                 this.default(); 
                break; 

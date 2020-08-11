@@ -15,7 +15,17 @@ export class AuthService {
   }
 
   login() {
-    return this.http.get(URL_LOGIN);
+    return this.http.get(URL_LOGIN, this.getHeaders());
+  }
+
+  
+  private getHeaders() {
+    let body = `JWT ${localStorage.getItem('token')}`;
+    return {
+      headers: new HttpHeaders({
+        Authorization: body
+      })
+    };
   }
 
 }
