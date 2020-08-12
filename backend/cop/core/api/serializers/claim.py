@@ -1,7 +1,6 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from cop.core.models import Claim, Merchant, Terminal, Document, Comment
+from cop.core.models import Claim, Merchant, Terminal, Document, Comment, ReasonCodeGroup
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -10,8 +9,15 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'user')
 
 
+class ReasonCodeGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReasonCodeGroup
+        fields = ('id', 'code', 'visa', 'mastercard', 'description')
+
+
 class DocumentSerialiser(serializers.ModelSerializer):
     file = serializers.FileField()
+
     class Meta:
         model = Document
         fields = ('id', 'file')
@@ -44,13 +50,21 @@ class ClaimSerializer(serializers.ModelSerializer):
             "ch_comments",
             "answers",
             "documents",
-            "reason_code_group"
+            "reason_code_group",
+            "trans_date",
+            "action_needed",
+            "result",
+            "due_date",
+            "stage"
         )
 
     def create(self, validated_data):
         current_user = self.context["request"].user
         documents = validated_data.pop('documents')
         ch_comments = validated_data.pop('ch_comments', [])
+        reason_code_group = validated_data.pop('reason_code_group', None)
+        if reason_code_group:
+            validated_data['reason_code_group'] = ReasonCodeGroup.objects.get(code=reason_code_group)
         validated_data['user'] = current_user
         instance = super().create(validated_data)
         for comment_data in ch_comments:
@@ -64,6 +78,9 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         ch_comments = validated_data.pop('ch_comments', [])
+        reason_code_group = validated_data.pop('reason_code_group', None)
+        if reason_code_group:
+            validated_data['reason_code_group'] = ReasonCodeGroup.objects.get(code=reason_code_group)
         instance = super().update(instance, validated_data)
         for comment_data in ch_comments:
             comment = Comment.objects.create(text=comment_data, user=self.context["request"].user)
@@ -71,20 +88,22 @@ class ClaimSerializer(serializers.ModelSerializer):
         return instance
 
     def assign_by_merch_id(self, merch_id, instance):
-        merchant = get_object_or_404(Merchant, merch_id=merch_id)
-        instance.merchant = merchant
-        # TODO: decide which terminal to choose if there are multiple
-        # terminal = get_object_or_404(Terminal, merchant=merchant)
-        # instance.terminal = terminal
-        instance.bank = merchant.bank
-        instance.save()
+        merchant = Merchant.objects.filter(merch_id=merch_id).first()
+        if merchant:
+            instance.merchant = merchant
+            # TODO: decide which terminal to choose if there are multiple
+            # terminal = get_object_or_404(Terminal, merchant=merchant)
+            # instance.terminal = terminal
+            instance.bank = merchant.bank
+            instance.save()
 
     def assign_by_term_id(self, term_id, instance):
-        terminal = get_object_or_404(Terminal, term_id=term_id)
-        instance.terminal = terminal
-        instance.merchant = terminal.merchant
-        instance.bank = terminal.merchant.bank
-        instance.save()
+        terminal = Terminal.objects.filter(term_id=term_id).first()
+        if terminal:
+            instance.terminal = terminal
+            instance.merchant = terminal.merchant
+            instance.bank = terminal.merchant.bank
+            instance.save()
 
 
 class ClaimListSerializer(serializers.ModelSerializer):
@@ -97,5 +116,12 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "term_id",
             "due_date",
             "trans_approval_code",
+            "trans_date",
+            "trans_amount",
+            "trans_currency",
+            "reason_code_group",
+            "action_needed",
+            "result",
+            "stage"
         )
 

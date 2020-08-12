@@ -6,6 +6,30 @@ from django.db import models
 
 User = get_user_model()
 
+PRE_MEDIATION = 'pre_mediation'
+MEDIATION = 'mediation'
+CHARGEBACK = 'chargeback'
+CHARGEBACK_ESCALATION = 'chargeback_escalation'
+DISPUTE = 'dispute'
+DISPUTE_RESPONSE = 'dispute_response'
+PRE_ARBITRATION = 'pre_arbitration'
+PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
+ARBITRATION = 'arbitration'
+FINAL_RULING = 'final_ruling'
+
+STAGE_CHOICES = (
+    (PRE_MEDIATION, PRE_MEDIATION),
+    (MEDIATION, MEDIATION),
+    (CHARGEBACK, CHARGEBACK),
+    (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
+    (DISPUTE, DISPUTE),
+    (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
+    (PRE_ARBITRATION, PRE_ARBITRATION),
+    (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
+    (ARBITRATION, ARBITRATION),
+    (FINAL_RULING, FINAL_RULING),
+)
+
 
 class BaseModel(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -37,15 +61,14 @@ class Bank(BaseModel):
 
 
 class Merchant(BaseModel):
-    bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ManyToManyField(Bank, blank=True)
     merch_id = models.CharField(max_length=15, unique=True)
     name_legal = models.CharField(max_length=999, blank=True, null=True)
     bin = models.CharField(max_length=999, blank=True, null=True)
     name_ips = models.CharField(max_length=999, blank=True, null=True)
     mcc = models.CharField(max_length=4, blank=True, null=True)
     description = models.CharField(max_length=999, blank=True, null=True)
-    telephone = models.CharField(max_length=13, blank=True, null=True)
-    email = models.EmailField(max_length=999, blank=True, null=True)
     address = models.CharField(max_length=999, blank=True, null=True)
     terminal_id = models.CharField(max_length=8, blank=True, null=True)
     contact_person = models.CharField(max_length=999, blank=True, null=True)
@@ -64,29 +87,7 @@ class Terminal(BaseModel):
 
 
 class Stage(BaseModel):
-    PRE_MEDIATION = 'pre_mediation'
-    MEDIATION = 'mediation'
-    CHARGEBACK = 'chargeback'
-    CHARGEBACK_ESCALATION = 'chargeback_escalation'
-    DISPUTE = 'dispute'
-    DISPUTE_RESPONSE = 'dispute_response'
-    PRE_ARBITRATION = 'pre_arbitration'
-    PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
-    ARBITRATION = 'arbitration'
-    FINAL_RULING = 'final_ruling'
 
-    STAGE_CHOICES = (
-        (PRE_MEDIATION, PRE_MEDIATION),
-        (MEDIATION, MEDIATION),
-        (CHARGEBACK, CHARGEBACK),
-        (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
-        (DISPUTE, DISPUTE),
-        (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
-        (PRE_ARBITRATION, PRE_ARBITRATION),
-        (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
-        (ARBITRATION, ARBITRATION),
-        (FINAL_RULING, FINAL_RULING),
-    )
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     name = models.CharField(max_length=999)
 
@@ -137,6 +138,16 @@ class Comment(BaseModel):
 
     def __str__(self):
         return self.text
+
+
+class ReasonCodeGroup(BaseModel):
+    code = models.CharField(max_length=4)
+    visa = models.CharField(max_length=128, blank=True, null=True)
+    mastercard = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(max_length=999, blank=True, null=True)
+
+    def __str__(self):
+        return self.code
 
 
 class Claim(BaseModel):
@@ -195,7 +206,7 @@ class Claim(BaseModel):
                                     related_name='transactions')
     pan = models.CharField(max_length=16, null=True, blank=True)
 
-    reason_code_group = models.CharField(max_length=99, blank=True, null=True, help_text='Internal codes')
+    reason_code_group = models.ForeignKey(ReasonCodeGroup, blank=True, null=True, on_delete=models.SET_NULL)
     reason_code = models.CharField(max_length=999, blank=True, null=True, help_text='IPS code')
 
     action_needed = models.CharField(max_length=999, null=True, blank=True)
@@ -204,7 +215,7 @@ class Claim(BaseModel):
     bank_comments_a = models.ManyToManyField(Comment, blank=True, related_name='bank_comments_a')
     merchant_comments = models.ManyToManyField(Comment, blank=True, related_name='merch_comments')
 
-    stage = models.ForeignKey(Stage, on_delete=models.PROTECT)
+    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     result = models.CharField(choices=RESULTS_CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
 
@@ -234,13 +245,3 @@ class DocumentRequest(BaseModel):
     from_user = models.ForeignKey(User, related_name='from_users', on_delete=models.CASCADE, blank=True, null=True)
     to_user = models.ForeignKey(User, related_name='to_users', on_delete=models.CASCADE, blank=True, null=True)
     description = models.CharField(max_length=999, null=True, blank=True)
-
-
-class ReasonCodeGroup(BaseModel):
-    code = models.CharField(max_length=4)
-    visa = models.CharField(max_length=128, blank=True, null=True)
-    mastercard = models.CharField(max_length=128, blank=True, null=True)
-    description = models.CharField(max_length=999, blank=True, null=True)
-
-    def __str__(self):
-        return self.description

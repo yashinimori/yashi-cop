@@ -8,7 +8,7 @@ from cop.core.models import Claim
 
 class ClaimViewSet(viewsets.ModelViewSet):
     serializer_class = ClaimSerializer
-    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction', 'stage'
+    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
                                             ).prefetch_related('ch_comments', 'ch_comments__user').order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (

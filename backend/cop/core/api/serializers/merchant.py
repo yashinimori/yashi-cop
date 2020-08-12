@@ -15,8 +15,6 @@ class MerchantSerializer(serializers.ModelSerializer):
             'name_ips',
             'mcc',
             'description',
-            'telephone',
-            'email',
             'address',
             'terminal_id',
             'contact_person',
