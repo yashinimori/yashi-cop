@@ -65,12 +65,24 @@ class Stage(BaseModel):
     MEDIATION = 'mediation'
     CHARGEBACK = 'chargeback'
     CHARGEBACK_ESCALATION = 'chargeback_escalation'
+    DISPUTE = 'dispute'
+    DISPUTE_RESPONSE = 'dispute_response'
+    PRE_ARBITRATION = 'pre_arbitration'
+    PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
+    ARBITRATION = 'arbitration'
+    FINAL_RULING = 'final_ruling'
 
     STAGE_CHOICES = (
         (PRE_MEDIATION, PRE_MEDIATION),
         (MEDIATION, MEDIATION),
         (CHARGEBACK, CHARGEBACK),
         (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
+        (DISPUTE, DISPUTE),
+        (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
+        (PRE_ARBITRATION, PRE_ARBITRATION),
+        (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
+        (ARBITRATION, ARBITRATION),
+        (FINAL_RULING, FINAL_RULING),
     )
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     name = models.CharField(max_length=999)
