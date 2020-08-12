@@ -71,10 +71,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   groupQuery15: any;
   groupQuery16: any;
 
-
-  public radioGroupQueryValue1: number; 
-  public radioGroupQueryValue2: number; 
-  public radioGroupQueryValue3: number; 
+  public radioGroupQueryValue1: number = 0; 
+  public radioGroupQueryValue2: number = 0; 
+  public radioGroupQueryValue3: number = 0; 
+  public radioGroupQueryValue5: number = 0; 
+  public radioGroupQueryValue6: number = 0; 
+  public radioGroupQueryValue7: number = 0; 
+  public radioGroupQueryValue8: number = 0; 
+  public radioGroupQueryValue10: number = 0; 
+  public radioGroupQueryValue11: number = 0; 
+  public radioGroupQueryValue13: number = 0; 
+  public radioGroupQueryValue15: number = 0; 
 
   role: string;
 
@@ -106,7 +113,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       groupQuery14: new FormControl(),  
       groupQuery15: new FormControl(),
       groupQuery16: new FormControl(),
-
 
     });
 
@@ -212,9 +218,33 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       case 'twelve':
         if(par.formGroups.value.groupQuery12 == 1) {
           console.log('0011');
+        } else if(par.formGroups.value.groupQuery12 == 2) {
+          this.part = 'thirteen';
+        } else if(par.formGroups.value.groupQuery12 == 3) {
+          this.part = 'fourteen';
+        } else if(par.formGroups.value.groupQuery12 == 4) {
+          console.log('0003');
+        } else if(par.formGroups.value.groupQuery12 == 5) {
+          console.log('ERROR');
+        } else if(par.formGroups.value.groupQuery12 == 6) {
+          this.part = 'fourteen';
+        } else if(par.formGroups.value.groupQuery12 == 7) {
+          console.log('0500');
         } else {
           console.log('stop');
         }
+        break;
+        case 'thirteen':
+          console.log('0027');
+        break;
+        case 'fourteen':
+          console.log('0004');
+        break;
+        case 'fiveteen':
+          console.log('0009');
+        break;
+        case 'sixteen':
+          console.log('0012');
         break;
     }
     // if(par.part == 'one') {
