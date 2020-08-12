@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
@@ -14,12 +14,34 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
   templateUrl: './single-claim.component.html',
   styleUrls: ['./single-claim.component.scss']
 })
-export class SingleClaimComponent implements OnInit, OnDestroy {
+export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
-    private router: Router) { }
+    private router: Router,
+    private cdr: ChangeDetectorRef) { }
+
+  @ViewChild('one') one:TemplateRef<any>;
+  @ViewChild('two') two:TemplateRef<any>;
+  @ViewChild('three') three:TemplateRef<any>;
+  @ViewChild('four') four:TemplateRef<any>;
+  @ViewChild('five') five:TemplateRef<any>;
+  @ViewChild('six') six:TemplateRef<any>;
+  @ViewChild('seven') seven:TemplateRef<any>;
+  @ViewChild('eight') eight:TemplateRef<any>;
+  @ViewChild('nine') nine:TemplateRef<any>;
+  @ViewChild('ten') ten:TemplateRef<any>;
+  @ViewChild('eleven') eleven:TemplateRef<any>;
+  @ViewChild('twelve') twelve:TemplateRef<any>;
+  @ViewChild('thirteen') thirteen:TemplateRef<any>;
+  @ViewChild('fourteen') fourteen:TemplateRef<any>;
+  @ViewChild('fiveteen') fiveteen:TemplateRef<any>;
+  @ViewChild('sixteen') sixteen:TemplateRef<any>;
+
+  part = 'one';
+
+  
 
   cOPClaimID: string;
   isNewRecord: boolean = true;
@@ -113,6 +135,101 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
     this.getClaimSubscription.unsubscribe();
   }
 
+  ngAfterViewInit() {
+    this.part = 'one';
+    this.cdr.detectChanges();
+  }
+
+  change(par: any) {
+    console.log(par);
+    switch(par.part) {
+      case 'one':
+        console.log(par.formGroups.value.groupQuery1);
+        if(par.formGroups.value.groupQuery1 == 1) {
+          this.part = 'two';
+        } else {
+          this.part = 'five';
+        }
+        break;
+      case 'two':
+        if(par.formGroups.value.groupQuery2 == 3) {
+          this.part = 'five';
+        } else {
+          this.part = 'three';
+        }
+        break;
+      case 'three':
+          if(par.formGroups.value.groupQuery3 == 3) {
+            console.log('0021');
+          } else {
+            this.part = 'four';
+          }
+          break;
+      case 'four':
+          console.log('0021');
+          break;
+      case 'five':
+        if(par.formGroups.value.groupQuery5 == 1) {
+          console.log('0100');
+        } else {
+          this.part = 'six';
+        }
+        break;
+      case 'six':
+        if(par.formGroups.value.groupQuery6 == 1) {
+          this.part = 'seven';
+        } else {
+          this.part = 'ten';
+        }
+        break;
+      case 'seven':
+        if(par.formGroups.value.groupQuery7 == 1) {
+          console.log('0500');
+        } else {
+          this.part = 'eight';
+        }
+        break;
+      case 'eight':
+        if(par.formGroups.value.groupQuery8 == 1) {
+          this.part = 'nine';
+        } else {
+          console.log('0001');          
+        }
+        break;
+      case 'nine':
+        console.log('0001');
+        break;
+      case 'ten':
+        this.part = 'eleven';
+        break;
+      case 'eleven':
+        if(par.formGroups.value.groupQuery11 == 1) {
+          console.log('0009');
+        } else {
+          this.part = 'twelve';
+        }
+        break;
+      case 'twelve':
+        if(par.formGroups.value.groupQuery12 == 1) {
+          console.log('0011');
+        } else {
+          console.log('stop');
+        }
+        break;
+    }
+    // if(par.part == 'one') {
+    //   console.log(par.formGroups.value.groupQuery1);
+    //   if(par.formGroups.value.groupQuery1 == 1) {
+    //     this.part = 'two';
+    //   } else {
+    //     this.part = 'five';
+    //   }
+    // }
+    
+
+    //this.part = par.part == 'two'? 'one':'two';
+  }
+
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
@@ -156,7 +273,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy {
 
   onClickGoNextStep(){
     console.log(this.claimData);
+    this.part = 'one';
     this.stepNewRecord = 2;
+    this.cdr.detectChanges();
+
 
     this.radioGroupQueryValue1 = 1;
     this.radioGroupQueryValue2 = 1;
