@@ -59,6 +59,9 @@ class Terminal(BaseModel):
     address = models.CharField(max_length=999, blank=True, null=True)
     merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return self.term_id
+
 
 class Stage(BaseModel):
     PRE_MEDIATION = 'pre_mediation'
@@ -222,3 +225,22 @@ class Claim(BaseModel):
 
 class SurveyQuestion(BaseModel):
     description = models.CharField(max_length=999)
+
+    def __str__(self):
+        return self.description
+
+
+class DocumentRequest(BaseModel):
+    from_user = models.ForeignKey(User, related_name='from_users', on_delete=models.CASCADE, blank=True, null=True)
+    to_user = models.ForeignKey(User, related_name='to_users', on_delete=models.CASCADE, blank=True, null=True)
+    description = models.CharField(max_length=999, null=True, blank=True)
+
+
+class ReasonCodeGroup(BaseModel):
+    code = models.CharField(max_length=4)
+    visa = models.CharField(max_length=128, blank=True, null=True)
+    mastercard = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(max_length=999, blank=True, null=True)
+
+    def __str__(self):
+        return self.description

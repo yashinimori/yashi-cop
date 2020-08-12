@@ -1,7 +1,7 @@
 import pytest
 from django.test import RequestFactory
 
-from cop.users.api.views import UserViewSet
+from cop.users.api.views.user import UserViewSet
 from cop.users.models import User
 
 pytestmark = pytest.mark.django_db

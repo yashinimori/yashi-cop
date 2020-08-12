@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Document, Terminal, Comment, SurveyQuestion
+from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Document, Terminal, Comment, SurveyQuestion, \
+    DocumentRequest, ReasonCodeGroup
 
 
 @admin.register(Bank)
@@ -44,5 +45,15 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 @admin.register(SurveyQuestion)
+class SurveyQuestionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(DocumentRequest)
+class SurveyQuestionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ReasonCodeGroup)
 class SurveyQuestionAdmin(admin.ModelAdmin):
     pass

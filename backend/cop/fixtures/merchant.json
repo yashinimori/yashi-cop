@@ -36,12 +36,14 @@
     "pk": 1,
     "fields": {
       "merch_id": 12345678,
+      "bank": 1,
       "name_legal": "Merchant A",
+      "name_ips": "Merchant A",
       "mcc": "mrch",
+      "bin": 12345,
       "description": "test merchant",
       "telephone": 7777777,
       "email": "john.doe@cop.cop",
-      "name_ips": "Merchant A",
       "address": "adress",
       "terminal_id": 12345678,
       "contact_person": "John Doe",
@@ -54,16 +56,6 @@
     "pk": 1,
     "fields": {
       "term_id": "00000001",
-      "merchant": 1,
-      "create_date": "2020-08-09T18:25:43.511Z",
-      "update_date": "2020-08-09T18:25:43.511Z"
-    }
-  },
-  {
-    "model": "core.terminal",
-    "pk": 2,
-    "fields": {
-      "term_id": "00000002",
       "merchant": 1,
       "create_date": "2020-08-09T18:25:43.511Z",
       "update_date": "2020-08-09T18:25:43.511Z"

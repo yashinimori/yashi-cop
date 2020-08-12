@@ -1,0 +1,354 @@
+[
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 1,
+    "fields": {
+      "code": "0001",
+      "visa": 139,
+      "mastercard": 4834,
+      "description": "ATM CASH NOT RECEIVED",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 2,
+    "fields": {
+      "code": "0002",
+      "visa": 138,
+      "mastercard": 4853,
+      "description": "Original Credit Transaction Not Accepted",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 3,
+    "fields": {
+      "code": "0003",
+      "visa": 137,
+      "mastercard": 4853,
+      "description": "Cancelled Merchandise/Services",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 4,
+    "fields": {
+      "code": "0004",
+      "visa": 136,
+      "mastercard": 4853,
+      "description": "Credit Not Processed",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 5,
+    "fields": {
+      "code": "0005",
+      "visa": 135,
+      "mastercard": 4853,
+      "description": "Misrepresentation",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 6,
+    "fields": {
+      "code": "0006",
+      "visa": 134,
+      "mastercard": 4853,
+      "description": "Counterfeit Merchandise",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 7,
+    "fields": {
+      "code": "0007",
+      "visa": 133,
+      "mastercard": 4853,
+      "description": "Not as Described or Defective Merchandise/Services",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 8,
+    "fields": {
+      "code": "0008",
+      "visa": 132,
+      "mastercard": 4853,
+      "description": "Canceled Recurring Transaction",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 9,
+    "fields": {
+      "code": "0009",
+      "visa": 131,
+      "mastercard": 4853,
+      "description": "Merchandise/Services Not Received",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 10,
+    "fields": {
+      "code": "0010",
+      "visa": 127,
+      "mastercard": 4808,
+      "description": "Invalid Data",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 11,
+    "fields": {
+      "code": "0011",
+      "visa": 126,
+      "mastercard": 4834,
+      "description": "Duplicate Processing",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 12,
+    "fields": {
+      "code": "0012",
+      "visa": 125,
+      "mastercard": 4834,
+      "description": "Incorrect Amount",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 13,
+    "fields": {
+      "code": "0013",
+      "visa": 124,
+      "mastercard": 4808,
+      "description": "Incorrect Account Number",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 14,
+    "fields": {
+      "code": "0014",
+      "visa": 123,
+      "mastercard": 4834,
+      "description": "Incorrect Currency",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 15,
+    "fields": {
+      "code": "0015",
+      "visa": 122,
+      "mastercard": 4853,
+      "description": "Incorrect Transaction Code",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 16,
+    "fields": {
+      "code": "0016",
+      "visa": 121,
+      "mastercard": 4808,
+      "description": "Late Presentment",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 17,
+    "fields": {
+      "code": "0017",
+      "visa": 113,
+      "mastercard": 4808,
+      "description": "No Authorization",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 18,
+    "fields": {
+      "code": "0018",
+      "visa": 112,
+      "mastercard": 4808,
+      "description": "Declined Authorization",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 19,
+    "fields": {
+      "code": "0019",
+      "visa": 111,
+      "mastercard": 4808,
+      "description": "Card Recovery Bulletin",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 20,
+    "fields": {
+      "code": "0020",
+      "visa": 105,
+      "mastercard": 4837,
+      "description": "Fraud Monitoring Program",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 21,
+    "fields": {
+      "code": "0021",
+      "visa": 104,
+      "mastercard": 4837,
+      "description": "Other Fraud: Card-absent Environment/Condition",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 22,
+    "fields": {
+      "code": "0022",
+      "visa": 103,
+      "mastercard": 4837,
+      "description": "Other Fraud: Card-Present Environment/Condition",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 23,
+    "fields": {
+      "code": "0023",
+      "visa": 102,
+      "mastercard": 4837,
+      "description": "EMV Liability Shift Non-Counterfeit Fraud",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 24,
+    "fields": {
+      "code": "0024",
+      "visa": 101,
+      "mastercard": 4837,
+      "description": "EMV Liability Shift Counterfeit Fraud",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 25,
+    "fields": {
+      "code": "0025",
+      "mastercard": 4834,
+      "description": "Charges for Loss, Theft, or Damages",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 26,
+    "fields": {
+      "code": "0026",
+      "mastercard": 4834,
+      "description": "“No-Show” Hotel Charge",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 27,
+    "fields": {
+      "code": "0027",
+      "visa": 126,
+      "mastercard": 4834,
+      "description": "Paid by Other Means",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 28,
+    "fields": {
+      "code": "0100",
+      "description": "Запит документів",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 29,
+    "fields": {
+      "code": "0101",
+      "description": "запитна проаналізований лог",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 30,
+    "fields": {
+      "code": "0500",
+      "description": "шнша причина запит на CHB OFF",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  }
+]
