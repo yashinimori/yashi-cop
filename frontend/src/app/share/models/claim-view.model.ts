@@ -2,12 +2,14 @@ import { ClaimRegistration } from './claim-registration.model';
 
 export class ClaimView extends ClaimRegistration {
   cOPClaimID: number;
-  merchantName: string;
-  reasonCodeGroup: number;
+  merchant_name: string;
+  reason_code_group: string;
   stage: string;
-  actionNeeded: string;
+  action_needed: string;
   result: string;
-  dueDate: Date;
-  currencyName: string;
+  due_date: Date;
+  currency_name: string;
   fio: string;
+  arn: string;
+
 }

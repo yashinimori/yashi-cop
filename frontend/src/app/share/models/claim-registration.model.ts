@@ -1,10 +1,10 @@
 export class ClaimRegistration {
-  pAN: number;
-  transDate: Date;
-  merchantID: number;
-  terminalID: number;
-  amount: number;
-  currency: number;
-  authCode: number;
+  pan: string;
+  trans_date: Date;
+  merch_id: string;
+  term_id: string;
+  amount: string;
+  currency: string;
+  authCode: string;
   comment: string;
 }

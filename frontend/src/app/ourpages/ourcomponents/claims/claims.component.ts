@@ -42,21 +42,24 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         title: 'COP Claim ID',
         type: 'number',
       },
-      pAN: {
+      pan: {
         title: 'Номер карти',
         type: 'string',
       },
-      transDate: {
+      trans_date: {
         title: 'Дата транзакції',
-        valuePrepareFunction: (transDate) => {
-          return this.datePipe.transform(new Date(transDate), 'dd-MM-yyyy hh:mm:ss');
+        valuePrepareFunction: (trans_date) => {
+          if(trans_date)
+            return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+          else
+            return '';
         }
       },      
-      merchantName: {
+      merchant_name: {
         title: "Назва торговця",
         type: 'string',
       },
-      terminalID: {
+      term_id: {
         title: "Ім'я терміналу",
         type: 'string',
       },
@@ -64,15 +67,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         title: "Cума",
         type: 'number',
       },
-      currencyName: {
+      currency_name: {
         title: "Валюта",
         type: 'string',
       },
-      authCode: {
+      auth_code: {
         title: "Код авторизації",
         type: 'number',
       },
-      reasonCodeGroup: {
+      reason_code_group: {
         title: "Reason Code Group",
         type: 'number',
       },
@@ -80,7 +83,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         title: "Статус",
         type: 'string',
       },
-      actionNeeded: {
+      action_needed: {
         title: "Індикатор",
         type: 'string',
       },
@@ -88,10 +91,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         title: "Результат",
         type: 'string',
       },
-      dueDate: {
+      due_date: {
         title: 'Кінцевий термін претензії.',
-        valuePrepareFunction: (dueDate) => {
-          return this.datePipe.transform(new Date(dueDate), 'dd-MM-yyyy');
+        valuePrepareFunction: (due_date) => {
+          //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
+          if(due_date)
+            return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+          else
+            return '';
         }
       },
 
@@ -118,24 +125,24 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   claimsSubscription: Subscription = new Subscription();
 
   testData(){
-    let t = new ClaimView();
+    //let t = new ClaimView();
     
-    t.cOPClaimID = 1111;
-    t.pAN = 1234123412341234;
-    t.transDate = new Date();
-    t.merchantName = 'Rukavichka 1';
-    t.terminalID = 12345678;
-    t.amount = 1000.01;
-    t.currencyName = 'грн';
-    t.authCode = 123456;
-    t.reasonCodeGroup = 1110001111000;
-    t.stage = 'stage';
-    t.actionNeeded = 'action Needed';
-    t.result = 'result';
-    t.dueDate = new Date();
+    // t.cOPClaimID = 1111;
+    // t.pAN = 1234123412341234;
+    // t.transDate = new Date();
+    // t.merchantName = 'Rukavichka 1';
+    // t.terminalID = 12345678;
+    // t.amount = 1000.01;
+    // t.currencyName = 'грн';
+    // t.authCode = 123456;
+    // t.reasonCodeGroup = 1110001111000;
+    // t.stage = 'stage';
+    // t.actionNeeded = 'action Needed';
+    // t.result = 'result';
+    // t.dueDate = new Date();
 
     this.claimsData = new Array<ClaimView>();
-    this.claimsData.push(t);
+    //this.claimsData.push(t);
 
   }
 

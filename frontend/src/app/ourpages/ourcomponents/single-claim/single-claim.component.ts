@@ -241,33 +241,34 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public get getDateTrans(){
-    if(this.claimData && this.claimData.transDate){
-      return this.datePipe.transform(new Date(this.claimData.transDate), 'dd-MM-yyyy hh:mm:ss');
-    } else {
-      return '';
-    }
+    // if(this.claimData && this.claimData.trans_date){
+    //   return this.datePipe.transform(new Date(this.claimData.trans_date), 'dd-MM-yyyy hh:mm:ss');
+    // } else {
+    //   return '';
+    // }
+    return "";
   }
 
   testData(){
     this.claimData = new ClaimView();
 
-    this.claimData.fio = "Taras Shevchenko";
-    this.claimData.cOPClaimID = 1111;
-    this.claimData.pAN = 1234123412341234;
-    this.claimData.transDate = new Date();
-    this.claimData.merchantID = 1;
-    this.claimData.merchantName = 'Rukavichka 1';
-    this.claimData.terminalID = 12345678;
-    this.claimData.amount = 1000.01;
-    this.claimData.currency = 1;
-    this.claimData.currencyName = 'грн';
-    this.claimData.authCode = 123456;
-    this.claimData.reasonCodeGroup = 1110001111000;
-    this.claimData.stage = 'stage';
-    this.claimData.actionNeeded = 'action Needed';
-    this.claimData.result = 'result';
-    this.claimData.dueDate = new Date();
-    console.log(this.claimData);
+    // this.claimData.fio = "Taras Shevchenko";
+    // this.claimData.cOPClaimID = 1111;
+    // this.claimData.pAN = 1234123412341234;
+    // this.claimData.transDate = new Date();
+    // this.claimData.merchantID = 1;
+    // this.claimData.merchantName = 'Rukavichka 1';
+    // this.claimData.terminalID = 12345678;
+    // this.claimData.amount = 1000.01;
+    // this.claimData.currency = 1;
+    // this.claimData.currencyName = 'грн';
+    // this.claimData.authCode = 123456;
+    // this.claimData.reasonCodeGroup = 1110001111000;
+    // this.claimData.stage = 'stage';
+    // this.claimData.actionNeeded = 'action Needed';
+    // this.claimData.result = 'result';
+    // this.claimData.dueDate = new Date();
+    // console.log(this.claimData);
 
   }
 
@@ -296,7 +297,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.radioGroupQueryValue2);
     console.log(this.radioGroupQueryValue3);
     
-    this.transferService.pAD.next(this.claimData.pAN.toString());
+    this.transferService.pAD.next(this.claimData.pan.toString());
     this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 

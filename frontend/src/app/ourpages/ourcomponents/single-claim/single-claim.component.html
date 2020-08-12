@@ -13,9 +13,9 @@
               </nb-card-header>
             <nb-card-body>
             
-                <div class="div-panel" *ngIf="!fieldsStatus.pAN.invisible">
+                <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
                     <label class="label-caption">Номер карти</label> 
-                    <label class="label-data">{{claimData.pAN}}</label>
+                    <label class="label-data">{{claimData.pan}}</label>
                 </div>
         
                 <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">
@@ -30,12 +30,12 @@
     
                 <div class="div-panel" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
                     <label class="label-caption">Cума</label> 
-                    <label class="label-data">{{claimData.currencyName}} {{claimData.amount}}</label> 
+                    <label class="label-data">{{claimData.currency_name}} {{claimData.amount}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantName.invisible">
                     <label class="label-caption">Назва торговця</label> 
-                    <label class="label-data">{{claimData.merchantName}}</label> 
+                    <label class="label-data">{{claimData.merchant_name}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
@@ -45,7 +45,7 @@
     
                 <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
                     <label class="label-caption">ARN</label> 
-                    <label class="label-data"></label> 
+                    <label class="label-data">{{claimData.arn}}</label> 
                 </div>
     
             </nb-card-body>
@@ -86,12 +86,12 @@
                 Нове звернення
               </nb-card-header>
             <nb-card-body>
-                <div class="div-panel" *ngIf="!fieldsStatus.pAN.invisible">
+                <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
                     <label class="label-caption">Номер карти</label> 
                     <input class="input-data" nbInput placeholder="Номер карти"
-                        [required]="fieldsStatus.pAN.required" 
-                        [readonly]="fieldsStatus.pAN.readonly"
-                        [(ngModel)]="claimData.pAN">
+                        [required]="fieldsStatus.pan.required" 
+                        [readonly]="fieldsStatus.pan.readonly"
+                        [(ngModel)]="claimData.pan">
                 </div>
                 
                 <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
@@ -101,13 +101,13 @@
                         [nbDatepicker]="formpicker"
                         [required]="fieldsStatus.transDate.required" 
                         [readonly]="fieldsStatus.transDate.readonly"
-                        [(ngModel)]="claimData.transDate">
+                        [(ngModel)]="claimData.trans_date">
                     <nb-datepicker #formpicker></nb-datepicker> 
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
                     <label class="label-caption">Торгова точка</label> 
-                    <nb-select class="selector-list" [(selected)]="claimData.merchantID"
+                    <nb-select class="selector-list" [(selected)]="claimData.merch_id"
                         [required]="fieldsStatus.merchantID.required" 
                         [disabled]="fieldsStatus.merchantID.readonly" >
                         <nb-option *ngFor="let item of listMerchant" [value]="item.id">
@@ -121,7 +121,7 @@
                     <input class="input-data" nbInput placeholder="Terminal ID" 
                         [required]="fieldsStatus.terminalID.required" 
                         [readonly]="fieldsStatus.terminalID.readonly" 
-                        [(ngModel)]="claimData.terminalID">
+                        [(ngModel)]="claimData.term_id">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
@@ -148,7 +148,7 @@
                     <input class="input-data" nbInput placeholder="Код операції" 
                         [required]="fieldsStatus.authCode.required" 
                         [readonly]="fieldsStatus.authCode.readonly"
-                        [(ngModel)]="claimData.authCode">
+                        [(ngModel)]="claimData.auth_code">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
@@ -181,7 +181,6 @@
             <nb-card-body>
                 <form [formGroup]="formGroups" >
                     <ng-container [ngTemplateOutlet]="this[part]"></ng-container>
-
                 
                     <ng-template #one> 
                         <label class="label-question center">
@@ -193,7 +192,6 @@
                             <nb-radio [value] = "2" >так</nb-radio>
                         </nb-radio-group>
                     </ng-template>
-                
                 
                     <ng-template #two> 
                         <label class="label-question center">
@@ -212,7 +210,7 @@
                             Де знаходиться картка?
                         </label> 
                         <nb-radio-group name="groupQuery3" formControlName="groupQuery3" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue3">
                             <nb-radio [value] = "1" >картка в моєму володінні
                             </nb-radio>
                             <nb-radio [value] = "2" >картка була загублена або вкрадена
@@ -237,7 +235,7 @@
                             Вам потрібні документи по транзакції для власних потреб
                         </label> 
                         <nb-radio-group name="groupQuery5" formControlName="groupQuery5" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue5">
                             <nb-radio [value] = "1" >так
                             </nb-radio>
                             <nb-radio [value] = "2" >ні, я хочу подати заявку на повернення коштів
@@ -250,7 +248,7 @@
                             Операцію було проведено в банкоматі?
                         </label> 
                         <nb-radio-group name="groupQuery6" formControlName="groupQuery6" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue6">
                             <nb-radio [value] = "1" >так
                             </nb-radio>
                             <nb-radio [value] = "2" >ні, це була оплата товарів або послуг
@@ -263,7 +261,7 @@
                             Кошти не були отримані?
                         </label> 
                         <nb-radio-group name="groupQuery7" formControlName="groupQuery7" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue7">
                             <nb-radio [value] = "1" >ні, це була інша операція в цьому банкоматі
                             </nb-radio>
                             <nb-radio [value] = "2" >так
@@ -276,7 +274,7 @@
                             В повному обсязі чи частково?
                         </label> 
                         <nb-radio-group name="groupQuery8" formControlName="groupQuery8" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue8">
                             <nb-radio [value] = "1" >частково
                             </nb-radio>
                             <nb-radio [value] = "2" >в повному обсязі
@@ -298,7 +296,7 @@
                             Операція проведена в інтернеті?
                         </label> 
                         <nb-radio-group name="groupQuery10" formControlName="groupQuery10" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue10">
                             <nb-radio [value] = "1" >так
                             </nb-radio>
                             <nb-radio [value] = "2" >ні
@@ -311,7 +309,7 @@
                             Чи товар був отриманий/послуга надана?
                         </label> 
                         <nb-radio-group name="groupQuery11" formControlName="groupQuery11" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue11">
                             <nb-radio [value] = "1" >ні
                             </nb-radio>
                             <nb-radio [value] = "2" >так
@@ -336,7 +334,7 @@
                             Вкажіть яким чином було проведено оплату
                         </label> 
                         <nb-radio-group name="groupQuery13" formControlName="groupQuery13" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue13">
                             <nb-radio [value] = "1" >готівкою
                             </nb-radio>
                             <nb-radio [value] = "2" >іншою картою
@@ -361,7 +359,7 @@
                             Чи Ви робили повернення товару?
                         </label> 
                         <nb-radio-group name="groupQuery15" formControlName="groupQuery15" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue15">
                             <nb-radio [value] = "1" >так
                             </nb-radio>
                             <nb-radio [value] = "2" >ні

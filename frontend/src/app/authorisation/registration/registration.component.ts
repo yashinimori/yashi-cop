@@ -21,10 +21,10 @@ export class RegistrationComponent implements OnInit {
     if (!this.data.email)
       return;
 
-    if (!this.data.firstName)
+    if (!this.data.first_name)
       return;
 
-    if (!this.data.lastName)
+    if (!this.data.last_name)
       return;
 
     if (!this.data.login)

@@ -1,9 +1,9 @@
 export class FieldsStatus {
     constructor(props?: Partial<FieldsStatus>) {
         if (props) {
-            this.pAN = props.pAN || new paramStatusFields();
+            this.pan = props.pan || new paramStatusFields();
             this.transDate = props.transDate || new paramStatusFields();
-            this.merchantID = props.pAN || new paramStatusFields();
+            this.merchantID = props.pan || new paramStatusFields();
             this.terminalID = props.terminalID || new paramStatusFields();
             this.amount = props.amount || new paramStatusFields();
             this.currency = props.currency || new paramStatusFields();
@@ -27,7 +27,7 @@ export class FieldsStatus {
         }
     }
 
-    pAN: paramStatusFields;
+    pan: paramStatusFields;
     transDate: paramStatusFields;
     merchantID: paramStatusFields;
     terminalID: paramStatusFields;
@@ -49,7 +49,7 @@ export class FieldsStatus {
     docs: paramStatusFields;
 
     default() {
-        this.pAN = new paramStatusFields({invisible: true});
+        this.pan = new paramStatusFields({invisible: true});
         this.transDate = new paramStatusFields({invisible: true});
         this.merchantID = new paramStatusFields({invisible: true});
         this.terminalID = new paramStatusFields({invisible: true});
@@ -76,7 +76,7 @@ export class FieldsStatus {
 
         switch(role) { 
             case 'user': { 
-                this.pAN = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.terminalID = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -99,7 +99,7 @@ export class FieldsStatus {
                break; 
             } 
             case 'officeOficer': { 
-                this.pAN = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.terminalID = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -122,7 +122,7 @@ export class FieldsStatus {
                break; 
             } 
             case 'top_level': { 
-                this.pAN = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.terminalID = new paramStatusFields({invisible: false, readonly:false, required: false});
