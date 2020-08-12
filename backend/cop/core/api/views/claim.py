@@ -2,13 +2,14 @@ from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
 
-from cop.core.api.serializers.claim import ClaimSerializer
+from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer
 from cop.core.models import Claim
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
     serializer_class = ClaimSerializer
-    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction', 'stage').order_by('id')
+    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction', 'stage'
+                                            ).prefetch_related('ch_comments', 'ch_comments__user').order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         'user__email',
@@ -42,3 +43,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
         'pan',
         'reason_code',
     ]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ClaimListSerializer
+        return ClaimSerializer

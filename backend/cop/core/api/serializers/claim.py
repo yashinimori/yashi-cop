@@ -1,7 +1,13 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from cop.core.models import Claim, Merchant, Terminal, Document
+from cop.core.models import Claim, Merchant, Terminal, Document, Comment
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'text', 'user')
 
 
 class DocumentSerialiser(serializers.ModelSerializer):
@@ -23,54 +29,46 @@ class ContentObjectRelatedField(serializers.RelatedField):
 
 class ClaimSerializer(serializers.ModelSerializer):
     documents = ContentObjectRelatedField(queryset=Document.objects.all(), many=True)
+    ch_comments = CommentSerializer(many=True, required=False)
 
     class Meta:
         model = Claim
         fields = (
             "id",
-            "user",
-            "merch_id",
-            "term_id",
             "pan",
-            "merchant",
-            "bank",
-            "terminal",
-            "transaction",
-            "first_name",
-            "last_name",
-            "email",
-            "telephone",
-            "issuer_mmt",
-            "dispute_mmt",
-            "ch_mmt",
-            "merchant_mmt",
-            "source",
-            "arn",
-            "flag",
-            "reason_code_group",
-            "action_needed",
-            "comment",
+            "merch_name_ips",
+            "term_id",
+            "trans_amount",
+            "trans_currency",
+            "trans_approval_code",
             "ch_comments",
-            "bank_comments",
-            "merchant_comments",
-            "stage",
-            "result",
-            "support",
             "answers",
-            "reason_code",
-            "due_date",
-            "dispute_date",
-            "registration_date",
-            "final_date",
-            "chargeback_date",
-            "second_presentment_date",
-            "pre_arbitration_date",
-            "pre_arbitration_response_date",
-            "arbitration_date",
-            "arbitration_response_date",
             "documents",
+            "reason_code_group"
         )
-        read_only = ('merchant', 'bank', 'terminal')
+
+    def create(self, validated_data):
+        current_user = self.context["request"].user
+        documents = validated_data.pop('documents')
+        ch_comments = validated_data.pop('ch_comments', [])
+        validated_data['user'] = current_user
+        instance = super().create(validated_data)
+        for comment_data in ch_comments:
+            comment = Comment.objects.create(text=comment_data, user=current_user)
+            instance.ch_comments.add(comment)
+        if 'merch_id' in validated_data:
+            self.assign_by_merch_id(validated_data['merch_id'], instance)
+        if 'term_id' in validated_data:
+            self.assign_by_term_id(validated_data['term_id'], instance)
+        return instance
+
+    def update(self, instance, validated_data):
+        ch_comments = validated_data.pop('ch_comments', [])
+        instance = super().update(instance, validated_data)
+        for comment_data in ch_comments:
+            comment = Comment.objects.create(text=comment_data, user=self.context["request"].user)
+            instance.ch_comments.add(comment)
+        return instance
 
     def assign_by_merch_id(self, merch_id, instance):
         merchant = get_object_or_404(Merchant, merch_id=merch_id)
@@ -88,12 +86,16 @@ class ClaimSerializer(serializers.ModelSerializer):
         instance.bank = terminal.merchant.bank
         instance.save()
 
-    def create(self, validated_data):
-        documents = validated_data.pop('documents')
 
-        instance = super().create(validated_data)
-        if 'merch_id' in validated_data:
-            self.assign_by_merch_id(validated_data['merch_id'], instance)
-        if 'term_id' in validated_data:
-            self.assign_by_term_id(validated_data['term_id'], instance)
-        return instance
+class ClaimListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Claim
+        fields = (
+            "id",
+            "pan",
+            "merch_name_ips",
+            "term_id",
+            "due_date",
+            "trans_approval_code",
+        )
+
