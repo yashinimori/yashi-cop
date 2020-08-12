@@ -89,7 +89,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   
   ngOnInit(): void {
-    console.log('ngOnInit');
+    //console.log('ngOnInit');
     
     this.role = localStorage.getItem('role');
     this.role = 'user';
@@ -133,7 +133,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getListCurrency();
     this.getListQuestions();
 
-    console.log('ngOnInit--------END');
+    //console.log('ngOnInit--------END');
   }
 
   ngOnDestroy(): void {

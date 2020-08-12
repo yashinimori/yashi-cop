@@ -174,8 +174,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   loadClaims() {
     this.claimsSubscription = this.httpServise.getClaimList().subscribe({
       next: (response: any) => {
-        console.log(response); 
-               
+        console.log('loadClaims()'); 
+        console.log(response.results); 
+        
+        this.claimsData = JSON.parse(response).results;
+        console.log(this.claimsData); 
+
       },
       error: error => {
         console.error('There was an error!', error);
