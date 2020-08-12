@@ -5,6 +5,6 @@ export class ClaimRegistration {
   term_id: string;
   amount: string;
   currency: string;
-  authCode: string;
+  auth_code: string;
   comment: string;
 }

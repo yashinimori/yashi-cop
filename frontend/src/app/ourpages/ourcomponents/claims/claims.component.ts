@@ -172,14 +172,36 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   loadClaims() {
+    let self = this;
     this.claimsSubscription = this.httpServise.getClaimList().subscribe({
       next: (response: any) => {
         console.log('loadClaims()'); 
         console.log(response.results); 
         
-        this.claimsData = JSON.parse(response).results;
-        console.log(this.claimsData); 
+        self.claimsData = new Array<ClaimView>();
+        response.results.array.forEach(el => {
+          let t = new ClaimView();
+    
+          t.id = el['id'];
+          t.pan = el['pan'];
+          t.trans_date = el['trans_date'];
+          t.merchant_name = el['merchant_name'];
+          t.term_id = el['term_id'];
+          t.amount = el['amount'];
+          t.currency = el['currency'];
+          t.auth_code = el['auth_code'];
+          t.reason_code_group = el['reason_code_group'];
+          t.stage = el['stage'];
+          t.action_needed = el['action_needed'];
+          t.result = el['result'];
+          t.due_date = el['due_date'];
+          self.claimsData.push(t);
 
+        });
+
+        self.source = new LocalDataSource(self.claimsData);
+        console.log(self.source);
+        
       },
       error: error => {
         console.error('There was an error!', error);

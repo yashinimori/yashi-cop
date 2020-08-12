@@ -1,7 +1,7 @@
 import { ClaimRegistration } from './claim-registration.model';
 
 export class ClaimView extends ClaimRegistration {
-  cOPClaimID: number;
+  id: string;
   merchant_name: string;
   reason_code_group: string;
   stage: string;
