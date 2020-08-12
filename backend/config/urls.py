@@ -19,7 +19,7 @@ urlpatterns += [
     # API base url
     path("api/v1/", include("config.api_router")),
     # DRF auth token
-    path('api/v1/auth/', include('djoser.urls')),
+    path('api/v1/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
     # Old code
     path('old/', include('cop.bank.urls'))
