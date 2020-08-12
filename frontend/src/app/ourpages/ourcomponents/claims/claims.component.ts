@@ -17,6 +17,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   claimsData: Array<ClaimView>;
 
   settings = {
+    pager:{perPage: 5},
     hideSubHeader: true,
     actions:{
     // add: {
@@ -38,9 +39,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       delete: false,
     },
     columns: {
-      cOPClaimID: {
-        title: 'COP Claim ID',
-        type: 'number',
+      claim_id: {
+        title: 'Номер',
+        type: 'string',
       },
       pan: {
         title: 'Номер карти',
@@ -105,13 +106,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     },
   };
 
-  //source: LocalDataSource = new LocalDataSource();
-
-  // constructor(private service: SmartTableData) {
-  //   const data = this.service.getData();
-  //   this.source.load(data);
-  // }
-
+  
   source: LocalDataSource;
 
   constructor(private datePipe: DatePipe, 
@@ -121,37 +116,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.claimsData = new Array<ClaimView>();
   }
 
-
   claimsSubscription: Subscription = new Subscription();
-
-  testData(){
-    //let t = new ClaimView();
-    
-    // t.cOPClaimID = 1111;
-    // t.pAN = 1234123412341234;
-    // t.transDate = new Date();
-    // t.merchantName = 'Rukavichka 1';
-    // t.terminalID = 12345678;
-    // t.amount = 1000.01;
-    // t.currencyName = 'грн';
-    // t.authCode = 123456;
-    // t.reasonCodeGroup = 1110001111000;
-    // t.stage = 'stage';
-    // t.actionNeeded = 'action Needed';
-    // t.result = 'result';
-    // t.dueDate = new Date();
-
-    this.claimsData = new Array<ClaimView>();
-    //this.claimsData.push(t);
-
-  }
-
-
-  getClaimsData(): void{
-    this.testData();
-    this.source = new LocalDataSource(this.claimsData);
-  }
-
+  
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
@@ -168,24 +134,26 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getClaimsData();
-    this.loadClaims();
   }
 
-  loadClaims() {
+  getClaimsData() {
+    console.log('loadClaims()'); 
+    this.claimsData = new Array<ClaimView>();
     let self = this;
     this.claimsSubscription = this.httpServise.getClaimList().subscribe({
       next: (response: any) => {
-        console.log('loadClaims()'); 
-        console.log(response.results); 
         
-        self.claimsData = new Array<ClaimView>();
-        response.results.array.forEach(el => {
+        console.log(response); 
+        
+        console.log('loadClaims() res'); 
+        
+        response.results.forEach(el => {
           let t = new ClaimView();
     
-          t.id = el['id'];
+          t.claim_id = el['id'];
           t.pan = el['pan'];
           t.trans_date = el['trans_date'];
-          t.merchant_name = el['merchant_name'];
+          t.merch_name_ips = el['merch_name_ips'];
           t.term_id = el['term_id'];
           t.amount = el['amount'];
           t.currency = el['currency'];
@@ -195,11 +163,19 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];
+          
           self.claimsData.push(t);
+          
+          console.log(t);
 
         });
 
-        self.source = new LocalDataSource(self.claimsData);
+        //self.source = new LocalDataSource(self.claimsData);
+        self.source = new LocalDataSource();
+        //self.source.setPaging(1, 5);
+        self.source.load(self.claimsData);
+        //self.source .refresh();
+
         console.log(self.source);
         
       },
