@@ -13,7 +13,8 @@ router.register(r'merchants', MerchantViewSet, basename='merchants')
 router.register(r'terminals', TerminalViewSet, basename='terminals')
 router.register(r'transactions', TransactionViewSet, basename='transactions')
 router.register(r'claims', ClaimViewSet, basename='claims')
-router.register(r'surveyquestions', SurveyQuestionViewSet, basename='surveyquestions')
+router.register(r'references/survey-questions', SurveyQuestionViewSet, basename='survey-questions')
+
 
 urlpatterns = router.urls + [
 
