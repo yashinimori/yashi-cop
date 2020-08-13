@@ -38,14 +38,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   onUserRowSelect(event): void {
     this.transferService.cOPClaimID.next(event.data.claim_id);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
-    console.log('onUserRowSelect(event)');
-    console.log(event);
   }
 
   ngOnInit(): void {
     this.setSettingsGrid('user');
     this.getClaimsData();
-
     this.hideColumnForUser('user');
   }
 
@@ -198,14 +195,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    console.log('loadClaims()'); 
+    //console.log('loadClaims()'); 
     this.claimsData = new Array<ClaimView>();
     let self = this;
     this.claimsSubscription = this.httpServise.getClaimList().subscribe({
       next: (response: any) => {
-        console.log('loadClaims() res 1');
-        console.log(response); 
-        console.log('loadClaims() res 2'); 
+        // console.log('loadClaims() res 1');
+        // console.log(response); 
+        // console.log('loadClaims() res 2'); 
         
         response.results.forEach(el => {
           let t = new ClaimView();
@@ -226,7 +223,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           
           self.claimsData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
 

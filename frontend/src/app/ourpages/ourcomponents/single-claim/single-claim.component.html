@@ -30,17 +30,17 @@
     
                 <div class="div-panel" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
                     <label class="label-caption">Cума</label> 
-                    <label class="label-data">{{claimData.currency_name}} {{claimData.amount}}</label> 
+                    <label class="label-data">{{claimData.trans_currency}} {{claimData.trans_amount}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantName.invisible">
                     <label class="label-caption">Назва торговця</label> 
-                    <label class="label-data">{{claimData.merchant_name}}</label> 
+                    <label class="label-data">{{claimData.merch_name_ips}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
                     <label class="label-caption">RC</label> 
-                    <label class="label-data"></label> 
+                    <label class="label-data">{{claimData.reason_code}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
@@ -60,6 +60,7 @@
                 <div style="height: 30%;">
                     <label>Результат</label>
                     <br>
+                    <label style="font-weight: bold;">{{claimData.result}}</label>
                 </div>
                 
                 <div style="height: 40%;">

@@ -41,13 +41,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   part = 'one';
 
-  
-
   cOPClaimID: string;
   isNewRecord: boolean = true;
   getClaimSubscription: Subscription = new Subscription();
   claimData: ClaimView;
-  listMerchant: Array<SelectorData>;
+  //listMerchant: Array<SelectorData>;
   listCurrency: Array<SelectorData>;
   listQuestions: Array<SelectorData>;
   stepNewRecord: number;
@@ -118,7 +116,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.role = localStorage.getItem('role');
     this.claimId = this.transferService.cOPClaimID.getValue();
-    console.log(this.claimId);
+    
     if (this.claimId.length != 0) {
       this.loadClaim();
     }
@@ -148,22 +146,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.claimData = new ClaimView();
     this.stepNewRecord = 1;
 
-    // this.cOPClaimID = this.transferService.cOPClaimID.getValue();
+    this.claimId = this.transferService.cOPClaimID.getValue();
+    console.log('this.claimId = ' + this.claimId);
 
-    // this.isNewRecord = this.cOPClaimID.length == 0 ? true : false;
+    this.isNewRecord = this.claimId.length == 0 ? true : false;
+    console.log('this.isNewRecord = ' + this.isNewRecord);
 
-    // if(!this.isNewRecord){
-    //   this.getClaimsData();
-    // }
-    
-    this.getClaimsData(); //test
-    this.loadMerchants();
-
-    this.getListMerchant();
-    this.getListCurrency();
-    this.getListQuestions();
-
-    //console.log('ngOnInit--------END');
+    if(!this.isNewRecord){
+      this.loadClaim();
+    } else {
+      this.getListMerchant();
+      this.getListCurrency();
+      this.getListQuestions();
+    }
+ 
   }
 
   ngOnDestroy(): void {
@@ -180,9 +176,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('loadClaim');
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
+          this.claimData = response;
+          console.log(this.claimData);
           
-          console.log(response); 
-          this.claimData = response.results;
         },
         error: error => {
           console.error('There was an error!', error);
@@ -352,79 +348,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.part = par.part == 'two'? 'one':'two';
   }
 
-  loadMerchants() {
-    console.log('loadMerchants');
-    this.httpService.getMerchants().subscribe({
-        next: (response: any) => {
-          
-          console.log(response); 
-          this.merchantsArr = response.results;
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-         
-        }
-      });
-  }
-
+  
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
     console.log(this.fieldsStatus);
   }
   
-  getClaimsData(){
-    this.testData();
-  }
-
   public get getDateTrans(){
-    // if(this.claimData && this.claimData.trans_date){
-    //   return this.datePipe.transform(new Date(this.claimData.trans_date), 'dd-MM-yyyy hh:mm:ss');
-    // } else {
-    //   return '';
-    // }
-    return "";
+    if(this.claimData && this.claimData.trans_date){
+      return this.datePipe.transform(new Date(this.claimData.trans_date), 'dd-MM-yyyy hh:mm:ss');
+    } else {
+      return '';
+    }
+    
   }
 
-  testData(){
-    this.claimData = new ClaimView();
-
-    // this.claimData.fio = "Taras Shevchenko";
-    // this.claimData.cOPClaimID = 1111;
-    // this.claimData.pAN = 1234123412341234;
-    // this.claimData.transDate = new Date();
-    // this.claimData.merchantID = 1;
-    // this.claimData.merchantName = 'Rukavichka 1';
-    // this.claimData.terminalID = 12345678;
-    // this.claimData.amount = 1000.01;
-    // this.claimData.currency = 1;
-    // this.claimData.currencyName = 'грн';
-    // this.claimData.authCode = 123456;
-    // this.claimData.reasonCodeGroup = 1110001111000;
-    // this.claimData.stage = 'stage';
-    // this.claimData.actionNeeded = 'action Needed';
-    // this.claimData.result = 'result';
-    // this.claimData.dueDate = new Date();
-    // console.log(this.claimData);
-
-  }
-
+  
   onClickGoNextStep(){
     console.log(this.claimData);
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
-
-
-    this.radioGroupQueryValue1 = 1;
-    this.radioGroupQueryValue2 = 1;
-    this.radioGroupQueryValue3 = 2;
-
-    console.log(this.radioGroupQueryValue1);
-    console.log(this.radioGroupQueryValue2);
-    console.log(this.radioGroupQueryValue3);
 
     console.log('onClickGoNextStep');
   }
@@ -443,9 +388,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getListMerchant(){
-    this.listMerchant = new Array<SelectorData>();
-    this.listMerchant.push({id:1, caption:"Rukavichka 1"});
-    this.listMerchant.push({id:2, caption:"Rukavichka 2"});
+    // this.listMerchant = new Array<SelectorData>();
+    // this.listMerchant.push({id:1, caption:"Rukavichka 1"});
+    // this.listMerchant.push({id:2, caption:"Rukavichka 2"});
+
+    console.log('loadMerchants');
+    this.httpService.getMerchants().subscribe({
+        next: (response: any) => {
+          
+          console.log(response); 
+          this.merchantsArr = response.results;
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+         
+        }
+      });
   }
 
   getListCurrency(){

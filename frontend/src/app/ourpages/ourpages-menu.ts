@@ -21,7 +21,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Settings',
-    icon: 'setttings-outline',
+    
   },
   {
     title: 'TEST',
