@@ -96,7 +96,6 @@ class ClaimSerializer(serializers.ModelSerializer):
             # TODO: decide which terminal to choose if there are multiple
             # terminal = get_object_or_404(Terminal, merchant=merchant)
             # instance.terminal = terminal
-            instance.bank = merchant.bank
             instance.save()
 
     def assign_by_term_id(self, term_id, instance):
@@ -104,7 +103,6 @@ class ClaimSerializer(serializers.ModelSerializer):
         if terminal:
             instance.terminal = terminal
             instance.merchant = terminal.merchant
-            instance.bank = terminal.merchant.bank
             instance.save()
 
 
