@@ -40,6 +40,7 @@ class ContentObjectRelatedField(serializers.RelatedField):
 class ClaimSerializer(serializers.ModelSerializer):
     documents = ContentObjectRelatedField(queryset=Document.objects.all(), many=True, required=False)
     ch_comments = CommentSerializer(many=True, required=False)
+    claim_reason_code = serializers.CharField(source="claim_reason_code.code")
 
     class Meta:
         model = Claim
@@ -70,7 +71,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         ch_comments = validated_data.pop('ch_comments', [])
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
-            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
+            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(**claim_reason_code)
         validated_data['user'] = current_user
         instance = super().create(validated_data)
         for comment_data in ch_comments:
