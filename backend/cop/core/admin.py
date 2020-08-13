@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Document, Terminal, Comment, SurveyQuestion, \
-    DocumentRequest, ReasonCodeGroup
+from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Terminal, Comment, SurveyQuestion, \
+    ReasonCodeGroup, ClaimDocument
 
 
 @admin.register(Bank)
@@ -34,8 +34,8 @@ class StageAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Document)
-class DocumentAdmin(admin.ModelAdmin):
+@admin.register(ClaimDocument)
+class ClaimDocumentAdmin(admin.ModelAdmin):
     pass
 
 
@@ -45,11 +45,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 @admin.register(SurveyQuestion)
-class SurveyQuestionAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(DocumentRequest)
 class SurveyQuestionAdmin(admin.ModelAdmin):
     pass
 

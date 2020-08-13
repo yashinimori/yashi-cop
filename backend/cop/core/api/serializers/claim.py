@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cop.core.models import Claim, Merchant, Terminal, Document, Comment, ReasonCodeGroup
+from cop.core.models import Claim, Merchant, Terminal, ClaimDocument, Comment, ReasonCodeGroup
 from cop.users.api.serializers.user import UserSerializer
 
 
@@ -19,26 +19,15 @@ class ReasonCodeGroupSerializer(serializers.ModelSerializer):
         read_only = ('id',)
 
 
-class DocumentSerialiser(serializers.ModelSerializer):
-    file = serializers.FileField()
+class ClaimDocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Document
-        fields = ('id', 'file')
-
-
-class ContentObjectRelatedField(serializers.RelatedField):
-    def to_representation(self, value):
-        if isinstance(value, Claim):
-            serializer = ClaimSerializer(value)
-            return serializer.data
-
-    def to_internal_value(self, data):
-        return Document.objects.get_or_create(file=data)
+        model = ClaimDocument
+        fields = ('id', 'file', 'description', 'type', 'claim')
 
 
 class ClaimSerializer(serializers.ModelSerializer):
-    documents = ContentObjectRelatedField(queryset=Document.objects.all(), many=True, required=False)
+    documents = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='claim-documents')
     ch_comments = CommentSerializer(many=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
 
@@ -67,13 +56,13 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         current_user = self.context["request"].user
-        documents = validated_data.pop('documents', None)
         ch_comments = validated_data.pop('ch_comments', [])
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(**claim_reason_code)
         validated_data['user'] = current_user
         instance = super().create(validated_data)
+
         for comment_data in ch_comments:
             comment = Comment.objects.create(text=comment_data.get('text'), user=current_user)
             instance.ch_comments.add(comment)

@@ -6,7 +6,8 @@ Backend is served via Docker for easier set up process.
 
 <h3>Project set up</h3>
 
-1) Download and install Docker https://docs.docker.com/engine/install/ 
+0) Download and install Docker engine https://docs.docker.com/engine/install/ 
+1) Download docker-compose https://docs.docker.com/compose/install/
 2) Create and start containers. Use -f local.yml for development build and -f prod.yml for production build:
     ```
     docker-compose -f local.yml up -d

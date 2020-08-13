@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 
@@ -87,17 +85,8 @@ class Terminal(BaseModel):
 
 
 class Stage(BaseModel):
-
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     name = models.CharField(max_length=999)
-
-
-class Document(BaseModel):
-    content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField(blank=True, null=True)
-    bound_to = GenericForeignKey('content_type', 'object_id')
-    description = models.CharField(max_length=255, null=True, blank=True)
-    file = models.FileField(upload_to='documents/', null=True, blank=True)
 
 
 class Transaction(BaseModel):
@@ -221,7 +210,6 @@ class Claim(BaseModel):
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
 
     answers = JSONField(max_length=999, blank=True, null=True)
-    documents = GenericRelation(Document, related_query_name='claims', null=True, blank=True)
 
     due_date = models.DateTimeField(null=True, blank=True)
     dispute_date = models.DateTimeField(null=True, blank=True)
@@ -233,6 +221,30 @@ class Claim(BaseModel):
     pre_arbitration_response_date = models.DateTimeField(null=True, blank=True)
     arbitration_date = models.DateTimeField(null=True, blank=True)
     arbitration_response_date = models.DateTimeField(null=True, blank=True)
+
+
+class ClaimDocument(BaseModel):
+    class Types:
+        SUBSTITUTE_DRAFT = 'substitute_draft'
+        CHECK = 'check'
+        COMPELLING_EVIDENCE = 'compelling_evidence'
+        NOT_NEEDED = 'docs_not_needed'
+
+        choices = (
+            (SUBSTITUTE_DRAFT, 'Substitute Draft'),
+            (CHECK, 'Check'),
+            (COMPELLING_EVIDENCE, 'Compelling evidence'),
+            (NOT_NEEDED, 'Docs not needed'),
+        )
+    type = models.CharField(choices=Types.choices, max_length=20)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    file = models.FileField(upload_to='claim-documents/')
+    claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
+
+    def delete_task(self):
+        """TODO: CELERY task check if 90 days passed since claim archivation.
+        Send notification to chb_officer so he can download the file.
+        Delete document after 90 + 7 days since claim archivation"""
 
 
 class SurveyQuestion(BaseModel):
