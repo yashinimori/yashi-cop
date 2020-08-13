@@ -1,0 +1,2191 @@
+[
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+      "app_label": "auth",
+      "model": "permission"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+      "app_label": "auth",
+      "model": "group"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+      "app_label": "contenttypes",
+      "model": "contenttype"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+      "app_label": "sessions",
+      "model": "session"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+      "app_label": "sites",
+      "model": "site"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+      "app_label": "admin",
+      "model": "logentry"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "crontabschedule"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "intervalschedule"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "periodictask"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "periodictasks"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "solarschedule"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+      "app_label": "django_celery_beat",
+      "model": "clockedschedule"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+      "app_label": "authtoken",
+      "model": "token"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+      "app_label": "users",
+      "model": "user"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+      "app_label": "core",
+      "model": "bank"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+      "app_label": "core",
+      "model": "claim"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": {
+      "app_label": "core",
+      "model": "merchant"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": {
+      "app_label": "core",
+      "model": "stage"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 19,
+    "fields": {
+      "app_label": "core",
+      "model": "terminal"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 20,
+    "fields": {
+      "app_label": "core",
+      "model": "transaction"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 21,
+    "fields": {
+      "app_label": "core",
+      "model": "document"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 22,
+    "fields": {
+      "app_label": "core",
+      "model": "comment"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 23,
+    "fields": {
+      "app_label": "core",
+      "model": "surveyquestion"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 24,
+    "fields": {
+      "app_label": "core",
+      "model": "reasoncodegroup"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 25,
+    "fields": {
+      "app_label": "core",
+      "model": "documentrequest"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 26,
+    "fields": {
+      "app_label": "bank",
+      "model": "atm"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 27,
+    "fields": {
+      "app_label": "bank",
+      "model": "chargeback"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 28,
+    "fields": {
+      "app_label": "bank",
+      "model": "claim"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 29,
+    "fields": {
+      "app_label": "bank",
+      "model": "report"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 30,
+    "fields": {
+      "app_label": "bank",
+      "model": "transaction"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 31,
+    "fields": {
+      "app_label": "bank",
+      "model": "chargebackdetail"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "1ze4z730ib2aorgxig7x0j0obcsdxw31",
+    "fields": {
+      "session_data": "ZDExMTYxOWM1M2Q5MWViNTBjNTgyYWJiZDdkMzBlMGViMDRiMTVkYTp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4NTM0ODdlN2M1ZjZkMWVjMmZmZDI1ODlhNmNhZTJlZTI4ZTJhNjViIn0=",
+      "expire_date": "2020-08-27T10:36:15.741Z"
+    }
+  },
+  {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+      "domain": "example.com",
+      "name": "cop"
+    }
+  },
+  {
+    "model": "django_celery_beat.crontabschedule",
+    "pk": 1,
+    "fields": {
+      "minute": "0",
+      "hour": "4",
+      "day_of_week": "*",
+      "day_of_month": "*",
+      "month_of_year": "*",
+      "timezone": "UTC"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictasks",
+    "pk": 1,
+    "fields": {
+      "last_update": "2020-08-13T09:55:38.613Z"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 1,
+    "fields": {
+      "name": "celery.backend_cleanup",
+      "task": "celery.backend_cleanup",
+      "interval": null,
+      "crontab": 1,
+      "solar": null,
+      "clocked": null,
+      "args": "[]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "headers": "{}",
+      "priority": null,
+      "expires": null,
+      "expire_seconds": 43200,
+      "one_off": false,
+      "start_time": null,
+      "enabled": true,
+      "last_run_at": null,
+      "total_run_count": 0,
+      "date_changed": "2020-08-13T09:55:38.617Z",
+      "description": ""
+    }
+  },
+  {
+    "model": "core.bank",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "bin": "400000",
+      "type": "",
+      "name_eng": "Bank A",
+      "name_uk": "\u0411\u0430\u043d\u043a \u0410",
+      "name_rus": "\u0411\u0430\u043d\u043a \u0410",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": "777777777",
+      "contact_email": "john.doe@cop.cop"
+    }
+  },
+  {
+    "model": "core.bank",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "bin": "500000",
+      "type": "",
+      "name_eng": "Bank B",
+      "name_uk": "\u0411\u0430\u043d\u043a \u0411",
+      "name_rus": "\u0411\u0430\u043d\u043a \u0411",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": "777777777",
+      "contact_email": "john.doe@cop.cop"
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "00000002",
+      "address": "Address",
+      "merchant": 1
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "pre_mediation",
+      "name": "pre_mediation"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "mediation",
+      "name": "mediation"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 3,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "chargeback",
+      "name": "chargeback"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 4,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "chargeback_escalation",
+      "name": "chargeback_escalation"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 5,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "dispute",
+      "name": "dispute"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 6,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "dispute_response",
+      "name": "dispute_response"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 7,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "pre_arbitration",
+      "name": "pre_arbitration"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 8,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "pre_arbitration_response",
+      "name": "pre_arbitration_response"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 9,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "arbitration",
+      "name": "arbitration"
+    }
+  },
+  {
+    "model": "core.stage",
+    "pk": 10,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "stage": "final_ruling",
+      "name": "final_ruling"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0001",
+      "visa": "139",
+      "mastercard": "4834",
+      "description": "ATM CASH NOT RECEIVED"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0002",
+      "visa": "138",
+      "mastercard": "4853",
+      "description": "Original Credit Transaction Not Accepted"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 3,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0003",
+      "visa": "137",
+      "mastercard": "4853",
+      "description": "Cancelled Merchandise/Services"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 4,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0004",
+      "visa": "136",
+      "mastercard": "4853",
+      "description": "Credit Not Processed"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 5,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0005",
+      "visa": "135",
+      "mastercard": "4853",
+      "description": "Misrepresentation"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 6,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0006",
+      "visa": "134",
+      "mastercard": "4853",
+      "description": "Counterfeit Merchandise"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 7,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0007",
+      "visa": "133",
+      "mastercard": "4853",
+      "description": "Not as Described or Defective Merchandise/Services"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 8,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0008",
+      "visa": "132",
+      "mastercard": "4853",
+      "description": "Canceled Recurring Transaction"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 9,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0009",
+      "visa": "131",
+      "mastercard": "4853",
+      "description": "Merchandise/Services Not Received"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 10,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0010",
+      "visa": "127",
+      "mastercard": "4808",
+      "description": "Invalid Data"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 11,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0011",
+      "visa": "126",
+      "mastercard": "4834",
+      "description": "Duplicate Processing"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 12,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0012",
+      "visa": "125",
+      "mastercard": "4834",
+      "description": "Incorrect Amount"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 13,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0013",
+      "visa": "124",
+      "mastercard": "4808",
+      "description": "Incorrect Account Number"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 14,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0014",
+      "visa": "123",
+      "mastercard": "4834",
+      "description": "Incorrect Currency"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 15,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0015",
+      "visa": "122",
+      "mastercard": "4853",
+      "description": "Incorrect Transaction Code"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 16,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0016",
+      "visa": "121",
+      "mastercard": "4808",
+      "description": "Late Presentment"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 17,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0017",
+      "visa": "113",
+      "mastercard": "4808",
+      "description": "No Authorization"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 18,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0018",
+      "visa": "112",
+      "mastercard": "4808",
+      "description": "Declined Authorization"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 19,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0019",
+      "visa": "111",
+      "mastercard": "4808",
+      "description": "Card Recovery Bulletin"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 20,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0020",
+      "visa": "105",
+      "mastercard": "4837",
+      "description": "Fraud Monitoring Program"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 21,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0021",
+      "visa": "104",
+      "mastercard": "4837",
+      "description": "Other Fraud: Card-absent Environment/Condition"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 22,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0022",
+      "visa": "103",
+      "mastercard": "4837",
+      "description": "Other Fraud: Card-Present Environment/Condition"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 23,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0023",
+      "visa": "102",
+      "mastercard": "4837",
+      "description": "EMV Liability Shift Non-Counterfeit Fraud"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 24,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0024",
+      "visa": "101",
+      "mastercard": "4837",
+      "description": "EMV Liability Shift Counterfeit Fraud"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 25,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0025",
+      "visa": null,
+      "mastercard": "4834",
+      "description": "Charges for Loss, Theft, or Damages"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 26,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0026",
+      "visa": null,
+      "mastercard": "4834",
+      "description": "\u201cNo-Show\u201d Hotel Charge"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 27,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0027",
+      "visa": "126",
+      "mastercard": "4834",
+      "description": "Paid by Other Means"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 28,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0100",
+      "visa": null,
+      "mastercard": null,
+      "description": "\u0417\u0430\u043f\u0438\u0442 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0456\u0432"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 29,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0101",
+      "visa": null,
+      "mastercard": null,
+      "description": "\u0437\u0430\u043f\u0438\u0442\u043d\u0430 \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0456\u0437\u043e\u0432\u0430\u043d\u0438\u0439 \u043b\u043e\u0433"
+    }
+  },
+  {
+    "model": "core.reasoncodegroup",
+    "pk": 30,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "code": "0500",
+      "visa": null,
+      "mastercard": null,
+      "description": "\u0448\u043d\u0448\u0430 \u043f\u0440\u0438\u0447\u0438\u043d\u0430 \u0437\u0430\u043f\u0438\u0442 \u043d\u0430 CHB OFF"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u0438 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u0435,\u00a0\u0449\u043e \u0431\u0440\u0430\u043b\u0438 \u0443\u0447\u0430\u0441\u0442\u044c \u0443 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0456\u0457?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0427\u0438 \u0412\u0438 \u0440\u0430\u043d\u0456\u0448\u0435 \u0440\u043e\u0431\u0438\u043b\u0438 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0456\u0457 \u0443 \u0434\u0430\u043d\u043e\u0433\u043e \u0442\u043e\u0440\u0433\u043e\u0432\u0446\u044f?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 3,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0414\u0435 \u0437\u043d\u0430\u0445\u043e\u0434\u0438\u0442\u044c\u0441\u044f \u043a\u0430\u0440\u0442\u043a\u0430?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 4,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0436\u0438\u0442\u044c \u0434\u0430\u0442\u0443 \u0432\u0438\u043a\u0440\u0430\u0434\u0435\u043d\u043d\u044f"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 5,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u0430\u043c \u043f\u043e\u0442\u0440\u0456\u0431\u043d\u0456\u00a0\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0438\u00a0\u043f\u043e \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0456\u0457 \u0434\u043b\u044f \u0432\u043b\u0430\u0441\u043d\u0438\u0445 \u043f\u043e\u0442\u0440\u0435\u0431"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 6,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u041e\u043f\u0435\u0440\u0430\u0446\u0456\u044e \u0431\u0443\u043b\u043e \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0432 \u0431\u0430\u043d\u043a\u043e\u043c\u0430\u0442\u0456?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 7,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u041a\u043e\u0448\u0442\u0438 \u043d\u0435 \u0431\u0443\u043b\u0438 \u043e\u0442\u0440\u0438\u043c\u0430\u043d\u0456?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 8,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412 \u043f\u043e\u0432\u043d\u043e\u043c\u0443 \u043e\u0431\u0441\u044f\u0437\u0456 \u0447\u0438 \u0447\u0430\u0441\u0442\u043a\u043e\u0432\u043e?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 9,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0436\u0456\u0442\u044c \u044f\u043a\u0443 \u0441\u0443\u043c\u0443 \u043d\u0435 \u043e\u0442\u0440\u0438\u043c\u0430\u043d\u0438\u0445 \u043a\u043e\u0448\u0442\u0456\u0432"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 10,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u041e\u043f\u0435\u0440\u0430\u0446\u0456\u044f \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0430 \u0432 \u0456\u043d\u0442\u0435\u0440\u043d\u0435\u0442\u0456?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 11,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0427\u0438 \u0442\u043e\u0432\u0430\u0440 \u0431\u0443\u0432 \u043e\u0442\u0440\u0438\u043c\u0430\u043d\u0438\u0439/\u043f\u043e\u0441\u043b\u0443\u0433\u0430 \u043d\u0430\u0434\u0430\u043d\u0430?"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 12,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u041e\u0431\u0435\u0440\u0456\u0442\u044c \u043f\u0440\u0438\u0447\u0438\u043d\u0443 \u0456\u0437 \u0441\u043f\u0438\u0441\u043a\u0443"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 13,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0436\u0456\u0442\u044c \u044f\u043a\u0438\u043c \u0447\u0438\u043d\u043e\u043c \u0431\u0443\u043b\u043e \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u043e\u043f\u043b\u0430\u0442\u0443"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 14,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0437\u0430\u0442\u0438 \u0434\u0430\u0442\u0443 \u043f\u043e\u0432\u0435\u0440\u043d\u0435\u043d\u043d\u044f"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 15,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0436\u0438\u0442\u044c \u0434\u0430\u0442\u0443 \u043f\u043e\u0432\u0435\u0440\u043d\u0435\u043d\u043d\u044f"
+    }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 16,
+    "fields": {
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z",
+      "description": "\u0412\u043a\u0430\u0436\u0438\u0442\u044c \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0443 \u0441\u0443\u043c\u0443 \u0442\u0430 \u0432\u0430\u043b\u044e\u0442\u0443"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 1,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 1,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 1,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 1,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 2,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 2,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 2,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 2,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 3,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 3,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 3,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 3,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 4,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 4,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 4,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 4,
+      "codename": "view_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can add site",
+      "content_type": 5,
+      "codename": "add_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can change site",
+      "content_type": 5,
+      "codename": "change_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can delete site",
+      "content_type": 5,
+      "codename": "delete_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can view site",
+      "content_type": 5,
+      "codename": "view_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 6,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 6,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 6,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 6,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add crontab",
+      "content_type": 7,
+      "codename": "add_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change crontab",
+      "content_type": 7,
+      "codename": "change_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete crontab",
+      "content_type": 7,
+      "codename": "delete_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can view crontab",
+      "content_type": 7,
+      "codename": "view_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can add interval",
+      "content_type": 8,
+      "codename": "add_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can change interval",
+      "content_type": 8,
+      "codename": "change_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can delete interval",
+      "content_type": 8,
+      "codename": "delete_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can view interval",
+      "content_type": 8,
+      "codename": "view_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+      "name": "Can add periodic task",
+      "content_type": 9,
+      "codename": "add_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+      "name": "Can change periodic task",
+      "content_type": 9,
+      "codename": "change_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+      "name": "Can delete periodic task",
+      "content_type": 9,
+      "codename": "delete_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+      "name": "Can view periodic task",
+      "content_type": 9,
+      "codename": "view_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+      "name": "Can add periodic tasks",
+      "content_type": 10,
+      "codename": "add_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+      "name": "Can change periodic tasks",
+      "content_type": 10,
+      "codename": "change_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+      "name": "Can delete periodic tasks",
+      "content_type": 10,
+      "codename": "delete_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+      "name": "Can view periodic tasks",
+      "content_type": 10,
+      "codename": "view_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+      "name": "Can add solar event",
+      "content_type": 11,
+      "codename": "add_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+      "name": "Can change solar event",
+      "content_type": 11,
+      "codename": "change_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+      "name": "Can delete solar event",
+      "content_type": 11,
+      "codename": "delete_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+      "name": "Can view solar event",
+      "content_type": 11,
+      "codename": "view_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+      "name": "Can add clocked",
+      "content_type": 12,
+      "codename": "add_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+      "name": "Can change clocked",
+      "content_type": 12,
+      "codename": "change_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+      "name": "Can delete clocked",
+      "content_type": 12,
+      "codename": "delete_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+      "name": "Can view clocked",
+      "content_type": 12,
+      "codename": "view_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+      "name": "Can add Token",
+      "content_type": 13,
+      "codename": "add_token"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+      "name": "Can change Token",
+      "content_type": 13,
+      "codename": "change_token"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+      "name": "Can delete Token",
+      "content_type": 13,
+      "codename": "delete_token"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+      "name": "Can view Token",
+      "content_type": 13,
+      "codename": "view_token"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 14,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 14,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 14,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+      "name": "Can view user",
+      "content_type": 14,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+      "name": "Can add bank",
+      "content_type": 15,
+      "codename": "add_bank"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+      "name": "Can change bank",
+      "content_type": 15,
+      "codename": "change_bank"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+      "name": "Can delete bank",
+      "content_type": 15,
+      "codename": "delete_bank"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+      "name": "Can view bank",
+      "content_type": 15,
+      "codename": "view_bank"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+      "name": "Can add claim",
+      "content_type": 16,
+      "codename": "add_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+      "name": "Can change claim",
+      "content_type": 16,
+      "codename": "change_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+      "name": "Can delete claim",
+      "content_type": 16,
+      "codename": "delete_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+      "name": "Can view claim",
+      "content_type": 16,
+      "codename": "view_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can add merchant",
+      "content_type": 17,
+      "codename": "add_merchant"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can change merchant",
+      "content_type": 17,
+      "codename": "change_merchant"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can delete merchant",
+      "content_type": 17,
+      "codename": "delete_merchant"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can view merchant",
+      "content_type": 17,
+      "codename": "view_merchant"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+      "name": "Can add stage",
+      "content_type": 18,
+      "codename": "add_stage"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+      "name": "Can change stage",
+      "content_type": 18,
+      "codename": "change_stage"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+      "name": "Can delete stage",
+      "content_type": 18,
+      "codename": "delete_stage"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+      "name": "Can view stage",
+      "content_type": 18,
+      "codename": "view_stage"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+      "name": "Can add terminal",
+      "content_type": 19,
+      "codename": "add_terminal"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+      "name": "Can change terminal",
+      "content_type": 19,
+      "codename": "change_terminal"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+      "name": "Can delete terminal",
+      "content_type": 19,
+      "codename": "delete_terminal"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+      "name": "Can view terminal",
+      "content_type": 19,
+      "codename": "view_terminal"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+      "name": "Can add transaction",
+      "content_type": 20,
+      "codename": "add_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+      "name": "Can change transaction",
+      "content_type": 20,
+      "codename": "change_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+      "name": "Can delete transaction",
+      "content_type": 20,
+      "codename": "delete_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+      "name": "Can view transaction",
+      "content_type": 20,
+      "codename": "view_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+      "name": "Can add document",
+      "content_type": 21,
+      "codename": "add_document"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+      "name": "Can change document",
+      "content_type": 21,
+      "codename": "change_document"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+      "name": "Can delete document",
+      "content_type": 21,
+      "codename": "delete_document"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+      "name": "Can view document",
+      "content_type": 21,
+      "codename": "view_document"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 85,
+    "fields": {
+      "name": "Can add comment",
+      "content_type": 22,
+      "codename": "add_comment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 86,
+    "fields": {
+      "name": "Can change comment",
+      "content_type": 22,
+      "codename": "change_comment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 87,
+    "fields": {
+      "name": "Can delete comment",
+      "content_type": 22,
+      "codename": "delete_comment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 88,
+    "fields": {
+      "name": "Can view comment",
+      "content_type": 22,
+      "codename": "view_comment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 89,
+    "fields": {
+      "name": "Can add survey question",
+      "content_type": 23,
+      "codename": "add_surveyquestion"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 90,
+    "fields": {
+      "name": "Can change survey question",
+      "content_type": 23,
+      "codename": "change_surveyquestion"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 91,
+    "fields": {
+      "name": "Can delete survey question",
+      "content_type": 23,
+      "codename": "delete_surveyquestion"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 92,
+    "fields": {
+      "name": "Can view survey question",
+      "content_type": 23,
+      "codename": "view_surveyquestion"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 93,
+    "fields": {
+      "name": "Can add reason code group",
+      "content_type": 24,
+      "codename": "add_reasoncodegroup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 94,
+    "fields": {
+      "name": "Can change reason code group",
+      "content_type": 24,
+      "codename": "change_reasoncodegroup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 95,
+    "fields": {
+      "name": "Can delete reason code group",
+      "content_type": 24,
+      "codename": "delete_reasoncodegroup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 96,
+    "fields": {
+      "name": "Can view reason code group",
+      "content_type": 24,
+      "codename": "view_reasoncodegroup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 97,
+    "fields": {
+      "name": "Can add document request",
+      "content_type": 25,
+      "codename": "add_documentrequest"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 98,
+    "fields": {
+      "name": "Can change document request",
+      "content_type": 25,
+      "codename": "change_documentrequest"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 99,
+    "fields": {
+      "name": "Can delete document request",
+      "content_type": 25,
+      "codename": "delete_documentrequest"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 100,
+    "fields": {
+      "name": "Can view document request",
+      "content_type": 25,
+      "codename": "view_documentrequest"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 101,
+    "fields": {
+      "name": "Can add atm",
+      "content_type": 26,
+      "codename": "add_atm"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 102,
+    "fields": {
+      "name": "Can change atm",
+      "content_type": 26,
+      "codename": "change_atm"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 103,
+    "fields": {
+      "name": "Can delete atm",
+      "content_type": 26,
+      "codename": "delete_atm"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 104,
+    "fields": {
+      "name": "Can view atm",
+      "content_type": 26,
+      "codename": "view_atm"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 105,
+    "fields": {
+      "name": "Can add chargeback",
+      "content_type": 27,
+      "codename": "add_chargeback"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 106,
+    "fields": {
+      "name": "Can change chargeback",
+      "content_type": 27,
+      "codename": "change_chargeback"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 107,
+    "fields": {
+      "name": "Can delete chargeback",
+      "content_type": 27,
+      "codename": "delete_chargeback"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 108,
+    "fields": {
+      "name": "Can view chargeback",
+      "content_type": 27,
+      "codename": "view_chargeback"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 109,
+    "fields": {
+      "name": "Can add claim",
+      "content_type": 28,
+      "codename": "add_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 110,
+    "fields": {
+      "name": "Can change claim",
+      "content_type": 28,
+      "codename": "change_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 111,
+    "fields": {
+      "name": "Can delete claim",
+      "content_type": 28,
+      "codename": "delete_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 112,
+    "fields": {
+      "name": "Can view claim",
+      "content_type": 28,
+      "codename": "view_claim"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 113,
+    "fields": {
+      "name": "Can add report",
+      "content_type": 29,
+      "codename": "add_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 114,
+    "fields": {
+      "name": "Can change report",
+      "content_type": 29,
+      "codename": "change_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 115,
+    "fields": {
+      "name": "Can delete report",
+      "content_type": 29,
+      "codename": "delete_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 116,
+    "fields": {
+      "name": "Can view report",
+      "content_type": 29,
+      "codename": "view_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 117,
+    "fields": {
+      "name": "Can add transaction",
+      "content_type": 30,
+      "codename": "add_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 118,
+    "fields": {
+      "name": "Can change transaction",
+      "content_type": 30,
+      "codename": "change_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 119,
+    "fields": {
+      "name": "Can delete transaction",
+      "content_type": 30,
+      "codename": "delete_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 120,
+    "fields": {
+      "name": "Can view transaction",
+      "content_type": 30,
+      "codename": "view_transaction"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 121,
+    "fields": {
+      "name": "Can add chargeback detail",
+      "content_type": 31,
+      "codename": "add_chargebackdetail"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 122,
+    "fields": {
+      "name": "Can change chargeback detail",
+      "content_type": 31,
+      "codename": "change_chargebackdetail"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 123,
+    "fields": {
+      "name": "Can delete chargeback detail",
+      "content_type": 31,
+      "codename": "delete_chargebackdetail"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 124,
+    "fields": {
+      "name": "Can view chargeback detail",
+      "content_type": 31,
+      "codename": "view_chargebackdetail"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "Chargeback",
+      "last_name": "Officer",
+      "role": "chargeback_officer",
+      "unit": null,
+      "phone": "77777777",
+      "email": "officer@cop.cop",
+      "claim_fields": "[]",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "Merchant",
+      "last_name": "Merchant",
+      "role": "merchant",
+      "unit": null,
+      "phone": "77777777",
+      "email": "merchant@cop.cop",
+      "claim_fields": "[]",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$RUl4bFU1WU9xa29o$4q9b7Ys+vzfnW8N4Yaj5xg",
+      "last_login": "2020-08-13T10:36:15.719Z",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-08-13T10:36:11.896Z",
+      "first_name": "",
+      "last_name": "",
+      "role": "",
+      "unit": null,
+      "phone": "",
+      "email": "adm@adm.adm",
+      "claim_fields": null,
+      "registration_date": "2020-08-13",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "core.merchant",
+    "pk": 1,
+    "fields": {
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 5,
+      "merch_id": "12345678",
+      "name_legal": "Test Merchant",
+      "bin": "400000",
+      "name_ips": "Test Merchant",
+      "mcc": "1234",
+      "description": "Test Merchant",
+      "address": "Test Merchant",
+      "terminal_id": "00000001",
+      "contact_person": "Test Merchant",
+      "bank": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2020-08-13T10:21:07.712Z",
+      "user": 5,
+      "content_type": 17,
+      "object_id": "1",
+      "object_repr": "Test Merchant",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+      "action_time": "2020-08-13T10:21:29.501Z",
+      "user": 5,
+      "content_type": 19,
+      "object_id": "1",
+      "object_repr": "00000002",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  }
+]

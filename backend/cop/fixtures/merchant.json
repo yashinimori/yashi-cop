@@ -32,33 +32,57 @@
     }
   },
   {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "Merchant",
+      "last_name": "Merchant",
+      "role": "merchant",
+      "unit": null,
+      "phone": 77777777,
+      "email": "merchant@cop.cop",
+      "claim_fields": "[]",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
     "model": "core.merchant",
     "pk": 1,
     "fields": {
-      "merch_id": 12345678,
-      "bank": 1,
-      "name_legal": "Merchant A",
-      "name_ips": "Merchant A",
-      "mcc": "mrch",
-      "bin": 12345,
-      "description": "test merchant",
-      "telephone": 7777777,
-      "email": "john.doe@cop.cop",
-      "address": "adress",
-      "terminal_id": 12345678,
-      "contact_person": "John Doe",
-      "create_date": "2020-08-09T18:25:43.511Z",
-      "update_date": "2020-08-09T18:25:43.511Z"
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 5,
+      "merch_id": "12345678",
+      "name_legal": "Test Merchant",
+      "bin": "400000",
+      "name_ips": "Test Merchant",
+      "mcc": "1234",
+      "description": "Test Merchant",
+      "address": "Test Merchant",
+      "terminal_id": "00000001",
+      "contact_person": "Test Merchant",
+      "bank": [
+        1
+      ]
     }
   },
   {
     "model": "core.terminal",
     "pk": 1,
     "fields": {
-      "term_id": "00000001",
-      "merchant": 1,
-      "create_date": "2020-08-09T18:25:43.511Z",
-      "update_date": "2020-08-09T18:25:43.511Z"
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "00000002",
+      "address": "Address",
+      "merchant": 1
     }
   }
 ]
