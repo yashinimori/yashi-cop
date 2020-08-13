@@ -110,8 +110,8 @@
                     <nb-select class="selector-list" [(selected)]="claimData.merch_id"
                         [required]="fieldsStatus.merchantID.required" 
                         [disabled]="fieldsStatus.merchantID.readonly" >
-                        <nb-option *ngFor="let item of listMerchant" [value]="item.id">
-                            {{ item.caption }}
+                        <nb-option *ngFor="let item of merchantsArr" [value]="item.id">
+                            {{ item.name_ips }}
                         </nb-option>
                     </nb-select>
                 </div>
@@ -129,15 +129,15 @@
                     <input class="input-data" nbInput placeholder="Cума операції" 
                         [required]="fieldsStatus.amount.required" 
                         [readonly]="fieldsStatus.amount.readonly" 
-                        [(ngModel)]="claimData.amount">
+                        [(ngModel)]="claimData.trans_amount">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
                     <label class="label-caption">Валюта операції</label> 
-                    <nb-select class="selector-list" [(selected)]="claimData.currency"
+                    <nb-select class="selector-list" [(selected)]="claimData.trans_currency"
                         [required]="fieldsStatus.currency.required" 
                         [disabled]="fieldsStatus.currency.readonly">
-                        <nb-option *ngFor="let item of listCurrency" [value]="item.id">
+                        <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
@@ -148,7 +148,7 @@
                     <input class="input-data" nbInput placeholder="Код операції" 
                         [required]="fieldsStatus.authCode.required" 
                         [readonly]="fieldsStatus.authCode.readonly"
-                        [(ngModel)]="claimData.auth_code">
+                        [(ngModel)]="claimData.trans_approval_code">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
@@ -156,7 +156,7 @@
                     <input class="input-data" nbInput placeholder="Код операції" 
                         [required]="fieldsStatus.comment.required" 
                         [readonly]="fieldsStatus.comment.readonly"
-                        [(ngModel)]="claimData.comment">
+                        [(ngModel)]="claimData.ch_comments">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
@@ -188,8 +188,8 @@
                         </label> 
                         <nb-radio-group name="groupQuery1" formControlName="groupQuery1" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue1">
-                            <nb-radio [value] = "1" >ні</nb-radio>
-                            <nb-radio [value] = "2" >так</nb-radio>
+                            <nb-radio [value] = "valNo" >{{valNo.text}}</nb-radio>
+                            <nb-radio [value] = "valYes" >{{valYes.text}}</nb-radio>
                         </nb-radio-group>
                     </ng-template>
                 
@@ -199,9 +199,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery2" formControlName="groupQuery2" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue2">
-                            <nb-radio [value] = "1" >ні</nb-radio>
-                            <nb-radio [value] = "2" >так, але вважаю, що це шахрайство</nb-radio>
-                            <nb-radio [value] = "3" >так, але я не пам'ятаю транзакцію</nb-radio>
+                            <nb-radio [value] = "valNo" >{{valNo.text}}</nb-radio>
+                            <nb-radio [value] = "valYes2" >{{valYes2.text}}</nb-radio>
+                            <nb-radio [value] = "valYes3" >{{valYes3.text}}</nb-radio>
                         </nb-radio-group>
                     </ng-template>
                 
@@ -211,9 +211,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery3" formControlName="groupQuery3" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue3">
-                            <nb-radio [value] = "1" >картка в моєму володінні
+                            <nb-radio [value] = "valWhereCard" >{{valWhereCard.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >картка була загублена або вкрадена
+                            <nb-radio [value] = "valWhereCard2" >{{valWhereCard2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -236,9 +236,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery5" formControlName="groupQuery5" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue5">
-                            <nb-radio [value] = "1" >так
+                            <nb-radio [value] = "valNeedDocument" >{{valNeedDocument.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >ні, я хочу подати заявку на повернення коштів
+                            <nb-radio [value] = "valNeedDocument2" >{{valNeedDocument2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -249,9 +249,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery6" formControlName="groupQuery6" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue6">
-                            <nb-radio [value] = "1" >так
+                            <nb-radio [value] = "valOperation" >{{valOperation.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >ні, це була оплата товарів або послуг
+                            <nb-radio [value] = "valOperation2" >{{valOperation2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -262,9 +262,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery7" formControlName="groupQuery7" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue7">
-                            <nb-radio [value] = "1" >ні, це була інша операція в цьому банкоматі
+                            <nb-radio [value] = "valMoney" >{{valMoney.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >так
+                            <nb-radio [value] = "valMoney2" >{{valMoney2.text}}
                             </nb-radio>                     
                         </nb-radio-group>
                     </ng-template>
@@ -275,9 +275,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery8" formControlName="groupQuery8" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue8">
-                            <nb-radio [value] = "1" >частково
+                            <nb-radio [value] = "valOll" >{{valOll.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >в повному обсязі
+                            <nb-radio [value] = "valOll2" >{{valOll2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -297,9 +297,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery10" formControlName="groupQuery10" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue10">
-                            <nb-radio [value] = "1" >так
+                            <nb-radio [value] = "valWhereOperation" >{{valWhereOperation.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >ні
+                            <nb-radio [value] = "valWhereOperation2" >{{valWhereOperation2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -310,9 +310,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery11" formControlName="groupQuery11" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue11">
-                            <nb-radio [value] = "1" >ні
+                            <nb-radio [value] = "valGet" >{{valGet.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >так
+                            <nb-radio [value] = "valGet2" >{{valGet2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -323,7 +323,7 @@
                         </label> 
                         <nb-select name="groupQuery12" formControlName="groupQuery12"
                             class="selector-list-questions" [(selected)]="question">
-                            <nb-option *ngFor="let item of listQuestions" [value]="item.id">
+                            <nb-option *ngFor="let item of listQuestions" [value]="item">
                                 {{ item.caption }}
                             </nb-option>
                         </nb-select>
@@ -335,9 +335,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery13" formControlName="groupQuery13" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue13">
-                            <nb-radio [value] = "1" >готівкою
+                            <nb-radio [value] = "valPay" >{{valPay.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >іншою картою
+                            <nb-radio [value] = "valPay2" >{{valPay2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -350,7 +350,7 @@
                             placeholder="Вкажить дату повернення"
                             [nbDatepicker]="formpicker"
                             name="groupQuery14" formControlName="groupQuery14" 
-                            [(ngModel)]="claimData.transDate">
+                            [(ngModel)]="claimData.trans_date">
                         <nb-datepicker #formpicker></nb-datepicker> 
                     </ng-template>
                 
@@ -360,9 +360,9 @@
                         </label> 
                         <nb-radio-group name="groupQuery15" formControlName="groupQuery15" 
                             class="input-radio" [(ngModel)]="radioGroupQueryValue15">
-                            <nb-radio [value] = "1" >так
+                            <nb-radio [value] = "valBack" >{{valBack.text}}
                             </nb-radio>
-                            <nb-radio [value] = "2" >ні
+                            <nb-radio [value] = "valBack2" >{{valBack2.text}}
                             </nb-radio>
                         </nb-radio-group>
                     </ng-template>
@@ -373,8 +373,7 @@
                         </label> 
                         <input class="control-input-questions" nbInput placeholder="Cума"
                             name="groupQuery16" formControlName="groupQuery16"  >
-                        <nb-select class="control-input-questions" [(selected)]="claimData.currency"
-                            name="groupQuery16" formControlName="groupQuery16">
+                        <nb-select class="control-input-questions" [(selected)]="claimData.currency">
                             <nb-option *ngFor="let item of listCurrency" [value]="item.id">
                                 {{ item.caption }}
                             </nb-option>
@@ -387,9 +386,9 @@
             
             <nb-card-footer>
                 <div class="center">
-                    <button nbButton status="primary" (click)="change(this)">Click</button>
                     <button  nbButton status="primary" (click)="onClickBack()">Повернутися</button>
-                    <button  nbButton status="primary" style="margin-left: 10px;" (click)="onClickSend()">Відправити</button>
+                    <button *ngIf="!isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="change(this)">Далі</button>
+                    <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
                 </div>
               </nb-card-footer>
         </nb-card>

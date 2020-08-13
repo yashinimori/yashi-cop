@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_GET_CLAIM_LIST } from '../urlConstants';
+import { URL_GET_CLAIM_LIST, URL_GET_MERCHANTS } from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,11 @@ export class HttpService {
   createNewClaim(claim: any) {
     return this.http.post(URL_GET_CLAIM_LIST, claim, this.getHeaders());
   }
+
+  getMerchants() {
+    return this.http.get(URL_GET_MERCHANTS, this.getHeaders());
+  }
+  
 
   private getHeaders() {
     let body = `JWT ${localStorage.getItem('token')}`;

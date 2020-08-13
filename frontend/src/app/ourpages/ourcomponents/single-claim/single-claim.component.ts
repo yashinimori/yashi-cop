@@ -84,10 +84,34 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   public radioGroupQueryValue15: number = 0; 
 
   role: string;
+  isLastStep: boolean = false;
+  merchantsArr: Array<any> = new Array<any>();
 
   fieldsStatus: FieldsStatus;
+  editedAnswers: Array<any> = new Array<any>();
+  valNo = {val: 1, text: 'ні'};
+  valYes = {val: 2, text: 'так'};
+  valYes2 = {val: 2, text: 'так, але вважаю, що це шахрайство'};
+  valYes3 = {val: 3, text: "так, але я не пам'ятаю транзакцію"};
+  valWhereCard = {val: 1, text: 'картка в моєму володінні'};
+  valWhereCard2 = {val: 2, text: 'картка була загублена або вкрадена'};
+  valNeedDocument = {val: 1, text: 'так'};
+  valNeedDocument2 = {val: 2, text: 'ні, я хочу подати заявку на повернення коштів'};
+  valOperation = {val: 1, text: 'так'};
+  valOperation2 = {val: 2, text: 'ні, це була оплата товарів або послуг'};
+  valMoney = {val: 1, text: 'ні, це була інша операція в цьому банкоматі'};
+  valMoney2 = {val: 2, text: 'так'};
+  valOll = {val: 1, text: 'частково'};
+  valOll2 = {val: 2, text: 'в повному обсязі'};
+  valWhereOperation = {val: 1, text: 'так'};
+  valWhereOperation2 = {val: 2, text: 'ні'};
+  valGet = {val: 1, text: 'ні'};
+  valGet2 = {val: 2, text: 'так'};
+  valPay = {val: 1, text: 'готівкою'};
+  valPay2 = {val: 2, text: 'іншою картою'};
+  valBack = {val: 1, text: 'так'};
+  valBack2 = {val: 2, text: 'ні'};
 
-  
   ngOnInit(): void {
     //console.log('ngOnInit');
     
@@ -128,6 +152,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // }
     
     this.getClaimsData(); //test
+    this.loadMerchants();
 
     this.getListMerchant();
     this.getListCurrency();
@@ -146,107 +171,151 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  lastStep(code:string) {
+    this.claimData.claim_reson_code = code;
+    this.isLastStep = true;
+    this.claimData.answers = {};
+    for(let i = 0; i < this.editedAnswers.length; i++) {
+      this.claimData.answers[Object.keys(this.editedAnswers[i])[0]] = this.editedAnswers[i][Object.keys(this.editedAnswers[i])[0]];
+    }
+    this.saveClaim();
+    console.log(this.claimData.answers);
+  }
+
+  saveClaim() {
+    console.log(this.claimData);
+    this.httpService.createNewClaim(this.claimData).subscribe({
+      next: (response: any) => {
+        console.log('ok');
+        console.log(response); 
+        
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+  }
+
   change(par: any) {
     console.log(par);
     switch(par.part) {
       case 'one':
-        console.log(par.formGroups.value.groupQuery1);
-        if(par.formGroups.value.groupQuery1 == 1) {
+        this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
+        if(par.formGroups.value.groupQuery1.val == 1) {
           this.part = 'two';
         } else {
           this.part = 'five';
         }
         break;
       case 'two':
-        if(par.formGroups.value.groupQuery2 == 3) {
+        this.editedAnswers.push({"2": par.formGroups.value.groupQuery2.text});
+        if(par.formGroups.value.groupQuery2.val == 3) {
           this.part = 'five';
         } else {
           this.part = 'three';
         }
         break;
       case 'three':
-          if(par.formGroups.value.groupQuery3 == 3) {
-            console.log('0021');
+        this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
+          if(par.formGroups.value.groupQuery3.val == 3) {
+            this.lastStep('0021');
           } else {
             this.part = 'four';
           }
           break;
       case 'four':
-          console.log('0021');
+        this.editedAnswers.push({"4": par.formGroups.value.groupQuery4});
+        this.lastStep('0021');
           break;
       case 'five':
-        if(par.formGroups.value.groupQuery5 == 1) {
-          console.log('0100');
+        this.editedAnswers.push({"5": par.formGroups.value.groupQuery5.text});
+        if(par.formGroups.value.groupQuery5.val == 1) {
+          this.lastStep('0100');
         } else {
           this.part = 'six';
         }
         break;
       case 'six':
-        if(par.formGroups.value.groupQuery6 == 1) {
+        this.editedAnswers.push({"6": par.formGroups.value.groupQuery6.text});
+        if(par.formGroups.value.groupQuery6.val == 1) {
           this.part = 'seven';
         } else {
           this.part = 'ten';
         }
         break;
       case 'seven':
-        if(par.formGroups.value.groupQuery7 == 1) {
-          console.log('0500');
+        this.editedAnswers.push({"7": par.formGroups.value.groupQuery7.text});
+        if(par.formGroups.value.groupQuery7.val == 1) {
+          this.lastStep('0500');
         } else {
           this.part = 'eight';
         }
         break;
       case 'eight':
-        if(par.formGroups.value.groupQuery8 == 1) {
+        this.editedAnswers.push({"8": par.formGroups.value.groupQuery8.text});
+        if(par.formGroups.value.groupQuery8.val == 1) {
           this.part = 'nine';
         } else {
-          console.log('0001');          
+          this.lastStep('0001');      
         }
         break;
       case 'nine':
-        console.log('0001');
+        this.editedAnswers.push({"9": par.formGroups.value.groupQuery9});
+        this.lastStep('0001');
         break;
       case 'ten':
+        this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1? true:false});
         this.part = 'eleven';
         break;
       case 'eleven':
-        if(par.formGroups.value.groupQuery11 == 1) {
-          console.log('0009');
+        this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1? false:true});
+        if(par.formGroups.value.groupQuery11.val == 1) {
+          this.lastStep('0009');
         } else {
           this.part = 'twelve';
         }
         break;
       case 'twelve':
-        if(par.formGroups.value.groupQuery12 == 1) {
-          console.log('0011');
-        } else if(par.formGroups.value.groupQuery12 == 2) {
+        this.editedAnswers.push({"12": par.formGroups.value.groupQuery12.caption});
+        if(par.formGroups.value.groupQuery12.id == 1) {
+          this.lastStep('0011');
+        } else if(par.formGroups.value.groupQuery12.id == 2) {
           this.part = 'thirteen';
-        } else if(par.formGroups.value.groupQuery12 == 3) {
+        } else if(par.formGroups.value.groupQuery12.id == 3) {
           this.part = 'fourteen';
-        } else if(par.formGroups.value.groupQuery12 == 4) {
-          console.log('0003');
-        } else if(par.formGroups.value.groupQuery12 == 5) {
-          console.log('ERROR');
-        } else if(par.formGroups.value.groupQuery12 == 6) {
-          this.part = 'fourteen';
-        } else if(par.formGroups.value.groupQuery12 == 7) {
-          console.log('0500');
+        } else if(par.formGroups.value.groupQuery12.id == 4) {
+          this.lastStep('0003');
+        } else if(par.formGroups.value.groupQuery12.id == 5) {
+          this.part = 'thirteen';
+        } else if(par.formGroups.value.groupQuery12.id == 6) {
+          this.part = 'sixteen';
+        } else if(par.formGroups.value.groupQuery12.id == 7) {
+          this.lastStep('0500');
         } else {
           console.log('stop');
         }
         break;
         case 'thirteen':
-          console.log('0027');
+          this.editedAnswers.push({"13": par.formGroups.value.groupQuery13.text});
+          this.lastStep('0027');
         break;
         case 'fourteen':
-          console.log('0004');
+          this.editedAnswers.push({"14": this.claimData.trans_date});
+          this.lastStep('0004');
         break;
         case 'fiveteen':
-          console.log('0009');
+          this.editedAnswers.push({"15": par.formGroups.value.groupQuery15.val == 1? true:false});
+          this.lastStep('0009');
         break;
         case 'sixteen':
-          console.log('0012');
+          this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
+          this.lastStep('0012');
         break;
     }
+    console.log(this.editedAnswers);
     // if(par.part == 'one') {
     //   console.log(par.formGroups.value.groupQuery1);
     //   if(par.formGroups.value.groupQuery1 == 1) {
@@ -258,6 +327,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     
 
     //this.part = par.part == 'two'? 'one':'two';
+  }
+
+  loadMerchants() {
+    console.log('loadMerchants');
+    this.httpService.getMerchants().subscribe({
+        next: (response: any) => {
+          
+          console.log(response); 
+          this.merchantsArr = response.results;
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+         
+        }
+      });
   }
 
   generateStatusFields() {
@@ -321,17 +407,15 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onClickSend(){
-    //console.log(this.claimData);
-
-    console.log(this.radioGroupQueryValue1);
-    console.log(this.radioGroupQueryValue2);
-    console.log(this.radioGroupQueryValue3);
+    console.log(this.claimData);
     
-    this.transferService.pAD.next(this.claimData.pan.toString());
-    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+    //this.transferService.pAD.next(this.claimData.pan.toString());
+    //this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
   onClickBack(){
+    this.isLastStep = false;
+    this.editedAnswers = new Array<any>();
     this.stepNewRecord = 1;
   }
 
@@ -343,9 +427,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getListCurrency(){
     this.listCurrency = new Array<SelectorData>();
-    this.listCurrency.push({id:1, caption:"грн"});
-    this.listCurrency.push({id:2, caption:"долар"});
-    this.listCurrency.push({id:2, caption:"євро"});
+    this.listCurrency.push({id:1, caption:"hrn"});
+    this.listCurrency.push({id:2, caption:"usd"});
+    this.listCurrency.push({id:2, caption:"eur"});
   }
 
   getListQuestions(){
@@ -360,3 +444,54 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 }
+
+// export class AnswersModel {
+//   constructor(props?: Partial<FieldsStatus>) {
+//     if (props) {
+//         this.'1' = props.'1' || '';
+//         this.transDate = props.transDate || new paramStatusFields();
+//         this.merchantID = props.pan || new paramStatusFields();
+//         this.terminalID = props.terminalID || new paramStatusFields();
+//         this.amount = props.amount || new paramStatusFields();
+//         this.currency = props.currency || new paramStatusFields();
+//         this.authCode = props.authCode || new paramStatusFields();
+//         this.comment = props.comment || new paramStatusFields();
+//         this.cOPClaimID = props.cOPClaimID || new paramStatusFields();
+//         this.merchantName = props.merchantName || new paramStatusFields();
+//         this.reasonCodeGroup = props.reasonCodeGroup || new paramStatusFields();
+//         this.stage = props.stage || new paramStatusFields();
+//         this.actionNeeded = props.actionNeeded || new paramStatusFields();
+//         this.result = props.result || new paramStatusFields();
+//         this.dueDate = props.dueDate || new paramStatusFields();
+//         this.currencyName = props.currencyName || new paramStatusFields();
+//         this.fio = props.fio || new paramStatusFields();
+//         this.rC = props.rC || new paramStatusFields();
+//         this.aRN = props.aRN || new paramStatusFields();
+//         this.docs =  props.docs || new paramStatusFields();
+
+//     } else {
+//         this.default();
+//     }
+// }
+
+// one
+// two
+// three
+// four
+// five
+// six
+// seven
+// eight
+// nine
+// ten
+// eleven
+// twelve
+// thirteen
+// fourteen
+// fiveteen
+// sixteen;
+
+//   default() {
+//       this.'1' = '';
+//   }
+// }

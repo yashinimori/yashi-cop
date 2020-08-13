@@ -11,5 +11,11 @@ export class ClaimView extends ClaimRegistration {
   currency_name: string;
   fio: string;
   arn: string;
+  answers: any;
+  claim_reson_code:string;
+  trans_approval_code:string;
+  ch_comments:string;
+  trans_amount:any;
+  trans_currency:any;
 
 }
