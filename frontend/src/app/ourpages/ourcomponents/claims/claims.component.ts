@@ -15,98 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class ClaimsComponent implements OnInit, OnDestroy {
   claimsData: Array<ClaimView>;
-
-  settings = {
-    pager:{perPage: 5},
-    hideSubHeader: true,
-    actions:{
-    // add: {
-    //   addButtonContent: '<i class="nb-plus"></i>',
-    //   createButtonContent: '<i class="nb-checkmark"></i>',
-    //   cancelButtonContent: '<i class="nb-close"></i>',
-    // },
-    // edit: {
-    //   editButtonContent: '<i class="nb-edit"></i>',
-    //   saveButtonContent: '<i class="nb-checkmark"></i>',
-    //   cancelButtonContent: '<i class="nb-close"></i>',
-    // },
-    // delete: {
-    //   deleteButtonContent: '<i class="nb-trash"></i>',
-    //   confirmDelete: true,
-    // },
-      add: false,
-      edit: false,
-      delete: false,
-    },
-    columns: {
-      claim_id: {
-        title: 'Номер',
-        type: 'string',
-      },
-      pan: {
-        title: 'Номер карти',
-        type: 'string',
-      },
-      trans_date: {
-        title: 'Дата транзакції',
-        valuePrepareFunction: (trans_date) => {
-          if(trans_date)
-            return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-          else
-            return '';
-        }
-      },      
-      merchant_name: {
-        title: "Назва торговця",
-        type: 'string',
-      },
-      term_id: {
-        title: "Ім'я терміналу",
-        type: 'string',
-      },
-      amount: {
-        title: "Cума",
-        type: 'number',
-      },
-      currency_name: {
-        title: "Валюта",
-        type: 'string',
-      },
-      auth_code: {
-        title: "Код авторизації",
-        type: 'number',
-      },
-      reason_code_group: {
-        title: "Reason Code Group",
-        type: 'number',
-      },
-      stage: {
-        title: "Статус",
-        type: 'string',
-      },
-      action_needed: {
-        title: "Індикатор",
-        type: 'string',
-      },
-      result: {
-        title: "Результат",
-        type: 'string',
-      },
-      due_date: {
-        title: 'Кінцевий термін претензії.',
-        valuePrepareFunction: (due_date) => {
-          //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
-          if(due_date)
-            return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
-          else
-            return '';
-        }
-      },
-
-    },
-  };
-
-  
+  settings: any;
   source: LocalDataSource;
 
   constructor(private datePipe: DatePipe, 
@@ -129,11 +38,163 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   onUserRowSelect(event): void {
     this.transferService.cOPClaimID.next(event.cOPClaimID);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    console.log('onUserRowSelect(event)');
     console.log(event);
   }
 
   ngOnInit(): void {
+    this.setSettingsGrid('user');
     this.getClaimsData();
+
+    this.hideColumnForUser('user');
+  }
+
+
+  hideColumnForUser(role:string){
+    if(role){
+        delete this.settings.columns.claim_id;
+    }
+}
+  setSettingsGrid(role:string){
+
+    switch(role){
+      case 'admin':
+        this.settings = {
+          pager:{perPage: 5},
+          //hideSubHeader: true,
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+          columns: {
+            claim_id: {
+              title: 'ID',
+              type: 'string',
+            },
+            pan: {
+              title: 'Номер карти',
+              type: 'string',
+            },
+            trans_date: {
+              title: 'Дата транзакції',
+              valuePrepareFunction: (trans_date) => {
+                if(trans_date)
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },      
+            merch_name_ips: {
+              title: "Назва торговця",
+              type: 'string',
+            },
+            term_id: {
+              title: "Ім'я терміналу",
+              type: 'string',
+            },
+            trans_amount: {
+              title: "Cума",
+              type: 'number',
+            },
+            trans_currency: {
+              title: "Валюта",
+              type: 'string',
+            },
+            auth_code: {
+              title: "Код авторизації",
+              type: 'number',
+            },
+            claim_reson_code: {
+              title: "Reason Code",
+              type: 'number',
+            },
+            stage: {
+              title: "Статус",
+              type: 'string',
+            },
+            action_needed: {
+              title: "Індикатор",
+              type: 'string',
+            },
+            result: {
+              title: "Результат",
+              type: 'string',
+            },
+            due_date: {
+              title: 'Кінцевий термін претензії.',
+              valuePrepareFunction: (due_date) => {
+                if(due_date)
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },
+      
+          },
+        };
+      break;
+      case 'user':
+        this.settings = {
+          pager:{perPage: 5},
+          //hideSubHeader: true,
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+          columns: {
+            claim_id: {
+              title: '#',
+              type: 'string',
+              hidden: true,
+              filter: false,               
+            },
+            pan: {
+              title: 'Номер карти',
+              type: 'string',
+            },
+            trans_date: {
+              title: 'Дата транзакції',
+              valuePrepareFunction: (trans_date) => {
+                if(trans_date)
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },  
+            term_id: {
+              title: "Ім'я терміналу",
+              type: 'string',
+            },    
+            merch_name_ips: {
+              title: "Назва торговця",
+              type: 'string',
+            },
+            claim_reson_code: {
+              title: "Reason Code",
+              type: 'number',
+            },
+            due_date: {
+              title: 'Кінцевий термін претензії.',
+              valuePrepareFunction: (due_date) => {
+                if(due_date)
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },
+            action_needed: {
+              title: "Індикатор",
+              type: 'string',
+            },
+          },
+        };
+      break;
+
+    }
+    
+
   }
 
   getClaimsData() {
@@ -142,10 +203,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     let self = this;
     this.claimsSubscription = this.httpServise.getClaimList().subscribe({
       next: (response: any) => {
-        
+        console.log('loadClaims() res 1');
         console.log(response); 
-        
-        console.log('loadClaims() res'); 
+        console.log('loadClaims() res 2'); 
         
         response.results.forEach(el => {
           let t = new ClaimView();
@@ -155,10 +215,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.trans_date = el['trans_date'];
           t.merch_name_ips = el['merch_name_ips'];
           t.term_id = el['term_id'];
-          t.amount = el['amount'];
-          t.currency = el['currency'];
+          t.trans_amount = el['trans_amount'];
+          t.trans_currency = el['trans_currency'];
           t.auth_code = el['auth_code'];
-          t.reason_code_group = el['reason_code_group'];
+          t.claim_reson_code = el['reason_code'];
           t.stage = el['stage'];
           t.action_needed = el['action_needed'];
           t.result = el['result'];
