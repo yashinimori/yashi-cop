@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_GET_CLAIM_LIST, URL_GET_MERCHANTS } from '../urlConstants';
+import { URL_GET_CLAIM_LIST, URL_GET_MERCHANTS, URL_CREATE_CLAIM } from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,12 @@ export class HttpService {
   }
 
   getSingleClaim(id: any) {
+    console.log(URL_GET_CLAIM_LIST + '/' + id);
     return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
   }
 
   createNewClaim(claim: any) {
-    return this.http.post(URL_GET_CLAIM_LIST, claim, this.getHeaders());
+    return this.http.post(URL_CREATE_CLAIM, claim, this.getHeaders());
   }
 
   getMerchants() {

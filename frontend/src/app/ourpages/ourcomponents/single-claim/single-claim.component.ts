@@ -86,6 +86,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   role: string;
   isLastStep: boolean = false;
   merchantsArr: Array<any> = new Array<any>();
+  claimId:any;
 
   fieldsStatus: FieldsStatus;
   editedAnswers: Array<any> = new Array<any>();
@@ -116,7 +117,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //console.log('ngOnInit');
     
     this.role = localStorage.getItem('role');
-    this.role = 'user';
+    this.claimId = this.transferService.cOPClaimID.getValue();
+    console.log(this.claimId);
+    if (this.claimId.length != 0) {
+      this.loadClaim();
+    }
     this.generateStatusFields();
 
     this.formGroups = new FormGroup({
@@ -171,8 +176,26 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  loadClaim() {
+    console.log('loadClaim');
+    this.httpService.getSingleClaim(this.claimId).subscribe({
+        next: (response: any) => {
+          
+          console.log(response); 
+          this.claimData = response.results;
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+         
+        }
+      });
+  }
+
   lastStep(code:string) {
-    this.claimData.claim_reson_code = code;
+    this.claimData.claim_reason_code = code;
+    this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     this.isLastStep = true;
     this.claimData.answers = {};
     for(let i = 0; i < this.editedAnswers.length; i++) {
@@ -445,53 +468,3 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
 }
 
-// export class AnswersModel {
-//   constructor(props?: Partial<FieldsStatus>) {
-//     if (props) {
-//         this.'1' = props.'1' || '';
-//         this.transDate = props.transDate || new paramStatusFields();
-//         this.merchantID = props.pan || new paramStatusFields();
-//         this.terminalID = props.terminalID || new paramStatusFields();
-//         this.amount = props.amount || new paramStatusFields();
-//         this.currency = props.currency || new paramStatusFields();
-//         this.authCode = props.authCode || new paramStatusFields();
-//         this.comment = props.comment || new paramStatusFields();
-//         this.cOPClaimID = props.cOPClaimID || new paramStatusFields();
-//         this.merchantName = props.merchantName || new paramStatusFields();
-//         this.reasonCodeGroup = props.reasonCodeGroup || new paramStatusFields();
-//         this.stage = props.stage || new paramStatusFields();
-//         this.actionNeeded = props.actionNeeded || new paramStatusFields();
-//         this.result = props.result || new paramStatusFields();
-//         this.dueDate = props.dueDate || new paramStatusFields();
-//         this.currencyName = props.currencyName || new paramStatusFields();
-//         this.fio = props.fio || new paramStatusFields();
-//         this.rC = props.rC || new paramStatusFields();
-//         this.aRN = props.aRN || new paramStatusFields();
-//         this.docs =  props.docs || new paramStatusFields();
-
-//     } else {
-//         this.default();
-//     }
-// }
-
-// one
-// two
-// three
-// four
-// five
-// six
-// seven
-// eight
-// nine
-// ten
-// eleven
-// twelve
-// thirteen
-// fourteen
-// fiveteen
-// sixteen;
-
-//   default() {
-//       this.'1' = '';
-//   }
-// }

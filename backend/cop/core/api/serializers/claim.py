@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from cop.core.models import Claim, Merchant, Terminal, Document, Comment, ReasonCodeGroup
-from users.api.serializers.user import UserSerializer
+from cop.users.api.serializers.user import UserSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):

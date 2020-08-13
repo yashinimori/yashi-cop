@@ -206,7 +206,7 @@ class Claim(BaseModel):
                                     related_name='transactions')
     pan = models.CharField(max_length=16, null=True, blank=True)
 
-    claim_reason_code = models.ForeignKey(ReasonCodeGroup, blank=True, null=True, on_delete=models.SET_NULL)
+    claim_reason_code = models.ForeignKey(ReasonCodeGroup, on_delete=models.CASCADE)
     reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')
     reason_code = models.CharField(max_length=4, blank=True, null=True, help_text='IPS code')
 
