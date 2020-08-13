@@ -202,6 +202,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       this.claimData.answers[Object.keys(this.editedAnswers[i])[0]] = this.editedAnswers[i][Object.keys(this.editedAnswers[i])[0]];
     }
     this.saveClaim();
+    console.log(this.claimData.answers);
   }
 
   saveClaim() {
@@ -410,6 +411,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  onClickGoNextStep(){
+    console.log(this.claimData);
+    this.part = 'one';
+    this.stepNewRecord = 2;
+    this.cdr.detectChanges();
+
+
+    this.radioGroupQueryValue1 = 1;
+    this.radioGroupQueryValue2 = 1;
+    this.radioGroupQueryValue3 = 2;
+
+    console.log(this.radioGroupQueryValue1);
+    console.log(this.radioGroupQueryValue2);
+    console.log(this.radioGroupQueryValue3);
+
+    console.log('onClickGoNextStep');
+  }
 
   onClickSend(){
     console.log(this.claimData);
@@ -449,3 +467,4 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 }
+
