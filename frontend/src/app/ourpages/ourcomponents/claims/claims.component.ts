@@ -36,7 +36,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.cOPClaimID);
+    this.transferService.cOPClaimID.next(event.data.claim_id);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
     console.log('onUserRowSelect(event)');
     console.log(event);

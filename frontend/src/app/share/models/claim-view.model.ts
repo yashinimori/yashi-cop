@@ -12,9 +12,9 @@ export class ClaimView extends ClaimRegistration {
   fio: string;
   arn: string;
   answers: any;
-  claim_reson_code:string;
+  claim_reason_code:string;
   trans_approval_code:string;
-  ch_comments:string;
+  ch_comments:any;
   trans_amount:any;
   trans_currency:any;
 
