@@ -1,9 +1,12 @@
 from rest_framework import serializers
 
 from cop.core.models import Claim, Merchant, Terminal, Document, Comment, ReasonCodeGroup
+from users.api.serializers.user import UserSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True, required=False)
+
     class Meta:
         model = Comment
         fields = ('id', 'text', 'user')
@@ -13,6 +16,7 @@ class ReasonCodeGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReasonCodeGroup
         fields = ('id', 'code', 'visa', 'mastercard', 'description')
+        read_only = ('id',)
 
 
 class DocumentSerialiser(serializers.ModelSerializer):
@@ -34,7 +38,7 @@ class ContentObjectRelatedField(serializers.RelatedField):
 
 
 class ClaimSerializer(serializers.ModelSerializer):
-    documents = ContentObjectRelatedField(queryset=Document.objects.all(), many=True)
+    documents = ContentObjectRelatedField(queryset=Document.objects.all(), many=True, required=False)
     ch_comments = CommentSerializer(many=True, required=False)
 
     class Meta:
@@ -62,7 +66,7 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         current_user = self.context["request"].user
-        documents = validated_data.pop('documents')
+        documents = validated_data.pop('documents', None)
         ch_comments = validated_data.pop('ch_comments', [])
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
@@ -70,7 +74,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         validated_data['user'] = current_user
         instance = super().create(validated_data)
         for comment_data in ch_comments:
-            comment = Comment.objects.create(text=comment_data, user=current_user)
+            comment = Comment.objects.create(text=comment_data.get('text'), user=current_user)
             instance.ch_comments.add(comment)
         if 'merch_id' in validated_data:
             self.assign_by_merch_id(validated_data['merch_id'], instance)
