@@ -50,7 +50,9 @@ class ClaimSerializer(serializers.ModelSerializer):
             "ch_comments",
             "answers",
             "documents",
+            "claim_reason_code",
             "reason_code_group",
+            "reason_code",
             "trans_date",
             "action_needed",
             "result",
@@ -62,9 +64,9 @@ class ClaimSerializer(serializers.ModelSerializer):
         current_user = self.context["request"].user
         documents = validated_data.pop('documents')
         ch_comments = validated_data.pop('ch_comments', [])
-        reason_code_group = validated_data.pop('reason_code_group', None)
-        if reason_code_group:
-            validated_data['reason_code_group'] = ReasonCodeGroup.objects.get(code=reason_code_group)
+        claim_reason_code = validated_data.pop('claim_reason_code', None)
+        if claim_reason_code:
+            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
         validated_data['user'] = current_user
         instance = super().create(validated_data)
         for comment_data in ch_comments:
@@ -78,9 +80,9 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         ch_comments = validated_data.pop('ch_comments', [])
-        reason_code_group = validated_data.pop('reason_code_group', None)
-        if reason_code_group:
-            validated_data['reason_code_group'] = ReasonCodeGroup.objects.get(code=reason_code_group)
+        claim_reason_code = validated_data.pop('claim_reason_code', None)
+        if claim_reason_code:
+            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
         instance = super().update(instance, validated_data)
         for comment_data in ch_comments:
             comment = Comment.objects.create(text=comment_data, user=self.context["request"].user)
@@ -120,6 +122,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "trans_amount",
             "trans_currency",
             "reason_code_group",
+            "reason_code",
             "action_needed",
             "result",
             "stage"

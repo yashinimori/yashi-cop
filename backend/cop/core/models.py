@@ -206,8 +206,9 @@ class Claim(BaseModel):
                                     related_name='transactions')
     pan = models.CharField(max_length=16, null=True, blank=True)
 
-    reason_code_group = models.ForeignKey(ReasonCodeGroup, blank=True, null=True, on_delete=models.SET_NULL)
-    reason_code = models.CharField(max_length=999, blank=True, null=True, help_text='IPS code')
+    claim_reason_code = models.ForeignKey(ReasonCodeGroup, blank=True, null=True, on_delete=models.SET_NULL)
+    reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')
+    reason_code = models.CharField(max_length=4, blank=True, null=True, help_text='IPS code')
 
     action_needed = models.CharField(max_length=999, null=True, blank=True)
     ch_comments = models.ManyToManyField(Comment, blank=True, related_name='ch_comments')
