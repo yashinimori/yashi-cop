@@ -16,6 +16,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Messages',
+    icon: 'email-outline',
+  },
+  {
+    title: 'Settings',
+    icon: 'setttings-outline',
+  },
+  {
     title: 'TEST',
     icon: 'layout-outline',
     hidden: setHidden(),
