@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.dispatch import receiver
 from rest_framework.exceptions import ValidationError
 
 from cop.core.utils.sha256 import generate_sha256
@@ -63,6 +62,11 @@ class Bank(BaseModel):
         return self.name_eng
 
 
+class BankEmployee(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="employee_banks")
+
+
 class Merchant(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bank = models.ManyToManyField(Bank, blank=True)
@@ -77,7 +81,7 @@ class Merchant(BaseModel):
     contact_person = models.CharField(max_length=999, blank=True, null=True)
 
     def __str__(self):
-        return self.name_legal
+        return self.name_ips
 
 
 class Terminal(BaseModel):
@@ -134,7 +138,7 @@ class Transaction(BaseModel):
     result = models.CharField(max_length=999, db_index=True, null=True, blank=True)
     utrnno = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     raw = models.TextField(null=True)
-    report = models.ForeignKey('Report', on_delete=models.CASCADE, null=True)
+    report = models.ForeignKey('Report', on_delete=models.SET_NULL, null=True)
     scoring = models.IntegerField(null=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     magazine1_amount = models.IntegerField(default=0)
     magazine2_amount = models.IntegerField(default=0)
@@ -169,11 +173,15 @@ class ReasonCodeGroup(BaseModel):
 
 
 class Claim(BaseModel):
-    RESULTS_CHOICES = (
-        ('successful', 'Successful'),
-        ('failed', 'Failed'),
-        ('neutral', 'Neutral'),
-    )
+    class Result:
+        SUCCESSFUL = 'successful'
+        FAILED = 'failed'
+        NEUTRAL = 'neutral'
+        CHOICES = (
+            (SUCCESSFUL, 'Successful'),
+            (FAILED, 'Failed'),
+            (NEUTRAL, 'Neutral'),
+        )
     SUPPORT_CHOICES = (
         ('one_them_chargeback', 'One them chargebacks'),
         ('on_us_chargeback', 'On us chargeback'),
@@ -235,7 +243,7 @@ class Claim(BaseModel):
     merchant_comments = models.ManyToManyField(Comment, blank=True, related_name='merch_comments')
 
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
-    result = models.CharField(choices=RESULTS_CHOICES, max_length=999, blank=True, null=True)
+    result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
 
     answers = JSONField(max_length=999, blank=True, null=True)
@@ -253,6 +261,7 @@ class Claim(BaseModel):
 
 
 class ClaimDocument(BaseModel):
+    """Upload Documents for specific Claim."""
     class Types:
         SUBSTITUTE_DRAFT = 'substitute_draft'
         CHECK = 'check'
@@ -269,6 +278,7 @@ class ClaimDocument(BaseModel):
     description = models.CharField(max_length=255, null=True, blank=True)
     file = models.FileField(upload_to='claim-documents/')
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def delete_task(self):
         """TODO: CELERY task check if 90 days passed since claim archivation.
@@ -284,11 +294,13 @@ class SurveyQuestion(BaseModel):
 
 
 class Report(BaseModel):
+    """Log parsing report for internal use."""
     STATUSES = (
         ('new', 'New'),
         ('error', 'Error'),
         ('finished', 'Finished'),
     )
+    claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE)
     log = models.FileField(upload_to='logs/%Y/%m/%d/')
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)
@@ -307,10 +319,3 @@ class Report(BaseModel):
             raise ValidationError('This file already exists')
 
         self.log_hash = log_hash
-
-
-@receiver(models.signals.post_save, sender=Report)
-def save_report_event(sender, instance, created, **kwargs):
-    from .tasks import process_report_task
-    if created:
-        process_report_task.apply_async(args=(instance.id,))

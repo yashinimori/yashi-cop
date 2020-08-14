@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
-from cop.core.models import Claim, Merchant, Terminal, ClaimDocument, Comment, ReasonCodeGroup, Bank
+from cop.core.models import Claim, Merchant, Terminal, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report
 from cop.core.utils.claim_reason_codes import ClaimReasonCodes as crc
 from cop.users.api.serializers.user import UserSerializer
 
@@ -28,11 +28,18 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClaimDocument
-        fields = ('id', 'file', 'description', 'type', 'claim')
+        fields = ('id', 'file', 'description', 'type', 'claim', 'user')
+
+
+class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
+    def create(self, validated_data):
+        instance = super().create(validated_data)
+        Report.objects.create(log=validated_data['file'], claim_document=instance)
+        return instance
 
 
 class ClaimSerializer(serializers.ModelSerializer):
-    documents = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='claim-documents')
+    documents = ClaimDocumentSerializer(many=True, read_only=True)
     ch_comments = CommentSerializer(many=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
 

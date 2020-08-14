@@ -28,7 +28,7 @@ MARK_FAILED = [
 
 @celery_app.task(ignore_result=True)
 def process_report_task(report_id):
-    from cop.core.models import Report, Transaction
+    from cop.core.models import Report, Transaction, Bank
     try:
         report = Report.objects.get(id=report_id)
     except Report.DoesNotExist:
@@ -95,11 +95,12 @@ def process_report_task(report_id):
                 continue
 
             transaction.report = report
+            transaction.bank = Bank.objects.filter(bin__startswith=transaction.pan[0:6]).first()
             transaction.save()
             transactions.append(transaction)
-
         report.status = 'finished'
         report.save()
+        assign_claim_transaction(report)
     except Exception as e:
         report.status = 'error'
         report.error = str(e) + '\n' + traceback.format_exc()
@@ -108,7 +109,7 @@ def process_report_task(report_id):
 
 
 def parse_transaction(transaction_lines, previous_transaction=None):
-    from .models import Transaction
+    from .models import Transaction, Claim
 
     transaction = Transaction()
     transaction.raw = '\n'.join(transaction_lines)
@@ -167,7 +168,7 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         for error in MARK_FAILED:
             if error in line:
-                transaction.result = 'failed'
+                transaction.result = Claim.Result.FAILED
                 break
 
     if trans_date and trans_time:
@@ -179,8 +180,24 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
     if not transaction.result:
         if transaction.utrnno:
-            transaction.result = 'successful'
+            transaction.result = Claim.Result.SUCCESSFUL
         else:
-            transaction.result = 'neutral'
+            transaction.result = Claim.Result.NEUTRAL
 
     return transaction
+
+
+def assign_claim_transaction(report):
+    """Set Claim transaction."""
+    from cop.core.models import Transaction
+    claim = report.claim_document.claim
+    approval_code = claim.trans_approval_code
+    qs = Transaction.objects.filter(pan__startswith=claim.pan[0:6], pan__endswith=claim.pan[-4:], report=report,
+                                    trans_amount=claim.trans_amount, trans_date=claim.trans_date)
+    if approval_code:
+        qs.filter(approval_code=approval_code)
+    transaction = qs.first()
+    if transaction:
+        claim.transaction = transaction
+        claim.result = transaction.result
+        claim.save()

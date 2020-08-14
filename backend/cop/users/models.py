@@ -53,15 +53,21 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Default user for cop.
     """
+    TOP_LEVEL = 'top_level'
+    SECURITY_OFFICER = 'security_officer'
+    COP_MANAGER = 'cop_manager'
     CARDHOLDER = 'cardholder'
+    CHARGEBACK_OFFICER = 'chargeback_officer'
+    MERCHANT = 'merchant'
+    СС_BRANCH = 'сс_branch'
     ROLES = (
-        ('top_level', 'Top level'),
-        ('security_officer', 'Security officer'),
-        ('cop_manager', 'COP manager'),
-        ('chargeback_officer', 'Chargeback officer'),
-        ('сс_branch', 'сс/branch'),
-        ('merchant', 'Merchant'),
+        (TOP_LEVEL, 'Top level'),
+        (SECURITY_OFFICER, 'Security officer'),
+        (COP_MANAGER, 'COP manager'),
         (CARDHOLDER, 'Cardholder'),
+        (CHARGEBACK_OFFICER, 'Chargeback officer'),
+        (MERCHANT, 'Merchant'),
+        (СС_BRANCH, 'сс/branch'),
     )
     username = None
     #: First and last name do not cover name patterns around the globe

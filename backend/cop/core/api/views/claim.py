@@ -1,9 +1,17 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
 
-from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer
-from cop.core.models import Claim, ClaimDocument
+from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
+    ClaimDocumentReportsSerializer
+from cop.core.models import Claim, ClaimDocument, Merchant
+from cop.users.models import User
+
+
+class RoleNotFound(ValidationError):
+    def __str__(self):
+        return "User role dasn't found"
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
@@ -42,6 +50,25 @@ class ClaimViewSet(viewsets.ModelViewSet):
         'stage'
     ]
 
+    def get_queryset(self):
+        current_user = self.request.user
+        queryset = Claim.objects \
+            .select_related('merchant', 'bank', 'transaction') \
+            .prefetch_related('ch_comments') \
+            .order_by('id')
+        if current_user.role == User.CHARGEBACK_OFFICER:
+            bank_employee = current_user.bank_employee
+            return queryset.filter(bank=bank_employee.bank)
+        elif current_user.role == User.CARDHOLDER:
+            return queryset.filter(user=current_user)
+        elif current_user.role == User.MERCHANT:
+            merchant = Merchant.objects.get(user=current_user)
+            return queryset.filter(merchant=merchant)
+        elif current_user.role == User.TOP_LEVEL:
+            return queryset
+        else:
+            raise RoleNotFound
+
     def get_serializer_class(self):
         if self.action == 'list':
             return ClaimListSerializer
@@ -58,3 +85,7 @@ class ClaimDocumentViewSet(viewsets.ModelViewSet):
         'description'
     )
     search_fields = ['description', 'type', 'claim_id']
+
+
+class ClaimDocumentReportsViewSet(ClaimDocumentViewSet):
+    serializer_class = ClaimDocumentReportsSerializer
