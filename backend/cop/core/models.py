@@ -108,16 +108,11 @@ class Transaction(BaseModel):
         ('failed', 'Failed'),
         ('neutral', 'Neutral'),
     )
-    STATUSSES = (
-        ('accepted', 'Accepted'),
-        ('declined', 'Declined'),
-        ('pended', 'Pended'),
-    )
     bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
     terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE, null=True, blank=True)
     merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT, null=True, blank=True)
-    pan = models.CharField(max_length=16, null=True, blank=True)
-    amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    pan = models.CharField(max_length=16)
+    trans_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, null=True, blank=True)
     approval_code = models.CharField(max_length=6, null=True, blank=True)
     cash_count = models.CharField(max_length=999, null=True, blank=True)
@@ -126,6 +121,7 @@ class Transaction(BaseModel):
 
     trans_start = models.DateTimeField(max_length=12, null=True, blank=True)
     trans_end = models.DateTimeField(max_length=12, null=True, blank=True)
+    trans_date = models.DateTimeField(max_length=12, null=True, blank=True)
 
     pin_entered = models.DateTimeField(max_length=12, null=True, blank=True)
     cash_request = models.DateTimeField(max_length=12, null=True, blank=True)
@@ -134,15 +130,11 @@ class Transaction(BaseModel):
     cash_taken = models.DateTimeField(max_length=12, null=True, blank=True)
     card_taken = models.DateTimeField(max_length=12, null=True, blank=True)
 
-    # old fields
-    trans_date = models.DateTimeField(null=True, blank=True)
-    atm = models.ForeignKey('ATM', on_delete=models.CASCADE, null=True, blank=True)
     disp_amount = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
-    result = models.CharField(choices=RESULTS, max_length=100, db_index=True, null=True, blank=True)
+    result = models.CharField(max_length=999, db_index=True, null=True, blank=True)
     utrnno = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     raw = models.TextField(null=True)
     report = models.ForeignKey('Report', on_delete=models.CASCADE, null=True)
-    status = models.CharField(max_length=20, null=True, blank=True, choices=STATUSSES)
     scoring = models.IntegerField(null=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     magazine1_amount = models.IntegerField(default=0)
     magazine2_amount = models.IntegerField(default=0)
@@ -315,18 +307,6 @@ class Report(BaseModel):
             raise ValidationError('This file already exists')
 
         self.log_hash = log_hash
-
-
-class ATM(BaseModel):
-    uid = models.CharField(max_length=100, unique=True)
-
-    magazine1_amount = models.IntegerField(default=0)
-    magazine2_amount = models.IntegerField(default=0)
-    magazine3_amount = models.IntegerField(default=0)
-    magazine4_amount = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"ATM: {self.uid}"
 
 
 @receiver(models.signals.post_save, sender=Report)
