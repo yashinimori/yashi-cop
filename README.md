@@ -50,7 +50,7 @@ docker-compose -f local.yml exec postgres restore backup_2018_03_13T09_05_07.sql
 ```
 - Restoring from the Existing django Backup
 ```
- docker-compose -f local.yml exec django ./manage.py loaddata backups/prod_db.json -e contenttypes -e auth.Permission
+ docker-compose -f local.yml exec django ./manage.py loaddata initial_data
 ```
 <h3>Descriptions for docker-compose bash scripts</h3>
  - Django entrypoint script checks availability of postgres container and set up CELERY_BROKER_URL. Runs automatically when the container starts.
@@ -60,4 +60,5 @@ docker-compose -f local.yml exec postgres restore backup_2018_03_13T09_05_07.sql
 Corresponds https://www.conventionalcommits.org/en/v1.0.0/
 
 <h3>Users</h3>
-ChargeBack Officer - zJf213Uyfbw_a
+ChargeBack Officer - email: officer@cop.cop, password: zJf213Uyfbw_a
+Test Merchant - email: merchant@cop.cop, password: zJf213Uyfbw_a
