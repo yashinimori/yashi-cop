@@ -17,6 +17,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   claimsData: Array<ClaimView>;
   settings: any;
   source: LocalDataSource;
+  role: string;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -41,9 +42,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setSettingsGrid('user');
+    
+    this.role = localStorage.getItem('role');
+    console.log('ClaimsComponent role ' +this.role);
+
+    this.setSettingsGrid(this.role);
     this.getClaimsData();
-    this.hideColumnForUser('user');
+    this.hideColumnForUser(this.role);
   }
 
 
@@ -56,6 +61,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
     switch(role){
       case 'admin':
+      case 'chargeback_officer':  
         this.settings = {
           pager:{perPage: 5},
           //hideSubHeader: true,

@@ -115,6 +115,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //console.log('ngOnInit');
     
     this.role = localStorage.getItem('role');
+    console.log('this.role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
     
     if (this.claimId.length != 0) {

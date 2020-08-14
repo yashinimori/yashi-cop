@@ -98,7 +98,7 @@ export class FieldsStatus {
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                break; 
             } 
-            case 'officeOficer': { 
+            case 'chargeback_officer': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});

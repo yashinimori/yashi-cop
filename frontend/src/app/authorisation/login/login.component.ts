@@ -43,12 +43,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   getUserInfo() {
     this.loginSubscription = this.authService.login().subscribe({
       next: (response: any) => {
+        console.log('getUserInfo'); 
         console.log(response); 
         if(response.role.length == 0) {
           localStorage.setItem('role', 'user');
         } else {
           localStorage.setItem('role', response.role);
+          localStorage.setItem('fio', response.first_name +' '+ response.last_name);
         }
+
       },
       error: error => {
         console.error('There was an error!', error);
