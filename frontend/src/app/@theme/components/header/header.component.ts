@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe(themeName => this.currentTheme = themeName);
 
-      //this.user.name = this.user_fio;
+      this.user.name = this.user_fio;
   }
 
   ngOnDestroy() {
