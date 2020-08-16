@@ -10,8 +10,16 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  getClaimList() {
-    return this.http.get(URL_GET_CLAIM_LIST, this.getHeaders());
+  getClaimList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = `${URL_GET_CLAIM_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    console.log(req);
+    return this.http.get(req, this.getHeaders());
   }
 
   getSingleClaim(id: any) {

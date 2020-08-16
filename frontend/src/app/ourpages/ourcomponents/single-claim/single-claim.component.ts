@@ -39,6 +39,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fiveteen') fiveteen:TemplateRef<any>;
   @ViewChild('sixteen') sixteen:TemplateRef<any>;
 
+  filesArr: Array<any> = new Array<any>();
+  selectedFile: any;
+
+
   part = 'one';
 
   cOPClaimID: string;
@@ -348,6 +352,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //this.part = par.part == 'two'? 'one':'two';
   }
+
+  fileChanged(e) {
+    this.selectedFile = e.target.files[0];
+    if(this.selectedFile.size > 50000000) {
+      alert('Файл занадто великий!');
+    } else {
+      this.filesArr.push(this.selectedFile);
+    }
+  }
+
+  deleteAttachedFile(file:any) {
+    this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e=> e == file)), 1);
+  }
+
 
   
   generateStatusFields() {

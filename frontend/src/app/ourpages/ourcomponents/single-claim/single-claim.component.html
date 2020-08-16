@@ -162,7 +162,13 @@
 
                 <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
                     <label class="label-caption">Додати документи</label> 
-                    
+                    <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                                type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                    <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                    </div>
+
                 </div>
 
             </nb-card-body>

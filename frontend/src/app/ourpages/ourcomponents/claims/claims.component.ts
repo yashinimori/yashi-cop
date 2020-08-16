@@ -204,12 +204,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     //console.log('loadClaims()'); 
     this.claimsData = new Array<ClaimView>();
     let self = this;
-    this.claimsSubscription = this.httpServise.getClaimList().subscribe({
+    this.claimsSubscription = this.httpServise.getClaimList(10, 1).subscribe({
       next: (response: any) => {
         // console.log('loadClaims() res 1');
         // console.log(response); 
         // console.log('loadClaims() res 2'); 
-        
+        console.log(response);
         response.results.forEach(el => {
           let t = new ClaimView();
     
