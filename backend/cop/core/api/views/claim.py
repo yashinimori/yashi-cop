@@ -1,6 +1,7 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView
 
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
@@ -83,17 +84,10 @@ class ClaimViewSet(viewsets.ModelViewSet):
         return ClaimSerializer
 
 
-class ClaimDocumentViewSet(viewsets.ModelViewSet):
+class ClaimDocumentCreateView(CreateAPIView):
     serializer_class = ClaimDocumentSerializer
     queryset = ClaimDocument.objects.all()
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
-    filterset_fields = (
-        'id',
-        'type',
-        'description'
-    )
-    search_fields = ['description', 'type', 'claim_id']
 
 
-class ClaimDocumentReportsViewSet(ClaimDocumentViewSet):
+class ClaimDocumentReportsCreateView(ClaimDocumentCreateView):
     serializer_class = ClaimDocumentReportsSerializer
