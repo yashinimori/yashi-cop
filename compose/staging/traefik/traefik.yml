@@ -26,7 +26,7 @@ certificatesResolvers:
 http:
   routers:
     api:
-      rule: "Host(`api0.chargebackoptimizer.com`) && Host(`www.api0.chargebackoptimizer.com`) && Host(`18.185.111.248`)"
+      rule: "Host(`api0.chargebackoptimizer.com`) && Host(`www.api0.chargebackoptimizer.com`)"
       entryPoints:
         - web
       middlewares:
@@ -38,7 +38,6 @@ http:
 
     flower-secure-router:
       rule: "Host(`api0.chargebackoptimizer.com`)"
-      #      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - flower
       service: flower
