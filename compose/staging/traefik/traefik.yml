@@ -6,46 +6,46 @@ entryPoints:
     # http
     address: ":80"
 
-#  web-secure:
-#    # https
-#    address: ":443"
+  web-secure:
+    # https
+    address: ":443"
 
   flower:
     address: ":5555"
 
 #certificatesResolvers:
-#  letsencrypt:
-#    # https://docs.traefik.io/master/https/acme/#lets-encrypt
-#    acme:
-#      email: "o.gavrina@chargebackoptimizer.com"
-#      storage: /etc/traefik/acme/acme.json
-#      # https://docs.traefik.io/master/https/acme/#httpchallenge
-#      httpChallenge:
-#        entryPoint: web
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: "o.gavrina@chargebackoptimizer.com"
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
 
 http:
   routers:
     api:
-#      rule: "Host(`api0.chargebackoptimizer.com`)"
-      rule: "Host(`18.185.111.248`)"
+      rule: "Host(`api0.chargebackoptimizer.com`)"
+#      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - web
       middlewares:
 #        - redirect
       service: django
-#      tls:
+      tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-#        certResolver: letsencrypt
+        certResolver: letsencrypt
 
     flower-secure-router:
-#      rule: "Host(`api0.chargebackoptimizer.com`)"
-      rule: "Host(`18.185.111.248`)"
+      rule: "Host(`api0.chargebackoptimizer.com`)"
+#      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - flower
       service: flower
-#      tls:
+      tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-#        certResolver: letsencrypt
+        certResolver: letsencrypt
 
   middlewares:
     redirect:
