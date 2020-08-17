@@ -230,7 +230,7 @@ class Claim(BaseModel):
     trans_date = models.DateTimeField(max_length=12)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True,
                                     related_name='transactions')
-    pan = models.CharField(max_length=16, null=True, blank=True)
+    pan = models.CharField(max_length=16)
 
     claim_reason_code = models.ForeignKey(ReasonCodeGroup, on_delete=models.CASCADE)
     reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')

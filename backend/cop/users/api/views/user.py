@@ -4,6 +4,7 @@ from django.utils.module_loading import import_string
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -39,7 +40,7 @@ class CustomRegistrationView(DjoserUserViewSet):
 
     def is_top_level(self):
         if self.request.user.role != User.TOP_LEVEL:
-            raise PermissionError
+            raise PermissionDenied({"message": "You don't have permission to access"})
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
