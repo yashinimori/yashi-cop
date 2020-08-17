@@ -75,6 +75,7 @@ export class FieldsStatus {
     public setStatusByRole(role: string) {
 
         switch(role) { 
+            case 'cardholder': 
             case 'user': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});

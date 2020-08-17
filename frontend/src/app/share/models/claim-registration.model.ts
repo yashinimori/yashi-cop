@@ -7,4 +7,5 @@ export class ClaimRegistration {
   currency: string;
   auth_code: string;
   comment: string;
+  id: string;
 }

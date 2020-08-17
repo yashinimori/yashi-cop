@@ -37,7 +37,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.data.claim_id);
+    this.transferService.cOPClaimID.next(event.data.id);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
   }
 
@@ -53,11 +53,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
 
   hideColumnForUser(role:string){
-    if(role){
-        delete this.settings.columns.claim_id;
+    if(role && (role == 'cardholder' || role == 'user')){
+        delete this.settings.columns.id;
     }
 }
   setSettingsGrid(role:string){
+    console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
@@ -71,7 +72,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-            claim_id: {
+            id: {
               title: 'ID',
               type: 'string',
             },
@@ -137,6 +138,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       break;
+      case 'cardholder':
       case 'user':
         this.settings = {
           pager:{perPage: 5},
@@ -147,7 +149,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-            claim_id: {
+            id: {
               title: '#',
               type: 'string',
               hidden: true,
@@ -206,14 +208,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     let self = this;
     this.claimsSubscription = this.httpServise.getClaimList(10, 1).subscribe({
       next: (response: any) => {
-        // console.log('loadClaims() res 1');
-        // console.log(response); 
-        // console.log('loadClaims() res 2'); 
-        console.log(response);
+        //console.log('loaded Claims '); 
+        //console.log(response);
         response.results.forEach(el => {
           let t = new ClaimView();
     
-          t.claim_id = el['id'];
+          t.id = el['id'];
           t.pan = el['pan'];
           t.trans_date = el['trans_date'];
           t.merch_name_ips = el['merch_name_ips'];

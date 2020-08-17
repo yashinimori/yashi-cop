@@ -17,5 +17,4 @@ export class ClaimView extends ClaimRegistration {
   ch_comments:any;
   trans_amount:any;
   trans_currency:any;
-
 }
