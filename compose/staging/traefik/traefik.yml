@@ -42,6 +42,25 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
+    frontend-router:
+      rule: "Host(`app0.chargebackoptimizer.com`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: frontend
+
+    frontend-secure-router:
+      rule: "Host(`app0.chargebackoptimizer.com`)"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - redirect
+      service: frontend
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
     flower-secure-router:
       rule: "Host(`api0.chargebackoptimizer.com`)"
       entryPoints:
@@ -68,6 +87,11 @@ http:
       loadBalancer:
         servers:
           - url: http://django:5000
+
+    frontend:
+      loadBalancer:
+        servers:
+          - url: http://angular:4000
 
     flower:
       loadBalancer:
