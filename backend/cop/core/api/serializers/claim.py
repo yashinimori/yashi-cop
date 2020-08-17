@@ -108,6 +108,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
             instance.merchant = merchant
+            instance.bank = merchant.bank
             # TODO: decide which terminal to choose if there are multiple
             # terminal = get_object_or_404(Terminal, merchant=merchant)
             # instance.terminal = terminal

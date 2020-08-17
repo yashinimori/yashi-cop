@@ -67,7 +67,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
             .order_by('id')
         if current_user.role == User.CHARGEBACK_OFFICER:
             bank_employee = current_user.bankemployee
-            return queryset.filter(bank=bank_employee.bank)
+            return queryset.filter(merchant__bank=bank_employee.bank)
         elif current_user.role == User.CARDHOLDER:
             return queryset.filter(user=current_user)
         elif current_user.role == User.MERCHANT:
