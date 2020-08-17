@@ -13,7 +13,7 @@ entryPoints:
   flower:
     address: ":5555"
 
-#certificatesResolvers:
+  # certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
     acme:
@@ -27,11 +27,11 @@ http:
   routers:
     api:
       rule: "Host(`api0.chargebackoptimizer.com`)"
-#      rule: "Host(`18.185.111.248`)"
+      #      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - web
       middlewares:
-#        - redirect
+      #        - redirect
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
@@ -39,7 +39,7 @@ http:
 
     flower-secure-router:
       rule: "Host(`api0.chargebackoptimizer.com`)"
-#      rule: "Host(`18.185.111.248`)"
+      #      rule: "Host(`18.185.111.248`)"
       entryPoints:
         - flower
       service: flower
