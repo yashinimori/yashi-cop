@@ -42,11 +42,13 @@ class ClaimSerializer(serializers.ModelSerializer):
     documents = ClaimDocumentSerializer(many=True, read_only=True)
     ch_comments = CommentSerializer(many=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Claim
         fields = (
             "id",
+            "user",
             "pan",
             "merch_name_ips",
             "term_id",
@@ -150,11 +152,13 @@ class MerchantSerializer(serializers.ModelSerializer):
 
 class ClaimListSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Claim
         fields = (
             "id",
+            "user",
             "pan",
             "merchant",
             "merch_name_ips",

@@ -1,13 +1,45 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.module_loading import import_string
+from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from cop.users.api.serializers.chargebackofficer_registration import ChargebackOfficerRegistrationSerializer
+from cop.users.api.serializers.merchant_registration import MerchantRegistrationSerializer
 from cop.users.api.serializers.user import UserSerializer
 
 User = get_user_model()
+
+
+class CustomRegistrationView(DjoserUserViewSet):
+
+    def get_serializer_class(self):
+        serializer_class = super(CustomRegistrationView, self).get_serializer_class()
+
+        # handling user_create
+        if serializer_class == import_string(settings.DJOSER['SERIALIZERS']['user_create']):
+            serializer_class = self.get_serializer_based_on_role(serializer_class)
+
+        return serializer_class
+
+    def get_serializer_based_on_role(self, serializer_class):
+        data = self.request.data
+        if self.request.user.is_authenticated:
+            if data.get('role') == User.MERCHANT:
+                self.is_top_level()
+                serializer_class = MerchantRegistrationSerializer
+            elif data.get('role') == User.CHARGEBACK_OFFICER:
+                self.is_top_level()
+                serializer_class = ChargebackOfficerRegistrationSerializer
+        return serializer_class
+
+    def is_top_level(self):
+        if self.request.user.role != User.TOP_LEVEL:
+            raise PermissionError
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

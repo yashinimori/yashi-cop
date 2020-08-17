@@ -11,22 +11,28 @@ class MerchantViewSet(viewsets.ModelViewSet):
     queryset = Merchant.objects.all().order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
-        'bank__id',
-        'bank__name_eng',
-        'contact_person',
+        'id',
+        'bank',
+        'merch_id',
+        'name_legal',
+        'bin',
+        'name_ips',
         'mcc',
+        'description',
+        'address',
+        'terminal_id',
+        'contact_person',
     )
 
     search_fields = [
         'id',
-        'bank__name_eng',
-        'merchant_id',
-        'merchant_name_legal',
-        'merchant_name_ips',
+        'bank',
+        'merch_id',
+        'name_legal',
+        'bin',
+        'name_ips',
         'mcc',
         'description',
-        'telephone',
-        'email',
         'address',
         'terminal_id',
         'contact_person',

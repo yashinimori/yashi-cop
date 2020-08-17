@@ -11,9 +11,16 @@ class BankViewSet(viewsets.ModelViewSet):
     queryset = Bank.objects.all().order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
+        'id',
+        'bin',
         'type',
+        'name_eng',
+        'name_uk',
+        'name_rus',
         'operator_name',
         'contact_person',
+        'contact_telephone',
+        'contact_email',
     )
 
     search_fields = [

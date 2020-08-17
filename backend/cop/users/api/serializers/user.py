@@ -14,6 +14,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
             'last_name',
             'password',
             'phone',
+            'role',
         )
 
     def create(self, validated_data):
@@ -22,7 +23,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 
 class UserSerializer(BaseUserSerializer):
-    claim_fields = serializers.CharField()
+    claim_fields = serializers.CharField(required=False)
 
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + (

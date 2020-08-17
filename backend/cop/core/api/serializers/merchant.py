@@ -8,6 +8,7 @@ class MerchantSerializer(serializers.ModelSerializer):
         model = Merchant
         fields = (
             'id',
+            'user',
             'bank',
             'merch_id',
             'name_legal',

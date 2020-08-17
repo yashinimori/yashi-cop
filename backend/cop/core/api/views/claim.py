@@ -1,17 +1,12 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
-from rest_framework.exceptions import ValidationError
 
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
 from cop.core.models import Claim, ClaimDocument, Merchant
+from cop.core.utils.custom_errors import RoleNotFound
 from cop.users.models import User
-
-
-class RoleNotFound(ValidationError):
-    def __str__(self):
-        return "User role dasn't found"
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
@@ -20,34 +15,47 @@ class ClaimViewSet(viewsets.ModelViewSet):
                                             ).prefetch_related('ch_comments').order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
-        'source',
-        'term_id',
-        'merch_id',
-        'reason_code',
-        'bank__id',
-        'bank__name_eng',
-        'merchant__name_legal',
-        'due_date',
-        'dispute_date',
-        'action_needed',
+        "id",
+        "user",
+        "pan",
+        "merch_name_ips",
+        "term_id",
+        "merch_id",
+        "trans_amount",
+        "trans_currency",
+        "trans_approval_code",
+        "ch_comments",
+        "documents",
+        "claim_reason_code",
+        "reason_code_group",
+        "reason_code",
+        "trans_date",
+        "action_needed",
+        "result",
+        "due_date",
+        "stage"
     )
 
     search_fields = [
-        'source',
-        'arn',
-        'flag',
-        'term_id',
-        'merch_id',
-        'merchant__name_ips',
-        'merchant__merch_id',
-        'pan',
-        'reason_code',
-        'merch_name_ips',
-        'trans_date',
-        'trans_amount',
-        'trans_currency',
-        'action_needed',
-        'stage'
+        "id",
+        "user",
+        "pan",
+        "merch_name_ips",
+        "term_id",
+        "merch_id",
+        "trans_amount",
+        "trans_currency",
+        "trans_approval_code",
+        "ch_comments",
+        "documents",
+        "claim_reason_code",
+        "reason_code_group",
+        "reason_code",
+        "trans_date",
+        "action_needed",
+        "result",
+        "due_date",
+        "stage"
     ]
 
     def get_queryset(self):

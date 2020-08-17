@@ -11,12 +11,19 @@ class TerminalViewSet(viewsets.ModelViewSet):
     queryset = Terminal.objects.all().order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
-        'merchant__name_legal',
+        'id',
+        'term_id',
+        'address',
+        'merchant__name_ips',
         'merchant__merch_id',
+        'merchant__id',
     )
 
     search_fields = [
+        'id',
         'term_id',
-        'merchant__name_legal',
+        'address',
+        'merchant__name_ips',
         'merchant__merch_id',
+        'merchant__id',
     ]

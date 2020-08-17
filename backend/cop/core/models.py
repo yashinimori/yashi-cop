@@ -73,7 +73,7 @@ class Merchant(BaseModel):
     merch_id = models.CharField(max_length=15, unique=True)
     name_legal = models.CharField(max_length=999, blank=True, null=True)
     bin = models.CharField(max_length=999, blank=True, null=True)
-    name_ips = models.CharField(max_length=999, blank=True, null=True)
+    name_ips = models.CharField(max_length=999)
     mcc = models.CharField(max_length=4, blank=True, null=True)
     description = models.CharField(max_length=999, blank=True, null=True)
     address = models.CharField(max_length=999, blank=True, null=True)
