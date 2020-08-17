@@ -23,14 +23,20 @@ class MerchantSerializer(serializers.ModelSerializer):
         )
 
 
-class MerchantRegistrationSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-    phone = serializers.CharField(required=True)
-    role = serializers.CharField(required=False)
+class MerchantRegistrationSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'password',
+            'phone',
+            'role',
+            'merchant'
+        )
 
     def create(self, validated_data):
         merchant = validated_data.pop('merchant')
