@@ -266,12 +266,14 @@ class ClaimDocument(BaseModel):
         SUBSTITUTE_DRAFT = 'substitute_draft'
         CHECK = 'check'
         COMPELLING_EVIDENCE = 'compelling_evidence'
+        ATM_LOG = 'atm_log'
         NOT_NEEDED = 'docs_not_needed'
 
         choices = (
             (SUBSTITUTE_DRAFT, 'Substitute Draft'),
             (CHECK, 'Check'),
             (COMPELLING_EVIDENCE, 'Compelling evidence'),
+            (ATM_LOG, 'ATM log'),
             (NOT_NEEDED, 'Docs not needed'),
         )
     type = models.CharField(choices=Types.choices, max_length=20)
