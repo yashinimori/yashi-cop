@@ -45,6 +45,7 @@ services:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
       - "0.0.0.0:5555:5555"
+      - "0.0.0.0:4444:4444"
 
   redis:
     image: redis:5.0
@@ -63,5 +64,11 @@ services:
     <<: *django
     image: cop_staging_flower
     command: /start-flower
+
+  angular:
+      build:
+          context: .
+          dockerfile: compose/staging/angular/Dockerfile
+      image: cop_staging_angular
 
 
