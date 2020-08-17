@@ -13,7 +13,7 @@ entryPoints:
   flower:
     address: ":5555"
 
-  # certificatesResolvers:
+certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
     acme:
@@ -31,7 +31,7 @@ http:
       entryPoints:
         - web
       middlewares:
-      #        - redirect
+        - redirect
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
