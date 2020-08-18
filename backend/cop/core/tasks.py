@@ -100,7 +100,8 @@ def process_report_task(report_id):
             transactions.append(transaction)
         report.status = 'finished'
         report.save()
-        assign_claim_transaction(report)
+        if report.claim_document:
+            assign_claim_transaction(report)
     except Exception as e:
         report.status = 'error'
         report.error = str(e) + '\n' + traceback.format_exc()

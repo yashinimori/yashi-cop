@@ -1,6 +1,7 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.exceptions import bad_request
 from rest_framework.generics import CreateAPIView
 
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
@@ -73,7 +74,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         elif current_user.role == User.TOP_LEVEL:
             return queryset
         else:
-            raise RoleNotFound
+            bad_request(self.request, RoleNotFound)
 
     def get_serializer_class(self):
         if self.action == 'list':
