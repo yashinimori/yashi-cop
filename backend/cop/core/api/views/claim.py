@@ -25,7 +25,6 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "trans_amount",
         "trans_currency",
         "trans_approval_code",
-        "ch_comments",
         "documents",
         "claim_reason_code",
         "reason_code_group",
@@ -47,7 +46,6 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "trans_amount",
         "trans_currency",
         "trans_approval_code",
-        "ch_comments",
         "documents",
         "claim_reason_code",
         "reason_code_group",
@@ -62,8 +60,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_user = self.request.user
         queryset = Claim.objects \
-            .select_related('merchant', 'bank', 'transaction') \
-            .prefetch_related('ch_comments') \
+            .select_related('merchant', 'bank', 'transaction', 'user') \
             .order_by('id')
         if current_user.role == User.CHARGEBACK_OFFICER:
             bank_employee = current_user.bankemployee
