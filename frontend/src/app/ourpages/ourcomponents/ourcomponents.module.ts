@@ -20,9 +20,12 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { OurComponentsRoutingModule } from './ourcomponents-routing.module';
 import { OurComponentsComponent } from './ourcomponents.component';
 import { ClaimsComponent } from './claims/claims.component';
-import { ClaimsAnalysisComponent } from './claims-analysis/claims-analysis.component';
 import { SingleClaimComponent } from './single-claim/single-claim.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ATMlogUploadComponent } from './atm-log-upload/atm-log-upload.component';
+import { ATMlogViewerComponent } from './atm-log-view/atm-log-view.component';
+
+
 
 @NgModule({
   imports: [
@@ -49,7 +52,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     OurComponentsComponent,
     ClaimsComponent,
     SingleClaimComponent,
-    ClaimsAnalysisComponent,
+    ATMlogUploadComponent,
+    ATMlogViewerComponent,
         
   ],
   // providers: [

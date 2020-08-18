@@ -1,0 +1,12 @@
+<nb-card>
+    <nb-card-header>
+      Список транзакцій
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" 
+        (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+
+</nb-card>

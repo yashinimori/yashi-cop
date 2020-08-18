@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
 
 
 @Component({
-  selector: 'ngx-claims-analysis',
-  templateUrl: './claims-analysis.component.html',
-  styleUrls: ['./claims-analysis.component.scss']
+  selector: 'ngx-atm-log-view',
+  templateUrl: './atm-log-view.component.html',
+  styleUrls: ['./atm-log-view.component.scss']
 })
-export class ClaimsAnalysisComponent implements OnInit, OnDestroy {
+export class ATMlogViewerComponent implements OnInit, OnDestroy {
   claimsData: Array<ClaimView>;
   settings: any;
   source: LocalDataSource;

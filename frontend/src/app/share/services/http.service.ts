@@ -62,10 +62,7 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
-  createNewClaimAnalysis(claim: any) {
-    return this.http.post(URL_CREATE_CLAIM, claim, this.getHeaders());
-  }
-  
+   
   uploadATMlog(file: any) {
     const formData: FormData = new FormData();
     formData.append('log', file, file.name);

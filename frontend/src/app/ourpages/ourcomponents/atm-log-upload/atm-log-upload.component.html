@@ -1,6 +1,7 @@
 <nb-card>
     <nb-card-header>
-      Список транзакцій
+      Новий файл лога
+      <button  nbButton status="primary" (click)="onClickUploadLogs()">Завантажити</button>
     </nb-card-header>
   
     <nb-card-body>
@@ -16,15 +17,9 @@
                       <div *ngFor="let file of filesArr" class="fileAttached">
                           {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
                       </div>
-
-                      <button  nbButton status="primary" (click)="onClickUploadLogs()">Завантажити</button>              
+                                    
       </div>
       
-
-
-      <ng2-smart-table [settings]="settings" [source]="source" 
-      (userRowSelect)="onUserRowSelect($event)">
-      </ng2-smart-table>
     </nb-card-body>
 
 </nb-card>

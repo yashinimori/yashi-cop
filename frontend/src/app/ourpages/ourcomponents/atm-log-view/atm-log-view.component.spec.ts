@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClaimsComponent } from './claims.component';
+import { ATMlogViewerComponent } from './atm-log-view.component';
 
-describe('ClaimsComponent', () => {
-  let component: ClaimsComponent;
-  let fixture: ComponentFixture<ClaimsComponent>;
+describe('ATMlogViewerComponent', () => {
+  let component: ATMlogViewerComponent;
+  let fixture: ComponentFixture<ATMlogViewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClaimsComponent ]
+      declarations: [ ATMlogViewerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClaimsComponent);
+    fixture = TestBed.createComponent(ATMlogViewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

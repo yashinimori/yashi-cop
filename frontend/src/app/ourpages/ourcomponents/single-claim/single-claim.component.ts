@@ -246,8 +246,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'three':
         this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
-          if(par.formGroups.value.groupQuery3.val == 3) {
-            this.lastStep('0021');
+          if(par.formGroups.value.groupQuery3.val == 1) {
+            this.lastStep('0500');
           } else {
             this.part = 'four';
           }
@@ -462,23 +462,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
   }
 
-  onClickUploadLogs() {
-   
-    console.log(this.filesLogArr);
-    this.httpService.createNewClaimAnalysis(this.filesLogArr).subscribe({
-      next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
-        this.filesLogArr = [];
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-       
-      }
-    });
-  }
+  
 
 }
 

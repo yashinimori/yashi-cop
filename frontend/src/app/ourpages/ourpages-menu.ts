@@ -44,9 +44,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'скарга',
         link: '/ourpages/ourcomponents/single-claim',
       },
+    ],
+  },
+  {
+    title: 'ATM manage (cbo)',
+    icon: 'layout-outline',
+    hidden: setHiddenOfficeOfficer(),
+    children: [
       {
-        title: 'ATM лог',
-        link: '/ourpages/ourcomponents/claims-analysis',
+        title: 'ATM лог - новий',
+        link: '/ourpages/ourcomponents/atm-log-upload',
+      },
+      {
+        title: 'ATM лог - перегляд',
+        link: '/ourpages/ourcomponents/atm-log-view',
       },
     ],
   },
