@@ -41,7 +41,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
-
+  
+  filesLogArr: Array<any> = new Array<any>();
+  selectedFileLog: any;
 
   part = 'one';
 
@@ -443,6 +445,39 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listQuestions.push({id:5, caption:"Отримані товари були пошкоджені, або не такі, як було описано в замовлені"});
     this.listQuestions.push({id:6, caption:"Неправильна сума або валюта транзакція"});
     this.listQuestions.push({id:7, caption:"інша причина"});
+  }
+
+
+
+  fileLogChanged(e) {
+    this.selectedFileLog = e.target.files[0];
+    if(this.selectedFileLog.size > 50000000) {
+      alert('Файл занадто великий!');
+    } else {
+      this.filesLogArr.push(this.selectedFileLog);
+    }
+  }
+
+  deleteAttachedFileLog(file:any) {
+    this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
+  }
+
+  onClickUploadLogs() {
+   
+    console.log(this.filesLogArr);
+    this.httpService.createNewClaimAnalysis(this.filesLogArr).subscribe({
+      next: (response: any) => {
+        console.log('ok');
+        console.log(response); 
+        this.filesLogArr = [];
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
   }
 
 }

@@ -33,8 +33,6 @@ export class AppComponent implements OnInit {
   }
 
   onContecxtItemSelection(title) {
-    console.log('click', title);
-
     if(title == 'Log out'){
       localStorage.clear();
       this.router.navigate(['auth', 'login']);

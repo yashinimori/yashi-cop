@@ -1,0 +1,30 @@
+<nb-card>
+    <nb-card-header>
+      Список транзакцій
+    </nb-card-header>
+  
+    <nb-card-body>
+      <div>
+
+        <label>
+          Додати файл лога
+        </label>
+  
+        <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                                  type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                      <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                      <div *ngFor="let file of filesArr" class="fileAttached">
+                          {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                      </div>
+
+                      <button  nbButton status="primary" (click)="onClickUploadLogs()">Завантажити</button>              
+      </div>
+      
+
+
+      <ng2-smart-table [settings]="settings" [source]="source" 
+      (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+
+</nb-card>

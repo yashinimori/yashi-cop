@@ -56,13 +56,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     if(role && (role == 'cardholder' || role == 'user')){
         delete this.settings.columns.id;
     }
-}
+  }
+  
   setSettingsGrid(role:string){
     console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
-      case 'chargeback_officer':  
+      case 'chargeback_officer':  {
         this.settings = {
           pager:{perPage: 5},
           //hideSubHeader: true,
@@ -137,9 +138,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       
           },
         };
+      }
       break;
       case 'cardholder':
-      case 'user':
+      case 'user': {
         this.settings = {
           pager:{perPage: 5},
           //hideSubHeader: true,
@@ -195,7 +197,17 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
           },
         };
+      }
       break;
+      default: {
+        this.settings = {
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+        };
+      }
 
     }
     

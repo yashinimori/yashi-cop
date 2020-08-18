@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { OurComponentsComponent } from './ourcomponents.component';
 import { ClaimsComponent } from './claims/claims.component';
 import { SingleClaimComponent } from './single-claim/single-claim.component';
+import { ClaimsAnalysisComponent } from './claims-analysis/claims-analysis.component';
 
 
 const routes: Routes = [{
@@ -18,7 +19,11 @@ const routes: Routes = [{
       path: 'single-claim',
       component: SingleClaimComponent,
     },
-    
+    {
+      path: 'claims-analysis',
+      component: ClaimsAnalysisComponent,
+    }
+
   ],
 }];
 

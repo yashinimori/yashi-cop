@@ -78,7 +78,25 @@
         </nb-card>
     
     </div>
+
 </div>
+
+<div *ngIf="!isNewRecord">
+
+    <label>
+      Додати файл лога
+    </label>
+
+    <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                              type='file' [accept]="acceptFiles" (change)="fileLogChanged($event)">
+                  <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                  <div *ngFor="let file of filesLogArr" class="fileAttached">
+                      {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFileLog(file)"></nb-icon>
+                  </div>
+
+                  <button  nbButton status="primary" (click)="onClickUploadLogs()">Завантажити</button>              
+  </div>
+
 
 <div *ngIf="isNewRecord" >
     

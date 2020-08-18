@@ -32,7 +32,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Наші компоненти (oo)',
+    title: 'Наші компоненти (cbo)',
     icon: 'layout-outline',
     hidden: setHiddenOfficeOfficer(),
     children: [
@@ -43,6 +43,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'скарга',
         link: '/ourpages/ourcomponents/single-claim',
+      },
+      {
+        title: 'ATM лог',
+        link: '/ourpages/ourcomponents/claims-analysis',
       },
     ],
   },
