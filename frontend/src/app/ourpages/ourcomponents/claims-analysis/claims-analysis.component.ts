@@ -21,8 +21,8 @@ export class ClaimsAnalysisComponent implements OnInit, OnDestroy {
   role: string;
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
-  acceptFiles = 'application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
-
+  //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
+  acceptFiles = 'application/txt/*';
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -157,7 +157,6 @@ export class ClaimsAnalysisComponent implements OnInit, OnDestroy {
     this.claimsAnalysisSubscription.unsubscribe();
   }
 
-
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
     if(this.selectedFile.size > 50000000) {
@@ -172,13 +171,15 @@ export class ClaimsAnalysisComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadLogs() {
-   
-    console.log(this.filesArr);
-    this.httpService.createNewClaimAnalysis(this.filesArr).subscribe({
+    //let data = {log: this.filesArr[0]};
+    let data = this.filesArr[0];
+    console.log(data);
+    this.httpService.uploadATMlog(data).subscribe({
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
         this.filesArr = [];
+        this.getClaimsAnalysisData();
       },
       error: error => {
         console.error('There was an error!', error);
@@ -188,5 +189,7 @@ export class ClaimsAnalysisComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  
 
 }

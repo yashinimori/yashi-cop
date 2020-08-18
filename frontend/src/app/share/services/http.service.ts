@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_GET_CLAIM_LIST, 
   URL_GET_MERCHANTS, 
   URL_CREATE_CLAIM, 
-  URL_GET_CLAIMS_ANALYSIS_LIST 
+  URL_GET_CLAIMS_ANALYSIS_LIST,
+  URL_UPLOAD_ATM_LOG
 } from '../urlConstants';
 
 @Injectable({
@@ -49,7 +50,6 @@ export class HttpService {
     };
   }
 
-
   getClaimsAnalisysList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_CLAIMS_ANALYSIS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
     if(search != undefined) {
@@ -64,6 +64,12 @@ export class HttpService {
 
   createNewClaimAnalysis(claim: any) {
     return this.http.post(URL_CREATE_CLAIM, claim, this.getHeaders());
+  }
+  
+  uploadATMlog(file: any) {
+    const formData: FormData = new FormData();
+    formData.append('log', file, file.name);
+    return this.http.post(URL_UPLOAD_ATM_LOG, formData, this.getHeaders());
   }
 
 }
