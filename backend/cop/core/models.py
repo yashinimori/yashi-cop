@@ -299,7 +299,7 @@ class Report(BaseModel):
         ('error', 'Error'),
         ('finished', 'Finished'),
     )
-    claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE)
+    claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE, blank=True, null=True)
     log = models.FileField(upload_to='logs/%Y/%m/%d/')
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)

@@ -5,6 +5,7 @@ from cop.core.api.views.bank import BankViewSet
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
 from cop.core.api.views.comment import CommentViewSet
 from cop.core.api.views.merchant import MerchantViewSet
+from cop.core.api.views.report import ReportCreateCreateView
 from cop.core.api.views.surveyquestion import SurveyQuestionViewSet
 from cop.core.api.views.terminal import TerminalViewSet
 from cop.core.api.views.transaction import TransactionViewSet
@@ -20,6 +21,7 @@ router.register(r'comments', CommentViewSet, basename='comments')
 
 
 urlpatterns = router.urls + [
-    path('claim-documents/reports', ClaimDocumentReportsCreateView.as_view()),
-    path('claim-documents/', ClaimDocumentCreateView.as_view())
+    path('claim-documents/atm-logs', ClaimDocumentReportsCreateView.as_view()),
+    path('claim-documents/', ClaimDocumentCreateView.as_view()),
+    path('atm-logs/', ReportCreateCreateView.as_view())
 ]
