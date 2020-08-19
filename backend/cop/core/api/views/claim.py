@@ -74,7 +74,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         elif current_user.role == User.TOP_LEVEL:
             return queryset
         else:
-            bad_request(self.request, RoleNotFound)
+            return Claim.objects.none()
 
     def get_serializer_class(self):
         if self.action == 'list':

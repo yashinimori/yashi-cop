@@ -7,6 +7,7 @@ User = get_user_model()
 
 class ClaimReasonCodes:
 
+    @staticmethod
     def document_request(instance, reason_code_group):
         comment = Comment.objects.create(
             user=instance.merchant.user,
@@ -14,6 +15,7 @@ class ClaimReasonCodes:
         )
         instance.ch_comments.add(comment)
 
+    @staticmethod
     def set_stage_to_mediation(instance, reason_code_group):
         instance.stage = MEDIATION
 
