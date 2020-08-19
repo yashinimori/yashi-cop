@@ -75,6 +75,7 @@ export class FieldsStatus {
     public setStatusByRole(role: string) {
 
         switch(role) { 
+            case 'merchant':
             case 'cardholder': 
             case 'user': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -97,7 +98,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-               break; 
+                break; 
             } 
             case 'chargeback_officer': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -120,7 +121,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-               break; 
+                break; 
             } 
             case 'top_level': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -143,7 +144,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-               break; 
+                break; 
             }
             default: { 
                 this.default(); 

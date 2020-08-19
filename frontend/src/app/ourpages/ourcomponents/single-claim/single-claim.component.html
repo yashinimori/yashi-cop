@@ -81,7 +81,7 @@
 
 </div>
 
-<div *ngIf="isNewRecord" >
+<div *ngIf="isNewRecord && role !='merchant'" >
     
         <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; height: 450px;margin: auto;">
             <nb-card-header style="width: 100%; text-align: center;">

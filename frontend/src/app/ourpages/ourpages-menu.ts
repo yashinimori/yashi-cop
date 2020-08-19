@@ -66,6 +66,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Наші компоненти (mc)',
+    icon: 'layout-outline',
+    hidden: setHiddenMerchant(),
+    children: [
+      {
+        title: 'список скарг',
+        link: '/ourpages/ourcomponents/claims',
+      },
+      {
+        title: 'скарга',
+        link: '/ourpages/ourcomponents/single-claim',
+      },
+    ],
+  },
+  {
     title: 'Messages',
     icon: 'email-outline',
   },
@@ -101,6 +116,16 @@ function setHiddenChargebackOfficer(){
   console.log('setHiddenChargebackOfficer() ' + role);
 
   if(role && (role=='chargeback_officer'))
+    return false;
+
+  return true;
+}
+
+function setHiddenMerchant(){
+  let role= localStorage.getItem('role');
+  console.log('setHiddenMerchant() ' + role);
+
+  if(role && (role=='merchant'))
     return false;
 
   return true;

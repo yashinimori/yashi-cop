@@ -140,6 +140,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         };
       }
       break;
+      case 'merchant':
       case 'cardholder':
       case 'user': {
         this.settings = {
@@ -230,7 +231,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
-        data = response;
+          data = response;
 
         data.forEach(el => {
           let t = new ClaimView();
