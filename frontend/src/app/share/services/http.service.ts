@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_GET_CLAIM_LIST, URL_GET_MERCHANTS, URL_CREATE_CLAIM } from '../urlConstants';
+import { URL_GET_CLAIM_LIST, URL_GET_MERCHANTS, URL_CREATE_CLAIM, URL_CREATE_NEW_USER } from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +43,10 @@ export class HttpService {
         Authorization: body
       })
     };
+  }
+
+
+  createNewUser(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
   }
 }

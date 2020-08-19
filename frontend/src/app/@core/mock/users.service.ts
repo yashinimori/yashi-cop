@@ -1,6 +1,11 @@
 import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Contacts, RecentUsers, UserData } from '../data/users';
+// import { HttpClientModule } from '@angular/common/http';
+// import { FormsModule } from '@angular/forms';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { NgModule } from '@angular/core';
+ 
 
 @Injectable()
 export class UserService extends UserData {
