@@ -4,6 +4,10 @@
     </nb-card-header>
 </nb-card>
 
+<div *ngIf="!isNewRecord && role =='merchant'" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px;'>
+    <button  nbButton status="primary" (click)="onClickOpenEscalation()" >Ескалацій</button>
+</div>
+
 <div *ngIf="!isNewRecord" class="div-panel" >
     <div class="left-panel">
        

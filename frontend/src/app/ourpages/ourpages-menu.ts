@@ -74,10 +74,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'список скарг',
         link: '/ourpages/ourcomponents/claims',
       },
-      {
-        title: 'скарга',
-        link: '/ourpages/ourcomponents/single-claim',
-      },
+      
     ],
   },
   {

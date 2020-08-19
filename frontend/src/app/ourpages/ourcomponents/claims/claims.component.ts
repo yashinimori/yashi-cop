@@ -18,6 +18,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   settings: any;
   source: LocalDataSource;
   role: string;
+  pagerSize = 10;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -65,7 +66,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       case 'admin':
       case 'chargeback_officer':  {
         this.settings = {
-          pager:{perPage: 5},
+          pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
           actions:{
             add: false,
@@ -144,7 +145,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       case 'cardholder':
       case 'user': {
         this.settings = {
-          pager:{perPage: 5},
+          pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
           actions:{
             add: false,
