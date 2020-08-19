@@ -31,19 +31,18 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     
   }
 
-  claimsAnalysisSubscription: Subscription = new Subscription();
+  atmLogViewSubscription: Subscription = new Subscription();
   
   
   onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.data.id);
+    //this.transferService.cOPClaimID.next(event.data.id);
     //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
   }
 
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('ClaimsAnalysisComponent role ' +this.role);
-
+    
     this.setSettingsGrid(this.role);
     this.getTransactionsData();
     this.hideColumnForUser(this.role);
@@ -221,41 +220,9 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.claimsAnalysisSubscription.unsubscribe();
+    this.atmLogViewSubscription.unsubscribe();
   }
 
-  fileChanged(e) {
-    this.selectedFile = e.target.files[0];
-    if(this.selectedFile.size > 50000000) {
-      alert('Файл занадто великий!');
-    } else {
-      this.filesArr.push(this.selectedFile);
-    }
-  }
-
-  deleteAttachedFile(file:any) {
-    this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e=> e == file)), 1);
-  }
-
-  onClickUploadLogs() {
-    let data = this.filesArr[0];
-    console.log(data);
-    this.httpService.uploadATMlog(data).subscribe({
-      next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
-        this.filesArr = [];
-        this.getTransactionsData();
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-       
-      }
-    });
-  }
-
-  
+    
 
 }

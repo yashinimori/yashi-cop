@@ -16,7 +16,13 @@ export class HttpService {
   }
 
   getClaimList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
-    let req = `${URL_GET_CLAIM_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
+    let req = '';
+
+    if(pageSize > 0 && pageNumber > 0)
+      req = `${URL_GET_CLAIM_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
+    else
+      req = `${URL_GET_CLAIM_LIST}/?all`;
+
     if(search != undefined) {
       req = req + `&search=${search}`;
     }
