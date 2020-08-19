@@ -121,9 +121,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //console.log('ngOnInit');
     
     this.role = localStorage.getItem('role');
-    console.log('this.role ' +this.role);
+    console.log('SingleClaimComponent role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
-    
+    console.log('this.claimId = ' + this.claimId);
+
     if (this.claimId.length != 0) {
       this.loadClaim();
     }
@@ -153,8 +154,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.claimData = new ClaimView();
     this.stepNewRecord = 1;
 
-    this.claimId = this.transferService.cOPClaimID.getValue();
-    console.log('this.claimId = ' + this.claimId);
+    //this.claimId = this.transferService.cOPClaimID.getValue();
+   
 
     this.isNewRecord = this.claimId.length == 0 ? true : false;
     console.log('this.isNewRecord = ' + this.isNewRecord);
@@ -462,12 +463,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
   }
 
-  //Escalation/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
   onClickOpenEscalation(){
-    console.log('onClickOpenEscalation');
+    this.transferService.escalationClaimID.next(this.claimId);
+    this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
   }
 
 
-  //Escalation/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
 }
 

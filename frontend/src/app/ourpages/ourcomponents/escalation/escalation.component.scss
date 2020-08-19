@@ -1,0 +1,56 @@
+@import '../../../@theme/styles/themes';
+
+  
+.div-panel{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.label-caption {
+    width: 38%;
+    text-transform: uppercase;
+}
+.label-data {
+    width: 60%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.left-panel {
+    width: 49%;
+    height: 400px;
+}
+.right-panel {
+    width: 49%;
+    height: 400px;
+    margin-left: 2%;
+}
+.center {
+    text-align: center;
+}
+.input-data {
+    width: 60%;
+}
+.input-date {
+    width: 60%;
+}
+.selector-list {
+    width: 60%;   
+}
+.label-question {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: auto;
+}
+.input-radio{
+    width: 100%;
+    display: flex; 
+    margin: auto; 
+    text-align: center;
+}
+.selector-list-questions {
+    width: 100%;   
+}
+.control-input-questions {
+    width: 380px;   
+}
