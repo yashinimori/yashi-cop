@@ -24,7 +24,7 @@ import { SingleClaimComponent } from './single-claim/single-claim.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ATMlogUploadComponent } from './atm-log-upload/atm-log-upload.component';
 import { ATMlogViewerComponent } from './atm-log-view/atm-log-view.component';
-
+import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-detail.component';
 
 
 @NgModule({
@@ -54,6 +54,7 @@ import { ATMlogViewerComponent } from './atm-log-view/atm-log-view.component';
     SingleClaimComponent,
     ATMlogUploadComponent,
     ATMlogViewerComponent,
+    ATMlogViewerDetailComponent,
         
   ],
   // providers: [

@@ -31,130 +31,14 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
     this.claimsData = new Array<ClaimView>();
   }
 
-  claimsAnalysisSubscription: Subscription = new Subscription();
-  
-  
-  onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.data.id);
-    //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
-  }
-
+  atmlogUploadSubscription: Subscription = new Subscription();
+    
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-    console.log('ClaimsAnalysisComponent role ' +this.role);
-
-    this.setSettingsGrid(this.role);
-    this.getClaimsAnalysisData();
-    this.hideColumnForUser(this.role);
   }
-
-
-  hideColumnForUser(role:string){
-    if(role && (role == 'cardholder' || role == 'user')){
-        delete this.settings.columns.id;
-    }
-  }
-
-  setSettingsGrid(role:string){
-    console.log('setSettingsGrid(c:string)' + role);
-
-    switch(role){
-      case 'admin':
-      case 'chargeback_officer':  {
-        this.settings = {
-          pager:{perPage: 5},
-          //hideSubHeader: true,
-          actions:{
-            add: false,
-            edit: false,
-            delete: false,
-          },
-          columns: {
-          //   trans_start: {
-          //     title: 'Дата транзакції',
-          //     valuePrepareFunction: (trans_date) => {
-          //       if(trans_date)
-          //         return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-          //       else
-          //         return '';
-          //     }
-          //   }, 
-            pan: {
-              title: 'Номер карти',
-              type: 'string',
-            },
-            // trans_date: {
-            //   title: 'Дата транзакції',
-            //   valuePrepareFunction: (trans_date) => {
-            //     if(trans_date)
-            //       return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-            //     else
-            //       return '';
-            //   }
-            // },      
-            
-      
-          },
-        };
-      }
-      break;
-      
-      default: {
-        this.settings = {
-          actions:{
-            add: false,
-            edit: false,
-            delete: false,
-          },
-        };
-      }
-
-    }
-    
-
-  }
-
-  getClaimsAnalysisData() {
-    console.log('getClaimsAnalysisData()'); 
-    this.claimsData = new Array<ClaimView>();
-    let self = this;
-    this.claimsAnalysisSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
-      next: (response: any) => {
-        console.log('loaded Claims Analysis'); 
-        console.log(response);
-
-        response.results.forEach(el => {
-          let t = new ClaimView();
-             
-          t.pan = el['pan'];
-          
-          self.claimsData.push(t);
-          
-          //console.log(t);
-
-        });
-
-        //self.source = new LocalDataSource(self.claimsData);
-        self.source = new LocalDataSource();
-        //self.source.setPaging(1, 5);
-        self.source.load(self.claimsData);
-        //self.source .refresh();
-
-        console.log(self.source);
-        
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-       
-      }
-    });
-  }
-
+     
   ngOnDestroy(): void {
-    this.claimsAnalysisSubscription.unsubscribe();
+    this.atmlogUploadSubscription.unsubscribe();
   }
 
   fileChanged(e) {
@@ -171,7 +55,6 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadLogs() {
-    //let data = {log: this.filesArr[0]};
     let data = this.filesArr[0];
     console.log(data);
     this.httpService.uploadATMlog(data).subscribe({
@@ -179,7 +62,6 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
         console.log('ok');
         console.log(response); 
         this.filesArr = [];
-        this.getClaimsAnalysisData();
       },
       error: error => {
         console.error('There was an error!', error);

@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
 
 
 @Component({
-  selector: 'ngx-atm-log-view',
-  templateUrl: './atm-log-view.component.html',
-  styleUrls: ['./atm-log-view.component.scss']
+  selector: 'ngx-atm-log-view-detail',
+  templateUrl: './atm-log-view-detail.component.html',
+  styleUrls: ['./atm-log-view-detail.component.scss']
 })
-export class ATMlogViewerComponent implements OnInit, OnDestroy {
+export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   armTransactionsData: Array<AtmTransactionView>;
   settings: any;
   source: LocalDataSource;
@@ -31,7 +31,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     
   }
 
-  atmLogViewSubscription: Subscription = new Subscription();
+  atmLogViewDetailSubscription: Subscription = new Subscription();
   
   
   onUserRowSelect(event): void {
@@ -185,7 +185,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     console.log('getTransactionsData()'); 
     this.armTransactionsData = new Array<AtmTransactionView>();
     let self = this;
-    this.atmLogViewSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
+    this.atmLogViewDetailSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
         console.log('loaded Transactions'); 
         console.log(response);
@@ -220,7 +220,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.atmLogViewSubscription.unsubscribe();
+    this.atmLogViewDetailSubscription.unsubscribe();
   }
 
     
