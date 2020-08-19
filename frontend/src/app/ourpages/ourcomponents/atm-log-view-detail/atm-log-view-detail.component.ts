@@ -144,6 +144,15 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                    return '';
                }
             },
+            cash_retracted:{
+              title: 'Відмома',
+               valuePrepareFunction: (cash_retracted) => {
+                 if(cash_retracted)
+                   return this.datePipe.transform(new Date(cash_retracted), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
             trans_end:{
               title: 'Кінец транзакції',
                valuePrepareFunction: (trans_end) => {

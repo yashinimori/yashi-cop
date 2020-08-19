@@ -5,7 +5,7 @@ export class AtmTransactionView {
   cash_count: string;
   cash_presented: string;
   cash_request: Date;
-  cash_retracted: string;
+  cash_retracted: Date;
   cash_taken: Date;
   currency: string;
   error: string;

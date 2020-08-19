@@ -59,6 +59,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'ATM лог - перегляд',
         link: '/ourpages/ourcomponents/atm-log-view',
       },
+      {
+        title: 'ATM лог - детальний',
+        link: '/ourpages/ourcomponents/atm-log-view-detail',
+      },
     ],
   },
   {
