@@ -34,7 +34,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Наші компоненти (cbo)',
     icon: 'layout-outline',
-    hidden: setHiddenOfficeOfficer(),
+    hidden: setHiddenChargebackOfficer(),
     children: [
       {
         title: 'список скарг',
@@ -49,7 +49,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'ATM manage (cbo)',
     icon: 'layout-outline',
-    hidden: setHiddenOfficeOfficer(),
+    hidden: setHiddenChargebackOfficer(),
     children: [
       {
         title: 'ATM лог - новий',
@@ -84,7 +84,7 @@ function setHiddenUser(){
 
 function setHiddenAdmin(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  console.log('setHiddenAdmin() ' + role);
 
   if(role && (role=='admin'))
     return false;
@@ -92,9 +92,9 @@ function setHiddenAdmin(){
   return true;
 }
 
-function setHiddenOfficeOfficer(){
+function setHiddenChargebackOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  console.log('setHiddenChargebackOfficer() ' + role);
 
   if(role && (role=='chargeback_officer'))
     return false;

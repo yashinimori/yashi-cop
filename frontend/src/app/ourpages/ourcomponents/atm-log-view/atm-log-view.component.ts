@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
+import { AtmTransactionView } from '../../../share/models/atm-transaction.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./atm-log-view.component.scss']
 })
 export class ATMlogViewerComponent implements OnInit, OnDestroy {
-  claimsData: Array<ClaimView>;
+  armTransactionsData: Array<AtmTransactionView>;
   settings: any;
   source: LocalDataSource;
   role: string;
@@ -28,7 +28,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     private transferService: TransferService,
     private router: Router,
     private httpService: HttpService) {
-    this.claimsData = new Array<ClaimView>();
+    
   }
 
   claimsAnalysisSubscription: Subscription = new Subscription();
@@ -45,7 +45,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     console.log('ClaimsAnalysisComponent role ' +this.role);
 
     this.setSettingsGrid(this.role);
-    this.getClaimsAnalysisData();
+    this.getTransactionsData();
     this.hideColumnForUser(this.role);
   }
 
@@ -71,30 +71,97 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-          //   trans_start: {
-          //     title: 'Дата транзакції',
-          //     valuePrepareFunction: (trans_date) => {
-          //       if(trans_date)
-          //         return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-          //       else
-          //         return '';
-          //     }
-          //   }, 
+             trans_start: {
+               title: 'Початок транзакції',
+               valuePrepareFunction: (trans_date) => {
+                 if(trans_date)
+                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+             }, 
             pan: {
               title: 'Номер карти',
               type: 'string',
             },
-            // trans_date: {
-            //   title: 'Дата транзакції',
-            //   valuePrepareFunction: (trans_date) => {
-            //     if(trans_date)
-            //       return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-            //     else
-            //       return '';
-            //   }
-            // },      
-            
-      
+            pin_entered:{
+              title: 'PIN',
+               valuePrepareFunction: (pin_entered) => {
+                 if(pin_entered)
+                   return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_request:{
+              title: 'Запит грошей',
+               valuePrepareFunction: (cash_request) => {
+                 if(cash_request)
+                   return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            trans_amount: {
+              title: 'Сума',
+              type: 'string',
+            },
+            currency: {
+              title: 'Baлюта',
+              type: 'string',
+            },
+            approval_code: {
+              title: 'Код затвердження',
+              type: 'string',
+            },
+            cash_presented:{
+              title: 'Готівка представлена',
+               valuePrepareFunction: (cash_presented) => {
+                 if(cash_presented)
+                   return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_taken:{
+              title: 'Готівка отримана',
+               valuePrepareFunction: (cash_taken) => {
+                 if(cash_taken)
+                   return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_count: {
+              title: 'Кількість готівки',
+              type: 'string',
+            },
+            card_taken:{
+              title: 'Картка отримана',
+               valuePrepareFunction: (card_taken) => {
+                 if(card_taken)
+                   return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            trans_end:{
+              title: 'Кінец транзакції',
+               valuePrepareFunction: (trans_end) => {
+                 if(trans_end)
+                   return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            error: {
+              title: 'Помилки',
+              type: 'string',
+            },
+            result: {
+              title: 'Результат',
+              type: 'string',
+            },
           },
         };
       }
@@ -115,31 +182,31 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
 
   }
 
-  getClaimsAnalysisData() {
-    console.log('getClaimsAnalysisData()'); 
-    this.claimsData = new Array<ClaimView>();
+  getTransactionsData() {
+    console.log('getTransactionsData()'); 
+    this.armTransactionsData = new Array<AtmTransactionView>();
     let self = this;
-    this.claimsAnalysisSubscription = this.httpService.getClaimsAnalisysList(10, 1).subscribe({
+    this.claimsAnalysisSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
-        console.log('loaded Claims Analysis'); 
+        console.log('loaded Transactions'); 
         console.log(response);
 
-        response.results.forEach(el => {
-          let t = new ClaimView();
+        // response.results.forEach(el => {
+        //   let t = new AtmTransactionView();
              
-          t.pan = el['pan'];
+        //   t.pan = el['pan'];
           
-          self.claimsData.push(t);
+        //   self.claimsData.push(t);
           
-          //console.log(t);
+        //   //console.log(t);
 
-        });
+        // });
 
-        //self.source = new LocalDataSource(self.claimsData);
+        this.armTransactionsData = response.results;
+        
         self.source = new LocalDataSource();
-        //self.source.setPaging(1, 5);
-        self.source.load(self.claimsData);
-        //self.source .refresh();
+        self.source.load(self.armTransactionsData);
+        
 
         console.log(self.source);
         
@@ -171,7 +238,6 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadLogs() {
-    //let data = {log: this.filesArr[0]};
     let data = this.filesArr[0];
     console.log(data);
     this.httpService.uploadATMlog(data).subscribe({
@@ -179,7 +245,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
         console.log('ok');
         console.log(response); 
         this.filesArr = [];
-        this.getClaimsAnalysisData();
+        this.getTransactionsData();
       },
       error: error => {
         console.error('There was an error!', error);

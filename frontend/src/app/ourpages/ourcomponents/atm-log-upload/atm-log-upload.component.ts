@@ -119,7 +119,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
     console.log('getClaimsAnalysisData()'); 
     this.claimsData = new Array<ClaimView>();
     let self = this;
-    this.claimsAnalysisSubscription = this.httpService.getClaimsAnalisysList(10, 1).subscribe({
+    this.claimsAnalysisSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
         console.log('loaded Claims Analysis'); 
         console.log(response);

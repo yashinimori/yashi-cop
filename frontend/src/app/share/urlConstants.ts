@@ -8,7 +8,7 @@ export const URL_GET_CLAIM_LIST = `${MAIN_URL}/api/v1/claims`;
 export const URL_GET_CLAIM = `${MAIN_URL}/api/v1/claims`;
 export const URL_CREATE_CLAIM = `${MAIN_URL}/api/v1/claims/`;
 
-export const URL_GET_CLAIMS_ANALYSIS_LIST = `${MAIN_URL}/api/v1/transactions`;
+export const URL_GET_TRANSACTIONS_LIST = `${MAIN_URL}/api/v1/transactions`;
 
 export const URL_UPLOAD_ATM_LOG = `${MAIN_URL}/api/v1/atm-logs/`;
 
