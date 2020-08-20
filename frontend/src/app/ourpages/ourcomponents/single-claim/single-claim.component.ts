@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
-import { EscalationTransfer } from '../../../share/models/escalation-transfer.model';
+import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
 
 
 @Component({
@@ -467,21 +467,21 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   
   onClickEscalation(){
-    let val = new EscalationTransfer();
+    let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;  
     val.typeOperation = "NewEscalation";
-    this.transferService.escalationSettings.next(val);
+    this.transferService.singleClaimFormsSettings.next(val);
   
-    this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
   onClickEscalationFinish(){
-    let val = new EscalationTransfer();
+    let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;  
     val.typeOperation = "FinishEscalation";
-    this.transferService.escalationSettings.next(val);
+    this.transferService.singleClaimFormsSettings.next(val);
   
-    this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
   
