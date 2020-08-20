@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { URL_GET_CLAIM_LIST, 
   URL_GET_MERCHANTS, 
   URL_CREATE_CLAIM, 
   URL_GET_TRANSACTIONS_LIST,
-  URL_UPLOAD_ATM_LOG
+  URL_UPLOAD_ATM_LOG,
+  URL_CREATE_NEW_USER
 } from '../urlConstants';
 
 @Injectable({
@@ -56,6 +58,12 @@ export class HttpService {
     };
   }
 
+
+  createNewUser(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+  }
+
+
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
     if(search != undefined) {
@@ -74,5 +82,6 @@ export class HttpService {
     formData.append('log', file, file.name);
     return this.http.post(URL_UPLOAD_ATM_LOG, formData, this.getHeaders());
   }
+
 
 }
