@@ -115,7 +115,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     console.log(this.fieldsStatus);
   }
 
-  onClickCreateEscalation(){
+  onClickApply(){
     //to do
     
     if(this.filesArr && this.filesArr.length > 0) {
@@ -150,5 +150,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.decision.push({id:2, caption:"decision 2"});
     this.decision.push({id:3, caption:"decision 3"});
   }
+
 
 }

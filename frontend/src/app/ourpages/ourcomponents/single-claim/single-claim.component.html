@@ -4,8 +4,9 @@
     </nb-card-header>
 </nb-card>
 
-<div *ngIf="!isNewRecord" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px;'>
+<div *ngIf="!isNewRecord" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px; display:flex'>
     <button  nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
+    <button  nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
 </div>
 
 <div *ngIf="!isNewRecord" class="div-panel" >
