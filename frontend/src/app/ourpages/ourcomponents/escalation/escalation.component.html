@@ -4,56 +4,119 @@
     </nb-card-header>
 </nb-card>
 
+<div *ngIf="typeOperation == 'NewEscalation'" >
 
-<div *ngIf="isNewEscaltion && role =='merchant'" >
-    
-        <nb-card style="width: 49%; height: 450px;margin: auto;">
-            <nb-card-header style="width: 100%; text-align: center;">
-                Ескалація претензії
-              </nb-card-header>
-            <nb-card-body>
-                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
-                    <label class="label-caption">Select reason code</label> 
-                    <input class="input-data" nbInput placeholder="Select reason code"
-                        [required]="fieldsStatus.escalation.required" 
-                        [readonly]="fieldsStatus.escalation.readonly"
-                        [(ngModel)]="escalationData.reason_code">
-                </div>
-                
-                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
-                    <label class="label-caption">MMT</label> 
-                    <input class="input-data" nbInput placeholder="MMT"
-                        [required]="fieldsStatus.escalation.required" 
-                        [readonly]="fieldsStatus.escalation.readonly"
-                        [(ngModel)]="escalationData.mmt">
-                </div>
-
-                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
-                    <label class="label-caption">Додати документи</label> 
-                    <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
-                                type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
-                    <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                    <div *ngFor="let file of filesArr" class="fileAttached">
-                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
-                    </div>
-
-                </div>
-
-            </nb-card-body>
+    <nb-card style="width: 49%; height: 450px;margin: auto;">
+        <nb-card-header style="width: 100%; text-align: center;">
+            Ескалація претензії
+            </nb-card-header>
+        <nb-card-body>
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Select reason code</label> 
+                <input class="input-data" nbInput placeholder="Select reason code"
+                    [required]="fieldsStatus.escalation.required" 
+                    [readonly]="fieldsStatus.escalation.readonly"
+                    [(ngModel)]="escalationData.reason_code">
+            </div>
             
-            <nb-card-footer>
-                <div class="center">
-                    <button  nbButton status="primary" (click)="onClickBackClaim()">Повернутися</button>
-                    <button  nbButton status="primary" (click)="onClickCreateEscalation()"
-                        style="margin-left: 10px;">Ескалація</button>
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">MMT</label> 
+                <input class="input-data" nbInput placeholder="MMT"
+                    [required]="fieldsStatus.escalation.required" 
+                    [readonly]="fieldsStatus.escalation.readonly"
+                    [(ngModel)]="escalationData.mmt">
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Додати документи</label> 
+                <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                            type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                <div *ngFor="let file of filesArr" class="fileAttached">
+                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
                 </div>
-              </nb-card-footer>
-        </nb-card>
-    
 
+            </div>
+
+        </nb-card-body>
         
+        <nb-card-footer>
+            <div class="center">
+                <button  nbButton status="primary" (click)="onClickBackClaim()">Повернутися</button>
+                <button  nbButton status="primary" (click)="onClickCreateEscalation()"
+                    style="margin-left: 10px;">Ескалація</button>
+            </div>
+            </nb-card-footer>
+    </nb-card>
+
+</div>
 
 
+<div *ngIf="typeOperation == 'FinishEscalation'" >
     
+    <nb-card style="width: 49%; height: 450px;margin: auto;">
+        <nb-card-header style="width: 100%; text-align: center;">
+            Завершеня розгляду
+            </nb-card-header>
+        <nb-card-body>
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Причина завершення реклямації</label> 
+                <nb-select class="selector-list" [(selected)]="escalationData.reasonClosingId"
+                        [required]="fieldsStatus.escalation.required" 
+                        [disabled]="fieldsStatus.escalation.readonly" >
+                        <nb-option *ngFor="let item of reasonClosing" [value]="item.id">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+            </div>
+            
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Рішення</label> 
+                <nb-select class="selector-list" [(selected)]="escalationData.decisionId"
+                        [required]="fieldsStatus.escalation.required" 
+                        [disabled]="fieldsStatus.escalation.readonly" >
+                        <nb-option *ngFor="let item of decision" [value]="item.id">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Коментари</label> 
+                <input class="input-data" nbInput placeholder="Коментари"
+                    [required]="fieldsStatus.escalation.required" 
+                    [readonly]="fieldsStatus.escalation.readonly"
+                    [(ngModel)]="escalationData.comment">
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Сума для зарухування</label> 
+                <input class="input-data" nbInput placeholder="Сума для зарухування"
+                    [required]="fieldsStatus.escalation.required" 
+                    [readonly]="fieldsStatus.escalation.readonly"
+                    [(ngModel)]="escalationData.amount_move">
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                <label class="label-caption">Додати документи</label> 
+                <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                            type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                <div *ngFor="let file of filesArr" class="fileAttached">
+                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                </div>
+
+            </div>
+
+        </nb-card-body>
+        
+        <nb-card-footer>
+            <div class="center">
+                <button  nbButton status="primary" (click)="onClickBackClaim()">Повернутися</button>
+                <button  nbButton status="primary" (click)="onClickCreateEscalation()"
+                    style="margin-left: 10px;">Завершити</button>
+            </div>
+            </nb-card-footer>
+    </nb-card>
 
 </div>

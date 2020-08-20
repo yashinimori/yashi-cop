@@ -123,7 +123,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: true}); 
+                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 break; 
             } 
             case 'chargeback_officer': { 
@@ -147,7 +147,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: true});
+                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 break; 
             } 
             case 'top_level': { 
@@ -171,7 +171,7 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: true});
+                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 break; 
             }
             default: { 

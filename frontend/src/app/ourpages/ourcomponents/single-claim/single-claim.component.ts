@@ -8,6 +8,8 @@ import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
+import { EscalationTransfer } from '../../../share/models/escalation-transfer.model';
+
 
 @Component({
   selector: 'ngx-single-claim',
@@ -464,11 +466,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   
-  onClickOpenEscalation(){
-    this.transferService.escalationClaimID.next(this.claimId);
+  onClickEscalation(){
+    let val = new EscalationTransfer();
+    val.claimId = this.claimId;  
+    val.typeOperation = "NewEscalation";
+    this.transferService.escalationSettings.next(val);
+  
     this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
   }
 
+  onClickEscalationFinish(){
+    let val = new EscalationTransfer();
+    val.claimId = this.claimId;  
+    val.typeOperation = "FinishEscalation";
+    this.transferService.escalationSettings.next(val);
+  
+    this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
+  }
 
   
 }

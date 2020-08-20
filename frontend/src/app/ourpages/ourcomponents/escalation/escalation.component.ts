@@ -29,7 +29,10 @@ export class EscalationComponent implements OnInit, OnDestroy {
   fieldsStatus: FieldsStatus;
   isNewEscaltion: boolean;
   escalationData: Escalation;
-
+  typeOperation: string;
+  reasonClosing: Array<SelectorData>;
+  decision: Array<SelectorData>;
+  
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
@@ -43,15 +46,22 @@ export class EscalationComponent implements OnInit, OnDestroy {
     console.log('EscalationComponent this.role ' +this.role);
     this.generateStatusFields();
 
-    this.isNewEscaltion = true;
-
     this.escalationData = new Escalation();
-    this.claimId = this.transferService.escalationClaimID.getValue();
-    console.log('EscalationComponent this.claimId ' +this.claimId);
+    this.filesArr = [];
+
+    let v = this.transferService.escalationSettings.getValue();
+    // console.log('EscalationComponent ');
+    // console.log(v);
+    this.claimId = v.claimId;
+    this.typeOperation = v.typeOperation;
+
+    this.getReasonClosing();
+    this.getDecision();
+
   }
 
   ngOnDestroy(): void {
-    this.transferService.escalationClaimID.next('');
+    this.transferService.escalationSettings.next(null);
     this.getEscalationSubscription.unsubscribe();
   }
 
@@ -101,11 +111,22 @@ export class EscalationComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
+    console.log('generateStatusFields()');
     console.log(this.fieldsStatus);
   }
 
   onClickCreateEscalation(){
     //to do
+    
+    if(this.filesArr && this.filesArr.length > 0) {
+      let data = this.filesArr[0];
+      const formData: FormData = new FormData();
+      formData.append('docs', data, data.name);
+      this.escalationData.docs = data;
+    }
+        
+    console.log(this.escalationData);
+
     this.transferService.cOPClaimID.next(this.claimId);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
   }
@@ -113,6 +134,21 @@ export class EscalationComponent implements OnInit, OnDestroy {
   onClickBackClaim(){
     this.transferService.cOPClaimID.next(this.claimId);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+  }
+
+
+  getReasonClosing(){
+    this.reasonClosing = new Array<SelectorData>();
+    this.reasonClosing.push({id:1, caption:"reasonClosing 1"});
+    this.reasonClosing.push({id:2, caption:"reasonClosing 2"});
+    this.reasonClosing.push({id:3, caption:"reasonClosing 3"});
+  }
+
+  getDecision(){
+    this.decision = new Array<SelectorData>();
+    this.decision.push({id:1, caption:"decision 1"});
+    this.decision.push({id:2, caption:"decision 2"});
+    this.decision.push({id:3, caption:"decision 3"});
   }
 
 }
