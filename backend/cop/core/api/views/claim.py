@@ -1,6 +1,7 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.exceptions import bad_request
 from rest_framework.generics import CreateAPIView
 
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
@@ -25,7 +26,6 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "trans_amount",
         "trans_currency",
         "trans_approval_code",
-        "ch_comments",
         "documents",
         "claim_reason_code",
         "reason_code_group",
@@ -47,7 +47,6 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "trans_amount",
         "trans_currency",
         "trans_approval_code",
-        "ch_comments",
         "documents",
         "claim_reason_code",
         "reason_code_group",
@@ -62,8 +61,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_user = self.request.user
         queryset = Claim.objects \
-            .select_related('merchant', 'bank', 'transaction') \
-            .prefetch_related('ch_comments') \
+            .select_related('merchant', 'bank', 'transaction', 'user') \
             .order_by('id')
         if current_user.role == User.CHARGEBACK_OFFICER:
             bank_employee = current_user.bankemployee
@@ -76,7 +74,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         elif current_user.role == User.TOP_LEVEL:
             return queryset
         else:
-            raise RoleNotFound
+            return Claim.objects.none()
 
     def get_serializer_class(self):
         if self.action == 'list':

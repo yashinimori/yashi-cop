@@ -10,11 +10,11 @@ VISA_START_NUMBERS = [4]
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True, required=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'text', 'user')
+        fields = ('id', 'text', 'user', 'create_date', 'update_date')
 
 
 class ReasonCodeGroupSerializer(serializers.ModelSerializer):
@@ -30,6 +30,14 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
         model = ClaimDocument
         fields = ('id', 'file', 'description', 'type', 'claim', 'user')
 
+    def create(self, validated_data):
+        validated_data['user'] = self.context["request"].user
+        return super(ClaimDocumentSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data['user'] = self.context["request"].user
+        return super(ClaimDocumentSerializer, self).update(instance, validated_data)
+
 
 class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
     def create(self, validated_data):
@@ -40,7 +48,7 @@ class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
 
 class ClaimSerializer(serializers.ModelSerializer):
     documents = ClaimDocumentSerializer(many=True, read_only=True)
-    ch_comments = CommentSerializer(many=True, required=False)
+    comments = CommentSerializer(many=True, read_only=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
 
@@ -56,7 +64,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "trans_amount",
             "trans_currency",
             "trans_approval_code",
-            "ch_comments",
+            "comments",
             "answers",
             "documents",
             "claim_reason_code",
@@ -71,16 +79,12 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         current_user = self.context["request"].user
-        ch_comments = validated_data.pop('ch_comments', [])
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(**claim_reason_code)
 
         validated_data['user'] = current_user
         instance = super().create(validated_data)
-        for comment_data in ch_comments:
-            comment = Comment.objects.create(text=comment_data.get('text'), user=current_user)
-            instance.ch_comments.add(comment)
 
         if 'merch_id' in validated_data:
             self.assign_by_merch_id(validated_data['merch_id'], instance)
@@ -94,21 +98,18 @@ class ClaimSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        ch_comments = validated_data.pop('ch_comments', [])
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
         instance = super().update(instance, validated_data)
-        for comment_data in ch_comments:
-            comment = Comment.objects.create(text=comment_data, user=self.context["request"].user)
-            instance.ch_comments.add(comment)
         return instance
 
     def assign_by_merch_id(self, merch_id, instance):
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
             instance.merchant = merchant
-            instance.bank = merchant.bank
+            # TODO: find bank by term/pan?
+            instance.bank = merchant.bank.all().first()
             # TODO: decide which terminal to choose if there are multiple
             # terminal = get_object_or_404(Terminal, merchant=merchant)
             # instance.terminal = terminal

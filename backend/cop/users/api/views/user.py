@@ -31,16 +31,22 @@ class CustomRegistrationView(DjoserUserViewSet):
         data = self.request.data
         if self.request.user.is_authenticated:
             if data.get('role') == User.MERCHANT:
-                self.is_top_level()
-                serializer_class = MerchantRegistrationSerializer
+                if self.is_cop_manager():
+                    serializer_class = MerchantRegistrationSerializer
+                else:
+                    raise PermissionDenied({"message": "You don't have permission to access"})
             elif data.get('role') == User.CHARGEBACK_OFFICER:
-                self.is_top_level()
-                serializer_class = ChargebackOfficerRegistrationSerializer
+                if self.is_cop_manager():
+                    serializer_class = ChargebackOfficerRegistrationSerializer
+                else:
+                    raise PermissionDenied({"message": "You don't have permission to access"})
         return serializer_class
 
     def is_top_level(self):
-        if self.request.user.role != User.TOP_LEVEL:
-            raise PermissionDenied({"message": "You don't have permission to access"})
+        return self.request.user.role == User.TOP_LEVEL
+
+    def is_cop_manager(self):
+        return self.request.user.role == User.COP_MANAGER
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

@@ -41,7 +41,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
-
+  
+  filesLogArr: Array<any> = new Array<any>();
+  selectedFileLog: any;
 
   part = 'one';
 
@@ -119,9 +121,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //console.log('ngOnInit');
     
     this.role = localStorage.getItem('role');
-    console.log('this.role ' +this.role);
+    console.log('SingleClaimComponent role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
-    
+    console.log('this.claimId = ' + this.claimId);
+
     if (this.claimId.length != 0) {
       this.loadClaim();
     }
@@ -151,8 +154,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.claimData = new ClaimView();
     this.stepNewRecord = 1;
 
-    this.claimId = this.transferService.cOPClaimID.getValue();
-    console.log('this.claimId = ' + this.claimId);
+    //this.claimId = this.transferService.cOPClaimID.getValue();
+   
 
     this.isNewRecord = this.claimId.length == 0 ? true : false;
     console.log('this.isNewRecord = ' + this.isNewRecord);
@@ -245,8 +248,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'three':
         this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
-          if(par.formGroups.value.groupQuery3.val == 3) {
-            this.lastStep('0021');
+          if(par.formGroups.value.groupQuery3.val == 1) {
+            this.lastStep('0500');
           } else {
             this.part = 'four';
           }
@@ -446,5 +449,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listQuestions.push({id:7, caption:"інша причина"});
   }
 
+
+
+  fileLogChanged(e) {
+    this.selectedFileLog = e.target.files[0];
+    if(this.selectedFileLog.size > 50000000) {
+      alert('Файл занадто великий!');
+    } else {
+      this.filesLogArr.push(this.selectedFileLog);
+    }
+  }
+
+  deleteAttachedFileLog(file:any) {
+    this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
+  }
+
+  
+  onClickOpenEscalation(){
+    this.transferService.escalationClaimID.next(this.claimId);
+    this.router.navigate(['ourpages', 'ourcomponents', 'escalation']);
+  }
+
+
+  
 }
 

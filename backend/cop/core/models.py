@@ -77,7 +77,7 @@ class Merchant(BaseModel):
     mcc = models.CharField(max_length=4, blank=True, null=True)
     description = models.CharField(max_length=999, blank=True, null=True)
     address = models.CharField(max_length=999, blank=True, null=True)
-    terminal_id = models.CharField(max_length=8, blank=True, null=True)
+    terminal_id = models.CharField(max_length=8, blank=True, null=True) # can be removed
     contact_person = models.CharField(max_length=999, blank=True, null=True)
 
     def __str__(self):
@@ -152,14 +152,6 @@ class Transaction(BaseModel):
         if self.result == 'successful':
             self.scoring = 100
         return super().save(*args, **kwargs)
-
-
-class Comment(BaseModel):
-    text = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return self.text
 
 
 class ReasonCodeGroup(BaseModel):
@@ -237,10 +229,6 @@ class Claim(BaseModel):
     reason_code = models.CharField(max_length=4, blank=True, null=True, help_text='IPS code')
 
     action_needed = models.CharField(max_length=999, null=True, blank=True)
-    ch_comments = models.ManyToManyField(Comment, blank=True, related_name='ch_comments')
-    bank_comments_i = models.ManyToManyField(Comment, blank=True, related_name='bank_comments_i')
-    bank_comments_a = models.ManyToManyField(Comment, blank=True, related_name='bank_comments_a')
-    merchant_comments = models.ManyToManyField(Comment, blank=True, related_name='merch_comments')
 
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
@@ -288,6 +276,15 @@ class ClaimDocument(BaseModel):
         Delete document after 90 + 7 days since claim archivation"""
 
 
+class Comment(BaseModel):
+    text = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='comments')
+
+    def __str__(self):
+        return self.text
+
+
 class SurveyQuestion(BaseModel):
     description = models.CharField(max_length=999)
 
@@ -302,7 +299,7 @@ class Report(BaseModel):
         ('error', 'Error'),
         ('finished', 'Finished'),
     )
-    claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE)
+    claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE, blank=True, null=True)
     log = models.FileField(upload_to='logs/%Y/%m/%d/')
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)

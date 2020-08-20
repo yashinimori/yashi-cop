@@ -4,7 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { OurComponentsComponent } from './ourcomponents.component';
 import { ClaimsComponent } from './claims/claims.component';
 import { SingleClaimComponent } from './single-claim/single-claim.component';
-
+import { ATMlogUploadComponent } from './atm-log-upload/atm-log-upload.component';
+import { ATMlogViewerComponent } from './atm-log-view/atm-log-view.component';
+import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-detail.component';
+import { EscalationComponent } from './escalation/escalation.component';
 
 const routes: Routes = [{
   path: '',
@@ -18,7 +21,24 @@ const routes: Routes = [{
       path: 'single-claim',
       component: SingleClaimComponent,
     },
+    {
+      path: 'atm-log-upload',
+      component: ATMlogUploadComponent,
+    },
+    {
+      path: 'atm-log-view',
+      component: ATMlogViewerComponent,
+    },
+    {
+      path: 'atm-log-view-detail',
+      component: ATMlogViewerDetailComponent,
+    },
+    {
+      path: 'escalation',
+      component: EscalationComponent,
+    }
     
+
   ],
 }];
 

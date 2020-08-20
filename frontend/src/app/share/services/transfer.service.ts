@@ -8,4 +8,5 @@ export class TransferService {
 
   public cOPClaimID: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public pAD: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public escalationClaimID: BehaviorSubject<string> = new BehaviorSubject<string>('');
 }

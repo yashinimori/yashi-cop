@@ -32,9 +32,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Наші компоненти (oo)',
+    title: 'Наші компоненти (cbo)',
     icon: 'layout-outline',
-    hidden: setHiddenOfficeOfficer(),
+    hidden: setHiddenChargebackOfficer(),
     children: [
       {
         title: 'список скарг',
@@ -44,6 +44,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'скарга',
         link: '/ourpages/ourcomponents/single-claim',
       },
+    ],
+  },
+  {
+    title: 'ATM manage (cbo)',
+    icon: 'layout-outline',
+    hidden: setHiddenChargebackOfficer(),
+    children: [
+      {
+        title: 'ATM лог - новий',
+        link: '/ourpages/ourcomponents/atm-log-upload',
+      },
+      {
+        title: 'ATM лог - перегляд',
+        link: '/ourpages/ourcomponents/atm-log-view',
+      },
+      {
+        title: 'ATM лог - детальний',
+        link: '/ourpages/ourcomponents/atm-log-view-detail',
+      },
+    ],
+  },
+  {
+    title: 'Наші компоненти (mc)',
+    icon: 'layout-outline',
+    hidden: setHiddenMerchant(),
+    children: [
+      {
+        title: 'список скарг',
+        link: '/ourpages/ourcomponents/claims',
+      },
+      
     ],
   },
   {
@@ -69,7 +100,7 @@ function setHiddenUser(){
 
 function setHiddenAdmin(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  console.log('setHiddenAdmin() ' + role);
 
   if(role && (role=='admin'))
     return false;
@@ -77,11 +108,21 @@ function setHiddenAdmin(){
   return true;
 }
 
-function setHiddenOfficeOfficer(){
+function setHiddenChargebackOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  console.log('setHiddenChargebackOfficer() ' + role);
 
   if(role && (role=='chargeback_officer'))
+    return false;
+
+  return true;
+}
+
+function setHiddenMerchant(){
+  let role= localStorage.getItem('role');
+  console.log('setHiddenMerchant() ' + role);
+
+  if(role && (role=='merchant'))
     return false;
 
   return true;

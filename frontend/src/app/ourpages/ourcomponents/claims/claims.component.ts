@@ -18,6 +18,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   settings: any;
   source: LocalDataSource;
   role: string;
+  pagerSize = 10;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -56,15 +57,16 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     if(role && (role == 'cardholder' || role == 'user')){
         delete this.settings.columns.id;
     }
-}
+  }
+  
   setSettingsGrid(role:string){
     console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
-      case 'chargeback_officer':  
+      case 'chargeback_officer':  {
         this.settings = {
-          pager:{perPage: 5},
+          pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
           actions:{
             add: false,
@@ -137,11 +139,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       
           },
         };
+      }
       break;
+      case 'merchant':
       case 'cardholder':
-      case 'user':
+      case 'user': {
         this.settings = {
-          pager:{perPage: 5},
+          pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
           actions:{
             add: false,
@@ -195,7 +199,17 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
           },
         };
+      }
       break;
+      default: {
+        this.settings = {
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+        };
+      }
 
     }
     
@@ -206,11 +220,21 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     //console.log('loadClaims()'); 
     this.claimsData = new Array<ClaimView>();
     let self = this;
-    this.claimsSubscription = this.httpServise.getClaimList(10, 1).subscribe({
+    let pageSize = 0;
+    let pageNumber = 0;
+    this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded Claims '); 
-        //console.log(response);
-        response.results.forEach(el => {
+        console.log('loaded Claims '); 
+        console.log(response);
+
+        let data: any;
+
+        if(pageSize > 0 && pageNumber > 0)
+          data = response.results;
+        else
+          data = response;
+
+        data.forEach(el => {
           let t = new ClaimView();
     
           t.id = el['id'];

@@ -1,0 +1,59 @@
+<nb-card>
+    <nb-card-header>
+      Ескалація
+    </nb-card-header>
+</nb-card>
+
+
+<div *ngIf="isNewEscaltion && role =='merchant'" >
+    
+        <nb-card style="width: 49%; height: 450px;margin: auto;">
+            <nb-card-header style="width: 100%; text-align: center;">
+                Ескалація претензії
+              </nb-card-header>
+            <nb-card-body>
+                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                    <label class="label-caption">Select reason code</label> 
+                    <input class="input-data" nbInput placeholder="Select reason code"
+                        [required]="fieldsStatus.escalation.required" 
+                        [readonly]="fieldsStatus.escalation.readonly"
+                        [(ngModel)]="escalationData.reason_code">
+                </div>
+                
+                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                    <label class="label-caption">MMT</label> 
+                    <input class="input-data" nbInput placeholder="MMT"
+                        [required]="fieldsStatus.escalation.required" 
+                        [readonly]="fieldsStatus.escalation.readonly"
+                        [(ngModel)]="escalationData.mmt">
+                </div>
+
+                <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+                    <label class="label-caption">Додати документи</label> 
+                    <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                                type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                    <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                    </div>
+
+                </div>
+
+            </nb-card-body>
+            
+            <nb-card-footer>
+                <div class="center">
+                    <button  nbButton status="primary" (click)="onClickBackClaim()">Повернутися</button>
+                    <button  nbButton status="primary" (click)="onClickCreateEscalation()"
+                        style="margin-left: 10px;">Ескалація</button>
+                </div>
+              </nb-card-footer>
+        </nb-card>
+    
+
+        
+
+
+    
+
+</div>
