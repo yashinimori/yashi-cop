@@ -17,6 +17,5 @@ class MerchantSerializer(serializers.ModelSerializer):
             'mcc',
             'description',
             'address',
-            'terminal_id',
             'contact_person',
         )

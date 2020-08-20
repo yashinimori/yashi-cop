@@ -20,7 +20,6 @@ class MerchantViewSet(viewsets.ModelViewSet):
         'mcc',
         'description',
         'address',
-        'terminal_id',
         'contact_person',
     )
 
@@ -34,6 +33,5 @@ class MerchantViewSet(viewsets.ModelViewSet):
         'mcc',
         'description',
         'address',
-        'terminal_id',
         'contact_person',
     ]
