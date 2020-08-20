@@ -1,18 +1,17 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from cop.core.models import Comment
+from cop.core.models import Comment, Claim
 
 
-class CommentSerializer(serializers.ModelSerializer):
-
+class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'text', 'user', 'claim')
+        fields = ('text',)
 
     def create(self, validated_data):
+        claim_pk = self.context.get('view').kwargs.get('pk')
+        claim = get_object_or_404(Claim, pk=claim_pk)
         validated_data['user'] = self.context["request"].user
-        return super(CommentSerializer, self).create(validated_data)
-
-    def update(self, instance, validated_data):
-        validated_data['user'] = self.context["request"].user
-        return super(CommentSerializer, self).update(instance, validated_data)
+        validated_data['claim'] = claim
+        return super(CommentCreateSerializer, self).create(validated_data)

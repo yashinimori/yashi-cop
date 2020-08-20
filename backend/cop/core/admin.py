@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from cop.core.models import Claim, Merchant, Bank, Transaction, Stage, Terminal, Comment, SurveyQuestion, \
-    ReasonCodeGroup, ClaimDocument, Report, BankEmployee
+from cop.core.models import Claim, Merchant, Bank, Transaction, Terminal, Comment, SurveyQuestion, \
+    ReasonCodeGroup, ClaimDocument, Report, BankEmployee, StageChangesHistory, Status
 
 
 @admin.register(Bank)
@@ -29,7 +29,12 @@ class TransactionAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Stage)
+@admin.register(StageChangesHistory)
+class StageAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Status)
 class StageAdmin(admin.ModelAdmin):
     pass
 

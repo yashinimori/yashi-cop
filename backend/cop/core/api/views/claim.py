@@ -1,20 +1,21 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
-from rest_framework.exceptions import bad_request
 from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
-from cop.core.models import Claim, ClaimDocument, Merchant
-from cop.core.utils.custom_errors import RoleNotFound
+from cop.core.models import Claim, ClaimDocument, Merchant, PRE_MEDIATION, MEDIATION, FINAL_RULING, CHARGEBACK, \
+    CHARGEBACK_ESCALATION, DISPUTE, DISPUTE_RESPONSE, PRE_ARBITRATION, PRE_ARBITRATION_RESPONSE, ARBITRATION
 from cop.users.models import User
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
     serializer_class = ClaimSerializer
     queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
-                                            ).prefetch_related('ch_comments').order_by('id')
+                                            ).order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         "id",
@@ -71,7 +72,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         elif current_user.role == User.MERCHANT:
             merchant = Merchant.objects.get(user=current_user)
             return queryset.filter(merchant=merchant)
-        elif current_user.role == User.TOP_LEVEL:
+        elif current_user.role == User.COP_MANAGER:
             return queryset
         else:
             return Claim.objects.none()
@@ -89,3 +90,52 @@ class ClaimDocumentCreateView(CreateAPIView):
 
 class ClaimDocumentReportsCreateView(ClaimDocumentCreateView):
     serializer_class = ClaimDocumentReportsSerializer
+
+
+class ClaimsStatistics(APIView):
+    def get(self, request):
+
+        last_login = self.request.user.last_login
+
+        new_claims = Claim.objects.filter(chargeback_officer=None).count()
+        in_prgress_claims = Claim.objects.filter(stage=MEDIATION, chargeback_officer__isnull=False).count()
+        completed_claims = Claim.objects.filter(stage=FINAL_RULING, chargeback_officer__isnull=False).count()
+        my_claims = Claim.objects.filter(chargeback_officer=self.request.user).count()
+        all_claims = Claim.objects.count()
+        new_received_claims_qs = Claim.objects.filter(create_date__gt=last_login)
+
+        pre_mediation_claims = Claim.objects.filter(stage=PRE_MEDIATION).count()
+        mediation_claims = Claim.objects.filter(stage=MEDIATION).count()
+        chargeback_claims = Claim.objects.filter(stage=CHARGEBACK).count()
+        chargeback_escalation_claims = Claim.objects.filter(stage=CHARGEBACK_ESCALATION).count()
+        dispute_claims = Claim.objects.filter(stage=DISPUTE).count()
+        dispute_response_claims = Claim.objects.filter(stage=DISPUTE_RESPONSE).count()
+        pre_arbitration_claims = Claim.objects.filter(stage=PRE_ARBITRATION).count()
+        pre_arbitration_response_claims = Claim.objects.filter(stage=PRE_ARBITRATION_RESPONSE).count()
+        arbitration_response_claims = Claim.objects.filter(stage=ARBITRATION).count()
+        final_ruling_claims = Claim.objects.filter(stage=FINAL_RULING).count()
+
+        serializer = ClaimListSerializer(new_received_claims_qs, many=True)
+        new_received_claims = serializer.data
+
+        data = {
+            'new_claims': new_claims,
+            'in_prgress_claims': in_prgress_claims,
+            'completed_claims': completed_claims,
+            'my_claims': my_claims,
+            'all_claims': all_claims,
+            'pre_mediation_claims': pre_mediation_claims,
+            'mediation_claims': mediation_claims,
+            'chargeback_claims': chargeback_claims,
+            'chargeback_escalation_claims': chargeback_escalation_claims,
+            'dispute_claims': dispute_claims,
+            'dispute_response_claims': dispute_response_claims,
+            'pre_arbitration_claims': pre_arbitration_claims,
+            'pre_arbitration_response_claims': pre_arbitration_response_claims,
+            'arbitration_response_claims': arbitration_response_claims,
+            'final_ruling_claims': final_ruling_claims,
+            'new_received_claims': new_received_claims
+        }
+
+        return Response(data)
+

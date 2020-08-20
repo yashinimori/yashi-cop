@@ -1,0 +1,24 @@
+[
+  {
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$UzdHU3FWcHB1bjdu$ccD8bl96h71BNNO6Lf9dqw",
+      "last_login": null,
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-08-20T09:40:06.532Z",
+      "first_name": "",
+      "last_name": "",
+      "role": "",
+      "unit": null,
+      "phone": "",
+      "email": "system@cop.cop",
+      "claim_fields": null,
+      "registration_date": "2020-08-20",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
