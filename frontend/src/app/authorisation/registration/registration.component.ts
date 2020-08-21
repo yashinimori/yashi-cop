@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Registration } from '../../share/models/registration.model';
-import { RegistrationView } from '../../share/models/registration-view.model';
 import { HttpService } from '../../share/services/http.service';
 import { Router } from '@angular/router';
 
@@ -14,7 +13,7 @@ export class RegistrationComponent implements OnInit {
   public data: Registration;
 
 
-  RegistrationData: RegistrationView;
+  // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
               private router: Router,) {
     this.data = new Registration();
@@ -23,13 +22,15 @@ export class RegistrationComponent implements OnInit {
 
 
   ngOnInit(): void {
-  
+  //  console.log(this.data.email.length)
+   console.log(this.data.role)
   }
 
 
   createUser() {
-    console.log(this.RegistrationData);
-    this.httpService.createNewUser(this.RegistrationData).subscribe({
+    console.log(this.data);
+    // this.data.email.length
+    this.httpService.createNewUser(this.data).subscribe({
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
@@ -59,7 +60,7 @@ export class RegistrationComponent implements OnInit {
     if (!this.data.login)
       return;
 
-    if (!this.data.telephone)
+    if (!this.data.phone)
       return;
       
   }

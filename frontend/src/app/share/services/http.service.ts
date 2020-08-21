@@ -60,7 +60,7 @@ export class HttpService {
 
 
   createNewUser(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(URL_CREATE_NEW_USER, user);
   }
 
 
