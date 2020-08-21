@@ -31,12 +31,12 @@ class CustomRegistrationView(DjoserUserViewSet):
         data = self.request.data
         current_user = self.request.user
         if current_user.is_authenticated:
-            if data.get('role') == User.MERCHANT:
+            if data.get('role') == User.Roles.MERCHANT:
                 if current_user.is_cop_manager:
                     serializer_class = MerchantRegistrationSerializer
                 else:
                     raise PermissionDenied({"message": "You don't have permission to access"})
-            elif data.get('role') == User.CHARGEBACK_OFFICER:
+            elif data.get('role') == User.Roles.CHARGEBACK_OFFICER:
                 if current_user.is_cop_manager:
                     serializer_class = ChargebackOfficerRegistrationSerializer
                 else:

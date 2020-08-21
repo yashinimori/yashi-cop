@@ -8,30 +8,6 @@ from cop.core.utils.sha256 import generate_sha256
 
 User = settings.AUTH_USER_MODEL
 
-PRE_MEDIATION = 'pre_mediation'
-MEDIATION = 'mediation'
-CHARGEBACK = 'chargeback'
-CHARGEBACK_ESCALATION = 'chargeback_escalation'
-DISPUTE = 'dispute'
-DISPUTE_RESPONSE = 'dispute_response'
-PRE_ARBITRATION = 'pre_arbitration'
-PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
-ARBITRATION = 'arbitration'
-FINAL_RULING = 'final_ruling'
-
-STAGE_CHOICES = (
-    (PRE_MEDIATION, PRE_MEDIATION),
-    (MEDIATION, MEDIATION),
-    (CHARGEBACK, CHARGEBACK),
-    (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
-    (DISPUTE, DISPUTE),
-    (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
-    (PRE_ARBITRATION, PRE_ARBITRATION),
-    (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
-    (ARBITRATION, ARBITRATION),
-    (FINAL_RULING, FINAL_RULING),
-)
-
 
 class BaseModel(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -170,6 +146,16 @@ class ReasonCodeGroup(BaseModel):
 
 
 class Claim(BaseModel):
+    class FormNames:
+        ESCALATE = 'escalate_form'
+        CLOSE_FORM = 'close_form'
+        CLARIFY_FORM = 'clarify_form'
+        CHOICES = (
+            (ESCALATE, ESCALATE),
+            (CLOSE_FORM, CLOSE_FORM),
+            (CLARIFY_FORM, CLARIFY_FORM),
+        )
+
     class Result:
         SUCCESSFUL = 'successful'
         FAILED = 'failed'
@@ -185,12 +171,13 @@ class Claim(BaseModel):
         ('us_on_us', 'Us on us'),
         ('fraud', 'Fraud'),
     )
-
+    form_name = models.CharField(choices=FormNames.CHOICES, max_length=32, null=True, blank=True)
     user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
     chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.CASCADE, blank=True, null=True)
 
     issuer_mmt = models.CharField(max_length=40, null=True, blank=True)
+    acquirer_mmt = models.CharField(max_length=40, null=True, blank=True)
     dispute_mmt = models.CharField(max_length=40, null=True, blank=True)
     ch_mmt = models.CharField(max_length=999, null=True, blank=True)
     merchant_mmt = models.CharField(max_length=999, null=True, blank=True)
@@ -236,7 +223,6 @@ class Claim(BaseModel):
 
     action_needed = models.CharField(max_length=999, null=True, blank=True)
 
-    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
     status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
@@ -293,9 +279,33 @@ class Comment(BaseModel):
 
 
 class Status(BaseModel):
+    class Stages:
+        PRE_MEDIATION = 'pre_mediation'
+        MEDIATION = 'mediation'
+        CHARGEBACK = 'chargeback'
+        CHARGEBACK_ESCALATION = 'chargeback_escalation'
+        DISPUTE = 'dispute'
+        DISPUTE_RESPONSE = 'dispute_response'
+        PRE_ARBITRATION = 'pre_arbitration'
+        PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
+        ARBITRATION = 'arbitration'
+        FINAL_RULING = 'final_ruling'
+
+        CHOICES = (
+            (PRE_MEDIATION, PRE_MEDIATION),
+            (MEDIATION, MEDIATION),
+            (CHARGEBACK, CHARGEBACK),
+            (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
+            (DISPUTE, DISPUTE),
+            (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
+            (PRE_ARBITRATION, PRE_ARBITRATION),
+            (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
+            (ARBITRATION, ARBITRATION),
+            (FINAL_RULING, FINAL_RULING),
+        )
     index = models.PositiveIntegerField(unique=True)
     name = models.CharField(max_length=999)
-    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
+    stage = models.CharField(choices=Stages.CHOICES, default=Stages.PRE_MEDIATION, max_length=999)
 
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from cop.core.models import Comment, ReasonCodeGroup, MEDIATION
+from cop.core.models import Comment, ReasonCodeGroup, Status
 
 User = get_user_model()
 
@@ -17,7 +17,7 @@ class ClaimReasonCodes:
 
     @staticmethod
     def set_stage_to_mediation(instance, reason_code_group):
-        instance.stage = MEDIATION
+        instance.stage = Status.Stages.MEDIATION
 
     CLAIM_REASON_CODES = {
         "0001": [document_request, set_stage_to_mediation],
