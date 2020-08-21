@@ -47,7 +47,15 @@ export class FieldsStatus {
     rC: paramStatusFields;
     aRN: paramStatusFields;
     docs: paramStatusFields;
-    escalation: paramStatusFields;
+    single_claim_form: paramStatusFields;
+    single_claim_form_reason: paramStatusFields;
+    single_claim_form_decision: paramStatusFields;
+    single_claim_form_responce: paramStatusFields;
+    single_claim_form_amount: paramStatusFields;
+    single_claim_form_doc: paramStatusFields;
+    single_claim_form_mmt: paramStatusFields;
+    single_claim_form_reasoncode: paramStatusFields;
+
 
     default() {
         this.pan = new paramStatusFields({invisible: true});
@@ -70,7 +78,14 @@ export class FieldsStatus {
         this.rC = new paramStatusFields({invisible: true});
         this.aRN = new paramStatusFields({invisible: true});
         this.docs = new paramStatusFields({invisible: true});
-        this.escalation = new paramStatusFields({invisible: true});
+        this.single_claim_form = new paramStatusFields({invisible: true});
+        this.single_claim_form_reason = new paramStatusFields({invisible: true});
+        this.single_claim_form_decision = new paramStatusFields({invisible: true});
+        this.single_claim_form_responce = new paramStatusFields({invisible: true});
+        this.single_claim_form_amount = new paramStatusFields({invisible: true});
+        this.single_claim_form_doc = new paramStatusFields({invisible: true});
+        this.single_claim_form_mmt = new paramStatusFields({invisible: true});
+        this.single_claim_form_reasoncode = new paramStatusFields({invisible: true});
 
     }
 
@@ -98,7 +113,15 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_responce = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_amount = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+
                 break; 
             } 
             case 'cardholder': 
@@ -123,7 +146,15 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_responce = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_amount = new paramStatusFields({invisible: true}); 
+                this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+
                 break; 
             } 
             case 'chargeback_officer': { 
@@ -147,7 +178,15 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_responce = new paramStatusFields({invisible: true}); 
+                this.single_claim_form_amount = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+
                 break; 
             } 
             case 'top_level': { 
@@ -171,7 +210,15 @@ export class FieldsStatus {
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.escalation = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_responce = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_amount = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+
                 break; 
             }
             default: { 

@@ -12,23 +12,23 @@
             Ескалація претензії
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_mmt.invisible">
                 <label class="label-caption">Select reason code</label> 
                 <input class="input-data" nbInput placeholder="Select reason code"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.single_claim_form_mmt.required" 
+                    [readonly]="fieldsStatus.single_claim_form_mmt.readonly"
                     [(ngModel)]="singleClaimFormsData.reason_code">
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reasoncode.invisible">
                 <label class="label-caption">MMT</label> 
                 <input class="input-data" nbInput placeholder="MMT"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.single_claim_form_reasoncode.required" 
+                    [readonly]="fieldsStatus.single_claim_form_reasoncode.readonly"
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -65,45 +65,57 @@
             Завершеня розгляду
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reason.invisible">
                 <label class="label-caption">Причина завершення реклямації</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reasonClosingId"
-                        [required]="fieldsStatus.escalation.required" 
-                        [disabled]="fieldsStatus.escalation.readonly" >
-                        <nb-option *ngFor="let item of reasonClosing" [value]="item.id">
+                        [required]="fieldsStatus.single_claim_form_reason.required" 
+                        [disabled]="fieldsStatus.single_claim_form_reason.readonly" >
+                        <nb-option *ngFor="let item of reasonClosing" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_decision.invisible">
                 <label class="label-caption">Рішення</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.escalation.required" 
-                        [disabled]="fieldsStatus.escalation.readonly" >
-                        <nb-option *ngFor="let item of decision" [value]="item.id">
+                        [required]="fieldsStatus.single_claim_form_decision.required" 
+                        [disabled]="fieldsStatus.single_claim_form_decision.readonly" >
+                        <nb-option *ngFor="let item of decision" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_responce.invisible">
+                <label class="label-caption">Відповеді</label> 
+                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
+                        [required]="fieldsStatus.single_claim_form_responce.required" 
+                        [disabled]="fieldsStatus.single_claim_form_responce.readonly" >
+                        <nb-option *ngFor="let item of responce" [value]="item.caption">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form.invisible">
                 <label class="label-caption">Коментари</label> 
                 <input class="input-data" nbInput placeholder="Коментари"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.single_claim_form.required" 
+                    [readonly]="fieldsStatus.single_claim_form.readonly"
                     [(ngModel)]="singleClaimFormsData.comment">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_amount.invisible">
                 <label class="label-caption">Сума для зарухування</label> 
                 <input class="input-data" nbInput placeholder="Сума для зарухування"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.single_claim_form_amount.required" 
+                    [readonly]="fieldsStatus.single_claim_form_amount.readonly"
                     [(ngModel)]="singleClaimFormsData.amount_move">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -141,17 +153,17 @@
             </nb-card-header>
         <nb-card-body>
                         
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form.invisible">
                 <label class="label-caption">Коментари</label> 
                 <textarea rows="5" nbInput fullWidth  
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.single_claim_form.required" 
+                    [readonly]="fieldsStatus.single_claim_form.readonly"
                     [(ngModel)]="singleClaimFormsData.comment"
                     placeholder="Коментари">
                 </textarea>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">

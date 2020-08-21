@@ -18,4 +18,8 @@ export class ClaimView extends ClaimRegistration {
   trans_amount:any;
   trans_currency:any;
   merchant: any;
+  comments: any;
+  documents: any;
+  claimId: string;
+  form_name: string;
 }

@@ -6,7 +6,8 @@ import { URL_GET_CLAIM_LIST,
   URL_CREATE_CLAIM, 
   URL_GET_TRANSACTIONS_LIST,
   URL_UPLOAD_ATM_LOG,
-  URL_CREATE_NEW_USER
+  URL_CREATE_NEW_USER,
+  URL_UPDATE_CLAIM
 } from '../urlConstants';
 
 @Injectable({
@@ -83,5 +84,8 @@ export class HttpService {
     return this.http.post(URL_UPLOAD_ATM_LOG, formData, this.getHeaders());
   }
 
+  updateClaim(claim: any) {
+    return this.http.put(URL_UPDATE_CLAIM + claim.claimId + '/', claim, this.getHeaders());
+  }
 
 }

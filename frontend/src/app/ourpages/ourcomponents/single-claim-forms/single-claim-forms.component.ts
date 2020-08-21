@@ -32,6 +32,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   typeOperation: string;
   reasonClosing: Array<SelectorData>;
   decision: Array<SelectorData>;
+  responce: Array<SelectorData>;
   
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
@@ -57,6 +58,9 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
     this.getReasonClosing();
     this.getDecision();
+    this.getResponce();
+
+    this.loadClaim();
 
   }
 
@@ -116,19 +120,69 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   }
 
   onClickApply(){
-    //to do
     
+    let claim = new ClaimView();
+    claim.claimId = this.claimId;
+
+    claim.pan = this.claimData.pan;
+    claim.claim_reason_code = this.claimData.claim_reason_code;
+    claim.trans_approval_code = this.claimData.trans_approval_code;
+    claim.trans_currency = this.claimData.trans_currency;
+    claim.trans_date = this.claimData.trans_date;
+
+    if(this.typeOperation == 'Clarifications'){
+      claim.comments = this.singleClaimFormsData.comment;
+      claim.form_name ='clarify_form';
+    }
+
+    if(this.typeOperation == 'FinishEscalation'){
+      claim.form_name ='close_form';
+      
+      let arr: Array<string> = new Array<string>();
+      if(this.singleClaimFormsData.reasonClosingId)
+        arr.push(this.singleClaimFormsData.reasonClosingId)
+
+      if(this.singleClaimFormsData.decisionId)
+        arr.push(this.singleClaimFormsData.decisionId)
+      
+      if(this.singleClaimFormsData.responceId)
+        arr.push(this.singleClaimFormsData.responceId)
+      
+      if(this.singleClaimFormsData.comment)
+        arr.push(this.singleClaimFormsData.comment)
+
+      if(this.singleClaimFormsData.amount_move)
+        arr.push(this.singleClaimFormsData.amount_move)
+
+      claim.comments = arr;
+    }
+
+
     if(this.filesArr && this.filesArr.length > 0) {
       let data = this.filesArr[0];
       const formData: FormData = new FormData();
       formData.append('docs', data, data.name);
       this.singleClaimFormsData.docs = data;
+      claim.documents = this.singleClaimFormsData.docs;
     }
         
-    console.log(this.singleClaimFormsData);
+    //console.log(this.singleClaimFormsData);
 
-    this.transferService.cOPClaimID.next(this.claimId);
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    console.log(claim);
+    this.httpService.updateClaim(claim).subscribe({
+      next: (response: any) => {
+        console.log('ok');
+        console.log(response); 
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.transferService.cOPClaimID.next(this.claimId);
+        this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+      }
+    });
+    
   }
 
   onClickBackClaim(){
@@ -138,17 +192,53 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
 
   getReasonClosing(){
+
     this.reasonClosing = new Array<SelectorData>();
-    this.reasonClosing.push({id:1, caption:"reasonClosing 1"});
-    this.reasonClosing.push({id:2, caption:"reasonClosing 2"});
-    this.reasonClosing.push({id:3, caption:"reasonClosing 3"});
+
+    if(this.role == 'cardholder'){
+      this.reasonClosing.push({id:1, caption:"я отримав необхідні документи та згоден завершити розгляд"});
+      this.reasonClosing.push({id:2, caption:"я згоден з результатами розгляду"});
+      this.reasonClosing.push({id:3, caption:"мою скаргу задоволено"});
+      this.reasonClosing.push({id:4, caption:"я ознайомився з результатами та не буду продовжувати розгляд претензії"});
+      this.reasonClosing.push({id:5, caption:"інше"});
+    } else if(this.role == 'chargeback_officer'){
+      this.reasonClosing.push({id:1, caption:"претензію розглянуто"});
+      this.reasonClosing.push({id:2, caption:"претензію відхилено, неправомірна заява"});
+      this.reasonClosing.push({id:3, caption:"претензію відхилено, некоректні дані"});
+    }
+    
   }
 
   getDecision(){
     this.decision = new Array<SelectorData>();
-    this.decision.push({id:1, caption:"decision 1"});
-    this.decision.push({id:2, caption:"decision 2"});
-    this.decision.push({id:3, caption:"decision 3"});
+    if(this.role == 'merchant') {
+      this.decision.push({id:1, caption:"згодні прийняти претензію та зробити повернення"});
+      this.decision.push({id:2, caption:"претензію відхилено"});
+    } else if(this.role == 'chargeback_officer'){
+      this.decision.push({id:1, caption:"повернення погоджено, очікуйте зарахування"});
+      this.decision.push({id:2, caption:"часткове погоджено, очікуйте зарахування"});
+      this.decision.push({id:3, caption:"в поверненні відмовлено, документи додаються"});
+      this.decision.push({id:4, caption:"в поверненні відмовлено, коментарі додаються"});
+    }
+  
+  }
+
+  getResponce(){
+    
+    this.responce = new Array<SelectorData>();
+
+    if(this.role == 'merchant') {
+      this.responce.push({id:1, caption:"документи в наявності, надаємо чек"});
+      this.responce.push({id:2, caption:"документи в наявності, доказ участі клієнта у транзакції"});
+      this.responce.push({id:3, caption:"повернення товарів підтверджено, кошти будуть повернені"});
+      this.responce.push({id:4, caption:"послугу було надано, підтвердження надаємо"});
+      this.responce.push({id:5, caption:"товар було отримано, підтвердження надаємо"});
+      this.responce.push({id:6, caption:"переказ був помилковим, кошти будуть повернені"});
+      this.responce.push({id:7, caption:"претензію прийнято, кошти будуть повернені"});
+    }
+
+
+    
   }
 
 

@@ -6,5 +6,6 @@ export class SingleClaimForms {
   reasonClosingId: string;
   comment: string;
   amount_move: string;
+  responceId: string;
 
 }
