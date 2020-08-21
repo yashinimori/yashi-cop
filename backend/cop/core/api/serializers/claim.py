@@ -99,7 +99,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "action_needed",
             "result",
             "due_date",
-            "stage"
+            "stage",
         )
 
     def create(self, validated_data):
@@ -113,15 +113,14 @@ class ClaimSerializer(serializers.ModelSerializer):
         self.instance = instance
 
         if 'merch_id' in validated_data:
-            self.assign_by_merch_id(validated_data['merch_id'], instance)
+            self.assign_by_merch_id(validated_data['merch_id'])
         if 'term_id' in validated_data:
-            self.assign_by_term_id(validated_data['term_id'], instance)
+            self.assign_by_term_id(validated_data['term_id'])
 
-        self.assign_rc_by_claim_rc(instance, validated_data['claim_reason_code'])
-
-        self.assign_bank_by_pan(instance)
-
-        return instance
+        self.assign_rc_by_claim_rc(validated_data['claim_reason_code'])
+        self.assign_bank_by_pan()
+        self.instance.save()
+        return self.instance
 
     def update(self, instance, validated_data):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
@@ -130,44 +129,42 @@ class ClaimSerializer(serializers.ModelSerializer):
         instance = super().update(instance, validated_data)
         return instance
 
-    def assign_by_merch_id(self, merch_id, instance):
+    def assign_by_merch_id(self, merch_id):
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
-            instance.merchant = merchant
+            self.instance.merchant = merchant
             # TODO: find bank by term/pan?
-            instance.bank = merchant.bank.all().first()
+            self.instance.bank = merchant.bank.all().first()
             # TODO: decide which terminal to choose if there are multiple
             # terminal = get_object_or_404(Terminal, merchant=merchant)
             # instance.terminal = terminal
-            instance.save()
 
-    def assign_by_term_id(self, term_id, instance):
+    def assign_by_term_id(self, term_id):
         terminal = Terminal.objects.filter(term_id=term_id).first()
         if terminal:
-            instance.terminal = terminal
-            instance.merchant = terminal.merchant
-            instance.save()
+            self.instance.terminal = terminal
+            self.instance.merchant = terminal.merchant
 
-    def assign_rc_by_claim_rc(self, instance, claim_reason_code):
-        instance.reason_code_group = claim_reason_code.description
+    def assign_rc_by_claim_rc(self, claim_reason_code):
+        self.instance.reason_code_group = claim_reason_code.description
 
-        if int(instance.pan[0]) in MASTERCARD_START_NUMBERS:
-            instance.reason_code = claim_reason_code.mastercard
-        elif int(instance.pan[0]) in VISA_START_NUMBERS:
-            instance.reason_code = claim_reason_code.visa
+        if int(self.instance.pan[0]) in MASTERCARD_START_NUMBERS:
+            self.instance.reason_code = claim_reason_code.mastercard
+        elif int(self.instance.pan[0]) in VISA_START_NUMBERS:
+            self.instance.reason_code = claim_reason_code.visa
 
         try:
             operations = crc.CLAIM_REASON_CODES[claim_reason_code.code]
             for operation in operations:
-                operation(instance, claim_reason_code.code)
+                operation(self.instance, claim_reason_code.code)
         except (KeyError, TypeError):
             pass
 
-    def assign_bank_by_pan(self, instance):
-        bank_bin = instance.pan[0:6]
+    def assign_bank_by_pan(self):
+        bank_bin = self.instance.pan[0:6]
         try:
-            instance.bank = Bank.objects.get(bin=bank_bin)
-            instance.save()
+            self.instance.bank = Bank.objects.get(bin=bank_bin)
+            self.instance.save()
         except ObjectDoesNotExist:
             pass
 

@@ -67,7 +67,6 @@
       "mcc": "1234",
       "description": "Test Merchant",
       "address": "Test Merchant",
-      "terminal_id": "00000001",
       "contact_person": "Test Merchant",
       "bank": [
         1

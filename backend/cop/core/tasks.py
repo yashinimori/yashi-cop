@@ -142,9 +142,9 @@ def parse_transaction(transaction_lines, previous_transaction=None):
                 raise
 
         if 'UAH' in line:
-            transaction.currency = 'UAH'
+            transaction.currency = Transaction.UAH
         elif 'USD' in line:
-            transaction.currency = 'USD'
+            transaction.currency = Transaction.USD
 
         available_match = re.search('AVAILABLE BALANCE  ([0-9]+\.[0-9]+)', line, re.M)
         if available_match:

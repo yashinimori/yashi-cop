@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 
 from cop.core.utils.sha256 import generate_sha256
 
-User = get_user_model()
+User = settings.AUTH_USER_MODEL
 
 PRE_MEDIATION = 'pre_mediation'
 MEDIATION = 'mediation'
@@ -95,11 +95,11 @@ class Terminal(BaseModel):
 class Transaction(BaseModel):
     USD = 'usd'
     EUR = 'eur'
-    HRN = 'hrn'
+    UAH = 'uah'
     CURRENCY_CHOICES = (
         (USD, 'дол. США'),
         (EUR, 'євро'),
-        (HRN, 'грн')
+        (UAH, 'грн')
     )
 
     class Results:
@@ -237,6 +237,7 @@ class Claim(BaseModel):
     action_needed = models.CharField(max_length=999, null=True, blank=True)
 
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
+    status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
 
@@ -292,6 +293,7 @@ class Comment(BaseModel):
 
 
 class Status(BaseModel):
+    index = models.PositiveIntegerField(unique=True)
     name = models.CharField(max_length=999)
     stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
 

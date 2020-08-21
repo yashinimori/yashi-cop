@@ -3,6 +3,7 @@
     "model": "core.status",
     "pk": 1,
     "fields": {
+      "index": 1,
       "stage": "pre_mediation",
       "name": "Премедиация регистрация претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -13,6 +14,7 @@
     "model": "core.status",
     "pk": 2,
     "fields": {
+      "index": 2,
       "stage": "pre_mediation",
       "name": "Премедиация ответ торговца",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -23,6 +25,7 @@
     "model": "core.status",
     "pk": 3,
     "fields": {
+      "index": 3,
       "stage": "pre_mediation",
       "name": "Премедиация отсутствие ответа",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -33,6 +36,7 @@
     "model": "core.status",
     "pk": 4,
     "fields": {
+      "index": 4,
       "stage": "pre_mediation",
       "name": "Премедиация ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -43,6 +47,7 @@
     "model": "core.status",
     "pk": 5,
     "fields": {
+      "index": 5,
       "stage": "mediation",
       "name": "Медиация эскалация претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -53,6 +58,7 @@
     "model": "core.status",
     "pk": 6,
     "fields": {
+      "index": 6,
       "stage": "mediation",
       "name": "Медиация ответ торговца",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -63,6 +69,7 @@
     "model": "core.status",
     "pk": 7,
     "fields": {
+      "index": 7,
       "stage": "mediation",
       "name": "Медиация отсутствие ответа",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -73,6 +80,7 @@
     "model": "core.status",
     "pk": 8,
     "fields": {
+      "index": 8,
       "stage": "chargeback",
       "name": "Chargeback передача эмитенту",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -83,6 +91,7 @@
     "model": "core.status",
     "pk": 9,
     "fields": {
+      "index": 9,
       "stage": "chargeback",
       "name": "Chargeback уточнение претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -93,6 +102,7 @@
     "model": "core.status",
     "pk": 10,
     "fields": {
+      "index": 10,
       "stage": "chargeback",
       "name": "Chargeback опротестование сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -103,6 +113,7 @@
     "model": "core.status",
     "pk": 11,
     "fields": {
+      "index": 11,
       "stage": "chargeback",
       "name": "Chargeback запрос торговцу",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -113,6 +124,7 @@
     "model": "core.status",
     "pk": 12,
     "fields": {
+      "index": 12,
       "stage": "chargeback_escalation",
       "name": "Pre-Abritration передача эмитенту",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -123,6 +135,7 @@
     "model": "core.status",
     "pk": 13,
     "fields": {
+      "index": 13,
       "stage": "chargeback_escalation",
       "name": "Pre-Abritration уточнение претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -133,6 +146,7 @@
     "model": "core.status",
     "pk": 14,
     "fields": {
+      "index": 14,
       "stage": "chargeback",
       "name": "Chargeback отсутствие ответа на опротестование",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -143,6 +157,7 @@
     "model": "core.status",
     "pk": 15,
     "fields": {
+      "index": 15,
       "stage": "chargeback",
       "name": "Chargeback отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -153,6 +168,7 @@
     "model": "core.status",
     "pk": 16,
     "fields": {
+      "index": 16,
       "stage": "chargeback",
       "name": "Chargeback закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -163,6 +179,7 @@
     "model": "core.status",
     "pk": 17,
     "fields": {
+      "index": 17,
       "stage": "chargeback",
       "name": "Chargeback ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -173,6 +190,7 @@
     "model": "core.status",
     "pk": 18,
     "fields": {
+      "index": 18,
       "stage": "chargeback_escalation",
       "name": "Pre-Abritration закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -183,6 +201,7 @@
     "model": "core.status",
     "pk": 19,
     "fields": {
+      "index": 19,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration Response сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -193,6 +212,7 @@
     "model": "core.status",
     "pk": 20,
     "fields": {
+      "index": 20,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration Response отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -203,6 +223,7 @@
     "model": "core.status",
     "pk": 21,
     "fields": {
+      "index": 21,
       "stage": "chargeback_escalation",
       "name": "Pre-Abritration Response закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -213,6 +234,7 @@
     "model": "core.status",
     "pk": 22,
     "fields": {
+      "index": 22,
       "stage": "chargeback_escalation",
       "name": "Pre-arbitration Response ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -223,6 +245,7 @@
     "model": "core.status",
     "pk": 23,
     "fields": {
+      "index": 23,
       "stage": "chargeback_escalation",
       "name": "Abritration передача эмитенту",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -233,6 +256,7 @@
     "model": "core.status",
     "pk": 24,
     "fields": {
+      "index": 24,
       "stage": "chargeback_escalation",
       "name": "Abritration уточнение претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -243,6 +267,7 @@
     "model": "core.status",
     "pk": 25,
     "fields": {
+      "index": 25,
       "stage": "chargeback_escalation",
       "name": "Abritration закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -253,6 +278,7 @@
     "model": "core.status",
     "pk": 26,
     "fields": {
+      "index": 26,
       "stage": "chargeback_escalation",
       "name": "Arbitration Response сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -263,6 +289,7 @@
     "model": "core.status",
     "pk": 27,
     "fields": {
+      "index": 27,
       "stage": "chargeback_escalation",
       "name": "Arbitration Response отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -273,6 +300,7 @@
     "model": "core.status",
     "pk": 28,
     "fields": {
+      "index": 28,
       "stage": "chargeback_escalation",
       "name": "Abritration Response закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -283,6 +311,7 @@
     "model": "core.status",
     "pk": 29,
     "fields": {
+      "index": 29,
       "stage": "chargeback_escalation",
       "name": "Аrbitration Response ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -293,6 +322,7 @@
     "model": "core.status",
     "pk": 30,
     "fields": {
+      "index": 30,
       "stage": "chargeback_escalation",
       "name": "Архив",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -303,6 +333,7 @@
     "model": "core.status",
     "pk": 31,
     "fields": {
+      "index": 31,
       "stage": "mediation",
       "name": "Медиация ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -313,6 +344,7 @@
     "model": "core.status",
     "pk": 32,
     "fields": {
+      "index": 32,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration  отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -323,6 +355,7 @@
     "model": "core.status",
     "pk": 33,
     "fields": {
+      "index": 33,
       "stage": "chargeback_escalation",
       "name": "Abritration отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -333,6 +366,7 @@
     "model": "core.status",
     "pk": 34,
     "fields": {
+      "index": 34,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment передача эмитенту",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -343,6 +377,7 @@
     "model": "core.status",
     "pk": 35,
     "fields": {
+      "index": 35,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment уточнение претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -353,6 +388,7 @@
     "model": "core.status",
     "pk": 36,
     "fields": {
+      "index": 36,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment Опротестование сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -363,6 +399,7 @@
     "model": "core.status",
     "pk": 37,
     "fields": {
+      "index": 37,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment запрос торговцу",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -373,6 +410,7 @@
     "model": "core.status",
     "pk": 38,
     "fields": {
+      "index": 38,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment ответ на опротестование",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -383,6 +421,7 @@
     "model": "core.status",
     "pk": 39,
     "fields": {
+      "index": 39,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment отсутствие ответа на опротестование",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -393,6 +432,7 @@
     "model": "core.status",
     "pk": 40,
     "fields": {
+      "index": 40,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -403,6 +443,7 @@
     "model": "core.status",
     "pk": 41,
     "fields": {
+      "index": 41,
       "stage": "chargeback",
       "name": "Chargeback/Second Presentment ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -413,6 +454,7 @@
     "model": "core.status",
     "pk": 42,
     "fields": {
+      "index": 42,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -423,6 +465,7 @@
     "model": "core.status",
     "pk": 43,
     "fields": {
+      "index": 43,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -433,6 +476,7 @@
     "model": "core.status",
     "pk": 44,
     "fields": {
+      "index": 44,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -443,6 +487,7 @@
     "model": "core.status",
     "pk": 45,
     "fields": {
+      "index": 45,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration Response отсутствие ответа на опротестование",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -453,6 +498,7 @@
     "model": "core.status",
     "pk": 46,
     "fields": {
+      "index": 46,
       "stage": "chargeback_escalation",
       "name": "Pre-Arbitration отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -463,6 +509,7 @@
     "model": "core.status",
     "pk": 47,
     "fields": {
+      "index": 47,
       "stage": "chargeback_escalation",
       "name": "Arbitration ознакомление с результатом",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -473,6 +520,7 @@
     "model": "core.status",
     "pk": 48,
     "fields": {
+      "index": 48,
       "stage": "chargeback_escalation",
       "name": "Arbitration сформировано",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -483,6 +531,7 @@
     "model": "core.status",
     "pk": 49,
     "fields": {
+      "index": 49,
       "stage": "chargeback_escalation",
       "name": "Arbitration отправлено на зачисление",
       "create_date": "2020-08-09T18:25:43.511Z",
@@ -493,6 +542,7 @@
     "model": "core.status",
     "pk": 50,
     "fields": {
+      "index": 50,
       "stage": "chargeback_escalation",
       "name": "Arbitration закрытие претензии",
       "create_date": "2020-08-09T18:25:43.511Z",

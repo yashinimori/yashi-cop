@@ -29,24 +29,19 @@ class CustomRegistrationView(DjoserUserViewSet):
 
     def get_serializer_based_on_role(self, serializer_class):
         data = self.request.data
-        if self.request.user.is_authenticated:
+        current_user = self.request.user
+        if current_user.is_authenticated:
             if data.get('role') == User.MERCHANT:
-                if self.is_cop_manager():
+                if current_user.is_cop_manager:
                     serializer_class = MerchantRegistrationSerializer
                 else:
                     raise PermissionDenied({"message": "You don't have permission to access"})
             elif data.get('role') == User.CHARGEBACK_OFFICER:
-                if self.is_cop_manager():
+                if current_user.is_cop_manager:
                     serializer_class = ChargebackOfficerRegistrationSerializer
                 else:
                     raise PermissionDenied({"message": "You don't have permission to access"})
         return serializer_class
-
-    def is_top_level(self):
-        return self.request.user.role == User.TOP_LEVEL
-
-    def is_cop_manager(self):
-        return self.request.user.role == User.COP_MANAGER
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

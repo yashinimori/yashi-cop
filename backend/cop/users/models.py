@@ -5,7 +5,7 @@ from django.db.models import CharField, EmailField, DateField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from cop.bank.models import Claim
+from cop.core.models import Claim
 
 
 def get_claim_field_help_text():
@@ -59,7 +59,7 @@ class User(AbstractUser):
     CARDHOLDER = 'cardholder'
     CHARGEBACK_OFFICER = 'chargeback_officer'
     MERCHANT = 'merchant'
-    СС_BRANCH = 'сс_branch'
+    CC_BRANCH = 'сс_branch'
     ROLES = (
         (TOP_LEVEL, 'Top level'),
         (SECURITY_OFFICER, 'Security officer'),
@@ -67,7 +67,7 @@ class User(AbstractUser):
         (CARDHOLDER, 'Cardholder'),
         (CHARGEBACK_OFFICER, 'Chargeback officer'),
         (MERCHANT, 'Merchant'),
-        (СС_BRANCH, 'сс/branch'),
+        (CC_BRANCH, 'сс/branch'),
     )
     username = None
     #: First and last name do not cover name patterns around the globe
@@ -93,6 +93,34 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    @property
+    def is_top_level(self):
+        return self.role == self.TOP_LEVEL
+
+    @property
+    def is_security_officer(self):
+        return self.role == self.SECURITY_OFFICER
+
+    @property
+    def is_cop_manager(self):
+        return self.role == self.COP_MANAGER
+
+    @property
+    def is_cardholder(self):
+        return self.role == self.CARDHOLDER
+
+    @property
+    def is_chargeback_officer(self):
+        return self.role == self.CHARGEBACK_OFFICER
+
+    @property
+    def is_merchant(self):
+        return self.role == self.MERCHANT
+
+    @property
+    def is_сс_branch(self):
+        return self.role == self.СС_BRANCH
 
     def __str__(self):
         return self.email
