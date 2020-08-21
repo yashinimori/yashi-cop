@@ -240,6 +240,20 @@ class Claim(BaseModel):
     arbitration_date = models.DateTimeField(null=True, blank=True)
     arbitration_response_date = models.DateTimeField(null=True, blank=True)
 
+    archived = models.BooleanField(default=False)
+
+    @property
+    def clarify_form_received(self):
+        return self.form_name == self.FormNames.CLARIFY_FORM
+
+    @property
+    def escalation_form_received(self):
+        return self.form_name == self.FormNames.ESCALATE
+
+    @property
+    def close_form_received(self):
+        return self.form_name == self.FormNames.CLOSE_FORM
+
 
 class ClaimDocument(BaseModel):
     """Upload Documents for specific Claim."""
