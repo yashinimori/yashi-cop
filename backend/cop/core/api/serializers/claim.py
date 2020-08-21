@@ -133,11 +133,9 @@ class ClaimSerializer(serializers.ModelSerializer):
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
             self.instance.merchant = merchant
-            # TODO: find bank by term/pan?
-            self.instance.bank = merchant.bank.all().first()
-            # TODO: decide which terminal to choose if there are multiple
-            # terminal = get_object_or_404(Terminal, merchant=merchant)
-            # instance.terminal = terminal
+            self.assign_bank_by_merchant(merchant)
+            if merchant.terminals.count() == 1:
+                self.instance.terminal = merchant.terminals.first()
 
     def assign_by_term_id(self, term_id):
         terminal = Terminal.objects.filter(term_id=term_id).first()
@@ -160,11 +158,16 @@ class ClaimSerializer(serializers.ModelSerializer):
         except (KeyError, TypeError):
             pass
 
+    def assign_bank_by_merchant(self, merchant):
+        if merchant.bank.count() > 1:
+            self.instance.bank = merchant.bank.filter(bin__startswith=self.instance.pan[0:6]).first()
+        else:
+            self.instance.bank = merchant.bank.all().first()
+
     def assign_bank_by_pan(self):
         bank_bin = self.instance.pan[0:6]
         try:
             self.instance.bank = Bank.objects.get(bin=bank_bin)
-            self.instance.save()
         except ObjectDoesNotExist:
             pass
 

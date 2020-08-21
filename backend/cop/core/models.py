@@ -86,7 +86,7 @@ class Merchant(BaseModel):
 class Terminal(BaseModel):
     term_id = models.CharField(max_length=999, unique=True)
     address = models.CharField(max_length=999, blank=True, null=True)
-    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
+    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT, related_name='terminals')
 
     def __str__(self):
         return self.term_id
