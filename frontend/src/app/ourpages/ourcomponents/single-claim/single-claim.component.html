@@ -70,6 +70,7 @@
                 <div style="height: 40%;">
                     <label>Коментар</label>
                     <br>
+                    <label style="font-weight: bold;">{{claimData.ch_comments}}</label>
                 </div>
 
                 <div style="height: 30%;">
@@ -87,8 +88,14 @@
 
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
-    <button  nbButton status="primary" (click)="onClickEscalationFinish()" >Завершити</button>
+    <button  nbButton status="primary" (click)="onClickEscalationFinish()">Завершити</button>
 </div>
+
+
+<div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
+    
+</div>
+
 
 <div *ngIf="isNewRecord && role !='merchant'" >
     
@@ -103,8 +110,9 @@
                         [required]="fieldsStatus.pan.required" 
                         [readonly]="fieldsStatus.pan.readonly"
                         [(ngModel)]="claimData.pan"
-                        maxlength="40"
-                        minlength="40">
+                        minlength="16"
+                        maxlength="16"
+                        >
                 </div>
                 
                 <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
@@ -114,7 +122,10 @@
                         [nbDatepicker]="formpicker"
                         [required]="fieldsStatus.transDate.required" 
                         [readonly]="fieldsStatus.transDate.readonly"
-                        [(ngModel)]="claimData.trans_date">
+                        [(ngModel)]="claimData.trans_date"
+                        minlength="12"
+                        maxlength="12"
+                        >
                     <nb-datepicker #formpicker></nb-datepicker> 
                 </div>
 
@@ -134,7 +145,10 @@
                     <input class="input-data" nbInput placeholder="Terminal ID" 
                         [required]="fieldsStatus.terminalID.required" 
                         [readonly]="fieldsStatus.terminalID.readonly" 
-                        [(ngModel)]="claimData.term_id">
+                        [(ngModel)]="claimData.term_id"
+                        minlength="8"
+                        maxlength="8"
+                        >
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
@@ -142,7 +156,10 @@
                     <input class="input-data" nbInput placeholder="Cума операції" 
                         [required]="fieldsStatus.amount.required" 
                         [readonly]="fieldsStatus.amount.readonly" 
-                        [(ngModel)]="claimData.trans_amount">
+                        [(ngModel)]="claimData.trans_amount"
+                        minlength="12"
+                        maxlength="12"
+                        >
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
@@ -161,7 +178,10 @@
                     <input class="input-data" nbInput placeholder="Код операції" 
                         [required]="fieldsStatus.authCode.required" 
                         [readonly]="fieldsStatus.authCode.readonly"
-                        [(ngModel)]="claimData.trans_approval_code">
+                        [(ngModel)]="claimData.trans_approval_code"
+                        minlength="6"
+                        maxlength="6"
+                        >
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
