@@ -130,6 +130,12 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     claim.trans_currency = this.claimData.trans_currency;
     claim.trans_date = this.claimData.trans_date;
 
+    if(this.typeOperation == 'NewEscalation'){
+      claim.claim_reason_code = this.singleClaimFormsData.reason_code;
+      claim.mmt = this.singleClaimFormsData.mmt;
+      claim.form_name ='escalate_form';
+    }
+
     if(this.typeOperation == 'Clarifications'){
       claim.comments = this.singleClaimFormsData.comment;
       claim.form_name ='clarify_form';
@@ -156,6 +162,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
       claim.comments = arr;
     }
+
 
 
     if(this.filesArr && this.filesArr.length > 0) {

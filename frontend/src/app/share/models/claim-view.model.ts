@@ -22,4 +22,5 @@ export class ClaimView extends ClaimRegistration {
   documents: any;
   claimId: string;
   form_name: string;
+  mmt: string;
 }
