@@ -77,7 +77,6 @@ class Merchant(BaseModel):
     mcc = models.CharField(max_length=4, blank=True, null=True)
     description = models.CharField(max_length=999, blank=True, null=True)
     address = models.CharField(max_length=999, blank=True, null=True)
-    terminal_id = models.CharField(max_length=8, blank=True, null=True) # can be removed
     contact_person = models.CharField(max_length=999, blank=True, null=True)
 
     def __str__(self):
@@ -93,11 +92,6 @@ class Terminal(BaseModel):
         return self.term_id
 
 
-class Stage(BaseModel):
-    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
-    name = models.CharField(max_length=999)
-
-
 class Transaction(BaseModel):
     USD = 'usd'
     EUR = 'eur'
@@ -107,11 +101,22 @@ class Transaction(BaseModel):
         (EUR, 'євро'),
         (HRN, 'грн')
     )
-    RESULTS = (
-        ('successful', 'Successful'),
-        ('failed', 'Failed'),
-        ('neutral', 'Neutral'),
-    )
+
+    class Results:
+        SUCCESSFUL = 'successful'
+        FAILED = 'failed'
+        NEUTRAL = 'neutral'
+        CHOICES = (
+            (SUCCESSFUL, 'Successful'),
+            (FAILED, 'Failed'),
+            (NEUTRAL, 'Neutral'),
+        )
+        STATUSES = (
+            ('accepted', 'Accepted'),
+            ('declined', 'Declined'),
+            ('pended', 'Pended'),
+        )
+
     bank = models.ForeignKey(Bank, on_delete=models.PROTECT, blank=True, null=True)
     terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE, null=True, blank=True)
     merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT, null=True, blank=True)
@@ -135,7 +140,7 @@ class Transaction(BaseModel):
     card_taken = models.DateTimeField(max_length=12, null=True, blank=True)
 
     disp_amount = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
-    result = models.CharField(max_length=999, db_index=True, null=True, blank=True)
+    result = models.CharField(choices=Results.CHOICES, max_length=999, db_index=True, null=True, blank=True)
     utrnno = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     raw = models.TextField(null=True)
     report = models.ForeignKey('Report', on_delete=models.SET_NULL, null=True)
@@ -183,6 +188,7 @@ class Claim(BaseModel):
 
     user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
+    chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.CASCADE, blank=True, null=True)
 
     issuer_mmt = models.CharField(max_length=40, null=True, blank=True)
     dispute_mmt = models.CharField(max_length=40, null=True, blank=True)
@@ -283,6 +289,23 @@ class Comment(BaseModel):
 
     def __str__(self):
         return self.text
+
+
+class Status(BaseModel):
+    name = models.CharField(max_length=999)
+    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
+
+    def __str__(self):
+        return self.name
+
+
+class StageChangesHistory(BaseModel):
+    AUTOMATICALLY = 'Автоматично'
+
+    claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='stages')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=999, default=AUTOMATICALLY)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
 class SurveyQuestion(BaseModel):

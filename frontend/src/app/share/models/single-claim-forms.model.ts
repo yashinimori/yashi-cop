@@ -1,4 +1,4 @@
-export class Escalation {
+export class SingleClaimForms {
   reason_code: string;
   mmt: string;
   docs: any;

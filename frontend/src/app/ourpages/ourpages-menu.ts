@@ -90,7 +90,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 function setHiddenUser(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  //console.log('setHidden() ' + role);
 
   if(role && (role=='user' || role=='cardholder'))
     return false;
@@ -100,7 +100,7 @@ function setHiddenUser(){
 
 function setHiddenAdmin(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenAdmin() ' + role);
+  //console.log('setHiddenAdmin() ' + role);
 
   if(role && (role=='admin'))
     return false;
@@ -110,7 +110,7 @@ function setHiddenAdmin(){
 
 function setHiddenChargebackOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenChargebackOfficer() ' + role);
+  //console.log('setHiddenChargebackOfficer() ' + role);
 
   if(role && (role=='chargeback_officer'))
     return false;
@@ -120,7 +120,7 @@ function setHiddenChargebackOfficer(){
 
 function setHiddenMerchant(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenMerchant() ' + role);
+  //console.log('setHiddenMerchant() ' + role);
 
   if(role && (role=='merchant'))
     return false;

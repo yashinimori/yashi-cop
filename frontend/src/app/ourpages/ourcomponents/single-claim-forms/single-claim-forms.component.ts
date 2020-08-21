@@ -8,14 +8,14 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { ClaimView } from '../../../share/models/claim-view.model';
-import { Escalation } from '../../../share/models/escalation.model';
+import { SingleClaimForms } from '../../../share/models/single-claim-forms.model';
 
 @Component({
-  selector: 'ngx-escalation',
-  templateUrl: './escalation.component.html',
-  styleUrls: ['./escalation.component.scss']
+  selector: 'ngx-single-claim-forms',
+  templateUrl: './single-claim-forms.component.html',
+  styleUrls: ['./single-claim-forms.component.scss']
 })
-export class EscalationComponent implements OnInit, OnDestroy {
+export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
@@ -28,7 +28,7 @@ export class EscalationComponent implements OnInit, OnDestroy {
   claimId:any;
   fieldsStatus: FieldsStatus;
   isNewEscaltion: boolean;
-  escalationData: Escalation;
+  singleClaimFormsData: SingleClaimForms;
   typeOperation: string;
   reasonClosing: Array<SelectorData>;
   decision: Array<SelectorData>;
@@ -43,14 +43,14 @@ export class EscalationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
         
     this.role = localStorage.getItem('role');
-    console.log('EscalationComponent this.role ' +this.role);
+    console.log('SingleClaimFormsComponent this.role ' +this.role);
     this.generateStatusFields();
 
-    this.escalationData = new Escalation();
+    this.singleClaimFormsData = new SingleClaimForms();
     this.filesArr = [];
 
-    let v = this.transferService.escalationSettings.getValue();
-    // console.log('EscalationComponent ');
+    let v = this.transferService.singleClaimFormsSettings.getValue();
+    // console.log('SingleClaimFormsComponent ');
     // console.log(v);
     this.claimId = v.claimId;
     this.typeOperation = v.typeOperation;
@@ -61,7 +61,7 @@ export class EscalationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.transferService.escalationSettings.next(null);
+    this.transferService.singleClaimFormsSettings.next(null);
     this.getEscalationSubscription.unsubscribe();
   }
 
@@ -115,17 +115,17 @@ export class EscalationComponent implements OnInit, OnDestroy {
     console.log(this.fieldsStatus);
   }
 
-  onClickCreateEscalation(){
+  onClickApply(){
     //to do
     
     if(this.filesArr && this.filesArr.length > 0) {
       let data = this.filesArr[0];
       const formData: FormData = new FormData();
       formData.append('docs', data, data.name);
-      this.escalationData.docs = data;
+      this.singleClaimFormsData.docs = data;
     }
         
-    console.log(this.escalationData);
+    console.log(this.singleClaimFormsData);
 
     this.transferService.cOPClaimID.next(this.claimId);
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
@@ -150,5 +150,6 @@ export class EscalationComponent implements OnInit, OnDestroy {
     this.decision.push({id:2, caption:"decision 2"});
     this.decision.push({id:3, caption:"decision 3"});
   }
+
 
 }

@@ -10,10 +10,10 @@ class ClaimReasonCodes:
     @staticmethod
     def document_request(instance, reason_code_group):
         comment = Comment.objects.create(
+            claim=instance,
             user=instance.merchant.user,
             text=ReasonCodeGroup.objects.get(code=reason_code_group).description
         )
-        instance.ch_comments.add(comment)
 
     @staticmethod
     def set_stage_to_mediation(instance, reason_code_group):

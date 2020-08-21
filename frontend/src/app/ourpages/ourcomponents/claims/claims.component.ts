@@ -240,7 +240,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.id = el['id'];
           t.pan = el['pan'];
           t.trans_date = el['trans_date'];
-          t.merch_name_ips = el['merch_name_ips'];
           t.term_id = el['term_id'];
           t.trans_amount = el['trans_amount'];
           t.trans_currency = el['trans_currency'];
@@ -250,10 +249,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];
+
+          let m = el['merchant'];
+          t.merch_name_ips = m['name_ips'];
+
           
           self.claimsData.push(t);
           
-          //console.log(t);
+          console.log(t);
 
         });
 
