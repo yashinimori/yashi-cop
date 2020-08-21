@@ -9,7 +9,8 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
-
+import { ClaimComment } from '../../../share/models/claim-comment.model';
+import { ClaimDocument } from '../../../share/models/claim-document.model';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -118,6 +119,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   valPay2 = {val: 2, text: 'іншою картою'};
   valBack = {val: 1, text: 'так'};
   valBack2 = {val: 2, text: 'ні'};
+  
+  comments: Array<ClaimComment>;
+  documents: Array<ClaimDocument>;
+  
 
   ngOnInit(): void {
     //console.log('ngOnInit');
@@ -188,7 +193,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (response: any) => {
           this.claimData = response;
           console.log(this.claimData);
-          
+          this.setClaimComments();
+          this.setClaimDocumsnts();
+
         },
         error: error => {
           console.error('There was an error!', error);
@@ -198,6 +205,46 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
+
+  setClaimComments(){
+    this.comments = new Array<ClaimComment>();
+    let c = this.claimData['comments'];
+    if(c){
+      c.forEach(el => {
+        let item = new ClaimComment();
+        item.text = el.text;
+        if(el.create_date)
+          item.create_date_str = this.datePipe.transform(new Date(el.create_date), 'dd-MM-yyyy hh:mm:ss');
+        else
+          item.create_date_str = '';
+
+        this.comments.push(item);
+      });
+    }
+  }
+
+
+  setClaimDocumsnts(){
+
+    this.documents = new Array<ClaimDocument>();
+    let d = this.claimData['documents'];
+    if(d){
+      d.forEach(el => {
+        let item = new ClaimDocument();
+        item.description = el['description'];
+        item.file = el['file'];       
+        if(item.file)
+          item.file_name = item.file.split('\\').pop().split('/').pop();
+        else
+        item.file_name = 'Документ';
+
+        this.documents.push(item);
+      });
+
+    }
+  }
+
 
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
@@ -218,13 +265,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
-        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
       }
     });
   }
