@@ -212,6 +212,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaim() {
+    console.log('saveClaim()');
     console.log(this.claimData);
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
