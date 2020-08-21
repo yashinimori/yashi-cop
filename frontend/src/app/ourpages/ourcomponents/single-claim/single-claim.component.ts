@@ -126,6 +126,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     //console.log('ngOnInit');
+
     
     this.role = localStorage.getItem('role');
     console.log('SingleClaimComponent role ' +this.role);
@@ -254,8 +255,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     for(let i = 0; i < this.editedAnswers.length; i++) {
       this.claimData.answers[Object.keys(this.editedAnswers[i])[0]] = this.editedAnswers[i][Object.keys(this.editedAnswers[i])[0]];
     }
-    this.saveClaim();
+    // this.saveClaim();
     console.log(this.claimData.answers);
+    // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
 
   saveClaim() {
