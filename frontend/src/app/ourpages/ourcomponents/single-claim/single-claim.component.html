@@ -102,7 +102,9 @@
                     <input class="input-data" nbInput placeholder="Номер карти"
                         [required]="fieldsStatus.pan.required" 
                         [readonly]="fieldsStatus.pan.readonly"
-                        [(ngModel)]="claimData.pan">
+                        [(ngModel)]="claimData.pan"
+                        maxlength="40"
+                        minlength="40">
                 </div>
                 
                 <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">

@@ -22,8 +22,7 @@ export class RegistrationComponent implements OnInit {
 
 
   ngOnInit(): void {
-  //  console.log(this.data.email.length)
-   console.log(this.data.role)
+    console.log(this.data.role)
   }
 
 
