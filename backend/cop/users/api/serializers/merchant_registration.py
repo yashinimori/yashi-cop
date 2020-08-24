@@ -1,9 +1,19 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
-from cop.core.models import Merchant
+from cop.core.models import Merchant, Terminal
 
 User = get_user_model()
+
+
+class TerminalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Terminal
+        fields = (
+            'term_id',
+            'address',
+        )
 
 
 class MerchantSerializer(serializers.ModelSerializer):
@@ -22,29 +32,48 @@ class MerchantSerializer(serializers.ModelSerializer):
         )
 
 
-class MerchantRegistrationSerializer(serializers.ModelSerializer):
+class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
     merchant = MerchantSerializer()
+    terminals = TerminalSerializer(many=True, required=False)
 
-    class Meta:
+    class Meta(BaseUserRegistrationSerializer.Meta):
         model = User
-        fields = (
+        fields = BaseUserRegistrationSerializer.Meta.fields + (
             'email',
             'first_name',
             'last_name',
             'password',
             'phone',
             'role',
-            'merchant'
+            'merchant',
+            'terminals',
         )
+
+    def validate(self, attrs):
+        merchant = attrs.pop('merchant')
+        terminals = attrs.pop('terminals', None)
+        attrs = super().validate(attrs)
+        attrs['merchant'] = merchant
+        attrs['terminals'] = terminals
+        return attrs
 
     def create(self, validated_data):
         merchant = validated_data.pop('merchant')
-        instance = User.objects.create(**validated_data)
-        banks = merchant.pop("bank")
+        terminals = validated_data.pop('terminals', None)
+        instance = super().create(validated_data)
+        banks = merchant.pop("bank", None)
         merchant = Merchant.objects.create(user=instance, **merchant)
         if banks:
             for bank in banks:
                 merchant.bank.add(bank)
-            merchant.save()
+
+        if terminals:
+            for term in terminals:
+                Terminal.objects.create(
+                    term_id=term.get('term_id'),
+                    address=term.get('address'),
+                    merchant=merchant,
+                )
+
         return instance
 
