@@ -12,22 +12,23 @@
             Ескалація претензії
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reasoncode.invisible">
+
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_reasoncode.invisible">
                 <label class="label-caption">Select reason code</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reason_code"
-                    [required]="fieldsStatus.single_claim_form_reasoncode.required" 
-                    [disabled]="fieldsStatus.single_claim_form_reasoncode.readonly">
+                    [required]="fieldsStatus.scf_escal_reasoncode.required" 
+                    [disabled]="fieldsStatus.scf_escal_reasoncode.readonly">
                     <nb-option *ngFor="let item of reasonCode" [value]="item.caption">
                         {{ item.caption }}
                     </nb-option>
                 </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_mmt.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_mmt.invisible">
                 <label class="label-caption">MMT</label> 
                 <input class="input-data" nbInput placeholder="MMT"
-                    [required]="fieldsStatus.single_claim_form_mmt.required" 
-                    [readonly]="fieldsStatus.single_claim_form_mmt.readonly"
+                    [required]="fieldsStatus.scf_escal_mmt.required" 
+                    [readonly]="fieldsStatus.scf_escal_mmt.readonly"
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 
