@@ -5,8 +5,10 @@
 </nb-card>
 
 <div *ngIf="!isNewRecord" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px; display:flex'>
-    <button  nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
-    <button  nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
+        nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
+        nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
 </div>
 
 <div *ngIf="!isNewRecord" class="div-panel" >
@@ -105,7 +107,10 @@
 </div>
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
-    <button  nbButton status="primary" (click)="onClickEscalationFinish()" >Завершити</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible"
+        nbButton status="primary" (click)="onClickEscalationFinish()" >Завершити</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
+        nbButton status="primary" (click)="onClickEscalationFinish()" >button_escal_add_responce</button>
 </div>
 
 <div *ngIf="isNewRecord && role !='merchant'" >

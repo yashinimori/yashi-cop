@@ -141,15 +141,12 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       claim.form_name ='clarify_form';
     }
 
-    if(this.typeOperation == 'FinishEscalation'){
+    if(this.typeOperation == 'FinishForm'){
       claim.form_name ='close_form';
       
       let arr: Array<string> = new Array<string>();
       if(this.singleClaimFormsData.reasonClosingId)
         arr.push(this.singleClaimFormsData.reasonClosingId)
-
-      if(this.singleClaimFormsData.decisionId)
-        arr.push(this.singleClaimFormsData.decisionId)
       
       if(this.singleClaimFormsData.responceId)
         arr.push(this.singleClaimFormsData.responceId)
@@ -159,6 +156,13 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
       if(this.singleClaimFormsData.amount_move)
         arr.push(this.singleClaimFormsData.amount_move)
+
+      if(this.role == 'chargeback_officer') {
+        claim.result = this.singleClaimFormsData.decisionId;
+      } else {
+        if(this.singleClaimFormsData.decisionId)
+          arr.push(this.singleClaimFormsData.decisionId)
+      }
 
       claim.comments = arr;
     }

@@ -55,6 +55,10 @@ export class FieldsStatus {
     single_claim_form_doc: paramStatusFields;
     single_claim_form_mmt: paramStatusFields;
     single_claim_form_reasoncode: paramStatusFields;
+    button_escalation: paramStatusFields;
+    button_escal_clarif: paramStatusFields;
+    button_escal_finish: paramStatusFields;
+    button_escal_add_responce: paramStatusFields;
 
 
     default() {
@@ -86,6 +90,11 @@ export class FieldsStatus {
         this.single_claim_form_doc = new paramStatusFields({invisible: true});
         this.single_claim_form_mmt = new paramStatusFields({invisible: true});
         this.single_claim_form_reasoncode = new paramStatusFields({invisible: true});
+        this.button_escalation = new paramStatusFields({invisible: true});
+        this.button_escal_clarif = new paramStatusFields({invisible: true});
+        this.button_escal_finish = new paramStatusFields({invisible: true});
+        this.button_escal_add_responce = new paramStatusFields({invisible: true});
+
 
     }
 
@@ -121,6 +130,10 @@ export class FieldsStatus {
                 this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.button_escalation = new paramStatusFields({invisible: true});
+                this.button_escal_clarif = new paramStatusFields({invisible: false});
+                this.button_escal_finish = new paramStatusFields({invisible: true});
+                this.button_escal_add_responce = new paramStatusFields({invisible: false});
 
                 break; 
             } 
@@ -154,6 +167,10 @@ export class FieldsStatus {
                 this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.button_escalation = new paramStatusFields({invisible: false});
+                this.button_escal_clarif = new paramStatusFields({invisible: false});
+                this.button_escal_finish = new paramStatusFields({invisible: false});
+                this.button_escal_add_responce = new paramStatusFields({invisible: true});
 
                 break; 
             } 
@@ -186,6 +203,10 @@ export class FieldsStatus {
                 this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.button_escalation = new paramStatusFields({invisible: false});
+                this.button_escal_clarif = new paramStatusFields({invisible: false});
+                this.button_escal_finish = new paramStatusFields({invisible: false});
+                this.button_escal_add_responce = new paramStatusFields({invisible: true});
 
                 break; 
             } 
@@ -218,6 +239,10 @@ export class FieldsStatus {
                 this.single_claim_form_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.button_escalation = new paramStatusFields({invisible: false});
+                this.button_escal_clarif = new paramStatusFields({invisible: false});
+                this.button_escal_finish = new paramStatusFields({invisible: false});
+                this.button_escal_add_responce = new paramStatusFields({invisible: false});
 
                 break; 
             }
