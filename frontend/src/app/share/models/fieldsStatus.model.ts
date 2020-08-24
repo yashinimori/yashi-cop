@@ -12,7 +12,7 @@ export class FieldsStatus {
             this.cOPClaimID = props.cOPClaimID || new paramStatusFields();
             this.merchantName = props.merchantName || new paramStatusFields();
             this.reasonCodeGroup = props.reasonCodeGroup || new paramStatusFields();
-            this.stage = props.stage || new paramStatusFields();
+            this.status = props.status || new paramStatusFields();
             this.actionNeeded = props.actionNeeded || new paramStatusFields();
             this.result = props.result || new paramStatusFields();
             this.dueDate = props.dueDate || new paramStatusFields();
@@ -38,7 +38,7 @@ export class FieldsStatus {
     cOPClaimID: paramStatusFields;
     merchantName: paramStatusFields;
     reasonCodeGroup: paramStatusFields;
-    stage: paramStatusFields;
+    status: paramStatusFields;
     actionNeeded: paramStatusFields;
     result: paramStatusFields;
     dueDate: paramStatusFields;
@@ -73,7 +73,7 @@ export class FieldsStatus {
         this.cOPClaimID = new paramStatusFields({invisible: true});
         this.merchantName = new paramStatusFields({invisible: true});
         this.reasonCodeGroup = new paramStatusFields({invisible: true});
-        this.stage = new paramStatusFields({invisible: true});
+        this.status = new paramStatusFields({invisible: true});
         this.actionNeeded = new paramStatusFields({invisible: true});
         this.result = new paramStatusFields({invisible: true});
         this.dueDate = new paramStatusFields({invisible: true});
@@ -113,7 +113,7 @@ export class FieldsStatus {
                 this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
-                this.stage = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.status = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -150,7 +150,7 @@ export class FieldsStatus {
                 this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
-                this.stage = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.status = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -186,7 +186,7 @@ export class FieldsStatus {
                 this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
-                this.stage = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.status = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -222,7 +222,7 @@ export class FieldsStatus {
                 this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
-                this.stage = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.status = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});

@@ -115,7 +115,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Reason Code",
               type: 'number',
             },
-            stage: {
+            status: {
               title: "Статус",
               type: 'string',
             },
@@ -245,7 +245,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.trans_currency = el['trans_currency'];
           t.auth_code = el['auth_code'];
           t.claim_reason_code = el['reason_code'];
-          t.stage = el['stage'];
+          t.status = el['status'];
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];

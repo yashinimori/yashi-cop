@@ -12,19 +12,22 @@
             Ескалація претензії
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_mmt.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reasoncode.invisible">
                 <label class="label-caption">Select reason code</label> 
-                <input class="input-data" nbInput placeholder="Select reason code"
-                    [required]="fieldsStatus.single_claim_form_mmt.required" 
-                    [readonly]="fieldsStatus.single_claim_form_mmt.readonly"
-                    [(ngModel)]="singleClaimFormsData.reason_code">
+                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reason_code"
+                    [required]="fieldsStatus.single_claim_form_reasoncode.required" 
+                    [disabled]="fieldsStatus.single_claim_form_reasoncode.readonly">
+                    <nb-option *ngFor="let item of reasonCode" [value]="item.caption">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reasoncode.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_mmt.invisible">
                 <label class="label-caption">MMT</label> 
                 <input class="input-data" nbInput placeholder="MMT"
-                    [required]="fieldsStatus.single_claim_form_reasoncode.required" 
-                    [readonly]="fieldsStatus.single_claim_form_reasoncode.readonly"
+                    [required]="fieldsStatus.single_claim_form_mmt.required" 
+                    [readonly]="fieldsStatus.single_claim_form_mmt.readonly"
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 

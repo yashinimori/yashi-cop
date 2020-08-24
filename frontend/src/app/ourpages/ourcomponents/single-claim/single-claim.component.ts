@@ -483,7 +483,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getListCurrency(){
     this.listCurrency = new Array<SelectorData>();
-    this.listCurrency.push({id:1, caption:"hrn"});
+    this.listCurrency.push({id:1, caption:"uah"});
     this.listCurrency.push({id:2, caption:"usd"});
     this.listCurrency.push({id:2, caption:"eur"});
   }

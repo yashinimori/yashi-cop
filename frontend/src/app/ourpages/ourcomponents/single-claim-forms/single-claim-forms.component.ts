@@ -9,6 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { SingleClaimForms } from '../../../share/models/single-claim-forms.model';
+import { SelectorDataStr } from '../../../share/models/selector-data-str.model';
 
 @Component({
   selector: 'ngx-single-claim-forms',
@@ -33,6 +34,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   reasonClosing: Array<SelectorData>;
   decision: Array<SelectorData>;
   responce: Array<SelectorData>;
+  typeCard: string;
+  reasonCode:Array<SelectorDataStr>;
   
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
@@ -59,9 +62,11 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.getReasonClosing();
     this.getDecision();
     this.getResponce();
+    this.getReasonCode();
 
     this.loadClaim();
 
+    
   }
 
   ngOnDestroy(): void {
@@ -247,10 +252,28 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       this.responce.push({id:6, caption:"переказ був помилковим, кошти будуть повернені"});
       this.responce.push({id:7, caption:"претензію прийнято, кошти будуть повернені"});
     }
-
-
     
   }
+
+  getReasonCode(){
+    
+    this.reasonCode = new Array<SelectorDataStr>();
+    
+    this.reasonCode.push({id:'139', caption:"139 - ATM CASH NOT RECEIVED"});
+    this.reasonCode.push({id:'138', caption:"138 - Original Credit Transaction Not Accepted"});
+    this.reasonCode.push({id:'137', caption:"137 - Cancelled Merchandise/Services"});
+    this.reasonCode.push({id:'136', caption:"136 - Credit Not Processed"});
+    this.reasonCode.push({id:'135', caption:"135 - Misrepresentation"});
+    this.reasonCode.push({id:'134', caption:"134 - Counterfeit Merchandise"});
+
+    this.reasonCode.push({id:'4853', caption:"4853 - Not as Described or Defective Merchandise/Services	"});
+    this.reasonCode.push({id:'4853', caption:"4853 - Canceled Recurring Transaction"});
+    this.reasonCode.push({id:'4853', caption:"4853 - Merchandise/Services Not Received"});
+    this.reasonCode.push({id:'4808', caption:"4808 - Invalid Data"});
+    this.reasonCode.push({id:'4834', caption:"4834 - Duplicate Processing"});
+    
+  }
+
 
 
 }

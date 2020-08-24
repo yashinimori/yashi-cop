@@ -4,7 +4,7 @@ export class ClaimView extends ClaimRegistration {
   claim_id: string;
   merch_name_ips: string;
   reason_code_group: string;
-  stage: string;
+  //stage: string;
   action_needed: string;
   result: string;
   due_date: Date;
@@ -23,4 +23,5 @@ export class ClaimView extends ClaimRegistration {
   claimId: string;
   form_name: string;
   mmt: string;
+  status: string;
 }
