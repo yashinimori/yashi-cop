@@ -142,5 +142,14 @@
       "create_date": "2020-08-09T18:25:43.511Z",
       "update_date": "2020-08-09T18:25:43.511Z"
     }
+  },
+  {
+    "model": "core.surveyquestion",
+    "pk": 17,
+    "fields": {
+      "description": "Чи Ви робили повернення товару?",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
   }
 ]
