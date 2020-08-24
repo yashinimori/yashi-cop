@@ -251,8 +251,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.due_date = el['due_date'];
 
           let m = el['merchant'];
-          t.merch_name_ips = m['name_ips'];
-
+          console.log(m);
+          if(m) 
+            t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
           
