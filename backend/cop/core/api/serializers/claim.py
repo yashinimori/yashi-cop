@@ -27,6 +27,17 @@ class BankSerializer(serializers.ModelSerializer):
         )
 
 
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = (
+            'id',
+            'index',
+            'name',
+            'stage',
+        )
+
+
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
@@ -68,6 +79,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     documents = ClaimDocumentSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True, required=False)
     bank = BankSerializer(read_only=True, required=False)
+    status = StatusSerializer(read_only=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
 
@@ -96,8 +108,8 @@ class ClaimSerializer(serializers.ModelSerializer):
             "result",
             "due_date",
             "issuer_mmt",
-            "form_name"
-            # TODO: add status
+            "form_name",
+            "status",
         )
 
     def create(self, validated_data):
