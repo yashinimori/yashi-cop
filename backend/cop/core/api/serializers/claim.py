@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report
+from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
 
 from cop.core.services.status_service import StatusService
@@ -67,6 +67,7 @@ class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
 class ClaimSerializer(serializers.ModelSerializer):
     documents = ClaimDocumentSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True, required=False)
+    bank = BankSerializer(read_only=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
 
@@ -103,15 +104,15 @@ class ClaimSerializer(serializers.ModelSerializer):
         current_user = self.context["request"].user
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
-            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
-
+            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
         validated_data['user'] = current_user
+        validated_data['status'] = Status.objects.get(pk=1)
         instance = super().create(validated_data)
-        cmr = ClaimRoutingService(claim=instance, user=current_user, **validated_data)
-        mediation_escalation_status = 5
-        status_index = mediation_escalation_status if cmr.claim.transaction else None
-        self.set_status(cmr.claim, status_index)
-        return self.instance
+        cmr = ClaimRoutingService(claim=instance, **validated_data)
+        # mediation_escalation_status = 5
+        # status_index = mediation_escalation_status if cmr.claim.transaction else None
+        # self.set_status(cmr.claim, status_index)
+        return instance
 
     def update(self, instance, validated_data):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
