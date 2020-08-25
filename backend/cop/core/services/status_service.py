@@ -45,7 +45,7 @@ class BaseStatusService:
             Status.Stages.FINAL_RULING: self.final_ruling,
             Status.Stages.CLOSED: self.closed,
         }
-        stages[self.claim.status]()
+        stages[self.claim.status.stage]()
 
     def claim_has_merchant_comment(self):
         return self.claim.comments.filter(user__role=User.Roles.MERCHANT).count() >= 1
