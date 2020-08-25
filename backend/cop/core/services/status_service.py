@@ -28,11 +28,7 @@ class BaseStatusService:
             self.claim.status = 1
         else:  # we don't know which status, start analysing
             self.start()
-
-        if self.claim.status.index >= self.initial_status:
-            self.claim.save()
-        else:
-            raise Exception('Claim status can\'t be lowered.')
+        claim.save()
 
     def start(self):
         """Decide which stage to select based on user and claim data."""
