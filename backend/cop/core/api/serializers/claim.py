@@ -137,17 +137,15 @@ class ClaimSerializer(serializers.ModelSerializer):
     def set_status(self, status_index=None):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
-        if not self.status_set:
-            if claim.transaction:
-                mediation_escalation_status = 5
-                status_index = mediation_escalation_status
-            if self.claim_reason_code in allocation_rc:
-                AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
-            elif claim.bank and claim.merchant:
-                StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
-            elif not claim.bank and not claim.merchant:
-                CardholderStatuses(claim=claim, user=self.context["request"].user, status_index=status_index)
-            self.status_set = True
+        if claim.transaction:
+            mediation_escalation_status = 5
+            status_index = mediation_escalation_status
+        if self.claim_reason_code in allocation_rc:
+            AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+        elif claim.bank and claim.merchant:
+            StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+        elif not claim.bank and not claim.merchant:
+            CardholderStatuses(claim=claim, user=self.context["request"].user, status_index=status_index)
 
 
 class ClaimListSerializer(serializers.ModelSerializer):
