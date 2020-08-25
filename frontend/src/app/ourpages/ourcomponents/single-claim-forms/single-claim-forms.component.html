@@ -18,7 +18,7 @@
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reason_code"
                     [required]="fieldsStatus.scf_escal_reasoncode.required" 
                     [disabled]="fieldsStatus.scf_escal_reasoncode.readonly">
-                    <nb-option *ngFor="let item of reasonCode" [value]="item.caption">
+                    <nb-option *ngFor="let item of reasonCode" [value]="item.id">
                         {{ item.caption }}
                     </nb-option>
                 </nb-select>

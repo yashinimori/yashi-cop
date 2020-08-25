@@ -136,8 +136,10 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     claim.trans_date = this.claimData.trans_date;
 
     if(this.typeOperation == 'NewEscalation'){
-      claim.claim_reason_code = this.singleClaimFormsData.reason_code;
-      claim.mmt = this.singleClaimFormsData.mmt;
+      if(this.singleClaimFormsData.reason_code)
+        claim.claim_reason_code = this.singleClaimFormsData.reason_code;
+      if(this.singleClaimFormsData.mmt)  
+        claim.mmt = this.singleClaimFormsData.mmt;
       if(this.singleClaimFormsData.comment)
         claim.comments = this.singleClaimFormsData.comment;
       claim.form_name ='escalate_form';
@@ -188,7 +190,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     console.log(claim);
     this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
-        console.log('ok');
+        console.log('updateClaim ok');
         console.log(response); 
         this.uploadDoc();
       },
@@ -286,21 +288,80 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     
     this.reasonCode = new Array<SelectorDataStr>();
     
-    this.reasonCode.push({id:'139', caption:"139 - ATM CASH NOT RECEIVED"});
-    this.reasonCode.push({id:'138', caption:"138 - Original Credit Transaction Not Accepted"});
-    this.reasonCode.push({id:'137', caption:"137 - Cancelled Merchandise/Services"});
-    this.reasonCode.push({id:'136', caption:"136 - Credit Not Processed"});
-    this.reasonCode.push({id:'135', caption:"135 - Misrepresentation"});
-    this.reasonCode.push({id:'134', caption:"134 - Counterfeit Merchandise"});
+    this.reasonCode.push({id:'0001', caption:"(139	4834) - ATM CASH NOT RECEIVED"});
+    this.reasonCode.push({id:'0002', caption:"(138	4853) - Original Credit Transaction Not Accepted"});
+    this.reasonCode.push({id:'0003', caption:"(137	4853) - Cancelled Merchandise/Services"});
+    this.reasonCode.push({id:'0004', caption:"(136	4853) - Credit Not Processed"});
+    this.reasonCode.push({id:'0005', caption:"(135	4853) - Misrepresentation"});
+    this.reasonCode.push({id:'0006', caption:"(134	4853) - Counterfeit Merchandise"});
+    this.reasonCode.push({id:'0007', caption:"(133	4853) - Not as Described or Defective Merchandise/Services"});
+    this.reasonCode.push({id:'0008', caption:"(132	4853) - Canceled Recurring Transaction"});
+    this.reasonCode.push({id:'0009', caption:"(131	4853) - Merchandise/Services Not Received	0009	"});
+    this.reasonCode.push({id:'0010', caption:"(127	4808) - Invalid Data"});
+    this.reasonCode.push({id:'0011', caption:"(126	4834) - Duplicate Processing"});
+    this.reasonCode.push({id:'0012', caption:"(125	4834) - Incorrect Amount"});
+    this.reasonCode.push({id:'0013', caption:"(124	4808) - Incorrect Account Number"});
+    this.reasonCode.push({id:'0014', caption:"(123	4834) - Incorrect Currency"});
+    this.reasonCode.push({id:'0015', caption:"(122	4853) - Incorrect Transaction Code"});
+    this.reasonCode.push({id:'0016', caption:"(121	4808) - Late Presentment"});
+    this.reasonCode.push({id:'0017', caption:"(113	4808) - No Authorization"});
+    this.reasonCode.push({id:'0018', caption:"(112	4808) - Declined Authorization"});
+    this.reasonCode.push({id:'0019', caption:"(111	4808) - Card Recovery Bulletin"});
+    this.reasonCode.push({id:'0020', caption:"(105	4837) - Fraud Monitoring Program"});
+    this.reasonCode.push({id:'0021', caption:"(104	4837) - Other Fraud: Card-absent Environment/Condition"});
+    this.reasonCode.push({id:'0022', caption:"(103	4837) - Other Fraud: Card-Present Environment/Condition"});
+    this.reasonCode.push({id:'0023', caption:"(102	4837) - EMV Liability Shift Non-Counterfeit Fraud"});
+    this.reasonCode.push({id:'0024', caption:"(101	4837) - EMV Liability Shift Counterfeit Fraud"});
+    this.reasonCode.push({id:'0025', caption:"(4834) - Charges for Loss, Theft, or Damages"});
+    this.reasonCode.push({id:'0026', caption:"(4834) - “No-Show” Hotel Charge"});
+    this.reasonCode.push({id:'0027', caption:"(126	4834) - Paid by Other Means"});
+    this.reasonCode.push({id:'0100', caption:"() - Запит документів"});
+    this.reasonCode.push({id:'0101', caption:"() - запитна проаналізований лог"});
+    this.reasonCode.push({id:'0500', caption:"() - шнша причина запит на CHB OFF"});
 
-    this.reasonCode.push({id:'4853', caption:"4853 - Not as Described or Defective Merchandise/Services	"});
-    this.reasonCode.push({id:'4853', caption:"4853 - Canceled Recurring Transaction"});
-    this.reasonCode.push({id:'4853', caption:"4853 - Merchandise/Services Not Received"});
-    this.reasonCode.push({id:'4808', caption:"4808 - Invalid Data"});
-    this.reasonCode.push({id:'4834', caption:"4834 - Duplicate Processing"});
+
+
     
+
+
+
+
   }
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
