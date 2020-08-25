@@ -27,6 +27,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
   role: string;
   claimId:any;
+  userId: any;
   fieldsStatus: FieldsStatus;
   isNewEscaltion: boolean;
   singleClaimFormsData: SingleClaimForms;
@@ -36,7 +37,9 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   responce: Array<SelectorData>;
   typeCard: string;
   reasonCode:Array<SelectorDataStr>;
-  
+  //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
+  acceptFiles = '*';
+
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService, 
     private httpService: HttpService,
@@ -48,6 +51,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         
     this.role = localStorage.getItem('role');
     console.log('SingleClaimFormsComponent this.role ' +this.role);
+
     this.generateStatusFields();
 
     this.singleClaimFormsData = new SingleClaimForms();
@@ -81,6 +85,11 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         next: (response: any) => {
           this.claimData = response;
           console.log(this.claimData);
+          
+          let user = this.claimData['user'];
+          if(user){
+            this.userId = user['id'];
+          }
           
         },
         error: error => {
@@ -128,6 +137,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     
     let claim = new ClaimView();
     claim.claimId = this.claimId;
+    claim.id = this.claimId;
 
     claim.pan = this.claimData.pan;
     claim.claim_reason_code = this.claimData.claim_reason_code;
@@ -167,7 +177,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         arr.push(this.singleClaimFormsData.amount_move)
 
       if(this.role == 'chargeback_officer') {
-        claim.result = this.singleClaimFormsData.decisionId;
+        if(this.singleClaimFormsData.decisionId)
+          claim.officer_answer_reason = this.singleClaimFormsData.decisionId;
       } else {
         if(this.singleClaimFormsData.decisionId)
           arr.push(this.singleClaimFormsData.decisionId)
@@ -175,24 +186,14 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
       claim.comments = arr;
     }
-
-
-    // if(this.filesArr && this.filesArr.length > 0) {
-    //   let data = this.filesArr[0];
-    //   const formData: FormData = new FormData();
-    //   formData.append('docs', data, data.name);
-    //   this.singleClaimFormsData.docs = data;
-    //   claim.documents = this.singleClaimFormsData.docs;
-    // }
         
-    //console.log(this.singleClaimFormsData);
-
     console.log(claim);
     this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
         console.log('updateClaim ok');
         console.log(response); 
-        this.uploadDoc();
+        this.uploadDoc(claim);
+        this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
         console.error('There was an error!', error);
@@ -209,14 +210,16 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     
   }
 
-  uploadDoc() {
+  uploadDoc(claim: any) {
     if(this.filesArr && this.filesArr.length > 0){
       let data = this.filesArr[0];
+      console.log('uploadDoc()');
       console.log(data);
       
-      this.httpService.uploadClaimDoc(data).subscribe({
+      this.httpService.uploadClaimDoc(data, "substitute_draft", this.claimId, 
+        this.userId, claim.form_name).subscribe({
         next: (response: any) => {
-          console.log('ok');
+          console.log('uploadDoc ok');
           console.log(response); 
           this.filesArr = [];
         },
@@ -229,6 +232,21 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  commentClaim(claimId: any, comment: any, form_name: any) {
+    this.httpService.commentClaim(claimId, comment, form_name).subscribe({
+      next: (response: any) => {
+        console.log('commentClaim ok');
+        console.log(response); 
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    });
+  }  
 
   onClickBackClaim(){
     this.transferService.cOPClaimID.next(this.claimId);

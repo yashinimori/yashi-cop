@@ -18,4 +18,5 @@ export const URL_CREATE_NEW_USER = `${MAIN_URL}/api/v1/users/`;
 
 export const URL_UPDATE_CLAIM = `${MAIN_URL}/api/v1/claims/`;
 export const URL_UPLOAD_CLAIM_DOC = `${MAIN_URL}/api/v1/claim-documents/`;
+export const URL_CLAIM = `${MAIN_URL}/api/v1/claim/`;
 

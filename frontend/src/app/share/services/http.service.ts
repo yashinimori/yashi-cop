@@ -8,7 +8,8 @@ import { URL_GET_CLAIM_LIST,
   URL_UPLOAD_ATM_LOG,
   URL_CREATE_NEW_USER,
   URL_UPDATE_CLAIM,
-  URL_UPLOAD_CLAIM_DOC
+  URL_UPLOAD_CLAIM_DOC,
+  URL_CLAIM,
 } from '../urlConstants';
 
 @Injectable({
@@ -77,7 +78,6 @@ export class HttpService {
     console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-
    
   uploadATMlog(file: any) {
     const formData: FormData = new FormData();
@@ -85,14 +85,28 @@ export class HttpService {
     return this.http.post(URL_UPLOAD_ATM_LOG, formData, this.getHeaders());
   }
 
-  uploadClaimDoc(file: any) {
+  uploadClaimDoc(file: any, type_: any, claimId: any, userId: any, form_name: any) {
     const formData: FormData = new FormData();
-    formData.append('doc', file, file.name);
+    formData.append('file', file, file.name);
+    formData.append('description', "");
+    formData.append('type', type_);
+    formData.append('claim', claimId);
+    formData.append('user', userId);
+    formData.append('form_name', form_name);
+
     return this.http.post(URL_UPLOAD_CLAIM_DOC, formData, this.getHeaders());
   }
 
   updateClaim(claim: any) {
     return this.http.put(URL_UPDATE_CLAIM + claim.claimId + '/', claim, this.getHeaders());
+  }
+
+  commentClaim(claimId: any, comment: any, form_name:any) {
+    let data = {
+      "text": comment,
+      "form_name": form_name
+    };
+    return this.http.post(URL_CLAIM + claimId + '/comments/', data, this.getHeaders());
   }
 
 }

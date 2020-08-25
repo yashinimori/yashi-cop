@@ -267,19 +267,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       let data = this.filesArr[0];
       console.log(data);
       
-      this.httpService.uploadClaimDoc(data).subscribe({
-        next: (response: any) => {
-          console.log('ok');
-          console.log(response); 
-          this.filesArr = [];
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
+      // this.httpService.uploadClaimDoc(data).subscribe({
+      //   next: (response: any) => {
+      //     console.log('ok');
+      //     console.log(response); 
+      //     this.filesArr = [];
+      //   },
+      //   error: error => {
+      //     console.error('There was an error!', error);
+      //   },
+      //   complete: () => {
           
-        }
-      });
+      //   }
+      // });
     
     }
     
