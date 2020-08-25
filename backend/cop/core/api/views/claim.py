@@ -76,8 +76,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
             return Claim.objects.none()
 
     def get_permissions(self):
-        if self.action in ('update', ):
-            self.permission_classes += (HasMerchantUpdatePermission,)
+        # if self.action in ('update', ):
+        #     self.permission_classes += (HasMerchantUpdatePermission,)
         return super().get_permissions()
 
     def get_serializer_class(self):
