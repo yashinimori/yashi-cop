@@ -93,7 +93,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   role: string;
   isLastStep: boolean = false;
   merchantsArr: Array<any> = new Array<any>();
-  claimId:any;
+  claimId: any;
+  userId: any;
 
   fieldsStatus: FieldsStatus;
   editedAnswers: Array<any> = new Array<any>();
@@ -261,40 +262,39 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  uploadDoc() {
+  uploadDoc(claim: any) {
     if(this.filesArr && this.filesArr.length > 0){
-    
       let data = this.filesArr[0];
-      console.log(data);
-      
-      // this.httpService.uploadClaimDoc(data).subscribe({
-      //   next: (response: any) => {
-      //     console.log('ok');
-      //     console.log(response); 
-      //     this.filesArr = [];
-      //   },
-      //   error: error => {
-      //     console.error('There was an error!', error);
-      //   },
-      //   complete: () => {
-          
-      //   }
-      // });
-    
+      claim.form_name = "claim_form";
+
+      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
+      claim.user.id, claim.form_name).subscribe({
+        next: (response: any) => {
+          console.log('uploadDoc ok');
+          console.log(response); 
+          this.filesArr = [];
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+
+        }
+      });
     }
-    
   }
 
 
   saveClaim() {
     console.log('saveClaim()');
     console.log(this.claimData);
+    this.claimData.form_name = "claim_form";
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
 
-        this.uploadDoc();
+        this.uploadDoc(response);
       },
       error: error => {
         console.error('There was an error!', error);
