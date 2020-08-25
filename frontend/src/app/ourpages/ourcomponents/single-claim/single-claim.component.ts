@@ -524,10 +524,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  onClickEscalationFinish(){
+  onClickFinish(){
     let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;  
-    val.typeOperation = "FinishEscalation";
+    val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
   
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);

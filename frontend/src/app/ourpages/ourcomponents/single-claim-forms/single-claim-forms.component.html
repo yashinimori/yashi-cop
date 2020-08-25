@@ -32,6 +32,17 @@
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_comment.invisible">
+                <label class="label-caption">Коментари</label> 
+                <textarea rows="5" nbInput fullWidth  
+                    [required]="fieldsStatus.scf_escal_comment.required" 
+                    [readonly]="fieldsStatus.scf_escal_comment.readonly"
+                    [(ngModel)]="singleClaimFormsData.comment"
+                    placeholder="Коментари">
+                </textarea>
+                    
+            </div>
+
             <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"

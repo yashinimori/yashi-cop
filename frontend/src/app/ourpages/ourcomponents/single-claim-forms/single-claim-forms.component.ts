@@ -138,6 +138,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     if(this.typeOperation == 'NewEscalation'){
       claim.claim_reason_code = this.singleClaimFormsData.reason_code;
       claim.mmt = this.singleClaimFormsData.mmt;
+      if(this.singleClaimFormsData.comment)
+        claim.comments = this.singleClaimFormsData.comment;
       claim.form_name ='escalate_form';
     }
 

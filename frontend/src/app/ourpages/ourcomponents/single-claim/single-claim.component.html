@@ -108,9 +108,9 @@
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible"
-        nbButton status="primary" (click)="onClickEscalationFinish()" >Завершити</button>
+        nbButton status="primary" (click)="onClickFinish()" >Завершити</button>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
-        nbButton status="primary" (click)="onClickEscalationFinish()" >button_escal_add_responce</button>
+        nbButton status="primary" (click)="onClickFinish()" >Додати Коментар</button>
 </div>
 
 <div *ngIf="isNewRecord && role !='merchant'" >
