@@ -260,6 +260,32 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
 
+
+  uploadDoc() {
+    if(this.filesArr && this.filesArr.length > 0){
+    
+      let data = this.filesArr[0];
+      console.log(data);
+      
+      this.httpService.uploadClaimDoc(data).subscribe({
+        next: (response: any) => {
+          console.log('ok');
+          console.log(response); 
+          this.filesArr = [];
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+          
+        }
+      });
+    
+    }
+    
+  }
+
+
   saveClaim() {
     console.log('saveClaim()');
     console.log(this.claimData);
@@ -267,6 +293,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
+
+        this.uploadDoc();
       },
       error: error => {
         console.error('There was an error!', error);

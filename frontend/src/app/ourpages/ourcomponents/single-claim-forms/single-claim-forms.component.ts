@@ -175,14 +175,13 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     }
 
 
-
-    if(this.filesArr && this.filesArr.length > 0) {
-      let data = this.filesArr[0];
-      const formData: FormData = new FormData();
-      formData.append('docs', data, data.name);
-      this.singleClaimFormsData.docs = data;
-      claim.documents = this.singleClaimFormsData.docs;
-    }
+    // if(this.filesArr && this.filesArr.length > 0) {
+    //   let data = this.filesArr[0];
+    //   const formData: FormData = new FormData();
+    //   formData.append('docs', data, data.name);
+    //   this.singleClaimFormsData.docs = data;
+    //   claim.documents = this.singleClaimFormsData.docs;
+    // }
         
     //console.log(this.singleClaimFormsData);
 
@@ -191,6 +190,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
+        this.uploadDoc();
       },
       error: error => {
         console.error('There was an error!', error);
@@ -201,6 +201,27 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       }
     });
     
+  }
+
+  uploadDoc() {
+    if(this.filesArr && this.filesArr.length > 0){
+      let data = this.filesArr[0];
+      console.log(data);
+      
+      this.httpService.uploadClaimDoc(data).subscribe({
+        next: (response: any) => {
+          console.log('ok');
+          console.log(response); 
+          this.filesArr = [];
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+
+        }
+      });
+    }
   }
 
   onClickBackClaim(){

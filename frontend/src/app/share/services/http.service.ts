@@ -7,7 +7,8 @@ import { URL_GET_CLAIM_LIST,
   URL_GET_TRANSACTIONS_LIST,
   URL_UPLOAD_ATM_LOG,
   URL_CREATE_NEW_USER,
-  URL_UPDATE_CLAIM
+  URL_UPDATE_CLAIM,
+  URL_UPLOAD_CLAIM_DOC
 } from '../urlConstants';
 
 @Injectable({
@@ -82,6 +83,12 @@ export class HttpService {
     const formData: FormData = new FormData();
     formData.append('log', file, file.name);
     return this.http.post(URL_UPLOAD_ATM_LOG, formData, this.getHeaders());
+  }
+
+  uploadClaimDoc(file: any) {
+    const formData: FormData = new FormData();
+    formData.append('doc', file, file.name);
+    return this.http.post(URL_UPLOAD_CLAIM_DOC, formData, this.getHeaders());
   }
 
   updateClaim(claim: any) {
