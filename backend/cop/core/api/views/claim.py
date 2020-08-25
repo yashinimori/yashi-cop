@@ -65,7 +65,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
             bank_employee = current_user.bankemployee
             return queryset.filter(merchant__bank=bank_employee.bank)
         elif current_user.role == User.Roles.CARDHOLDER:
-            return queryset.filter(user=current_user)
+            return queryset.filter(user=current_user,
+                                   status__stage__in=[Status.Stages.PRE_MEDIATION, Status.Stages.MEDIATION])
         elif current_user.role == User.Roles.MERCHANT:
             merchant = Merchant.objects.get(user=current_user)
             return queryset.filter(merchant=merchant)

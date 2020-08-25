@@ -105,6 +105,10 @@ class StatusService(BaseStatusService):
                     self.set_status(5)
 
     def mediation(self):
+        if self.initial_status == 5:
+            if self.user.is_cardholder:
+                if self.claim.survey_form_received:
+                    self.set_status(6)
         if self.initial_status == 6:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
@@ -266,6 +270,10 @@ class AllocationStatusService(BaseStatusService):
                     self.set_status(5)
 
     def mediation(self):
+        if self.initial_status == 5:
+            if self.user.is_cardholder:
+                if self.claim.survey_form_received:
+                    self.set_status(6)
         if self.initial_status == 6:
             if self.user.is_merchant:
                 if self.claim.close_form_received:

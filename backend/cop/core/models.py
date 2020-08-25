@@ -151,11 +151,13 @@ class Claim(BaseModel):
         CLOSE_FORM = 'close_form'
         CLARIFY_FORM = 'clarify_form'
         QUERY_FORM = 'query_form'
+        SURVEY_FORM = 'survey_form'
         CHOICES = (
             (ESCALATE, ESCALATE),
             (CLOSE_FORM, CLOSE_FORM),
             (CLARIFY_FORM, CLARIFY_FORM),
             (QUERY_FORM, QUERY_FORM),
+            (SURVEY_FORM, SURVEY_FORM)
         )
 
     class Result:
@@ -272,6 +274,10 @@ class Claim(BaseModel):
     @property
     def query_form_received(self):
         return self.form_name == self.FormNames.QUERY_FORM
+
+    @property
+    def survey_form_received(self):
+        return self.form_name == self.FormNames.SURVEY_FORM
 
     @property
     def officer_answer_refund(self):
