@@ -319,49 +319,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.reasonCode.push({id:'0101', caption:"() - запитна проаналізований лог"});
     this.reasonCode.push({id:'0500', caption:"() - шнша причина запит на CHB OFF"});
 
-
-
-    
-
-
-
-
   }
 
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
