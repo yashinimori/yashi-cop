@@ -110,6 +110,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "issuer_mmt",
             "form_name",
             "status",
+            "officer_answer_reason"
         )
 
     def create(self, validated_data):
@@ -122,7 +123,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
-        self.set_status(instance)
+        self.set_status()
         return instance
 
     def update(self, instance, validated_data):

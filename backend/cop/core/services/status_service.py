@@ -23,7 +23,7 @@ class BaseStatusService:
         self.user = user
         self.initial_status = self.claim.status.index or 0
         if status_index:  # we already know which status it should be
-            self.claim.status = self.statuses.get(status_index=status_index)
+            self.claim.status = self.statuses.get(index=status_index)
         elif not self.claim.status:
             self.claim.status = 1
         else:  # we don't know which status, start analysing
