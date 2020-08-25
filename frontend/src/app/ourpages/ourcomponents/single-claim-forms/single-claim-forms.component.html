@@ -32,7 +32,7 @@
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -69,22 +69,22 @@
             Завершеня розгляду
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_reason.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_reason.invisible">
                 <label class="label-caption">Причина завершення реклямації</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reasonClosingId"
-                        [required]="fieldsStatus.single_claim_form_reason.required" 
-                        [disabled]="fieldsStatus.single_claim_form_reason.readonly" >
+                        [required]="fieldsStatus.scf_finish_reason.required" 
+                        [disabled]="fieldsStatus.scf_finish_reason.readonly" >
                         <nb-option *ngFor="let item of reasonClosing" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_decision.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_decision.invisible">
                 <label class="label-caption">Рішення</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.single_claim_form_decision.required" 
-                        [disabled]="fieldsStatus.single_claim_form_decision.readonly" >
+                        [required]="fieldsStatus.scf_finish_decision.required" 
+                        [disabled]="fieldsStatus.scf_finish_decision.readonly" >
                         <nb-option *ngFor="let item of decision" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
@@ -92,34 +92,34 @@
             </div>
 
 
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_responce.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_responce.invisible">
                 <label class="label-caption">Відповеді</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.single_claim_form_responce.required" 
-                        [disabled]="fieldsStatus.single_claim_form_responce.readonly" >
+                        [required]="fieldsStatus.scf_finish_responce.required" 
+                        [disabled]="fieldsStatus.scf_finish_responce.readonly" >
                         <nb-option *ngFor="let item of responce" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_comment.invisible">
                 <label class="label-caption">Коментари</label> 
                 <input class="input-data" nbInput placeholder="Коментари"
-                    [required]="fieldsStatus.single_claim_form.required" 
-                    [readonly]="fieldsStatus.single_claim_form.readonly"
+                    [required]="fieldsStatus.scf_finish_comment.required" 
+                    [readonly]="fieldsStatus.scf_finish_comment.readonly"
                     [(ngModel)]="singleClaimFormsData.comment">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_amount.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_amount.invisible">
                 <label class="label-caption">Сума для зарухування</label> 
                 <input class="input-data" nbInput placeholder="Сума для зарухування"
-                    [required]="fieldsStatus.single_claim_form_amount.required" 
-                    [readonly]="fieldsStatus.single_claim_form_amount.readonly"
+                    [required]="fieldsStatus.scf_finish_amount.required" 
+                    [readonly]="fieldsStatus.scf_finish_amount.readonly"
                     [(ngModel)]="singleClaimFormsData.amount_move">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -157,17 +157,17 @@
             </nb-card-header>
         <nb-card-body>
                         
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_clarif_comment.invisible">
                 <label class="label-caption">Коментари</label> 
                 <textarea rows="5" nbInput fullWidth  
-                    [required]="fieldsStatus.single_claim_form.required" 
-                    [readonly]="fieldsStatus.single_claim_form.readonly"
+                    [required]="fieldsStatus.scf_clarif_comment.required" 
+                    [readonly]="fieldsStatus.scf_clarif_comment.readonly"
                     [(ngModel)]="singleClaimFormsData.comment"
                     placeholder="Коментари">
                 </textarea>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.single_claim_form_doc.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_clarif_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
