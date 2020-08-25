@@ -56,6 +56,39 @@ class BaseStatusService:
     def set_status(self, status_index: int):
         self.claim.status = Status.objects.get(index=status_index)
 
+    def pre_mediation(self):
+        pass
+
+    def mediation(self):
+        pass
+
+    def chargeback(self):
+        pass
+
+    def chargeback_escalation(self):
+        pass
+
+    def dispute(self):
+        pass
+
+    def dispute_response(self):
+        pass
+
+    def pre_arbitration(self):
+        pass
+
+    def pre_arbitration_response(self):
+        pass
+
+    def arbitration(self):
+        pass
+
+    def final_ruling(self):
+        pass
+
+    def closed(self):
+        pass
+
 
 class StatusService(BaseStatusService):
 
@@ -363,9 +396,6 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
-
-    def closed(self):
-        pass
 
 
 class CardholderStatuses(BaseStatusService):

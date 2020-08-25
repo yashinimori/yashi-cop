@@ -141,7 +141,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         if claim.transaction:
             mediation_escalation_status = 5
             status_index = mediation_escalation_status
-        if self.claim_reason_code in allocation_rc:
+        if claim.claim_reason_code in allocation_rc:
             AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
         elif claim.bank and claim.merchant:
             StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
