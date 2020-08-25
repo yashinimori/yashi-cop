@@ -1,6 +1,7 @@
 """Keep service clean and small."""
 
 from django.apps import apps
+
 from django.contrib.auth import get_user_model
 
 Status = apps.get_model('core', 'Status')
@@ -8,7 +9,7 @@ Claim = apps.get_model('core', 'Claim')
 User = get_user_model()
 
 
-class StatusService:
+class BaseStatusService:
     """Change Claim status according to users actions."""
     statuses = Status.objects.all()
     claim: Claim
@@ -46,6 +47,7 @@ class StatusService:
             Status.Stages.PRE_ARBITRATION_RESPONSE: self.pre_arbitration_response,
             Status.Stages.ARBITRATION: self.arbitration,
             Status.Stages.FINAL_RULING: self.final_ruling,
+            Status.Stages.CLOSED: self.closed,
         }
         stages[self.claim.status]()
 
@@ -55,94 +57,324 @@ class StatusService:
     def claim_has_chb_officer_comment(self):
         return self.claim.comments.filter(user__role=User.Roles.CHARGEBACK_OFFICER).count() >= 1
 
-    def set_status(self, status_index:int):
-        self.set_status(status_index)
+    def set_status(self, status_index: int):
+        self.claim.status = Status.objects.get(index=status_index)
+
+
+class StatusService(BaseStatusService):
 
     def pre_mediation(self):
-        """Statuses 1-4"""
-        if self.initial_status == 1:
+        if self.initial_status == 2:
             if self.user.is_merchant:
-                if self.claim.clarify_form_received:
-                    self.set_status(2)  # Премедиация ответ торговца
-        elif self.initial_status == 2:
-            if self.user.is_merchant:
-                if self.claim.clarify_form_received:
-                    self.set_status(4)  # Премедиация ознакомление с результатом
+                if self.claim.close_form_received:
+                    self.set_status(4)
         elif self.initial_status == 4:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
-                    self.claim.archived = True
+                    self.set_status(51)
                 elif self.claim.escalation_form_received:
-                    self.set_status(5)  # Медиация эскалация претензии
+                    self.set_status(5)
 
     def mediation(self):
-        """Statuses 5-8"""
-        if self.initial_status == 5:
-            if self.user.is_cardholder:
-                if self.claim.escalation_form_received:
-                    self.set_status(6)  # Медиация ответ торговца
         if self.initial_status == 6:
             if self.user.is_merchant:
-                if self.claim.clarify_form_received:
-                    self.set_status(8)  # Медиация ознакомление с результатом
-        if self.initial_status == 8:
-            if self.claim.close_form_received:
-                self.claim.archived = True
-            elif self.claim.escalation_form_received:
-                self.set_status(35)  # Chargeback/Second Presentment передача эмитенту
-
-    def chargeback(self):
-        """Statuses 35-42"""
-        if self.initial_status == 35:
-            if self.user.is_chargeback_officer:
-                if self.claim.escalation_form_received:
-                    self.set_status(37)  # Chargeback/Second Presentment Опротестование сформировано
-                elif self.claim.clarify_form_received:
-                    self.set_status(36)  # Chargeback/Second Presentment уточнение претензии
-                elif self.claim.close_form_received:
-                    self.set_status(41)  # Chargeback/Second Presentment закрытие претензии
-        if self.initial_status == 36:
+                if self.claim.close_form_received:
+                    self.set_status(8)
+        elif self.initial_status == 8:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
-                    self.claim.archived = True
-                if self.claim.escalation_form_received:
-                    self.set_status(35)  # Chargeback/Second Presentment передача эмитенту
-        if self.initial_status == 37:
+                    self.set_status(51)
+                elif self.claim.escalation_form_received:
+                    self.set_status(17)
+
+    def chargeback(self):
+        """ 9-25 statuses """
+        if self.initial_status == 17:
             if self.user.is_chargeback_officer:
                 if self.claim.escalation_form_received:
-                    self.set_status(39)  # Chargeback/Second Presentment ответ на опротестование
+                    self.set_status(19)
+                elif self.claim.close_form_received:
+                    self.set_status(23)
                 elif self.claim.clarify_form_received:
-                    self.set_status(38)  # Chargeback/Second Presentment запрос торговцу
-        if self.initial_status == 38:
+                    self.set_status(18)
+        elif self.initial_status == 18:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.escalation_form_received:
+                    self.set_status(17)
+        elif self.initial_status == 19:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(21)
+                elif self.claim.query_form_received:
+                    self.set_status(20)
+        elif self.initial_status == 20:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
-                    self.set_status(37)  # Chargeback/Second Presentment Опротестование сформировано
-
-        if self.initial_status == 39:
-            # TODO: finish
+                    self.set_status(19)
+        elif self.initial_status == 21:
             if self.user.is_chargeback_officer:
                 if self.claim.clarify_form_received:
-                    self.set_status(14)  # Pre-Abritration уточнение претензии
-                if self.claim.escalation_form_received:
-                    self.set_status(41)  # Chargeback/Second Presentment закрытие претензии
+                    self.set_status(27)
+                elif self.claim.close_form_received and self.claim.officer_answer_refund:
+                    self.set_status(14)
+                elif self.claim.close_form_received:
+                    self.set_status(23)
+        elif self.initial_status == 22:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(14)
+        elif self.initial_status == 25:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 23:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(24)
+        elif self.initial_status == 24:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
 
     def chargeback_escalation(self):
+        """ 26-29 statuses """
+        if self.initial_status == 27:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.clarify_form_received:
+                    self.set_status(26)
+        elif self.initial_status == 27:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(31)
+                elif self.claim.close_form_received:
+                    self.set_status(30)
+        elif self.initial_status == 30:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 31:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(35)
+        elif self.initial_status == 35:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received and self.claim.officer_answer_refund:
+                    self.set_status(34)
+                elif self.claim.close_form_received:
+                    self.set_status(32)
+                elif self.claim.clarify_form_received:
+                    self.set_status(40)
+        elif self.initial_status == 32:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(46)
+        elif self.initial_status == 33:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(34)
+        elif self.initial_status == 34:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(32)
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 40:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.clarify_form_received:
+                    self.set_status(39)
+        elif self.initial_status == 39:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(47)
+                elif self.claim.close_form_received:
+                    self.set_status(46)
+        elif self.initial_status == 46:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 46:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(42)
+        elif self.initial_status == 42:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received and self.claim.officer_answer_refund:
+                    self.set_status(48)
+                elif self.claim.close_form_received:
+                    self.set_status(49)
+        elif self.initial_status == 48:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(49)
+            elif self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 49:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+
+
+class AllocationStatusService(BaseStatusService):
+
+    def pre_mediation(self):
+        if self.initial_status == 2:
+            if self.user.is_merchant:
+                if self.claim.close_form_received:
+                    self.set_status(4)
+        elif self.initial_status == 4:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.escalation_form_received:
+                    self.set_status(5)
+
+    def mediation(self):
+        if self.initial_status == 6:
+            if self.user.is_merchant:
+                if self.claim.close_form_received:
+                    self.set_status(8)
+        elif self.initial_status == 8:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.escalation_form_received:
+                    self.set_status(9)
+
+    def chargeback(self):
+        if self.initial_status == 9:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(11)
+                elif self.claim.close_form_received:
+                    self.set_status(15)
+                elif self.claim.clarify_form_received:
+                    self.set_status(10)
+        elif self.initial_status == 10:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+                elif self.claim.escalation_form_received:
+                    self.set_status(9)
+        elif self.initial_status == 11:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(26)
+                elif self.claim.clarify_form_received:
+                    self.set_status(12)
+        elif self.initial_status == 12:
+            if self.user.is_merchant:
+                if self.claim.close_form_received:
+                    self.set_status(11)
+        elif self.initial_status == 13:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received and self.claim.officer_answer_refund:
+                    self.set_status(14)
+                if self.claim.close_form_received:
+                    self.set_status(15)
+        elif self.initial_status == 14:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 15:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(16)
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+
+    def chargeback_escalation(self):
+        if self.initial_status == 26:
+            if self.user.is_chargeback_officer:
+                if self.claim.clarify_form_received:
+                    self.set_status(27)
+                elif self.claim.close_form_received and self.claim.officer_answer_refund:
+                    self.set_status(14)
+                elif self.claim.close_form_received:
+                    self.set_status(28)
+                elif self.claim.escalation_form_received:
+                    self.set_status(35)
+        elif self.initial_status == 27:
+            if self.user.is_cardholder:
+                if self.claim.escalation_form_received:
+                    self.set_status(26)
+                elif self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 28:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 36:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(37)
+            elif self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 37:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(38)
+        elif self.initial_status == 38:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 35:
+            if self.user.is_chargeback_officer:
+                if self.claim.escalation_form_received:
+                    self.set_status(39)
+        elif self.initial_status == 39:
+            if self.user.is_chargeback_officer:
+                if self.claim.clarify_form_received:
+                    self.set_status(40)
+                elif self.claim.close_form_received and self.claim.officer_answer_refund:  # TODO status dasn't exist
+                    self.set_status(43)
+                elif self.claim.close_form_received:
+                    self.set_status(41)
+                elif self.claim.escalation_form_received:
+                    self.set_status(42)
+        elif self.initial_status == 40:
+            if self.user.is_cardholder:
+                if self.claim.escalation_form_received:
+                    self.set_status(39)
+                elif self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 41:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 41:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(44)
+        elif self.initial_status == 43:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+        elif self.initial_status == 44:
+            if self.user.is_chargeback_officer:
+                if self.claim.close_form_received:
+                    self.set_status(45)
+        elif self.initial_status == 45:
+            if self.user.is_cardholder:
+                if self.claim.close_form_received:
+                    self.set_status(51)
+
+    def closed(self):
         pass
 
-    def dispute(self):
-        pass
 
-    def dispute_response(self):
-        pass
+class CardholderStatuses(BaseStatusService):
+    def closed(self):
+        if self.initial_status == 50 and self.user.is_cardholder:
+            self.set_status(51)
 
-    def pre_arbitration(self):
-        pass
 
-    def pre_arbitration_response(self):
-        pass
-
-    def arbitration(self):
-        pass
-
-    def final_ruling(self):
-        pass

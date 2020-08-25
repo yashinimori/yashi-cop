@@ -150,10 +150,12 @@ class Claim(BaseModel):
         ESCALATE = 'escalate_form'
         CLOSE_FORM = 'close_form'
         CLARIFY_FORM = 'clarify_form'
+        QUERY_FORM = 'query_form'
         CHOICES = (
             (ESCALATE, ESCALATE),
             (CLOSE_FORM, CLOSE_FORM),
             (CLARIFY_FORM, CLARIFY_FORM),
+            (QUERY_FORM, QUERY_FORM),
         )
 
     class Result:
@@ -171,7 +173,20 @@ class Claim(BaseModel):
         ('us_on_us', 'Us on us'),
         ('fraud', 'Fraud'),
     )
+
+    ACCEPTED_REFUND = 1
+    PARTLY_REFUND = 2
+    DECLINED_REFUND_DOCS = 3
+    DECLINED_REFUND_COMMENTS = 4
+    OFFICER_ANSWER_REASON_CHOICES = (
+        (ACCEPTED_REFUND, "повернення погоджено, очікуйте зарахування"),
+        (PARTLY_REFUND, "часткове погоджено, очікуйте зарахування"),
+        (DECLINED_REFUND_DOCS, "в поверненні відмовлено, документи додаються"),
+        (DECLINED_REFUND_COMMENTS, "в поверненні відмовлено, коментарі додаються"),
+    )
+
     form_name = models.CharField(choices=FormNames.CHOICES, max_length=32, null=True, blank=True)
+    officer_answer_reason = models.CharField(choices=OFFICER_ANSWER_REASON_CHOICES, max_length=2, null=True, blank=True)
     user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
     chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.CASCADE, blank=True, null=True)
@@ -254,6 +269,14 @@ class Claim(BaseModel):
     def close_form_received(self):
         return self.form_name == self.FormNames.CLOSE_FORM
 
+    @property
+    def query_form_received(self):
+        return self.form_name == self.FormNames.QUERY_FORM
+
+    @property
+    def officer_answer_refund(self):
+        return self.officer_answer_reason == self.ACCEPTED_REFUND or self.officer_answer_reason == self.PARTLY_REFUND
+
 
 class ClaimDocument(BaseModel):
     """Upload Documents for specific Claim."""
@@ -304,6 +327,7 @@ class Status(BaseModel):
         PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
         ARBITRATION = 'arbitration'
         FINAL_RULING = 'final_ruling'
+        CLOSED = 'closed'
 
         CHOICES = (
             (PRE_MEDIATION, PRE_MEDIATION),
@@ -316,6 +340,7 @@ class Status(BaseModel):
             (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
             (ARBITRATION, ARBITRATION),
             (FINAL_RULING, FINAL_RULING),
+            (CLOSED, CLOSED),
         )
     index = models.PositiveIntegerField(unique=True)
     name = models.CharField(max_length=999)

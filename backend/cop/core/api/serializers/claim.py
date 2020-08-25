@@ -4,7 +4,7 @@ from rest_framework import serializers
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
 
-from cop.core.services.status_service import StatusService
+from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatuses
 from cop.users.api.serializers.user import UserSerializer
 User = get_user_model()
 
@@ -121,9 +121,8 @@ class ClaimSerializer(serializers.ModelSerializer):
         validated_data['status'] = Status.objects.get(pk=1)
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
-        # mediation_escalation_status = 5
-        # status_index = mediation_escalation_status if cmr.claim.transaction else None
-        # self.set_status(cmr.claim, status_index)
+        self.instance = cmr.claim
+        self.set_status(instance)
         return instance
 
     def update(self, instance, validated_data):
@@ -131,12 +130,23 @@ class ClaimSerializer(serializers.ModelSerializer):
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code)
         instance = super().update(instance, validated_data)
-        self.set_status(claim=instance)
+        self.instance = instance
+        self.set_status()
         return instance
 
-    def set_status(self, claim, status_index=None):
+    def set_status(self, status_index=None):
+        claim = self.instance
+        allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
         if not self.status_set:
-            StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+            if claim.transaction:
+                mediation_escalation_status = 5
+                status_index = mediation_escalation_status
+            if self.claim_reason_code in allocation_rc:
+                AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+            elif claim.bank and claim.merchant:
+                StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+            elif not claim.bank and not claim.merchant:
+                CardholderStatuses(claim=claim, user=self.context["request"].user, status_index=status_index)
             self.status_set = True
 
 
