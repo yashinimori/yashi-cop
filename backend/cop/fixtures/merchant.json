@@ -44,7 +44,6 @@
       "first_name": "Merchant",
       "last_name": "Merchant",
       "role": "merchant",
-      "unit": null,
       "phone": 77777777,
       "email": "merchant@cop.cop",
       "claim_fields": "[]",

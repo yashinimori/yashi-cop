@@ -41,6 +41,7 @@ class Bank(BaseModel):
 class BankEmployee(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="employee_banks")
+    unit = models.CharField(max_length=200, null=True, blank=True)
 
 
 class Merchant(BaseModel):

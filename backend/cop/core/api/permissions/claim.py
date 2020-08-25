@@ -30,7 +30,6 @@ class AllowChbOffPermission(BasePermission):
 class HasMerchantUpdatePermission(BasePermission):
     def has_permission(self, request, view):
         current_claim = Claim.objects.get(id=view.kwargs['pk'])
-        if current_claim.status.stage in [Status.Stages.PRE_MEDIATION, Status.Stages.PRE_MEDIATION]:
-            return True
-        else:
-            return False
+        return (view.action in ('update',)
+                and current_claim.status.stage in [Status.Stages.PRE_MEDIATION, Status.Stages.MEDIATION]
+                and request.user.is_merchant)

@@ -13,6 +13,7 @@ from cop.users.models import User
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
+    permission_classes = [HasMerchantUpdatePermission]
     serializer_class = ClaimSerializer
     queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
                                             ).order_by('id')

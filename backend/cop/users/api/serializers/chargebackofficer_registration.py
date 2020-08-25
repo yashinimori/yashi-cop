@@ -12,6 +12,7 @@ class BankEmployeeSerializes(serializers.ModelSerializer):
         model = BankEmployee
         fields = (
             'bank',
+            'unit',
         )
 
 
@@ -41,6 +42,8 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
 
         bank = bank_employee.get("bank")
         BankEmployee.objects.create(
-            user=instance, bank=bank
+            user=instance,
+            bank=bank,
+            unit=bank_employee['unit']
         )
         return instance

@@ -9,7 +9,7 @@ from cop.users.models import User
 class SettingsForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'role', 'unit', 'phone', 'email']
+        fields = ['first_name', 'last_name', 'role', 'phone', 'email']
 
 
 class TransactionApiSearchForm(forms.Form):

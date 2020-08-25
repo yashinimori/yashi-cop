@@ -75,7 +75,6 @@ class User(AbstractUser):
     first_name = CharField(_("First name of User"), max_length=999)
     last_name = CharField(_("Last name of User"), max_length=999)
     role = CharField(max_length=999, choices=Roles.CHOICES)
-    unit = CharField(max_length=200, null=True, blank=True)
     phone = CharField(max_length=13)
     email = EmailField(_('email address'), unique=True, max_length=999)
     claim_fields = ArrayField(CharField(max_length=128), blank=True, null=True, help_text=get_claim_field_help_text())

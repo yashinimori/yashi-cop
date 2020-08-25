@@ -32,7 +32,6 @@ class UserSerializer(BaseUserSerializer):
             'last_name',
             'phone',
             'role',
-            'unit',
             'claim_fields',
             'registration_date',
         )
