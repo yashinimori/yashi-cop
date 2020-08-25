@@ -569,5 +569,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
+
+  onClickRequestDocs(){
+    console.log('onClickRequestDocs() claimData.status' + this.claimData.status); 
+    let val = new SingleClaimFormsTransfer();
+    val.claimId = this.claimId;  
+    val.typeOperation = "QueryForm";
+    this.transferService.singleClaimFormsSettings.next(val);
+  
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+  }
+
 }
 

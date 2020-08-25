@@ -197,7 +197,11 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.transferService.cOPClaimID.next(this.claimId);
-        this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+
+        if(this.typeOperation == 'FinishForm')
+          this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+        else
+          this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
       }
     });
     

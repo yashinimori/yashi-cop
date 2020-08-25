@@ -64,7 +64,10 @@ export class FieldsStatus {
     button_escal_clarif: paramStatusFields;
     button_escal_finish: paramStatusFields;
     button_escal_add_responce: paramStatusFields;
-
+    button_request_docs: paramStatusFields;
+    scf_query_comment: paramStatusFields;
+    scf_query_upload_doc: paramStatusFields;
+    
 
     default() {
         this.pan = new paramStatusFields({invisible: true});
@@ -104,6 +107,11 @@ export class FieldsStatus {
         this.button_escal_clarif = new paramStatusFields({invisible: true});
         this.button_escal_finish = new paramStatusFields({invisible: true});
         this.button_escal_add_responce = new paramStatusFields({invisible: true});
+        this.button_request_docs = new paramStatusFields({invisible: true});
+
+        this.scf_query_comment = new paramStatusFields({invisible: true});
+        this.scf_query_upload_doc = new paramStatusFields({invisible: true});
+
 
 
     }
@@ -149,7 +157,10 @@ export class FieldsStatus {
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
                 this.button_escal_finish = new paramStatusFields({invisible: true});
                 this.button_escal_add_responce = new paramStatusFields({invisible: false});
-
+                this.button_request_docs = new paramStatusFields({invisible: true});
+                this.scf_query_comment = new paramStatusFields({invisible: true});
+                this.scf_query_upload_doc = new paramStatusFields({invisible: true});
+        
                 break; 
             } 
             case 'cardholder': 
@@ -191,6 +202,10 @@ export class FieldsStatus {
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
                 this.button_escal_finish = new paramStatusFields({invisible: false});
                 this.button_escal_add_responce = new paramStatusFields({invisible: true});
+                this.button_request_docs = new paramStatusFields({invisible: true});
+                this.scf_query_comment = new paramStatusFields({invisible: true});
+                this.scf_query_upload_doc = new paramStatusFields({invisible: true});
+        
 
                 break; 
             } 
@@ -232,7 +247,10 @@ export class FieldsStatus {
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
                 this.button_escal_finish = new paramStatusFields({invisible: false});
                 this.button_escal_add_responce = new paramStatusFields({invisible: true});
-
+                this.button_request_docs = new paramStatusFields({invisible: false});
+                this.scf_query_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_query_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+        
                 break; 
             } 
             case 'top_level': { 
@@ -273,6 +291,9 @@ export class FieldsStatus {
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
                 this.button_escal_finish = new paramStatusFields({invisible: false});
                 this.button_escal_add_responce = new paramStatusFields({invisible: false});
+                this.button_request_docs = new paramStatusFields({invisible: false});
+                this.scf_query_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_query_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
 
                 break; 
             }

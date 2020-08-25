@@ -9,6 +9,10 @@
         nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
         nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу' 
+            || claimData.status == 'Chargeback опротестование сформировано') "
+        nbButton status="primary" (click)="onClickRequestDocs()" style="margin-left: 10px;" >Запит документів</button>
+
 </div>
 
 <div *ngIf="!isNewRecord" class="div-panel" >
