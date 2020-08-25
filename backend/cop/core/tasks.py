@@ -4,10 +4,14 @@ import logging
 import re
 import traceback
 
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.timezone import make_aware
 
 from config import celery_app
+from cop.core.models import Comment, Status
+
+User = get_user_model()
 
 TRANSACTION_START = '-> TRANSACTION START'
 TRANSACTION_END = '<- TRANSACTION END'
@@ -201,4 +205,12 @@ def assign_claim_transaction(report):
     if transaction:
         claim.transaction = transaction
         claim.result = transaction.result
+        system_user = User.objects.get(email='system@cop.cop')
+        Comment.objects.create(
+            text='згідно проведеного аналізу операція була завершена успішно, кошти були отримані',
+            user=system_user,
+            claim=claim
+        )
+        if claim.status.is_pre_mediation:
+            claim.status = Status.objects.get(index=5)
         claim.save()

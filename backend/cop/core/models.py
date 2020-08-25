@@ -300,7 +300,7 @@ class ClaimDocument(BaseModel):
             (ATM_LOG, 'ATM log'),
             (NOT_NEEDED, 'Docs not needed'),
         )
-    type = models.CharField(choices=Types.choices, max_length=20)
+    type = models.CharField(choices=Types.choices, max_length=20, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     file = models.FileField(upload_to='claim-documents/')
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
@@ -354,6 +354,22 @@ class Status(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def is_pre_mediation(self):
+        return self.stage == self.Stages.PRE_MEDIATION
+
+    @property
+    def is_mediation(self):
+        return self.stage == self.Stages.MEDIATION
+
+    @property
+    def is_chargeback(self):
+        return self.stage == self.Stages.CHARGEBACK
+
+    @property
+    def is_chargeback_escalation(self):
+        return self.stage == self.Stages.CHARGEBACK_ESCALATION
 
 
 class StageChangesHistory(BaseModel):

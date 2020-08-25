@@ -5,6 +5,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from cop.core.api.permissions.claim import HasMerchantUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
 from cop.core.models import Claim, ClaimDocument, Merchant, Status
@@ -65,8 +66,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
             bank_employee = current_user.bankemployee
             return queryset.filter(merchant__bank=bank_employee.bank)
         elif current_user.role == User.Roles.CARDHOLDER:
-            return queryset.filter(user=current_user,
-                                   status__stage__in=[Status.Stages.PRE_MEDIATION, Status.Stages.MEDIATION])
+            return queryset.filter(user=current_user,)
         elif current_user.role == User.Roles.MERCHANT:
             merchant = Merchant.objects.get(user=current_user)
             return queryset.filter(merchant=merchant)
@@ -74,6 +74,11 @@ class ClaimViewSet(viewsets.ModelViewSet):
             return queryset
         else:
             return Claim.objects.none()
+
+    def get_permissions(self):
+        if self.action in ('update', ):
+            self.permission_classes += (HasMerchantUpdatePermission,)
+        return super().get_permissions()
 
     def get_serializer_class(self):
         if self.action == 'list':
