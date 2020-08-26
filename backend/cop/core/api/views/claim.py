@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
@@ -10,12 +11,15 @@ from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer,
     ClaimDocumentReportsSerializer
 from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup
 
+User = get_user_model()
+
 
 class ClaimViewSet(viewsets.ModelViewSet):
     permission_classes = (HasMerchantClaimUpdatePermission,)
     serializer_class = ClaimSerializer
-    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
-                                            ).order_by('id')
+    queryset = Claim.objects \
+        .select_related('merchant', 'bank', 'transaction', 'user', 'claim_reason_code') \
+        .order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         "id",
@@ -59,21 +63,21 @@ class ClaimViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_user = self.request.user
-        queryset = Claim.objects \
-            .select_related('merchant', 'bank', 'transaction', 'user') \
-            .order_by('id')
+        qs = super().get_queryset()
         if current_user.is_chargeback_officer:
-            bank_employee = current_user.bankemployee
-            return queryset.filter(merchant__bank=bank_employee.bank)
+            employee_bank = current_user.bankemployee.bank
+            qs = qs.filter(bank=employee_bank)
         elif current_user.is_cardholder:
-            return queryset.filter(user=current_user,)
+            qs = qs.filter(user=current_user)
         elif current_user.is_merchant:
-            return queryset.filter(merchant=current_user.merchant)\
+            qs = qs.filter(merchant=current_user.merchant) \
                 .exclude(claim_reason_code__code=ReasonCodeGroup.ATM_CLAIM_CODE)
-        elif current_user.is_cop_manager:
-            return queryset
-        else:
-            return Claim.objects.none()
+        elif not self.user_has_access():
+            qs = Claim.objects.none()
+        return qs
+
+    def user_has_access(self):
+        return self.request.user.role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CHARGEBACK_OFFICER)
 
     def get_serializer_class(self):
         if self.action == 'list':
