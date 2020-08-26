@@ -217,7 +217,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    //console.log('loadClaims()'); 
+    console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
@@ -245,13 +245,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.trans_currency = el['trans_currency'];
           t.auth_code = el['auth_code'];
           t.claim_reason_code = el['reason_code'];
-          t.stage = el['stage'];
+          t.status = el['status'];
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];
+          t.ch_comments = el['ch_comments'];
 
           let m = el['merchant'];
-          t.merch_name_ips = m['name_ips'];
+          // t.merch_name_ips = m['name_ips'];
 
           
           self.claimsData.push(t);

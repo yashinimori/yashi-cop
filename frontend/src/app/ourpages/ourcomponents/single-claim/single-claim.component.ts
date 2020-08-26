@@ -185,6 +185,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadClaim() {
     console.log('loadClaim');
+    // this.httpService.getTimelineInfo(this.claimId)
+
+
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;

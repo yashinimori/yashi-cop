@@ -6,7 +6,8 @@ import { URL_GET_CLAIM_LIST,
   URL_CREATE_CLAIM, 
   URL_GET_TRANSACTIONS_LIST,
   URL_UPLOAD_ATM_LOG,
-  URL_CREATE_NEW_USER
+  URL_CREATE_NEW_USER,
+  URL_GET_TIMELINE_INFO
 } from '../urlConstants';
 
 @Injectable({
@@ -34,6 +35,12 @@ export class HttpService {
     console.log(req);
     return this.http.get(req, this.getHeaders());
   }
+
+  // getTimelineInfo(id: any){
+  //   console.log('commentsssssssssssss')
+  //   console.log(URL_GET_TIMELINE_INFO + id + '/comments/')
+  //   return this.http.post(URL_GET_TIMELINE_INFO + id + '/comments', this.getHeaders());
+  // }
 
   getSingleClaim(id: any) {
     console.log(URL_GET_CLAIM_LIST + '/' + id);

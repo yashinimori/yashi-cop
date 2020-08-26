@@ -1,3 +1,5 @@
+
+
 <nb-card>
     <nb-card-header>
       Скарга
@@ -44,11 +46,11 @@
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
-                    <label class="label-caption">RC</label> 
-                    <label class="label-data">{{claimData.reason_code}}</label> 
+                    <label class="label-caption">Причина диспуту</label> 
+                    <label class="label-data">{{claimData.reason_code_group}}</label> 
                 </div>
     
-                <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
+                <div class="div-panel" *ngIf="fieldsStatus.aRN.invisible">
                     <label class="label-caption">ARN</label> 
                     <label class="label-data">{{claimData.arn}}</label> 
                 </div>
@@ -71,11 +73,12 @@
                 <div style="height: 40%;">
                     <label>Коментар</label>
                     <br>
-                    <label style="font-weight: bold;">{{claimData.ch_comments}}</label>
+                    <label style="font-weight: bold;" *ngFor="let comment of claimData.comments">{{comment.text}}<br></label>
                 </div>
 
                 <div style="height: 30%;">
                     <label>Документи</label>
+                    <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a>
                     <br>
                 </div>
                 
@@ -85,7 +88,10 @@
     
     </div>
 
+    
+
 </div>
+
 
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
@@ -158,8 +164,8 @@
                         [required]="fieldsStatus.amount.required" 
                         [readonly]="fieldsStatus.amount.readonly" 
                         [(ngModel)]="claimData.trans_amount"
-                        minlength="12"
-                        maxlength="12"
+                        minlength="10"
+                        maxlength="10"
                         >
                 </div>
 

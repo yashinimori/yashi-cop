@@ -32,39 +32,67 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Наші компоненти (cbo)',
+    title: 'Dashboard',
     icon: 'layout-outline',
     hidden: setHiddenChargebackOfficer(),
-    children: [
-      {
-        title: 'список скарг',
-        link: '/ourpages/ourcomponents/claims',
-      },
-      {
-        title: 'скарга',
-        link: '/ourpages/ourcomponents/single-claim',
-      },
-    ],
+    link: '/ourpages/ourcomponents/chbo-dashboard'
   },
   {
-    title: 'ATM manage (cbo)',
+    title: 'Disputes',
     icon: 'layout-outline',
+    hidden: setHiddenChargebackOfficer(),
+  },
+  {
+    title: 'ATM Management',
+    icon: 'layout-outline',
+    hidden: setHiddenChargebackOfficer(),
+  },
+  {
+    title: 'My Claims',
+    icon: 'person-outline',
     hidden: setHiddenChargebackOfficer(),
     children: [
       {
-        title: 'ATM лог - новий',
-        link: '/ourpages/ourcomponents/atm-log-upload',
+        title: 'pre-mediation',
+        icon: 'radio-button-off-outline',
+        link: '/ourpages/ourcomponents/chbo-my-claims',
       },
       {
-        title: 'ATM лог - перегляд',
-        link: '/ourpages/ourcomponents/atm-log-view',
+        title: 'mediation',
+        icon: 'radio-button-off-outline',
+        link: '#',
       },
       {
-        title: 'ATM лог - детальний',
-        link: '/ourpages/ourcomponents/atm-log-view-detail',
+        title: 'chargebacks',
+        icon: 'radio-button-off-outline',
+        link: '#',
+      },
+      {
+        title: 'archive',
+        icon: 'radio-button-off-outline',
+        link: '#',
       },
     ],
   },
+  // {
+  //   title: 'ATM manage (cbo)',
+  //   icon: 'layout-outline',
+  //   hidden: setHiddenChargebackOfficer(),
+  //   children: [
+  //     {
+  //       title: 'ATM лог - новий',
+  //       link: '/ourpages/ourcomponents/atm-log-upload',
+  //     },
+  //     {
+  //       title: 'ATM лог - перегляд',
+  //       link: '/ourpages/ourcomponents/atm-log-view',
+  //     },
+  //     {
+  //       title: 'ATM лог - детальний',
+  //       link: '/ourpages/ourcomponents/atm-log-view-detail',
+  //     },
+  //   ],
+  // },
   {
     title: 'Наші компоненти (mc)',
     icon: 'layout-outline',

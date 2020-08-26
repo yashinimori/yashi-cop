@@ -21,8 +21,13 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
+
+
+
 
 @NgModule({
+  
   declarations: [AppComponent],
   imports: [
     BrowserModule,
@@ -40,6 +45,8 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    VerticalTimelineModule,
+
   ],
   bootstrap: [AppComponent],
 })
