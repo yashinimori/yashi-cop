@@ -41,6 +41,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fourteen') fourteen:TemplateRef<any>;
   @ViewChild('fiveteen') fiveteen:TemplateRef<any>;
   @ViewChild('sixteen') sixteen:TemplateRef<any>;
+  @ViewChild('seventeen') seventeen:TemplateRef<any>;
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
@@ -77,6 +78,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   groupQuery14: any;  
   groupQuery15: any;
   groupQuery16: any;
+  groupQuery17: any;
 
   public radioGroupQueryValue1: number = 0; 
   public radioGroupQueryValue2: number = 0; 
@@ -157,6 +159,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       groupQuery14: new FormControl(),  
       groupQuery15: new FormControl(),
       groupQuery16: new FormControl(),
+      groupQuery17: new FormControl(),
 
     });
 
@@ -250,6 +253,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
+    this.claimData.comment = this.claimData.ch_comments;
     this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     this.isLastStep = true;
     this.claimData.answers = {};
@@ -268,7 +272,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       claim.form_name = "claim_form";
 
       this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
-      claim.user.id, claim.form_name).subscribe({
+      claim.user.id, '').subscribe({
         next: (response: any) => {
           console.log('uploadDoc ok');
           console.log(response); 
@@ -301,15 +305,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   saveClaim() {
     console.log('saveClaim()');
-    console.log(this.claimData);
-    this.claimData.form_name = "claim_form";
+    //this.claimData.form_name = 'claim_form';
+    
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
 
         this.uploadDoc(response);
-        this.commentClaim(response['id'], this.claimData.comment, 'claim_form');
+        if(this.claimData.comment){
+          console.log('this.claimData.comment');
+          console.log(this.claimData.comment);
+          this.commentClaim(response['id'], this.claimData.comment, '');
+        }
+        
       },
       error: error => {
         console.error('There was an error!', error);
@@ -410,7 +419,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if(par.formGroups.value.groupQuery12.id == 4) {
           this.lastStep('0003');
         } else if(par.formGroups.value.groupQuery12.id == 5) {
-          this.part = 'thirteen';
+          this.part = 'seventeen';
         } else if(par.formGroups.value.groupQuery12.id == 6) {
           this.part = 'sixteen';
         } else if(par.formGroups.value.groupQuery12.id == 7) {
@@ -434,6 +443,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         case 'sixteen':
           this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
           this.lastStep('0012');
+        break;
+        case 'seventeen':
+          this.editedAnswers.push({"17": par.formGroups.value.groupQuery17});
+          if(par.formGroups.value.groupQuery17.val == 1) {
+            this.part = 'fiveteen';
+          } else {
+            this.lastStep('0009');
+          }
         break;
     }
     console.log(this.editedAnswers);
