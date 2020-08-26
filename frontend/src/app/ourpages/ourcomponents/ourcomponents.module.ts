@@ -28,6 +28,7 @@ import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-
 import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-forms.component';
 import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
+import { BankComponent } from './bank/bank.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { MerchUserComponent } from './merch-user/merch-user.component';
     NbSelectModule,
     NbRadioModule,
     NbInputModule,
+    
   ],
   declarations: [
     OurComponentsComponent,
@@ -61,6 +63,7 @@ import { MerchUserComponent } from './merch-user/merch-user.component';
     SingleClaimFormsComponent,
     BankUserComponent,
     MerchUserComponent,
+    BankComponent,
         
   ],
   // providers: [

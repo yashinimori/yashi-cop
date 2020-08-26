@@ -10,6 +10,7 @@ import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-
 import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-forms.component';
 import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
+import { BankComponent } from './bank/bank.component';
 
 const routes: Routes = [{
   path: '',
@@ -46,7 +47,13 @@ const routes: Routes = [{
     {
       path: 'merch-user',
       component: MerchUserComponent,
-    }
+    },
+    {
+      path: 'bank',
+      component: BankComponent,
+    },
+
+
     
 
   ],

@@ -1,0 +1,30 @@
+<div class="center-screen">
+  
+  <nb-card style="width: 39%; margin: auto;">
+    <nb-card-header style="width: 100%; ">
+      Реєстрація банку
+    </nb-card-header>
+    
+    <nb-card-body >
+      
+      <input nbInput placeholder="BIN" [(ngModel)]="data.bin" maxlength="8">
+      <input nbInput placeholder="ACQ/ISS/BOTH" [(ngModel)]="data.asq_iss_both" maxlength="4">
+      <input nbInput placeholder="Назва банку Англійською" [(ngModel)]="data.bankNameENG" maxlength="999">
+      <input nbInput placeholder="Назва банку Українською" [(ngModel)]="data.bankNameUKR" maxlength="999">
+      <input nbInput placeholder="Назва банку Російською" [(ngModel)]="data.bankNameRUS" maxlength="999">
+      <input nbInput placeholder="Операційне ім’я" [(ngModel)]="data.operatorName" maxlength="999">
+      <input nbInput placeholder="Контактна особа" [(ngModel)]="data.contactPerson" maxlength="999">
+      <input nbInput placeholder="Контактний телефон" [(ngModel)]="data.contactTelephone" maxlength="13">
+      <input nbInput placeholder="Контактна пошта" [(ngModel)]="data.contactEmail" maxlength="999">
+    
+    </nb-card-body>
+
+    <nb-card-footer>
+      <div class="button-enter">
+        <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
+      </div>
+    </nb-card-footer>
+
+  </nb-card>
+
+</div>
