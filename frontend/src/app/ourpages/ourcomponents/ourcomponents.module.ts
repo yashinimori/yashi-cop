@@ -26,6 +26,8 @@ import { ATMlogUploadComponent } from './atm-log-upload/atm-log-upload.component
 import { ATMlogViewerComponent } from './atm-log-view/atm-log-view.component';
 import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-detail.component';
 import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-forms.component';
+import { BankUserComponent } from './bank-user/bank-user.component';
+
 
 @NgModule({
   imports: [
@@ -56,6 +58,7 @@ import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-for
     ATMlogViewerComponent,
     ATMlogViewerDetailComponent,
     SingleClaimFormsComponent,
+    BankUserComponent
         
   ],
   // providers: [

@@ -10,6 +10,7 @@ import { URL_GET_CLAIM_LIST,
   URL_UPDATE_CLAIM,
   URL_UPLOAD_CLAIM_DOC,
   URL_CLAIM,
+  URL_CREATE_NEW_BANK_USER,
 } from '../urlConstants';
 
 @Injectable({
@@ -64,6 +65,10 @@ export class HttpService {
 
   createNewUser(user: any){
     return this.http.post(URL_CREATE_NEW_USER, user);
+  }
+
+  createNewBankUser(user: any){
+    return this.http.post(URL_CREATE_NEW_BANK_USER, user);
   }
 
 

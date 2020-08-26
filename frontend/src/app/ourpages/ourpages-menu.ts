@@ -78,6 +78,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'BANK',
+    icon: 'layout-outline',
+    //hidden: setHiddenMerchant(),
+    children: [
+      {
+        title: 'Новий користувач',
+        link: '/ourpages/ourcomponents/bank-user',
+      },
+      
+    ],
+  },
+  {
     title: 'Messages',
     icon: 'email-outline',
   },

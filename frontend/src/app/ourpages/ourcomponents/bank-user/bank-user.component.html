@@ -1,0 +1,33 @@
+<div class="center-screen">
+  
+  <nb-card style="width: 39%; margin: auto;">
+    <nb-card-header style="width: 100%; text-align: center;">
+      Реєстрація
+    </nb-card-header>
+    
+    <nb-card-body>
+      
+      <input nbInput placeholder="Користувач" [(ngModel)]="data.userId" maxlength="200">
+      <nb-select placeholder="Роль" class="selector-list" [(selected)]="data.role">
+        <nb-option *ngFor="let item of listRole" [value]="item.caption">
+            {{ item.caption }}
+        </nb-option>
+      </nb-select>
+      <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
+      <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999">
+      <input nbInput placeholder="Підрозділ" [(ngModel)]="data.unit" maxlength="200">
+      <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
+      <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
+      <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40"> 
+      
+    </nb-card-body>
+
+    <nb-card-footer>
+      <div class="button-enter">
+        <button nbButton status="primary" (click)="createBankUser()">Enter</button>
+      </div>
+    </nb-card-footer>
+
+  </nb-card>
+
+</div>     
