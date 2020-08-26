@@ -86,7 +86,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Новий користувач',
         link: '/ourpages/ourcomponents/bank-user',
       },
-      
+      {
+        title: 'Новий мерчант',
+        link: '/ourpages/ourcomponents/merch-user',
+      },
     ],
   },
   {

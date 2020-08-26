@@ -17,12 +17,11 @@ export class BankUserComponent implements OnInit {
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
               private router: Router,) {
-    this.data = new BankUser();
   
   }
 
   ngOnInit(): void {
-    console.log(this.data.role);
+    this.data = new BankUser();
     this.getRoles();
   }
 
@@ -30,21 +29,26 @@ export class BankUserComponent implements OnInit {
   createBankUser() {
     this.data.registration_date = new Date();
 
-    console.log(this.data);
+    if(this.enter() == 0){
+
+      console.log(this.data);
     
-    this.httpService.createNewBankUser(this.data).subscribe({
-      next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
-        //this.router.navigate(['ourpages']);
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-       
-      }
-    });
+      this.httpService.createNewBankUser(this.data).subscribe({
+        next: (response: any) => {
+          console.log('ok');
+          console.log(response); 
+          //this.router.navigate(['ourpages']);
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+        
+        }
+      });
+
+    }
+    
   }
 
   
@@ -52,22 +56,24 @@ export class BankUserComponent implements OnInit {
   enter() {
     
     if (!this.data.userId)
-      return;
+      return 1;
 
     if (!this.data.email)
-      return;
+      return 1;
 
     if (!this.data.first_name)
-      return;
+      return 1;
 
     if (!this.data.last_name)
-      return;
+      return 1;
 
     if (!this.data.phone)
-      return;
+      return 1;
     
     if (!this.data.role)
-      return;      
+      return 1;
+
+    return 0;
   }
 
   
