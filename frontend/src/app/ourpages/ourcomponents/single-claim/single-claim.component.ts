@@ -284,6 +284,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  commentClaim(claimId: any, comment: any, form_name: any) {
+    this.httpService.commentClaim(claimId, comment, form_name).subscribe({
+      next: (response: any) => {
+        console.log('commentClaim ok');
+        console.log(response); 
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    });
+  }  
 
   saveClaim() {
     console.log('saveClaim()');
@@ -295,6 +309,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(response); 
 
         this.uploadDoc(response);
+        this.commentClaim(response['id'], this.claimData.comment, 'claim_form');
       },
       error: error => {
         console.error('There was an error!', error);
