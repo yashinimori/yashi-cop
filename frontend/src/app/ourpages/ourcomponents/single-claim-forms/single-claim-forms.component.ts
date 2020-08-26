@@ -166,22 +166,31 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       let arr: Array<string> = new Array<string>();
       if(this.singleClaimFormsData.reasonClosingId)
         arr.push(this.singleClaimFormsData.reasonClosingId)
-      
-      if(this.singleClaimFormsData.responceId)
-        arr.push(this.singleClaimFormsData.responceId)
-      
+        
+      if(this.singleClaimFormsData.responceId){
+        let search = this.responce.find(i=>i.id == this.singleClaimFormsData.responceId);
+        if(search)
+          arr.push(search.caption);
+      }
+        
       if(this.singleClaimFormsData.comment)
         arr.push(this.singleClaimFormsData.comment)
 
       if(this.singleClaimFormsData.amount_move)
         arr.push(this.singleClaimFormsData.amount_move)
 
+      console.log('claim.officer_answer_reason');
+      console.log(this.singleClaimFormsData.decisionId);
       if(this.role == 'chargeback_officer') {
         if(this.singleClaimFormsData.decisionId)
-          claim.officer_answer_reason = this.singleClaimFormsData.decisionId;
+          claim.officer_answer_reason = String(this.singleClaimFormsData.decisionId);
       } else {
-        if(this.singleClaimFormsData.decisionId)
-          arr.push(this.singleClaimFormsData.decisionId)
+        if(this.singleClaimFormsData.decisionId){
+          let search = this.decision.find(i=>i.id == this.singleClaimFormsData.decisionId);
+          if(search)
+            arr.push(search.caption);
+
+        }
       }
 
       claim.comments = arr;

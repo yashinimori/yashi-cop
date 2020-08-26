@@ -83,35 +83,35 @@
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_reason.invisible">
                 <label class="label-caption">Причина завершення реклямації</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reasonClosingId"
-                        [required]="fieldsStatus.scf_finish_reason.required" 
-                        [disabled]="fieldsStatus.scf_finish_reason.readonly" >
-                        <nb-option *ngFor="let item of reasonClosing" [value]="item.caption">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
+                    [required]="fieldsStatus.scf_finish_reason.required" 
+                    [disabled]="fieldsStatus.scf_finish_reason.readonly" >
+                    <nb-option *ngFor="let item of reasonClosing" [value]="item.id">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
             </div>
             
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_decision.invisible">
                 <label class="label-caption">Рішення</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.scf_finish_decision.required" 
-                        [disabled]="fieldsStatus.scf_finish_decision.readonly" >
-                        <nb-option *ngFor="let item of decision" [value]="item.caption">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
+                    [required]="fieldsStatus.scf_finish_decision.required" 
+                    [disabled]="fieldsStatus.scf_finish_decision.readonly" >
+                    <nb-option *ngFor="let item of decision" [value]="item.id">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
             </div>
 
 
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_responce.invisible">
                 <label class="label-caption">Відповеді</label> 
-                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.scf_finish_responce.required" 
-                        [disabled]="fieldsStatus.scf_finish_responce.readonly" >
-                        <nb-option *ngFor="let item of responce" [value]="item.caption">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
+                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.responceId"
+                    [required]="fieldsStatus.scf_finish_responce.required" 
+                    [disabled]="fieldsStatus.scf_finish_responce.readonly" >
+                    <nb-option *ngFor="let item of responce" [value]="item.id">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
             </div>
 
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_comment.invisible">

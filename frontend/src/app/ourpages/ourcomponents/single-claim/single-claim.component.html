@@ -403,10 +403,10 @@
 
                     <ng-template #fourteen>
                         <label class="label-question center">
-                            Вкажить дату повернення
+                            Вказати дату повернення
                         </label> 
                         <input class="input-date" nbInput 
-                            placeholder="Вкажить дату повернення"
+                            placeholder="Вказати дату повернення"
                             [nbDatepicker]="formpicker"
                             name="groupQuery14" formControlName="groupQuery14" 
                             [(ngModel)]="claimData.trans_date">
@@ -415,15 +415,14 @@
                 
                     <ng-template #fiveteen>
                         <label class="label-question center">
-                            Чи Ви робили повернення товару?
+                            Вкажить дату повернення
                         </label> 
-                        <nb-radio-group name="groupQuery15" formControlName="groupQuery15" 
-                            class="input-radio" [(ngModel)]="radioGroupQueryValue15">
-                            <nb-radio [value] = "valBack" >{{valBack.text}}
-                            </nb-radio>
-                            <nb-radio [value] = "valBack2" >{{valBack2.text}}
-                            </nb-radio>
-                        </nb-radio-group>
+                        <input class="input-date" nbInput 
+                            placeholder="Вкажить дату повернення"
+                            [nbDatepicker]="formpicker"
+                            name="groupQuery15" formControlName="groupQuery15" 
+                            [(ngModel)]="claimData.comments">
+                        <nb-datepicker #formpicker></nb-datepicker> 
                     </ng-template>
 
                     <ng-template #sixteen>
@@ -438,6 +437,19 @@
                             </nb-option>
                         </nb-select>
                     </ng-template> 
+
+                    <ng-template #seventeen>
+                        <label class="label-question center">
+                            Чи Ви робили повернення товару?
+                        </label> 
+                        <nb-radio-group name="groupQuery17" formControlName="groupQuery17" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue15">
+                            <nb-radio [value] = "valBack" >{{valBack.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valBack2" >{{valBack2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
 
                 </form> 
 
