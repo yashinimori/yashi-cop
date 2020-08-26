@@ -137,6 +137,7 @@ class Transaction(BaseModel):
 
 
 class ReasonCodeGroup(BaseModel):
+    ATM_CLAIM_CODE = '0001'
     code = models.CharField(max_length=4)
     visa = models.CharField(max_length=128, blank=True, null=True)
     mastercard = models.CharField(max_length=128, blank=True, null=True)

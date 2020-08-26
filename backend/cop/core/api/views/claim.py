@@ -5,15 +5,14 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cop.core.api.permissions.claim import HasMerchantUpdatePermission
+from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
-from cop.core.models import Claim, ClaimDocument, Merchant, Status
-from cop.users.models import User
+from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
-    permission_classes = [HasMerchantUpdatePermission]
+    permission_classes = (HasMerchantClaimUpdatePermission,)
     serializer_class = ClaimSerializer
     queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
                                             ).order_by('id')
@@ -63,23 +62,18 @@ class ClaimViewSet(viewsets.ModelViewSet):
         queryset = Claim.objects \
             .select_related('merchant', 'bank', 'transaction', 'user') \
             .order_by('id')
-        if current_user.role == User.Roles.CHARGEBACK_OFFICER:
+        if current_user.is_chargeback_officer:
             bank_employee = current_user.bankemployee
             return queryset.filter(merchant__bank=bank_employee.bank)
-        elif current_user.role == User.Roles.CARDHOLDER:
+        elif current_user.is_cardholder:
             return queryset.filter(user=current_user,)
-        elif current_user.role == User.Roles.MERCHANT:
-            merchant = Merchant.objects.get(user=current_user)
-            return queryset.filter(merchant=merchant)
-        elif current_user.role == User.Roles.COP_MANAGER:
+        elif current_user.is_merchant:
+            return queryset.filter(merchant=current_user.merchant)\
+                .exclude(claim_reason_code__code=ReasonCodeGroup.ATM_CLAIM_CODE)
+        elif current_user.is_cop_manager:
             return queryset
         else:
             return Claim.objects.none()
-
-    def get_permissions(self):
-        # if self.action in ('update', ):
-        #     self.permission_classes += (HasMerchantUpdatePermission,)
-        return super().get_permissions()
 
     def get_serializer_class(self):
         if self.action == 'list':
