@@ -7,8 +7,14 @@
 </nb-card>
 
 <div *ngIf="!isNewRecord" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px; display:flex'>
-    <button  nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
-    <button  nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
+        nbButton status="primary" (click)="onClickEscalation()" >Ескалація</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
+        nbButton status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу' 
+            || claimData.status == 'Chargeback опротестование сформировано') "
+        nbButton status="primary" (click)="onClickRequestDocs()" style="margin-left: 10px;" >Запит документів</button>
+
 </div>
 
 <div *ngIf="!isNewRecord" class="div-panel" >
@@ -27,7 +33,7 @@
         
                 <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">
                     <label class="label-caption">П.І.Б.</label> 
-                    <label class="label-data">{{claimData.fio}}</label> 
+                    <label class="label-data">{{claimData.user.first_name}} {{claimData.user.last_name}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
@@ -64,22 +70,39 @@
         <nb-card style="width: 100%; height: 400px;">
 
             <nb-card-body>
-                <div style="height: 30%;">
+                <div >
                     <label>Результат</label>
                     <br>
                     <label style="font-weight: bold;">{{claimData.result}}</label>
                 </div>
                 
-                <div style="height: 40%;">
+                <div >
                     <label>Коментар</label>
                     <br>
-                    <label style="font-weight: bold;" *ngFor="let comment of claimData.comments">{{comment.text}}<br></label>
+                    <nb-list >
+                        <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
+                          Текст: {{ item.text }}<br>
+                          Дата: {{ item.create_date_str }}
+                        </nb-list-item>
+                    </nb-list>
                 </div>
 
-                <div style="height: 30%;">
+                <div>
                     <label>Документи</label>
                     <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a>
                     <br>
+                    <nb-list >
+                        <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
+                            <div style="display: flex; flex-direction: column;">
+                                <div>
+                                    Описание: {{ item.description }}
+                                </div>
+                                <div>
+                                    Файл: <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
+                                </div>
+                            </div>
+                        </nb-list-item>
+                    </nb-list>
                 </div>
                 
             </nb-card-body>
@@ -100,9 +123,11 @@
 
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
-    
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible"
+        nbButton status="primary" (click)="onClickFinish()" >Завершити</button>
+    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
+        nbButton status="primary" (click)="onClickFinish()" >Додати Коментар</button>
 </div>
-
 
 <div *ngIf="isNewRecord && role !='merchant'" >
     
@@ -116,10 +141,7 @@
                     <input class="input-data" nbInput placeholder="Номер карти"
                         [required]="fieldsStatus.pan.required" 
                         [readonly]="fieldsStatus.pan.readonly"
-                        [(ngModel)]="claimData.pan"
-                        minlength="16"
-                        maxlength="16"
-                        >
+                        [(ngModel)]="claimData.pan">
                 </div>
                 
                 <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
@@ -129,10 +151,7 @@
                         [nbDatepicker]="formpicker"
                         [required]="fieldsStatus.transDate.required" 
                         [readonly]="fieldsStatus.transDate.readonly"
-                        [(ngModel)]="claimData.trans_date"
-                        minlength="12"
-                        maxlength="12"
-                        >
+                        [(ngModel)]="claimData.trans_date">
                     <nb-datepicker #formpicker></nb-datepicker> 
                 </div>
 
@@ -152,10 +171,7 @@
                     <input class="input-data" nbInput placeholder="Terminal ID" 
                         [required]="fieldsStatus.terminalID.required" 
                         [readonly]="fieldsStatus.terminalID.readonly" 
-                        [(ngModel)]="claimData.term_id"
-                        minlength="8"
-                        maxlength="8"
-                        >
+                        [(ngModel)]="claimData.term_id">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
@@ -185,10 +201,7 @@
                     <input class="input-data" nbInput placeholder="Код операції" 
                         [required]="fieldsStatus.authCode.required" 
                         [readonly]="fieldsStatus.authCode.readonly"
-                        [(ngModel)]="claimData.trans_approval_code"
-                        minlength="6"
-                        maxlength="6"
-                        >
+                        [(ngModel)]="claimData.trans_approval_code">
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">

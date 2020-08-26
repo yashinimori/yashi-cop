@@ -9,7 +9,8 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
-
+import { ClaimComment } from '../../../share/models/claim-comment.model';
+import { ClaimDocument } from '../../../share/models/claim-document.model';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -92,7 +93,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   role: string;
   isLastStep: boolean = false;
   merchantsArr: Array<any> = new Array<any>();
-  claimId:any;
+  claimId: any;
+  userId: any;
 
   fieldsStatus: FieldsStatus;
   editedAnswers: Array<any> = new Array<any>();
@@ -118,6 +120,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   valPay2 = {val: 2, text: 'іншою картою'};
   valBack = {val: 1, text: 'так'};
   valBack2 = {val: 2, text: 'ні'};
+  
+  comments: Array<ClaimComment>;
+  documents: Array<ClaimDocument>;
+  
 
   ngOnInit(): void {
     //console.log('ngOnInit');
@@ -192,7 +198,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (response: any) => {
           this.claimData = response;
           console.log(this.claimData);
-          
+          this.setClaimComments();
+          this.setClaimDocumsnts();
+
         },
         error: error => {
           console.error('There was an error!', error);
@@ -202,6 +210,46 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
+
+  setClaimComments(){
+    this.comments = new Array<ClaimComment>();
+    let c = this.claimData['comments'];
+    if(c){
+      c.forEach(el => {
+        let item = new ClaimComment();
+        item.text = el.text;
+        if(el.create_date)
+          item.create_date_str = this.datePipe.transform(new Date(el.create_date), 'dd-MM-yyyy hh:mm:ss');
+        else
+          item.create_date_str = '';
+
+        this.comments.push(item);
+      });
+    }
+  }
+
+
+  setClaimDocumsnts(){
+
+    this.documents = new Array<ClaimDocument>();
+    let d = this.claimData['documents'];
+    if(d){
+      d.forEach(el => {
+        let item = new ClaimDocument();
+        item.description = el['description'];
+        item.file = el['file'];       
+        if(item.file)
+          item.file_name = item.file.split('\\').pop().split('/').pop();
+        else
+        item.file_name = 'Документ';
+
+        this.documents.push(item);
+      });
+
+    }
+  }
+
 
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
@@ -216,20 +264,61 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
 
-  saveClaim() {
-    console.log('saveClaim()');
-    console.log(this.claimData);
-    this.httpService.createNewClaim(this.claimData).subscribe({
+
+  uploadDoc(claim: any) {
+    if(this.filesArr && this.filesArr.length > 0){
+      let data = this.filesArr[0];
+      claim.form_name = "claim_form";
+
+      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
+      claim.user.id, claim.form_name).subscribe({
+        next: (response: any) => {
+          console.log('uploadDoc ok');
+          console.log(response); 
+          this.filesArr = [];
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+
+        }
+      });
+    }
+  }
+
+  commentClaim(claimId: any, comment: any, form_name: any) {
+    this.httpService.commentClaim(claimId, comment, form_name).subscribe({
       next: (response: any) => {
-        console.log('ok');
+        console.log('commentClaim ok');
         console.log(response); 
-        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+
+      }
+    });
+  }  
+
+  saveClaim() {
+    console.log('saveClaim()');
+    console.log(this.claimData);
+    this.claimData.form_name = "claim_form";
+    this.httpService.createNewClaim(this.claimData).subscribe({
+      next: (response: any) => {
+        console.log('ok');
+        console.log(response); 
+
+        this.uploadDoc(response);
+        this.commentClaim(response['id'], this.claimData.comment, 'claim_form');
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
       }
     });
   }
@@ -440,7 +529,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getListCurrency(){
     this.listCurrency = new Array<SelectorData>();
-    this.listCurrency.push({id:1, caption:"hrn"});
+    this.listCurrency.push({id:1, caption:"uah"});
     this.listCurrency.push({id:2, caption:"usd"});
     this.listCurrency.push({id:2, caption:"eur"});
   }
@@ -481,10 +570,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  onClickEscalationFinish(){
+  onClickFinish(){
     let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;  
-    val.typeOperation = "FinishEscalation";
+    val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
   
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
@@ -498,5 +587,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
+
+  onClickRequestDocs(){
+    console.log('onClickRequestDocs() claimData.status' + this.claimData.status); 
+    let val = new SingleClaimFormsTransfer();
+    val.claimId = this.claimId;  
+    val.typeOperation = "QueryForm";
+    this.transferService.singleClaimFormsSettings.next(val);
+  
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+  }
+
 }
 

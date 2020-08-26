@@ -61,7 +61,6 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
 ]
@@ -305,6 +304,7 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'cop.users.api.serializers.user.UserRegistrationSerializer',
         'user': 'cop.users.api.serializers.user.UserSerializer',

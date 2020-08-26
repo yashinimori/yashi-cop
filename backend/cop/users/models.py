@@ -5,7 +5,7 @@ from django.db.models import CharField, EmailField, DateField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from cop.bank.models import Claim
+from cop.core.models import Claim
 
 
 def get_claim_field_help_text():
@@ -53,28 +53,28 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Default user for cop.
     """
-    TOP_LEVEL = 'top_level'
-    SECURITY_OFFICER = 'security_officer'
-    COP_MANAGER = 'cop_manager'
-    CARDHOLDER = 'cardholder'
-    CHARGEBACK_OFFICER = 'chargeback_officer'
-    MERCHANT = 'merchant'
-    СС_BRANCH = 'сс_branch'
-    ROLES = (
-        (TOP_LEVEL, 'Top level'),
-        (SECURITY_OFFICER, 'Security officer'),
-        (COP_MANAGER, 'COP manager'),
-        (CARDHOLDER, 'Cardholder'),
-        (CHARGEBACK_OFFICER, 'Chargeback officer'),
-        (MERCHANT, 'Merchant'),
-        (СС_BRANCH, 'сс/branch'),
-    )
+    class Roles:
+        TOP_LEVEL = 'top_level'
+        SECURITY_OFFICER = 'security_officer'
+        COP_MANAGER = 'cop_manager'
+        CARDHOLDER = 'cardholder'
+        CHARGEBACK_OFFICER = 'chargeback_officer'
+        MERCHANT = 'merchant'
+        CC_BRANCH = 'сс_branch'
+        CHOICES = (
+            (TOP_LEVEL, 'Top level'),
+            (SECURITY_OFFICER, 'Security officer'),
+            (COP_MANAGER, 'COP manager'),
+            (CARDHOLDER, 'Cardholder'),
+            (CHARGEBACK_OFFICER, 'Chargeback officer'),
+            (MERCHANT, 'Merchant'),
+            (CC_BRANCH, 'сс/branch'),
+        )
     username = None
     #: First and last name do not cover name patterns around the globe
     first_name = CharField(_("First name of User"), max_length=999)
     last_name = CharField(_("Last name of User"), max_length=999)
-    role = CharField(max_length=999, choices=ROLES)
-    unit = CharField(max_length=200, null=True, blank=True)
+    role = CharField(max_length=999, choices=Roles.CHOICES)
     phone = CharField(max_length=13)
     email = EmailField(_('email address'), unique=True, max_length=999)
     claim_fields = ArrayField(CharField(max_length=128), blank=True, null=True, help_text=get_claim_field_help_text())
@@ -93,6 +93,34 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    @property
+    def is_top_level(self):
+        return self.role == self.Roles.TOP_LEVEL
+
+    @property
+    def is_security_officer(self):
+        return self.role == self.Roles.SECURITY_OFFICER
+
+    @property
+    def is_cop_manager(self):
+        return self.role == self.Roles.COP_MANAGER
+
+    @property
+    def is_cardholder(self):
+        return self.role == self.Roles.CARDHOLDER
+
+    @property
+    def is_chargeback_officer(self):
+        return self.role == self.Roles.CHARGEBACK_OFFICER
+
+    @property
+    def is_merchant(self):
+        return self.role == self.Roles.MERCHANT
+
+    @property
+    def is_cc_branch(self):
+        return self.role == self.Roles.CC_BRANCH
 
     def __str__(self):
         return self.email

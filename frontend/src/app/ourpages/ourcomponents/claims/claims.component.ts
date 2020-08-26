@@ -115,7 +115,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Reason Code",
               type: 'number',
             },
-            stage: {
+            status: {
               title: "Статус",
               type: 'string',
             },
@@ -252,8 +252,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.ch_comments = el['ch_comments'];
 
           let m = el['merchant'];
-          // t.merch_name_ips = m['name_ips'];
-
+          console.log(m);
+          if(m) 
+            t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
           

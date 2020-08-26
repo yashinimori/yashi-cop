@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -6,31 +6,7 @@ from rest_framework.exceptions import ValidationError
 
 from cop.core.utils.sha256 import generate_sha256
 
-User = get_user_model()
-
-PRE_MEDIATION = 'pre_mediation'
-MEDIATION = 'mediation'
-CHARGEBACK = 'chargeback'
-CHARGEBACK_ESCALATION = 'chargeback_escalation'
-DISPUTE = 'dispute'
-DISPUTE_RESPONSE = 'dispute_response'
-PRE_ARBITRATION = 'pre_arbitration'
-PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
-ARBITRATION = 'arbitration'
-FINAL_RULING = 'final_ruling'
-
-STAGE_CHOICES = (
-    (PRE_MEDIATION, PRE_MEDIATION),
-    (MEDIATION, MEDIATION),
-    (CHARGEBACK, CHARGEBACK),
-    (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
-    (DISPUTE, DISPUTE),
-    (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
-    (PRE_ARBITRATION, PRE_ARBITRATION),
-    (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
-    (ARBITRATION, ARBITRATION),
-    (FINAL_RULING, FINAL_RULING),
-)
+User = settings.AUTH_USER_MODEL
 
 
 class BaseModel(models.Model):
@@ -65,6 +41,7 @@ class Bank(BaseModel):
 class BankEmployee(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="employee_banks")
+    unit = models.CharField(max_length=200, null=True, blank=True)
 
 
 class Merchant(BaseModel):
@@ -86,7 +63,7 @@ class Merchant(BaseModel):
 class Terminal(BaseModel):
     term_id = models.CharField(max_length=999, unique=True)
     address = models.CharField(max_length=999, blank=True, null=True)
-    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT)
+    merchant = models.ForeignKey(Merchant, on_delete=models.PROTECT, related_name='terminals')
 
     def __str__(self):
         return self.term_id
@@ -95,11 +72,11 @@ class Terminal(BaseModel):
 class Transaction(BaseModel):
     USD = 'usd'
     EUR = 'eur'
-    HRN = 'hrn'
+    UAH = 'uah'
     CURRENCY_CHOICES = (
         (USD, 'дол. США'),
         (EUR, 'євро'),
-        (HRN, 'грн')
+        (UAH, 'грн')
     )
 
     class Results:
@@ -160,6 +137,7 @@ class Transaction(BaseModel):
 
 
 class ReasonCodeGroup(BaseModel):
+    ATM_CLAIM_CODE = '0001'
     code = models.CharField(max_length=4)
     visa = models.CharField(max_length=128, blank=True, null=True)
     mastercard = models.CharField(max_length=128, blank=True, null=True)
@@ -170,6 +148,20 @@ class ReasonCodeGroup(BaseModel):
 
 
 class Claim(BaseModel):
+    class FormNames:
+        ESCALATE = 'escalate_form'
+        CLOSE_FORM = 'close_form'
+        CLARIFY_FORM = 'clarify_form'
+        QUERY_FORM = 'query_form'
+        SURVEY_FORM = 'survey_form'
+        CHOICES = (
+            (ESCALATE, ESCALATE),
+            (CLOSE_FORM, CLOSE_FORM),
+            (CLARIFY_FORM, CLARIFY_FORM),
+            (QUERY_FORM, QUERY_FORM),
+            (SURVEY_FORM, SURVEY_FORM)
+        )
+
     class Result:
         SUCCESSFUL = 'successful'
         FAILED = 'failed'
@@ -186,11 +178,25 @@ class Claim(BaseModel):
         ('fraud', 'Fraud'),
     )
 
+    ACCEPTED_REFUND = 1
+    PARTLY_REFUND = 2
+    DECLINED_REFUND_DOCS = 3
+    DECLINED_REFUND_COMMENTS = 4
+    OFFICER_ANSWER_REASON_CHOICES = (
+        (ACCEPTED_REFUND, "повернення погоджено, очікуйте зарахування"),
+        (PARTLY_REFUND, "часткове погоджено, очікуйте зарахування"),
+        (DECLINED_REFUND_DOCS, "в поверненні відмовлено, документи додаються"),
+        (DECLINED_REFUND_COMMENTS, "в поверненні відмовлено, коментарі додаються"),
+    )
+
+    form_name = models.CharField(choices=FormNames.CHOICES, max_length=32, null=True, blank=True)
+    officer_answer_reason = models.CharField(choices=OFFICER_ANSWER_REASON_CHOICES, max_length=2, null=True, blank=True)
     user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
     chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.CASCADE, blank=True, null=True)
 
     issuer_mmt = models.CharField(max_length=40, null=True, blank=True)
+    acquirer_mmt = models.CharField(max_length=40, null=True, blank=True)
     dispute_mmt = models.CharField(max_length=40, null=True, blank=True)
     ch_mmt = models.CharField(max_length=999, null=True, blank=True)
     merchant_mmt = models.CharField(max_length=999, null=True, blank=True)
@@ -236,7 +242,7 @@ class Claim(BaseModel):
 
     action_needed = models.CharField(max_length=999, null=True, blank=True)
 
-    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
+    status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
     support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
 
@@ -252,6 +258,32 @@ class Claim(BaseModel):
     pre_arbitration_response_date = models.DateTimeField(null=True, blank=True)
     arbitration_date = models.DateTimeField(null=True, blank=True)
     arbitration_response_date = models.DateTimeField(null=True, blank=True)
+
+    archived = models.BooleanField(default=False)
+
+    @property
+    def clarify_form_received(self):
+        return self.form_name == self.FormNames.CLARIFY_FORM
+
+    @property
+    def escalation_form_received(self):
+        return self.form_name == self.FormNames.ESCALATE
+
+    @property
+    def close_form_received(self):
+        return self.form_name == self.FormNames.CLOSE_FORM
+
+    @property
+    def query_form_received(self):
+        return self.form_name == self.FormNames.QUERY_FORM
+
+    @property
+    def survey_form_received(self):
+        return self.form_name == self.FormNames.SURVEY_FORM
+
+    @property
+    def officer_answer_refund(self):
+        return self.officer_answer_reason == self.ACCEPTED_REFUND or self.officer_answer_reason == self.PARTLY_REFUND
 
 
 class ClaimDocument(BaseModel):
@@ -270,7 +302,7 @@ class ClaimDocument(BaseModel):
             (ATM_LOG, 'ATM log'),
             (NOT_NEEDED, 'Docs not needed'),
         )
-    type = models.CharField(choices=Types.choices, max_length=20)
+    type = models.CharField(choices=Types.choices, max_length=20, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     file = models.FileField(upload_to='claim-documents/')
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
@@ -292,11 +324,54 @@ class Comment(BaseModel):
 
 
 class Status(BaseModel):
+    class Stages:
+        PRE_MEDIATION = 'pre_mediation'
+        MEDIATION = 'mediation'
+        CHARGEBACK = 'chargeback'
+        CHARGEBACK_ESCALATION = 'chargeback_escalation'
+        DISPUTE = 'dispute'
+        DISPUTE_RESPONSE = 'dispute_response'
+        PRE_ARBITRATION = 'pre_arbitration'
+        PRE_ARBITRATION_RESPONSE = 'pre_arbitration_response'
+        ARBITRATION = 'arbitration'
+        FINAL_RULING = 'final_ruling'
+        CLOSED = 'closed'
+
+        CHOICES = (
+            (PRE_MEDIATION, PRE_MEDIATION),
+            (MEDIATION, MEDIATION),
+            (CHARGEBACK, CHARGEBACK),
+            (CHARGEBACK_ESCALATION, CHARGEBACK_ESCALATION),
+            (DISPUTE, DISPUTE),
+            (DISPUTE_RESPONSE, DISPUTE_RESPONSE),
+            (PRE_ARBITRATION, PRE_ARBITRATION),
+            (PRE_ARBITRATION_RESPONSE, PRE_ARBITRATION_RESPONSE),
+            (ARBITRATION, ARBITRATION),
+            (FINAL_RULING, FINAL_RULING),
+            (CLOSED, CLOSED),
+        )
+    index = models.PositiveIntegerField(unique=True)
     name = models.CharField(max_length=999)
-    stage = models.CharField(choices=STAGE_CHOICES, default=PRE_MEDIATION, max_length=999)
+    stage = models.CharField(choices=Stages.CHOICES, default=Stages.PRE_MEDIATION, max_length=999)
 
     def __str__(self):
         return self.name
+
+    @property
+    def is_pre_mediation(self):
+        return self.stage == self.Stages.PRE_MEDIATION
+
+    @property
+    def is_mediation(self):
+        return self.stage == self.Stages.MEDIATION
+
+    @property
+    def is_chargeback(self):
+        return self.stage == self.Stages.CHARGEBACK
+
+    @property
+    def is_chargeback_escalation(self):
+        return self.stage == self.Stages.CHARGEBACK_ESCALATION
 
 
 class StageChangesHistory(BaseModel):

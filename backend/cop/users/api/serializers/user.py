@@ -18,7 +18,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
         )
 
     def create(self, validated_data):
-        validated_data['role'] = User.CARDHOLDER
+        validated_data['role'] = User.Roles.CARDHOLDER
         return super().create(validated_data)
 
 
@@ -32,13 +32,12 @@ class UserSerializer(BaseUserSerializer):
             'last_name',
             'phone',
             'role',
-            'unit',
             'claim_fields',
             'registration_date',
         )
         read_only_fields = BaseUserSerializer.Meta.read_only_fields
 
     def update(self, instance, validated_data):
-        if self.context["request"].user.role == User.CARDHOLDER:
+        if self.context["request"].user.role == User.Roles.CARDHOLDER:
             _ = validated_data.pop('role')
         return super().update(instance, validated_data)

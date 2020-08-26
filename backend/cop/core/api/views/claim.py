@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
@@ -5,17 +6,20 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
-from cop.core.models import Claim, ClaimDocument, Merchant, PRE_MEDIATION, MEDIATION, FINAL_RULING, CHARGEBACK, \
-    CHARGEBACK_ESCALATION, DISPUTE, DISPUTE_RESPONSE, PRE_ARBITRATION, PRE_ARBITRATION_RESPONSE, ARBITRATION
-from cop.users.models import User
+from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup
+
+User = get_user_model()
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasMerchantClaimUpdatePermission,)
     serializer_class = ClaimSerializer
-    queryset = Claim.objects.select_related('merchant', 'bank', 'transaction'
-                                            ).order_by('id')
+    queryset = Claim.objects \
+        .select_related('merchant', 'bank', 'transaction', 'user', 'claim_reason_code') \
+        .order_by('id')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         "id",
@@ -35,7 +39,6 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "action_needed",
         "result",
         "due_date",
-        "stage"
     )
 
     search_fields = [
@@ -56,26 +59,25 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "action_needed",
         "result",
         "due_date",
-        "stage"
     ]
 
     def get_queryset(self):
         current_user = self.request.user
-        queryset = Claim.objects \
-            .select_related('merchant', 'bank', 'transaction', 'user') \
-            .order_by('id')
-        if current_user.role == User.CHARGEBACK_OFFICER:
-            bank_employee = current_user.bankemployee
-            return queryset.filter(merchant__bank=bank_employee.bank)
-        elif current_user.role == User.CARDHOLDER:
-            return queryset.filter(user=current_user)
-        elif current_user.role == User.MERCHANT:
-            merchant = Merchant.objects.get(user=current_user)
-            return queryset.filter(merchant=merchant)
-        elif current_user.role == User.COP_MANAGER:
-            return queryset
-        else:
-            return Claim.objects.none()
+        qs = super().get_queryset()
+        if current_user.is_chargeback_officer:
+            employee_bank = current_user.bankemployee.bank
+            qs = qs.filter(bank=employee_bank)
+        elif current_user.is_cardholder:
+            qs = qs.filter(user=current_user)
+        elif current_user.is_merchant:
+            qs = qs.filter(merchant=current_user.merchant) \
+                .exclude(claim_reason_code__code=ReasonCodeGroup.ATM_CLAIM_CODE)
+        elif not self.user_has_access():
+            qs = Claim.objects.none()
+        return qs
+
+    def user_has_access(self):
+        return self.request.user.role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CHARGEBACK_OFFICER)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -98,22 +100,22 @@ class ClaimsStatistics(APIView):
         last_login = self.request.user.last_login
 
         new_claims = Claim.objects.filter(chargeback_officer=None).count()
-        in_prgress_claims = Claim.objects.filter(stage=MEDIATION, chargeback_officer__isnull=False).count()
-        completed_claims = Claim.objects.filter(stage=FINAL_RULING, chargeback_officer__isnull=False).count()
+        in_prgress_claims = Claim.objects.filter(stage=Status.Stages.MEDIATION, chargeback_officer__isnull=False).count()
+        completed_claims = Claim.objects.filter(stage=Status.Stages.FINAL_RULING, chargeback_officer__isnull=False).count()
         my_claims = Claim.objects.filter(chargeback_officer=self.request.user).count()
         all_claims = Claim.objects.count()
         new_received_claims_qs = Claim.objects.filter(create_date__gt=last_login)
 
-        pre_mediation_claims = Claim.objects.filter(stage=PRE_MEDIATION).count()
-        mediation_claims = Claim.objects.filter(stage=MEDIATION).count()
-        chargeback_claims = Claim.objects.filter(stage=CHARGEBACK).count()
-        chargeback_escalation_claims = Claim.objects.filter(stage=CHARGEBACK_ESCALATION).count()
-        dispute_claims = Claim.objects.filter(stage=DISPUTE).count()
-        dispute_response_claims = Claim.objects.filter(stage=DISPUTE_RESPONSE).count()
-        pre_arbitration_claims = Claim.objects.filter(stage=PRE_ARBITRATION).count()
-        pre_arbitration_response_claims = Claim.objects.filter(stage=PRE_ARBITRATION_RESPONSE).count()
-        arbitration_response_claims = Claim.objects.filter(stage=ARBITRATION).count()
-        final_ruling_claims = Claim.objects.filter(stage=FINAL_RULING).count()
+        pre_mediation_claims = Claim.objects.filter(stage=Status.Stages.PRE_MEDIATION).count()
+        mediation_claims = Claim.objects.filter(stage=Status.Stages.MEDIATION).count()
+        chargeback_claims = Claim.objects.filter(stage=Status.Stages.CHARGEBACK).count()
+        chargeback_escalation_claims = Claim.objects.filter(stage=Status.Stages.CHARGEBACK_ESCALATION).count()
+        dispute_claims = Claim.objects.filter(stage=Status.Stages.DISPUTE).count()
+        dispute_response_claims = Claim.objects.filter(stage=Status.Stages.DISPUTE_RESPONSE).count()
+        pre_arbitration_claims = Claim.objects.filter(stage=Status.Stages.PRE_ARBITRATION).count()
+        pre_arbitration_response_claims = Claim.objects.filter(stage=Status.Stages.PRE_ARBITRATION_RESPONSE).count()
+        arbitration_response_claims = Claim.objects.filter(stage=Status.Stages.ARBITRATION).count()
+        final_ruling_claims = Claim.objects.filter(stage=Status.Stages.FINAL_RULING).count()
 
         serializer = ClaimListSerializer(new_received_claims_qs, many=True)
         new_received_claims = serializer.data

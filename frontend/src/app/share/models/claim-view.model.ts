@@ -5,6 +5,7 @@ export class ClaimView extends ClaimRegistration {
   merch_name_ips: string;
   reason_code_group: string;
   status: string;
+  //stage: string;
   action_needed: string;
   result: string;
   due_date: Date;
@@ -18,4 +19,10 @@ export class ClaimView extends ClaimRegistration {
   trans_amount:any;
   trans_currency:any;
   merchant: any;
+  comments: any;
+  documents: any;
+  claimId: string;
+  form_name: string;
+  mmt: string;
+  officer_answer_reason: string;
 }

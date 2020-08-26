@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
 from cop.core.models import BankEmployee
 
@@ -11,13 +12,14 @@ class BankEmployeeSerializes(serializers.ModelSerializer):
         model = BankEmployee
         fields = (
             'bank',
+            'unit',
         )
 
 
-class ChargebackOfficerRegistrationSerializer(serializers.ModelSerializer):
+class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
     bankemployee = BankEmployeeSerializes()
 
-    class Meta:
+    class Meta(BaseUserRegistrationSerializer.Meta):
         model = User
         fields = (
             'email',
@@ -29,11 +31,19 @@ class ChargebackOfficerRegistrationSerializer(serializers.ModelSerializer):
             'bankemployee'
         )
 
+    def validate(self, attrs):
+        bank_employee = attrs.pop('bankemployee')
+        attrs['bankemployee'] = bank_employee
+        return attrs
+
     def create(self, validated_data):
         bank_employee = validated_data.pop('bankemployee')
-        instance = User.objects.create(**validated_data)
+        instance = super().create(validated_data)
+
         bank = bank_employee.get("bank")
         BankEmployee.objects.create(
-            user=instance, bank=bank
+            user=instance,
+            bank=bank,
+            unit=bank_employee['unit']
         )
         return instance

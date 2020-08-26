@@ -12,23 +12,38 @@
             Ескалація претензії
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_reasoncode.invisible">
                 <label class="label-caption">Select reason code</label> 
-                <input class="input-data" nbInput placeholder="Select reason code"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
-                    [(ngModel)]="singleClaimFormsData.reason_code">
+                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reason_code"
+                    [required]="fieldsStatus.scf_escal_reasoncode.required" 
+                    [disabled]="fieldsStatus.scf_escal_reasoncode.readonly">
+                    <nb-option *ngFor="let item of reasonCode" [value]="item.id">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_mmt.invisible">
                 <label class="label-caption">MMT</label> 
                 <input class="input-data" nbInput placeholder="MMT"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.scf_escal_mmt.required" 
+                    [readonly]="fieldsStatus.scf_escal_mmt.readonly"
                     [(ngModel)]="singleClaimFormsData.mmt">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_comment.invisible">
+                <label class="label-caption">Коментари</label> 
+                <textarea rows="5" nbInput fullWidth  
+                    [required]="fieldsStatus.scf_escal_comment.required" 
+                    [readonly]="fieldsStatus.scf_escal_comment.readonly"
+                    [(ngModel)]="singleClaimFormsData.comment"
+                    placeholder="Коментари">
+                </textarea>
+                    
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_escal_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -53,7 +68,7 @@
 </div>
 
 
-<div *ngIf="typeOperation == 'FinishEscalation'" >
+<div *ngIf="typeOperation == 'FinishForm'" >
     <nb-card>
         <nb-card-header>
         Ескалація
@@ -65,45 +80,57 @@
             Завершеня розгляду
             </nb-card-header>
         <nb-card-body>
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_reason.invisible">
                 <label class="label-caption">Причина завершення реклямації</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reasonClosingId"
-                        [required]="fieldsStatus.escalation.required" 
-                        [disabled]="fieldsStatus.escalation.readonly" >
-                        <nb-option *ngFor="let item of reasonClosing" [value]="item.id">
+                        [required]="fieldsStatus.scf_finish_reason.required" 
+                        [disabled]="fieldsStatus.scf_finish_reason.readonly" >
+                        <nb-option *ngFor="let item of reasonClosing" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_decision.invisible">
                 <label class="label-caption">Рішення</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
-                        [required]="fieldsStatus.escalation.required" 
-                        [disabled]="fieldsStatus.escalation.readonly" >
-                        <nb-option *ngFor="let item of decision" [value]="item.id">
+                        [required]="fieldsStatus.scf_finish_decision.required" 
+                        [disabled]="fieldsStatus.scf_finish_decision.readonly" >
+                        <nb-option *ngFor="let item of decision" [value]="item.caption">
                             {{ item.caption }}
                         </nb-option>
                     </nb-select>
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_responce.invisible">
+                <label class="label-caption">Відповеді</label> 
+                <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
+                        [required]="fieldsStatus.scf_finish_responce.required" 
+                        [disabled]="fieldsStatus.scf_finish_responce.readonly" >
+                        <nb-option *ngFor="let item of responce" [value]="item.caption">
+                            {{ item.caption }}
+                        </nb-option>
+                    </nb-select>
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_comment.invisible">
                 <label class="label-caption">Коментари</label> 
                 <input class="input-data" nbInput placeholder="Коментари"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.scf_finish_comment.required" 
+                    [readonly]="fieldsStatus.scf_finish_comment.readonly"
                     [(ngModel)]="singleClaimFormsData.comment">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_amount.invisible">
                 <label class="label-caption">Сума для зарухування</label> 
                 <input class="input-data" nbInput placeholder="Сума для зарухування"
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.scf_finish_amount.required" 
+                    [readonly]="fieldsStatus.scf_finish_amount.readonly"
                     [(ngModel)]="singleClaimFormsData.amount_move">
             </div>
 
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
@@ -141,17 +168,65 @@
             </nb-card-header>
         <nb-card-body>
                         
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_clarif_comment.invisible">
                 <label class="label-caption">Коментари</label> 
                 <textarea rows="5" nbInput fullWidth  
-                    [required]="fieldsStatus.escalation.required" 
-                    [readonly]="fieldsStatus.escalation.readonly"
+                    [required]="fieldsStatus.scf_clarif_comment.required" 
+                    [readonly]="fieldsStatus.scf_clarif_comment.readonly"
                     [(ngModel)]="singleClaimFormsData.comment"
                     placeholder="Коментари">
                 </textarea>
             </div>
             
-            <div class="div-panel" *ngIf="!fieldsStatus.escalation.invisible">
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_clarif_upload_doc.invisible">
+                <label class="label-caption">Додати документи</label> 
+                <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                            type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                <div *ngFor="let file of filesArr" class="fileAttached">
+                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                </div>
+            </div>
+
+        </nb-card-body>
+        
+        <nb-card-footer>
+            <div class="center">
+                <button  nbButton status="primary" (click)="onClickBackClaim()">Повернутися</button>
+                <button  nbButton status="primary" (click)="onClickApply()"
+                    style="margin-left: 10px;width: 140px;">ОК</button>
+            </div>
+        </nb-card-footer>
+
+    </nb-card>
+
+</div>
+
+
+<div *ngIf="typeOperation == 'QueryForm'" >
+    <nb-card>
+        <nb-card-header>
+            Запит документів
+        </nb-card-header>
+    </nb-card>
+    
+    <nb-card style="width: 49%; height: 450px;margin: auto;">
+        <nb-card-header style="width: 100%; text-align: center;">
+            Запит документів
+            </nb-card-header>
+        <nb-card-body>
+                        
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_query_comment.invisible">
+                <label class="label-caption">Коментари</label> 
+                <textarea rows="5" nbInput fullWidth  
+                    [required]="fieldsStatus.scf_query_comment.required" 
+                    [readonly]="fieldsStatus.scf_query_comment.readonly"
+                    [(ngModel)]="singleClaimFormsData.comment"
+                    placeholder="Коментари">
+                </textarea>
+            </div>
+            
+            <div class="div-panel" *ngIf="!fieldsStatus.scf_query_upload_doc.invisible">
                 <label class="label-caption">Додати документи</label> 
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">

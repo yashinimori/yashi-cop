@@ -8,4 +8,5 @@ export class ClaimRegistration {
   auth_code: string;
   comment: string;
   id: string;
+  
 }
