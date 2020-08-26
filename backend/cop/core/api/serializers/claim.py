@@ -3,9 +3,9 @@ from rest_framework import serializers
 
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
-
 from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatuses
 from cop.users.api.serializers.user import UserSerializer
+
 User = get_user_model()
 
 
@@ -156,6 +156,7 @@ class ClaimSerializer(serializers.ModelSerializer):
 class ClaimListSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     user = UserSerializer(read_only=True)
+    status = StatusSerializer(read_only=True)
 
     class Meta:
         model = Claim
@@ -175,5 +176,6 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "reason_code",
             "action_needed",
             "result",
+            "status"
         )
 
