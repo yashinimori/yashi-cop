@@ -130,6 +130,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
+            validated_data['status'] = Status.objects.get(pk=1)
         instance = super().update(instance, validated_data)
         self.instance = instance
         self.set_status()
