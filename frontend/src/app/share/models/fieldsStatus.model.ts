@@ -142,9 +142,9 @@ export class FieldsStatus {
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.scf_finish_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_finish_reason = new paramStatusFields({invisible: true});
                 this.scf_finish_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.scf_finish_responce = new paramStatusFields({invisible: true});
+                this.scf_finish_responce = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_finish_amount = new paramStatusFields({invisible: true});
                 this.scf_finish_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_escal_upload_doc = new paramStatusFields({invisible: true}); 
