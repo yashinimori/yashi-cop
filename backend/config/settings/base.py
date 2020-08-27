@@ -72,7 +72,6 @@ THIRD_PARTY_APPS = [
     "djoser",
     "corsheaders",
     "bootstrap3",
-    "anymail",
 ]
 
 LOCAL_APPS = [
