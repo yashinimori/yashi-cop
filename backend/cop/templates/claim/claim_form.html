@@ -146,13 +146,15 @@
     <li>
       {% for question, answer in answer.items %}
         <label for="answer">{{ question }}:
-          {% if answer == 'так' or answer == True %}
-            <input type="checkbox" name="answer" checked>
-          {% elif answer == 'ні' or answer == False %}
-            <input type="checkbox" name="answer">
-          {% else %}
-            {{ v }}
-          {% endif %}
+          <u><i>
+            {% if answer == True %}
+              так
+            {% elif answer == False %}
+              ні
+            {% else %}
+              {{ answer }}
+            {% endif %}
+          </i></u>
         </label>
         <br/>
       {% endfor %}
