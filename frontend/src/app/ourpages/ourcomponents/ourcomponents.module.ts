@@ -34,6 +34,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
+import { BankListComponent } from './bank-list/bank-list.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { BankComponent } from './bank/bank.component';
     BankUserComponent,
     MerchUserComponent,
     BankComponent,
-        
+    BankListComponent,
+            
   ],
   // providers: [
     
