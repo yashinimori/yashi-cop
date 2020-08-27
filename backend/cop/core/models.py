@@ -42,11 +42,27 @@ class BankEmployee(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="employee_banks")
     unit = models.CharField(max_length=200, null=True, blank=True)
+    atm = models.ManyToManyField('ATM', related_name='bank_employees')
 
 
 class Merchant(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bank = models.ManyToManyField(Bank, blank=True)
+    merch_id = models.CharField(max_length=15, unique=True)
+    name_legal = models.CharField(max_length=999, blank=True, null=True)
+    bin = models.CharField(max_length=999, blank=True, null=True)
+    name_ips = models.CharField(max_length=999)
+    mcc = models.CharField(max_length=4, blank=True, null=True)
+    description = models.CharField(max_length=999, blank=True, null=True)
+    address = models.CharField(max_length=999, blank=True, null=True)
+    contact_person = models.CharField(max_length=999, blank=True, null=True)
+
+    def __str__(self):
+        return self.name_ips
+
+
+class ATM(BaseModel):
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     merch_id = models.CharField(max_length=15, unique=True)
     name_legal = models.CharField(max_length=999, blank=True, null=True)
     bin = models.CharField(max_length=999, blank=True, null=True)

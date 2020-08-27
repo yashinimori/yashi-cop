@@ -119,7 +119,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
-            validated_data['status'] = Status.objects.get(pk=1)
+            validated_data['status'] = Status.objects.get(pk=1)  # as the status field can't be null
         validated_data['user'] = current_user
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
@@ -140,12 +140,10 @@ class ClaimSerializer(serializers.ModelSerializer):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
         docs_request_rc = '0100'
-        if claim.transaction or claim.claim_reason_code.code != docs_request_rc:
-            mediation_escalation_status = 5
-            status_index = mediation_escalation_status
-            # TODO: can be removed after all status services are finished
-            claim.status = Status.objects.get(index=status_index)
-            claim.save()
+        if claim.claim_reason_code == docs_request_rc:
+            claim.status = Status.objects.get(index=1)
+        else:
+            claim.status = Status.objects.get(index=6)
         if claim.claim_reason_code in allocation_rc:
             AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
         elif claim.bank and claim.merchant:
