@@ -8,20 +8,20 @@
     <nb-card-body >
       
       <input nbInput placeholder="BIN" [(ngModel)]="data.bin" maxlength="8">
-      <input nbInput placeholder="ACQ/ISS/BOTH" [(ngModel)]="data.asq_iss_both" maxlength="4">
-      <input nbInput placeholder="Назва банку Англійською" [(ngModel)]="data.bankNameENG" maxlength="999">
-      <input nbInput placeholder="Назва банку Українською" [(ngModel)]="data.bankNameUKR" maxlength="999">
-      <input nbInput placeholder="Назва банку Російською" [(ngModel)]="data.bankNameRUS" maxlength="999">
-      <input nbInput placeholder="Операційне ім’я" [(ngModel)]="data.operatorName" maxlength="999">
-      <input nbInput placeholder="Контактна особа" [(ngModel)]="data.contactPerson" maxlength="999">
-      <input nbInput placeholder="Контактний телефон" [(ngModel)]="data.contactTelephone" maxlength="13">
-      <input nbInput placeholder="Контактна пошта" [(ngModel)]="data.contactEmail" maxlength="999">
+      <input nbInput placeholder="ACQ/ISS/BOTH" [(ngModel)]="data.type" maxlength="4">
+      <input nbInput placeholder="Назва банку Англійською" [(ngModel)]="data.name_eng" maxlength="999">
+      <input nbInput placeholder="Назва банку Українською" [(ngModel)]="data.name_uk" maxlength="999">
+      <input nbInput placeholder="Назва банку Російською" [(ngModel)]="data.name_rus" maxlength="999">
+      <input nbInput placeholder="Операційне ім’я" [(ngModel)]="data.operator_name" maxlength="999">
+      <input nbInput placeholder="Контактна особа" [(ngModel)]="data.contact_person" maxlength="999">
+      <input nbInput placeholder="Контактний телефон" [(ngModel)]="data.contact_telephone" maxlength="13">
+      <input nbInput placeholder="Контактна пошта" [(ngModel)]="data.contact_email" maxlength="999">
     
     </nb-card-body>
 
     <nb-card-footer>
       <div class="button-enter">
-        <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
+        <button nbButton status="primary" (click)="createBank()">Зарегистрировать</button>
       </div>
     </nb-card-footer>
 

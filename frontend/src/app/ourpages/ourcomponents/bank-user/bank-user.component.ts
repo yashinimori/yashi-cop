@@ -32,8 +32,23 @@ export class BankUserComponent implements OnInit {
     if(this.enter() == 0){
 
       console.log(this.data);
-    
-      this.httpService.createNewBankUser(this.data).subscribe({
+
+      let d = {
+        "email": this.data.email,
+        "password": this.data.password,
+        "first_name": this.data.first_name,
+        "last_name": this.data.last_name,
+        "phone": this.data.phone,
+        "role": this.data.role,
+        "bankemployee": {
+            "bank": 1,
+            "unit": ""
+          }
+      };
+      
+      console.log(d);
+
+      this.httpService.createNewUser(d).subscribe({
         next: (response: any) => {
           console.log('ok');
           console.log(response); 

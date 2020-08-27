@@ -1,14 +1,13 @@
-export class BankUser {
+import { Registration } from "./registration.model";
+
+export class BankUser extends Registration{
   id: number;
   userId: string; //имя пользователя
-  role: string;
-  first_name: string;
-  last_name: string;
   unit: string;
-  email: string;
-  phone: string;
-  //login: string;
-  password: string;
-  registration_date: Date;
+   
+
+
+
+
 
 }
