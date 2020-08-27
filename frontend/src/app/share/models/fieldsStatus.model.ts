@@ -67,7 +67,7 @@ export class FieldsStatus {
     button_request_docs: paramStatusFields;
     scf_query_comment: paramStatusFields;
     scf_query_upload_doc: paramStatusFields;
-    
+    bank_single_view: paramStatusFields;
 
     default() {
         this.pan = new paramStatusFields({invisible: true});
@@ -112,12 +112,14 @@ export class FieldsStatus {
         this.scf_query_comment = new paramStatusFields({invisible: true});
         this.scf_query_upload_doc = new paramStatusFields({invisible: true});
 
+        this.bank_single_view = new paramStatusFields({invisible: true});
     }
 
     public setStatusByRole(role: string) {
 
         switch(role) { 
             case 'merchant':{ 
+                this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -162,6 +164,7 @@ export class FieldsStatus {
             break; 
             case 'cardholder': 
             case 'user': { 
+                this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -206,6 +209,7 @@ export class FieldsStatus {
             break; 
             case 'cop_manager':
             case 'chargeback_officer': { 
+                this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -249,6 +253,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'top_level': { 
+                this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});

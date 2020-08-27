@@ -3,6 +3,7 @@ import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { SelectorData } from '../../../share/models/selector-data.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
+import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
   selector: 'ngx-merch-user',
@@ -12,30 +13,26 @@ import { MerchUser } from '../../../share/models/merch-user.model';
 
 export class MerchUserComponent implements OnInit {
   public data: MerchUser;
+  bankID: string;
 
   constructor(private httpService: HttpService,
-              private router: Router,) {
-  
+    private router: Router,
+    private transferService: TransferService,) {
+    
+      this.bankID = '';
   }
 
   ngOnInit(): void {
     this.data = new MerchUser();
 
-    // this.httpService.getMerchantsAll().subscribe({
-    //   next: (response: any) => {
-    //     console.log('getMerchants() ok');
-    //     console.log(response); 
-    //   },
-    //   error: error => {
-    //     console.error('There was an error!', error);
-    //   },
-    //   complete: () => {
-       
-    //   }
-    // });
-
+    this.bankID = this.transferService.bankID.getValue();
+    console.log('this.bankID = ' + this.bankID);
   }
 
+  goBack(){
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+  }
 
   createMerchUser() {
     this.data.role = 'merchant';
@@ -55,7 +52,7 @@ export class MerchUserComponent implements OnInit {
         "merchant" : {
             "merch_id": this.data.merch_id,
             "name_ips": this.data.name_ips,
-            "bank": [],
+            "bank": [Number(this.bankID)],
             "name_legal": this.data.name_legal,
             "bin": '', // this.data.bin,
             "mcc": this.data.mcc,
@@ -71,13 +68,13 @@ export class MerchUserComponent implements OnInit {
         next: (response: any) => {
           console.log('ok');
           console.log(response); 
-          //this.router.navigate(['ourpages']);
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-         
+          this.transferService.bankID.next(this.bankID);
+          this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
         }
       });
       

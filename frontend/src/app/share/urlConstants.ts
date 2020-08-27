@@ -24,3 +24,5 @@ export const URL_CLAIM = `${MAIN_URL}/api/v1/claim/`;
 
 export const URL_CREATE_NEW_BANK = `${MAIN_URL}/api/v1/banks/`;
 export const URL_BANK = `${MAIN_URL}/api/v1/banks`;
+
+export const URL_BANK_USERS = `${MAIN_URL}/api/v1/bank-employees`;

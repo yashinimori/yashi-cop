@@ -40,6 +40,11 @@ export class BankListComponent implements OnInit, OnDestroy {
     //this.hideColumnForUser(this.role);
   }
 
+  onUserRowSelect(event): void {
+    this.transferService.bankID.next(event.data.id);
+    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+  }
+
   // hideColumnForUser(role:string){
   //   if(role && (role == 'cardholder' || role == 'user')){
   //       delete this.settings.columns.id;

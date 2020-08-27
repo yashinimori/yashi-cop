@@ -1,0 +1,97 @@
+<nb-card style="height: 99%;">
+  
+    <nb-card-header>
+      Банк
+    </nb-card-header>
+  
+    <nb-card-body>
+      <div class="col-12">
+        <nb-card size="small">
+          <nb-tabset fullWidth>
+            <nb-tab tabTitle="Інфо">
+
+              <nb-card style="height: 250px;">
+                <nb-card-body>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">BIN</label> 
+                    <label class="label-data">{{bank.bin}}</label>
+                  </div>
+                  
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Тип</label> 
+                    <label class="label-data">{{bank.type}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Назва банку англійською</label> 
+                    <label class="label-data">{{bank.name_eng}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Назва банку українською</label> 
+                    <label class="label-data">{{bank.name_uk}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Назва банку російською </label> 
+                    <label class="label-data">{{bank.name_rus}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Операційне ім’я </label> 
+                    <label class="label-data">{{bank.operator_name}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Контактна особа </label> 
+                    <label class="label-data">{{bank.contact_person}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Контактний телефон </label> 
+                    <label class="label-data">{{bank.contact_telephone}}</label>
+                  </div>
+
+                  <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
+                    <label class="label-caption">Контактна пошта </label> 
+                    <label class="label-data">{{bank.contact_email}}</label>
+                  </div>
+
+                </nb-card-body>
+              </nb-card>
+
+            </nb-tab>
+
+            <nb-tab tabTitle="Користувачи">
+              <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
+              <nb-card style="height: 250px;">
+                <nb-card-body>
+
+                  <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
+                  </ng2-smart-table>
+
+                </nb-card-body>
+              </nb-card>
+      
+            </nb-tab>
+            
+            <nb-tab tabTitle="Мерчанти">
+              <button nbButton status="primary" (click)="createMerch()">Зарегистрировать</button>
+              <nb-card style="height: 250px;">
+                <nb-card-body>
+
+                  <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
+                  </ng2-smart-table>
+
+                </nb-card-body>
+              </nb-card>
+            </nb-tab>
+
+          </nb-tabset>
+        </nb-card>
+      </div>
+    
+    </nb-card-body>
+
+</nb-card>

@@ -3,6 +3,7 @@ import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { SelectorData } from '../../../share/models/selector-data.model';
+import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
   selector: 'ngx-bank-user',
@@ -13,16 +14,22 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 export class BankUserComponent implements OnInit {
   public data: BankUser;
   public listRole: Array<SelectorData>;
+  bankID: string;
 
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
-              private router: Router,) {
-  
+    private router: Router,
+    private transferService: TransferService,) {
+
+    this.bankID = '';
   }
 
   ngOnInit(): void {
     this.data = new BankUser();
     this.getRoles();
+
+    this.bankID = this.transferService.bankID.getValue();
+    console.log('BankUserComponent this.bankID = ' + this.bankID);
   }
 
 
@@ -38,9 +45,9 @@ export class BankUserComponent implements OnInit {
         "last_name": this.data.last_name,
         "phone": this.data.phone,
         "role": this.data.role,
-        "bankemployee": {
-            "bank": 1,
-            "unit": ""
+        "bank_employee": {
+            "bank": this.bankID,
+            "unit": this.data.unit
           }
       };
       
@@ -50,13 +57,13 @@ export class BankUserComponent implements OnInit {
         next: (response: any) => {
           console.log('ok');
           console.log(response); 
-          //this.router.navigate(['ourpages']);
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-        
+          this.transferService.bankID.next(this.bankID);
+          this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
         }
       });
 
@@ -64,6 +71,10 @@ export class BankUserComponent implements OnInit {
     
   }
 
+  goBack(){
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+  }
   
 
   enter() {

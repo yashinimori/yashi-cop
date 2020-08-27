@@ -13,6 +13,7 @@ import { URL_GET_CLAIM_LIST,
   URL_CLAIM,
   URL_CREATE_NEW_BANK,
   URL_BANK,
+  URL_BANK_USERS,
 } from '../urlConstants';
 
 @Injectable({
@@ -42,7 +43,6 @@ export class HttpService {
   }
 
   getSingleClaim(id: any) {
-    console.log(URL_GET_CLAIM_LIST + '/' + id);
     return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
   }
 
@@ -81,7 +81,7 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
   }
 
   createNewUserMerch(user: any){
@@ -138,6 +138,51 @@ export class HttpService {
       req = `${URL_BANK}/?page_size=${pageSize}&page=${pageNumber}`;
     else
       req = `${URL_BANK}/?all`;
+
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
+  getBank(id: any) {
+    return this.http.get(URL_BANK + '/' + id, this.getHeaders());
+  }
+  
+
+  getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = '';
+
+    // if(pageSize > 0 && pageNumber > 0)
+    //   req = `${URL_BANK_USERS}/?page_size=${pageSize}&page=${pageNumber}`;
+    // else
+    //   req = `${URL_BANK_USERS}/?all`;
+
+    req = `${URL_BANK_USERS}/?all&bank=${bankId}`;
+
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
+  getMerchList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = '';
+
+    // if(pageSize > 0 && pageNumber > 0)
+    //   req = `${URL_GET_MERCHANTS}/?page_size=${pageSize}&page=${pageNumber}`;
+    // else
+    //   req = `${URL_GET_MERCHANTS}/?all`;
+
+    req = `${URL_GET_MERCHANTS}/?all&bank=${bankId}`;
 
     if(search != undefined) {
       req = req + `&search=${search}`;

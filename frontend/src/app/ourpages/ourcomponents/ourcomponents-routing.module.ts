@@ -12,11 +12,11 @@ import { ChboDashboardComponent } from './chbo-dashboard/chbo-dashboard.componen
 import { ChboMyClaimsComponent } from './chbo-my-claims/chbo-my-claims.component';
 import { ChartDonatComponent } from './chart-donat/chart-donat.component';
 import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.component';
-
 import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
+import { BankSingleComponent } from './bank-single/bank-single.component';
 
 const routes: Routes = [{
   path: '',
@@ -78,6 +78,11 @@ const routes: Routes = [{
       path: 'bank-list',
       component: BankListComponent,
     },
+    {
+      path: 'bank-single',
+      component: BankSingleComponent,
+    },
+    
 
 
     

@@ -35,6 +35,7 @@ import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
+import { BankSingleComponent } from './bank-single/bank-single.component';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { BankListComponent } from './bank-list/bank-list.component';
     MerchUserComponent,
     BankComponent,
     BankListComponent,
+    BankSingleComponent,        
             
   ],
   // providers: [
