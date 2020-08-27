@@ -42,12 +42,6 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
-  // getTimelineInfo(id: any){
-  //   console.log('commentsssssssssssss')
-  //   console.log(URL_GET_TIMELINE_INFO + id + '/comments/')
-  //   return this.http.post(URL_GET_TIMELINE_INFO + id + '/comments', this.getHeaders());
-  // }
-
   getSingleClaim(id: any) {
     console.log(URL_GET_CLAIM_LIST + '/' + id);
     return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
@@ -60,7 +54,14 @@ export class HttpService {
   getMerchants() {
     return this.http.get(URL_GET_MERCHANTS, this.getHeaders());
   }
-  
+
+  createMerchant(data: any) {
+    return this.http.post(URL_GET_MERCHANTS+'/', data, this.getHeaders());
+  }
+
+  getMerchantsAll() {
+    return this.http.get(URL_GET_MERCHANTS+'/?all', this.getHeaders());
+  }
 
   private getHeaders() {
     let body = `JWT ${localStorage.getItem('token')}`;
@@ -88,6 +89,7 @@ export class HttpService {
   createNewMerchUser(user: any){
     return this.http.post(URL_CREATE_NEW_MERCH_USER, user);
   }
+
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
