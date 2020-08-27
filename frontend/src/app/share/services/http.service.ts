@@ -12,7 +12,6 @@ import { URL_GET_CLAIM_LIST,
   URL_UPLOAD_CLAIM_DOC,
   URL_CLAIM,
   URL_CREATE_NEW_BANK_USER,
-  URL_CREATE_NEW_MERCH_USER,
   URL_CREATE_NEW_BANK,
 } from '../urlConstants';
 
@@ -85,11 +84,6 @@ export class HttpService {
   createNewBank(user: any){
     return this.http.post(URL_CREATE_NEW_BANK, user);
   }
-
-  createNewMerchUser(user: any){
-    return this.http.post(URL_CREATE_NEW_MERCH_USER, user);
-  }
-
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
