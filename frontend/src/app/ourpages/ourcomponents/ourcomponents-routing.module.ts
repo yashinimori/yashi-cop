@@ -11,6 +11,8 @@ import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-for
 import { ChboDashboardComponent } from './chbo-dashboard/chbo-dashboard.component';
 import { ChboMyClaimsComponent } from './chbo-my-claims/chbo-my-claims.component';
 import { ChartDonatComponent } from './chart-donat/chart-donat.component';
+import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.component';
+
 
 const routes: Routes = [{
   path: '',
@@ -51,6 +53,10 @@ const routes: Routes = [{
     {
       path: 'chart-donat',
       component: ChartDonatComponent,
+    },
+    {
+      path: 'horizontal-bar',
+      component: HorizontalBarComponent,
     },
 
     

@@ -28,6 +28,8 @@ import { ATMlogViewerDetailComponent } from './atm-log-view-detail/atm-log-view-
 import { SingleClaimFormsComponent } from './single-claim-forms/single-claim-forms.component';
 import { ChboDashboardComponent } from './chbo-dashboard/chbo-dashboard.component';
 import { ChboMyClaimsComponent } from './chbo-my-claims/chbo-my-claims.component';
+import { ChartDonatComponent } from './chart-donat/chart-donat.component';
+import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.component';
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
@@ -62,6 +64,9 @@ import { ChartsModule } from 'ng2-charts';
     SingleClaimFormsComponent,
     ChboDashboardComponent,
     ChboMyClaimsComponent,
+    ChartDonatComponent,
+    HorizontalBarComponent,
+
   ],
   // providers: [
     
