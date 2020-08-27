@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from rest_framework import serializers
 
 from cop.core.models import Merchant, Terminal
 
@@ -45,6 +45,7 @@ class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
             'password',
             'phone',
             'role',
+            'created_by',
             'merchant',
             'terminals',
         )
@@ -60,6 +61,10 @@ class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
     def create(self, validated_data):
         merchant = validated_data.pop('merchant')
         terminals = validated_data.pop('terminals', None)
+        validated_data['created_by'] = self.context["request"].user
+        password = User.objects.make_random_password()
+        validated_data['password'] = password
+        self.context["password"] = password
         instance = super().create(validated_data)
         banks = merchant.pop("bank", None)
         merchant = Merchant.objects.create(user=instance, **merchant)

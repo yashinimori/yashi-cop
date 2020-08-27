@@ -24,20 +24,30 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 class UserSerializer(BaseUserSerializer):
     claim_fields = serializers.CharField(required=False)
+    password_change_required = serializers.SerializerMethodField()
 
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + (
+            'is_active',
+            'created_by',
             'email',
             'first_name',
             'last_name',
             'phone',
             'role',
             'claim_fields',
+            'password_change_required',
             'registration_date',
         )
         read_only_fields = BaseUserSerializer.Meta.read_only_fields
 
     def update(self, instance, validated_data):
-        if self.context["request"].user.role == User.Roles.CARDHOLDER:
-            _ = validated_data.pop('role')
+        validated_data.pop('role', None)
         return super().update(instance, validated_data)
+
+    def get_password_change_required(self, instance):
+        if instance.created_by:
+            return instance.created_by.role in (
+            User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL) and not instance.last_login
+        else:
+            return False

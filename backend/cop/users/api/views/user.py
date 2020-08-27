@@ -11,6 +11,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from cop.users.api.serializers.chargebackofficer_registration import ChargebackOfficerRegistrationSerializer
 from cop.users.api.serializers.merchant_registration import MerchantRegistrationSerializer
+from cop.users.api.serializers.security_officer_registration import SecurityOfficerRegistrationSerializer
 from cop.users.api.serializers.user import UserSerializer
 
 User = get_user_model()
@@ -19,7 +20,7 @@ User = get_user_model()
 class CustomRegistrationView(DjoserUserViewSet):
 
     def get_serializer_class(self):
-        serializer_class = super(CustomRegistrationView, self).get_serializer_class()
+        serializer_class = super().get_serializer_class()
 
         # handling user_create
         if serializer_class == import_string(settings.DJOSER['SERIALIZERS']['user_create']):
@@ -39,6 +40,11 @@ class CustomRegistrationView(DjoserUserViewSet):
             elif data.get('role') == User.Roles.CHARGEBACK_OFFICER:
                 if current_user.is_cop_manager or current_user.is_security_officer:
                     serializer_class = ChargebackOfficerRegistrationSerializer
+                else:
+                    raise PermissionDenied({"message": "You don't have permission to access"})
+            elif data.get('role') == User.Roles.SECURITY_OFFICER:
+                if current_user.is_security_officer or current_user.is_cop_manager:
+                    serializer_class = SecurityOfficerRegistrationSerializer
                 else:
                     raise PermissionDenied({"message": "You don't have permission to access"})
         return serializer_class

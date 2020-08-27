@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
-from django.db.models import CharField, EmailField, DateField
+from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -70,15 +70,18 @@ class User(AbstractUser):
             (MERCHANT, 'Merchant'),
             (CC_BRANCH, 'сс/branch'),
         )
+
     username = None
     #: First and last name do not cover name patterns around the globe
-    first_name = CharField(_("First name of User"), max_length=999)
-    last_name = CharField(_("Last name of User"), max_length=999)
-    role = CharField(max_length=999, choices=Roles.CHOICES)
-    phone = CharField(max_length=13)
-    email = EmailField(_('email address'), unique=True, max_length=999)
-    claim_fields = ArrayField(CharField(max_length=128), blank=True, null=True, help_text=get_claim_field_help_text())
-    registration_date = DateField(auto_now_add=True, editable=False)
+    created_by = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
+    first_name = models.CharField(_("First name of User"), max_length=999)
+    last_name = models.CharField(_("Last name of User"), max_length=999)
+    role = models.CharField(max_length=999, choices=Roles.CHOICES)
+    phone = models.CharField(max_length=13)
+    email = models.EmailField(_('email address'), unique=True, max_length=999)
+    claim_fields = ArrayField(models.CharField(max_length=128), blank=True, null=True,
+                              help_text=get_claim_field_help_text())
+    registration_date = models.DateField(auto_now_add=True, editable=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -72,6 +72,7 @@ THIRD_PARTY_APPS = [
     "djoser",
     "corsheaders",
     "bootstrap3",
+    "anymail",
 ]
 
 LOCAL_APPS = [
@@ -213,13 +214,15 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
 # EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
-)
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
-EMAIL_TIMEOUT = 5
+EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
+ANYMAIL = {
+    "AMAZON_SES_CLIENT_PARAMS": {
+        # "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_FOR_ANYMAIL_SES"),
+        # "aws_secret_access_key": os.getenv("AWS_SECRET_KEY_FOR_ANYMAIL_SES"),
+        "region_name": "us-west-2",
+    },
+}
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -303,11 +306,16 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'user/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'user/activation/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'cop.users.api.serializers.user.UserRegistrationSerializer',
         'user': 'cop.users.api.serializers.user.UserSerializer',
         'current_user': 'cop.users.api.serializers.user.UserSerializer',
+    },
+    'EMAIL': {
+        "activation": "cop.users.api.email.CustomActivationEmail",
     }
 }
 

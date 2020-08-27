@@ -28,6 +28,7 @@ class ClaimRoutingService:
             self.assign_by_term_id(validated_data['term_id'])
         elif 'merch_id' in validated_data:
             self.assign_by_merch_id(validated_data['merch_id'])
+            self.assign_atm(validated_data['merch_id'])
 
         self.assign_rc_by_claim_rc(validated_data['claim_reason_code'])
         self.assign_bank_by_pan()
@@ -71,6 +72,10 @@ class ClaimRoutingService:
             self.claim.bank = Bank.objects.get(bin=bank_bin)
         except ObjectDoesNotExist:
             pass
+
+    def assign_atm(self, merch_id):
+        from cop.core.models import ATM
+        self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
 
     def assign_transaction(self):
         from cop.core.models import Transaction

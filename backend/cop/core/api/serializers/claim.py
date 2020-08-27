@@ -95,6 +95,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "merch_id",
             "merchant",
             "bank",
+            "atm",
             "trans_amount",
             "trans_currency",
             "trans_approval_code",

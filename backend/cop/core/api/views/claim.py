@@ -5,6 +5,7 @@ from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView, get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from weasyprint import HTML
@@ -18,7 +19,7 @@ User = get_user_model()
 
 
 class ClaimViewSet(viewsets.ModelViewSet):
-    permission_classes = (HasMerchantClaimUpdatePermission,)
+    permission_classes = (IsAuthenticated, HasMerchantClaimUpdatePermission,)
     serializer_class = ClaimSerializer
     queryset = Claim.objects \
         .select_related('merchant', 'bank', 'transaction', 'user', 'claim_reason_code') \

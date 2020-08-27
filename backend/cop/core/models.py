@@ -220,6 +220,7 @@ class Claim(BaseModel):
     source = models.CharField(max_length=999, null=True, blank=True)
     arn = models.CharField(max_length=23, null=True, blank=True)
     flag = models.CharField(max_length=999, null=True, blank=True)
+    atm = models.ForeignKey('ATM', on_delete=models.SET_NULL, null=True)
 
     # merchant
     merch_id = models.CharField(max_length=15, null=True, blank=True)

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from rest_framework import serializers
 
 from cop.core.models import BankEmployee
 
@@ -17,7 +17,7 @@ class BankEmployeeSerializes(serializers.ModelSerializer):
 
 
 class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
-    bankemployee = BankEmployeeSerializes()
+    bank_employee = BankEmployeeSerializes()
 
     class Meta(BaseUserRegistrationSerializer.Meta):
         model = User
@@ -28,7 +28,8 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
             'password',
             'phone',
             'role',
-            'bankemployee'
+            'created_by',
+            'bank_employee',
         )
 
     def validate(self, attrs):
@@ -38,6 +39,10 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
 
     def create(self, validated_data):
         bank_employee = validated_data.pop('bankemployee')
+        password = User.objects.make_random_password()
+        validated_data['password'] = password
+        validated_data['created_by'] = self.context["request"].user
+        self.context["password"] = password
         instance = super().create(validated_data)
 
         bank = bank_employee.get("bank")
