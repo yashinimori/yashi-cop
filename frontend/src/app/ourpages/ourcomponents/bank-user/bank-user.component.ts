@@ -27,8 +27,6 @@ export class BankUserComponent implements OnInit {
 
 
   createBankUser() {
-    this.data.registration_date = new Date();
-
     if(this.enter() == 0){
 
       console.log(this.data);
