@@ -11,7 +11,6 @@ import { URL_GET_CLAIM_LIST,
   URL_UPDATE_CLAIM,
   URL_UPLOAD_CLAIM_DOC,
   URL_CLAIM,
-  URL_CREATE_NEW_BANK_USER,
   URL_CREATE_NEW_BANK,
 } from '../urlConstants';
 
@@ -76,14 +75,18 @@ export class HttpService {
     return this.http.post(URL_CREATE_NEW_USER, user);
   }
 
-  createNewBankUser(user: any){
-    return this.http.post(URL_CREATE_NEW_BANK_USER, user);
-  }
-
-
   createNewBank(user: any){
-    return this.http.post(URL_CREATE_NEW_BANK, user);
+    return this.http.post(URL_CREATE_NEW_BANK, user, this.getHeaders());
   }
+
+  createNewUserBank(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+  }
+
+  createNewUserMerch(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+  }
+
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;

@@ -108,6 +108,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     //hidden: setHiddenMerchant(),
     children: [
       {
+        title: 'Лист банків',
+        link: '/ourpages/ourcomponents/bank-list',
+      },
+      {
         title: 'Новий bank',
         link: '/ourpages/ourcomponents/bank',
       },

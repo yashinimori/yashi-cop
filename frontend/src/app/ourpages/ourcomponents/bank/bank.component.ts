@@ -23,13 +23,13 @@ export class BankComponent implements OnInit {
     this.data = new Bank();
   }
 
-  createBankUser() {
+  createBank() {
 
     if(this.enter() == 0){
 
       console.log(this.data);
     
-      this.httpService.createNewBankUser(this.data).subscribe({
+      this.httpService.createNewBank(this.data).subscribe({
         next: (response: any) => {
           console.log('ok');
           console.log(response); 
@@ -54,29 +54,20 @@ export class BankComponent implements OnInit {
     if (!this.data.bin)
       return 1;
 
-    if (!this.data.asq_iss_both)
+    if (!this.data.type)
       return 1;
 
-    if (!this.data.bankNameUKR)
+    if (!this.data.name_uk)
       return 1;
 
-    if (!this.data.operatorName)
-      return 1;
-    
-    if (!this.data.contactPerson)
+    if (!this.data.contact_telephone)
       return 1;
 
-    if (!this.data.contactTelephone)
+    if (!this.data.contact_email)
       return 1;
-
-    if (!this.data.contactEmail)
-      return 1;
-
 
     return 0;
   }
 
-  
-  
 
 }

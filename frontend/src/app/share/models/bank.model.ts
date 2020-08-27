@@ -1,16 +1,13 @@
 export class Bank {
   id: number;
   bin: string;
-  asq_iss_both: string;
-  bankNameENG: string;
-  bankNameUKR: string;
-  bankNameRUS: string;
-  operatorName: string;
-  contactPerson: string;
-  contactTelephone: string;
-  contactEmail: string;
-
-
-
+  type: string;
+  name_eng: string;
+  name_uk: string;
+  name_rus: string;
+  operator_name: string;
+  contact_person: string;
+  contact_telephone: string;
+  contact_email: string;
 
 }

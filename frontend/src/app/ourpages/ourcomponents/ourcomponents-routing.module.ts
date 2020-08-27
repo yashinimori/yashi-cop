@@ -16,6 +16,7 @@ import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.componen
 import { BankUserComponent } from './bank-user/bank-user.component';
 import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
+import { BankListComponent } from './bank-list/bank-list.component';
 
 const routes: Routes = [{
   path: '',
@@ -72,6 +73,10 @@ const routes: Routes = [{
     {
       path: 'bank',
       component: BankComponent,
+    },
+    {
+      path: 'bank-list',
+      component: BankListComponent,
     },
 
 
