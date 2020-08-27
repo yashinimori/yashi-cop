@@ -41,11 +41,26 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Disputes',
     icon: 'layout-outline',
     hidden: setHiddenChargebackOfficer(),
+    link: '/ourpages/ourcomponents/claims'
   },
   {
-    title: 'ATM Management',
+    title: 'ATM manage (cbo)',
     icon: 'layout-outline',
     hidden: setHiddenChargebackOfficer(),
+    children: [
+      {
+        title: 'ATM лог - новий',
+        link: '/ourpages/ourcomponents/atm-log-upload',
+      },
+      {
+        title: 'ATM лог - перегляд',
+        link: '/ourpages/ourcomponents/atm-log-view',
+      },
+      {
+        title: 'ATM лог - детальний',
+        link: '/ourpages/ourcomponents/atm-log-view-detail',
+      },
+    ],
   },
   {
     title: 'My Claims',
@@ -74,25 +89,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  // {
-  //   title: 'ATM manage (cbo)',
-  //   icon: 'layout-outline',
-  //   hidden: setHiddenChargebackOfficer(),
-  //   children: [
-  //     {
-  //       title: 'ATM лог - новий',
-  //       link: '/ourpages/ourcomponents/atm-log-upload',
-  //     },
-  //     {
-  //       title: 'ATM лог - перегляд',
-  //       link: '/ourpages/ourcomponents/atm-log-view',
-  //     },
-  //     {
-  //       title: 'ATM лог - детальний',
-  //       link: '/ourpages/ourcomponents/atm-log-view-detail',
-  //     },
-  //   ],
-  // },
+  
   {
     title: 'Наші компоненти (mc)',
     icon: 'layout-outline',
