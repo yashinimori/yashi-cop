@@ -67,7 +67,7 @@ export class MerchUserComponent implements OnInit {
 
       console.log(d);
 
-      this.httpService.createNewUser(d).subscribe({
+      this.httpService.createNewUserMerch(d).subscribe({
         next: (response: any) => {
           console.log('ok');
           console.log(response); 

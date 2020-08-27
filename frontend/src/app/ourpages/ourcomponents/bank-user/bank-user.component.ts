@@ -46,7 +46,7 @@ export class BankUserComponent implements OnInit {
       
       console.log(d);
 
-      this.httpService.createNewUser(d).subscribe({
+      this.httpService.createNewUserBank(d).subscribe({
         next: (response: any) => {
           console.log('ok');
           console.log(response); 

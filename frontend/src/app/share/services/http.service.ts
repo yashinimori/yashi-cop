@@ -76,8 +76,17 @@ export class HttpService {
   }
 
   createNewBank(user: any){
-    return this.http.post(URL_CREATE_NEW_BANK, user);
+    return this.http.post(URL_CREATE_NEW_BANK, user, this.getHeaders());
   }
+
+  createNewUserBank(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+  }
+
+  createNewUserMerch(user: any){
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+  }
+
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
