@@ -12,6 +12,7 @@ import { URL_GET_CLAIM_LIST,
   URL_UPLOAD_CLAIM_DOC,
   URL_CLAIM,
   URL_CREATE_NEW_BANK,
+  URL_BANK,
 } from '../urlConstants';
 
 @Injectable({
@@ -129,5 +130,24 @@ export class HttpService {
     };
     return this.http.post(URL_CLAIM + claimId + '/comments/', data, this.getHeaders());
   }
+
+  getBankList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = '';
+
+    if(pageSize > 0 && pageNumber > 0)
+      req = `${URL_BANK}/?page_size=${pageSize}&page=${pageNumber}`;
+    else
+      req = `${URL_BANK}/?all`;
+
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
 
 }
