@@ -17,7 +17,7 @@ class BankEmployeeSerializes(serializers.ModelSerializer):
 
 
 class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
-    bank_employee = BankEmployeeSerializes()
+    bankemployee = BankEmployeeSerializes()
 
     class Meta(BaseUserRegistrationSerializer.Meta):
         model = User
@@ -29,7 +29,7 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
             'phone',
             'role',
             'created_by',
-            'bank_employee',
+            'bankemployee',
         )
 
     def validate(self, attrs):

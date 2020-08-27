@@ -42,12 +42,17 @@ class UserSerializer(BaseUserSerializer):
         read_only_fields = BaseUserSerializer.Meta.read_only_fields
 
     def update(self, instance, validated_data):
+        if not self.can_user_deactivate():
+            validated_data.pop('is_active', None)
         validated_data.pop('role', None)
         return super().update(instance, validated_data)
+
+    def can_user_deactivate(self):
+        return self.context["request"].user.is_cop_manager
 
     def get_password_change_required(self, instance):
         if instance.created_by:
             return instance.created_by.role in (
-            User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL) and not instance.last_login
+                User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL) and not instance.last_login
         else:
             return False
