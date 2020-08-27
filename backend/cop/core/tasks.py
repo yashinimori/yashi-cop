@@ -163,9 +163,9 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         date_match = re.search('([0-9]{1,2})/([0-9]{1,2})/([0-9]{1,2})', line)
         if date_match:
-            trans_date = datetime.date(year=int(date_match.group(1)),
+            trans_date = datetime.date(day=int(date_match.group(1)),
                                        month=int(date_match.group(2)),
-                                       day=int(date_match.group(3)))
+                                       year=int(date_match.group(3)))
 
         utrnno_match = re.search('UTRNNO: ([0-9]+)', line)
         if utrnno_match:
@@ -214,3 +214,14 @@ def assign_claim_transaction(report):
         if claim.status.is_pre_mediation:
             claim.status = Status.objects.get(index=5)
         claim.save()
+
+# def claim_docs_90_days(chb_officer):
+#     claim_docs_older_90d = ClaimDocument.objects.filter(create_date__lte=timezone.now() - datetime.timedelta(days=90),
+#                                                         claim__bank=chb_officer.bank)
+#     # TODO: send to cbh officers email notification that files will be deleted soon
+#
+#
+# def claim_docs_97_days(chb_officer):
+#     claims_older_90d = ClaimDocument.objects.filter(create_date__lte=timezone.now() - datetime.timedelta(days=90),
+#                                                     claim__bank=chb_officer.bank)
+#     # TODO: send cbh officers email notification

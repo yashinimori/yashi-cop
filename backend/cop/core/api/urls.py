@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 
 from cop.core.api.views.atm import ATMViewSet
 from cop.core.api.views.bank import BankViewSet
-from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
+from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView, \
+    ClaimFormToPDFView
 from cop.core.api.views.comment import CommentCreateView
 from cop.core.api.views.merchant import MerchantViewSet
 from cop.core.api.views.report import ReportCreateCreateView
@@ -28,4 +29,5 @@ urlpatterns = router.urls + [
     path('atm-logs/', ReportCreateCreateView.as_view()),
     path('claim/<pk>/stage-history/', StageHistoryView.as_view()),
     path('claim/<pk>/comments/', CommentCreateView.as_view()),
+    path('claim/<pk>/pdf/', ClaimFormToPDFView.as_view()),
 ]

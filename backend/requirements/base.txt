@@ -10,12 +10,21 @@ django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
 flower==0.9.5  # https://github.com/mher/flower
 uvicorn==0.11.6  # https://github.com/encode/uvicorn
 
+# WeasyPring
+CairoSVG==2.4.2
+cffi==1.14.2
+cssselect2==0.3.0
+cairocffi==1.1.0
+Pyphen==0.9.5
+tinycss2==1.0.2
+html5lib==1.1
+WeasyPrint==51
+
 # Django
 # ------------------------------------------------------------------------------
 django==3.0.8  # pyup: < 3.1  # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
-django-crispy-forms==1.9.1  # https://github.com/django-crispy-forms/django-crispy-forms
 django-redis==4.12.1  # https://github.com/jazzband/django-redis
 # Django REST Framework
 djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework

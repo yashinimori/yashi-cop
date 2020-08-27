@@ -65,7 +65,6 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
-    "crispy_forms",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",

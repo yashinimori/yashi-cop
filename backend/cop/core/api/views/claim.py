@@ -1,15 +1,18 @@
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from weasyprint import HTML
 
 from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer
-from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup
+from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup, SurveyQuestion
 
 User = get_user_model()
 
@@ -141,3 +144,35 @@ class ClaimsStatistics(APIView):
 
         return Response(data)
 
+
+class ClaimFormToPDFView(APIView):
+    template = 'claim/claim_form.html'
+    queryset = Claim.objects.all()
+
+    def get_object(self):
+        return get_object_or_404(Claim, pk=self.kwargs.get('pk'))
+
+    @staticmethod
+    def get_claim_answers(claim):
+        questions = SurveyQuestion.objects.all()
+        answers = []
+        for k, v in claim.answers.items():
+            question_text = questions.get(pk=k).description
+            answers.append({question_text: v})
+        return answers
+
+    def get_context_data(self):
+        claim = self.get_object()
+        answers = self.get_claim_answers(claim)
+        return {
+            'claim': claim,
+            'answers': answers
+        }
+
+    def get(self, request, *args, **kwargs):
+        html_string = render_to_string(self.template, self.get_context_data())
+        html = HTML(string=html_string)
+        pdf = html.write_pdf()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="claim.pdf"'
+        return response
