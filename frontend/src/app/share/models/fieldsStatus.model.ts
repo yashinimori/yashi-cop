@@ -112,8 +112,6 @@ export class FieldsStatus {
         this.scf_query_comment = new paramStatusFields({invisible: true});
         this.scf_query_upload_doc = new paramStatusFields({invisible: true});
 
-
-
     }
 
     public setStatusByRole(role: string) {
@@ -156,13 +154,12 @@ export class FieldsStatus {
                 this.button_escalation = new paramStatusFields({invisible: true});
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
                 this.button_escal_finish = new paramStatusFields({invisible: true});
-                this.button_escal_add_responce = new paramStatusFields({invisible: false});
+                this.button_escal_add_responce = new paramStatusFields({invisible: true});
                 this.button_request_docs = new paramStatusFields({invisible: true});
                 this.scf_query_comment = new paramStatusFields({invisible: true});
                 this.scf_query_upload_doc = new paramStatusFields({invisible: true});
-        
-                break; 
             } 
+            break; 
             case 'cardholder': 
             case 'user': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -205,10 +202,9 @@ export class FieldsStatus {
                 this.button_request_docs = new paramStatusFields({invisible: true});
                 this.scf_query_comment = new paramStatusFields({invisible: true});
                 this.scf_query_upload_doc = new paramStatusFields({invisible: true});
-        
-
-                break; 
             } 
+            break; 
+            case 'cop_manager':
             case 'chargeback_officer': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -250,9 +246,8 @@ export class FieldsStatus {
                 this.button_request_docs = new paramStatusFields({invisible: false});
                 this.scf_query_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_query_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-        
-                break; 
             } 
+            break; 
             case 'top_level': { 
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -294,9 +289,8 @@ export class FieldsStatus {
                 this.button_request_docs = new paramStatusFields({invisible: false});
                 this.scf_query_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_query_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-
-                break; 
             }
+            break; 
             default: { 
                 this.default(); 
                break; 

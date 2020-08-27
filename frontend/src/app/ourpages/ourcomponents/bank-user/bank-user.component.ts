@@ -96,6 +96,8 @@ export class BankUserComponent implements OnInit {
     this.listRole.push({id:2, caption:"merchant"});
     this.listRole.push({id:3, caption:"user"});
     this.listRole.push({id:4, caption:"chargeback_officer"});
+    this.listRole.push({id:5, caption:"cop_manager"});
+    
 
   }
 
