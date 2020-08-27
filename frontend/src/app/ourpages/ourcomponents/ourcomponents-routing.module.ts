@@ -13,6 +13,9 @@ import { ChboMyClaimsComponent } from './chbo-my-claims/chbo-my-claims.component
 import { ChartDonatComponent } from './chart-donat/chart-donat.component';
 import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.component';
 
+import { BankUserComponent } from './bank-user/bank-user.component';
+import { MerchUserComponent } from './merch-user/merch-user.component';
+import { BankComponent } from './bank/bank.component';
 
 const routes: Routes = [{
   path: '',
@@ -43,6 +46,7 @@ const routes: Routes = [{
       component: SingleClaimFormsComponent,
     },
     {
+<<<<<<< HEAD
       path: 'chbo-dashboard',
       component: ChboDashboardComponent,
     },
@@ -59,6 +63,21 @@ const routes: Routes = [{
       component: HorizontalBarComponent,
     },
 
+=======
+      path: 'bank-user',
+      component: BankUserComponent,
+    },
+    {
+      path: 'merch-user',
+      component: MerchUserComponent,
+    },
+    {
+      path: 'bank',
+      component: BankComponent,
+    },
+
+
+>>>>>>> df85c0a60b966640f81675e235881fc134042838
     
 
   ],

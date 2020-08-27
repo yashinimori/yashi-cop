@@ -106,6 +106,32 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'БАНК',
+    icon: 'layout-outline',
+    //hidden: setHiddenMerchant(),
+    children: [
+      {
+        title: 'Новий bank',
+        link: '/ourpages/ourcomponents/bank',
+      },
+      {
+        title: 'Новий користувач',
+        link: '/ourpages/ourcomponents/bank-user',
+      },
+    ],
+  },
+  {
+    title: 'МЕРЧАНТ',
+    icon: 'layout-outline',
+    //hidden: setHiddenMerchant(),
+    children: [
+      {
+        title: 'Новий мерчант',
+        link: '/ourpages/ourcomponents/merch-user',
+      },
+    ],
+  },
+  {
     title: 'Messages',
     icon: 'email-outline',
   },

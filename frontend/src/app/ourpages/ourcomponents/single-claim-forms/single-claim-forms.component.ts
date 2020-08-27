@@ -177,7 +177,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         arr.push(this.singleClaimFormsData.comment)
 
       if(this.singleClaimFormsData.amount_move)
-        arr.push(this.singleClaimFormsData.amount_move)
+        arr.push('Сума: ' + this.singleClaimFormsData.amount_move)
 
       console.log('claim.officer_answer_reason');
       console.log(this.singleClaimFormsData.decisionId);
@@ -193,7 +193,12 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         }
       }
 
-      claim.comments = arr;
+      if(arr && arr.length > 0){
+        claim.comments = '';
+        arr.forEach(el=>{
+          claim.comments += el + '; ';
+        });
+      }
     }
         
     console.log(claim);

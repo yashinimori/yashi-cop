@@ -3,9 +3,9 @@ from rest_framework import serializers
 
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
-
 from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatuses
 from cop.users.api.serializers.user import UserSerializer
+
 User = get_user_model()
 
 
@@ -119,8 +119,8 @@ class ClaimSerializer(serializers.ModelSerializer):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
+            validated_data['status'] = Status.objects.get(pk=1)
         validated_data['user'] = current_user
-        validated_data['status'] = Status.objects.get(pk=1)
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
@@ -139,7 +139,8 @@ class ClaimSerializer(serializers.ModelSerializer):
     def set_status(self, status_index=None):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
-        if not claim.status and (claim.transaction or claim.claim_reason_code.code != '0100'):
+        docs_request_rc = '0100'
+        if claim.transaction or claim.claim_reason_code.code != docs_request_rc:
             mediation_escalation_status = 5
             status_index = mediation_escalation_status
             # TODO: can be removed after all status services are finished
@@ -156,6 +157,7 @@ class ClaimSerializer(serializers.ModelSerializer):
 class ClaimListSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     user = UserSerializer(read_only=True)
+    status = StatusSerializer(read_only=True)
 
     class Meta:
         model = Claim
@@ -175,5 +177,6 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "reason_code",
             "action_needed",
             "result",
+            "status"
         )
 

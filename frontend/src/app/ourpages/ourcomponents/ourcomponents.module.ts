@@ -31,6 +31,10 @@ import { ChboMyClaimsComponent } from './chbo-my-claims/chbo-my-claims.component
 import { ChartDonatComponent } from './chart-donat/chart-donat.component';
 import { HorizontalBarComponent } from './horizontal-bar/horizontal-bar.component';
 import { ChartsModule } from 'ng2-charts';
+import { BankUserComponent } from './bank-user/bank-user.component';
+import { MerchUserComponent } from './merch-user/merch-user.component';
+import { BankComponent } from './bank/bank.component';
+
 
 @NgModule({
   imports: [
@@ -52,7 +56,11 @@ import { ChartsModule } from 'ng2-charts';
     NbSelectModule,
     NbRadioModule,
     NbInputModule,
+<<<<<<< HEAD
     ChartsModule,
+=======
+    
+>>>>>>> df85c0a60b966640f81675e235881fc134042838
   ],
   declarations: [
     OurComponentsComponent,
@@ -62,11 +70,18 @@ import { ChartsModule } from 'ng2-charts';
     ATMlogViewerComponent,
     ATMlogViewerDetailComponent,
     SingleClaimFormsComponent,
+<<<<<<< HEAD
     ChboDashboardComponent,
     ChboMyClaimsComponent,
     ChartDonatComponent,
     HorizontalBarComponent,
 
+=======
+    BankUserComponent,
+    MerchUserComponent,
+    BankComponent,
+        
+>>>>>>> df85c0a60b966640f81675e235881fc134042838
   ],
   // providers: [
     
