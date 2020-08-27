@@ -21,8 +21,8 @@ class MerchantViewSet(viewsets.ModelViewSet):
         'description',
         'address',
         'contact_person',
+        'user',
     )
-
     search_fields = [
         'id',
         'bank',
@@ -34,4 +34,5 @@ class MerchantViewSet(viewsets.ModelViewSet):
         'description',
         'address',
         'contact_person',
+        'user'
     ]
