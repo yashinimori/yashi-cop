@@ -46,7 +46,6 @@ const routes: Routes = [{
       component: SingleClaimFormsComponent,
     },
     {
-<<<<<<< HEAD
       path: 'chbo-dashboard',
       component: ChboDashboardComponent,
     },
@@ -62,8 +61,7 @@ const routes: Routes = [{
       path: 'horizontal-bar',
       component: HorizontalBarComponent,
     },
-
-=======
+    {
       path: 'bank-user',
       component: BankUserComponent,
     },
@@ -77,7 +75,6 @@ const routes: Routes = [{
     },
 
 
->>>>>>> df85c0a60b966640f81675e235881fc134042838
     
 
   ],

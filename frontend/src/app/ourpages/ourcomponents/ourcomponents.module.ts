@@ -56,11 +56,8 @@ import { BankComponent } from './bank/bank.component';
     NbSelectModule,
     NbRadioModule,
     NbInputModule,
-<<<<<<< HEAD
     ChartsModule,
-=======
     
->>>>>>> df85c0a60b966640f81675e235881fc134042838
   ],
   declarations: [
     OurComponentsComponent,
@@ -70,18 +67,15 @@ import { BankComponent } from './bank/bank.component';
     ATMlogViewerComponent,
     ATMlogViewerDetailComponent,
     SingleClaimFormsComponent,
-<<<<<<< HEAD
     ChboDashboardComponent,
     ChboMyClaimsComponent,
     ChartDonatComponent,
     HorizontalBarComponent,
 
-=======
     BankUserComponent,
     MerchUserComponent,
     BankComponent,
         
->>>>>>> df85c0a60b966640f81675e235881fc134042838
   ],
   // providers: [
     
