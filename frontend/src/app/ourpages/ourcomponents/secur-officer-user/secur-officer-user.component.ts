@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
@@ -10,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { Bank } from '../../../share/models/bank.model';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
-import { MerchUser } from '../../../share/models/merch-user.model';
 
 @Component({
   selector: 'ngx-secur-officer-user',
@@ -22,21 +20,20 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   pagerSize = 10;
   bankID: any;
   fieldsStatus: FieldsStatus;
-  bank: Bank;
   logsData: Array<BankUser>;
   settingsLogs: any;
   sourceLogs: LocalDataSource;
   userId: any;
-  userData: any;
-  email: string;
+  userData: BankUser;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService) {
-    this.bank = new Bank();
-    this.logsData = new Array<BankUser>();
     
+    this.logsData = new Array<BankUser>();
+    this.userData = new BankUser();
+
   }
 
   bankUsersSubscription: Subscription = new Subscription();
@@ -71,7 +68,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     this.bankUsersSubscription.unsubscribe();
     //this.transferService.bankID.next('');
   }
-
 
   setSettingsGridLogs(role:string){
     console.log('setSettingsGridBankUser()' + role);
@@ -196,18 +192,23 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     });
   }
 
-
   getUserData(userId: any) {
-    console.log('loadBanks()');
-    this.bank = new Bank();
+    
+    this.userData = new BankUser();
 
     let self = this;
     this.httpServise.getBankEmployees(userId).subscribe({
       next: (response: any) => {
         console.log('loaded user'); 
         console.log(response);
-        this.userData = response;
-        this.email = this.userData[0].user.email;
+        this.userData.id = response[0].user.id;
+        this.userData.first_name = response[0].user.first_name;
+        this.userData.last_name = response[0].user.last_name;
+        this.userData.phone = response[0].user.phone;
+        this.userData.email = response[0].user.email;
+        this.userData.role = response[0].user.role;
+        this.userData.unit = response[0].user.unit;
+        this.userData.email = response[0].user.email;
       },
       error: error => {
         console.error('There was an error!', error);

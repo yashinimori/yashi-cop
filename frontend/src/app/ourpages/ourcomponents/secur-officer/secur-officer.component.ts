@@ -48,7 +48,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     console.log('BankSingleComponent role ' +this.role);
     this.userId = localStorage.getItem('user_id');
     console.log('BankSingleComponent userId ' +this.userId);
-
     this.bankID = this.transferService.bankID.getValue();
     console.log('this.bankID = ' + this.bankID);
 
@@ -64,8 +63,8 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
     this.httpServise.getBankEmployees(Number(userId)).subscribe({
       next: (response: any) => {
-        console.log('getBankEmployees()'); 
-        console.log(response);
+        //console.log('getBankEmployees()'); 
+        //console.log(response);
 
         if(response && response['length'] ){
 
@@ -88,7 +87,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    console.log(this.fieldsStatus);
+    //console.log(this.fieldsStatus);
   }
   
   
@@ -99,7 +98,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
 
   setSettingsGridBankUser(role:string){
-    console.log('setSettingsGridBankUser()' + role);
+    //console.log('setSettingsGridBankUser()' + role);
 
     switch(role){
       case 'security_officer': {
@@ -167,7 +166,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   }
 
   getBankUserData(id: any) {
-    console.log('getBankUserData()');
+    //console.log('getBankUserData()');
     this.bankUserData = new Array<BankUser>();
 
     let self = this;
@@ -175,8 +174,8 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded bank users '); 
-        console.log(response);
+        //console.log('loaded bank users '); 
+        //console.log(response);
 
         let data: any;
 
@@ -202,14 +201,14 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
           self.bankUserData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
         
         self.sourceBankUser = new LocalDataSource();
         self.sourceBankUser.load(self.bankUserData);
 
-        console.log(self.sourceBankUser);
+        //console.log(self.sourceBankUser);
         
       },
       error: error => {

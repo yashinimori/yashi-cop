@@ -14,35 +14,35 @@
               <nb-card >
                 <nb-card-body>
 
-                  <!-- <div class="div-panel" >
+                  <div class="div-panel" >
                     <label class="label-caption">Ім'я</label> 
                     <label class="label-data">{{ userData.first_name }}</label>
                   </div>
                   
                   <div class="div-panel" >
-                    <label class="label-caption">Прізвище"</label> 
+                    <label class="label-caption">Прізвище</label> 
                     <label class="label-data">{{ userData.last_name }}</label>
                   </div>
                   
                   <div class="div-panel" >
-                    <label class="label-caption">Підрозділ"</label> 
+                    <label class="label-caption">Підрозділ</label> 
                     <label class="label-data">{{ userData.unit }}</label>
                   </div>
                   
                   <div class="div-panel" >
-                    <label class="label-caption">Телефон"</label> 
+                    <label class="label-caption">Телефон</label> 
                     <label class="label-data">{{ userData.phone }}</label>
                   </div>
                   
                   <div class="div-panel" >
-                    <label class="label-caption">Email"</label> 
+                    <label class="label-caption">Email</label> 
                     <label class="label-data">{{ userData.email }}</label>
                   </div>
 
                   <div class="div-panel" >
-                    <label class="label-caption">Роль"</label> 
+                    <label class="label-caption">Роль</label> 
                     <label class="label-data">{{ userData.role }}</label>
-                  </div> -->
+                  </div>
 
                 </nb-card-body>
               </nb-card>
@@ -65,7 +65,7 @@
               <nb-card >
                 <nb-card-body>
                   
-                  <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="email" maxlength="40"> 
+                  <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="40"> 
                   <button nbButton status="primary" (click)="sendMail()">Надіслати</button>
 
                 </nb-card-body>
