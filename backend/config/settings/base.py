@@ -78,6 +78,7 @@ LOCAL_APPS = [
     "cop.users.apps.UsersConfig",
     "cop.core.apps.CoreConfig",
     "cop.bank.apps.BankConfig",
+    "cop.logger.apps.LoggerConfig",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

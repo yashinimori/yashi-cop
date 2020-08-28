@@ -98,6 +98,10 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
     def is_top_level(self):
         return self.role == self.Roles.TOP_LEVEL
 
