@@ -152,6 +152,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Користувачи',
+    icon: 'layout-outline',
+    hidden: setHiddenSecurOfficer(),
+    children: [
+      {
+        title: 'Користувачи',
+        link: '/ourpages/ourcomponents/secur-officer',
+      },
+      // {
+      //   title: 'Новий bank',
+      //   link: '/ourpages/ourcomponents/bank',
+      // },
+      // {
+      //   title: 'Новий користувач',
+      //   link: '/ourpages/ourcomponents/bank-user',
+      // },
+    ],
+  },
+  {
     title: 'Messages',
     icon: 'email-outline',
   },
@@ -215,7 +234,7 @@ function setHiddenBank(){
 
 function setHiddenTopOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenTopOfficer() ' + role);
+  //console.log('setHiddenTopOfficer() ' + role);
 
   if(role && (role=='top_level'))
     return false;
@@ -223,3 +242,13 @@ function setHiddenTopOfficer(){
   return true;
 }
 
+
+function setHiddenSecurOfficer(){
+  let role= localStorage.getItem('role');
+  console.log('setHiddenSecurOfficer() ' + role);
+
+  if(role && (role=='security_officer'))
+    return false;
+
+  return true;
+}

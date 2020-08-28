@@ -37,6 +37,7 @@ import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
 import { BankSingleComponent } from './bank-single/bank-single.component';
 import { TopOfficerComponent } from './top-officer/top-officer.component';
+import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { TopOfficerComponent } from './top-officer/top-officer.component';
     BankListComponent,
     BankSingleComponent,    
     TopOfficerComponent,    
+    SecurOfficerComponent,
             
   ],
   // providers: [

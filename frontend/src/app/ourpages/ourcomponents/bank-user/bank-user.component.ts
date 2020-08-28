@@ -78,7 +78,9 @@ export class BankUserComponent implements OnInit {
     this.transferService.bankID.next(this.bankID);
     if(this.role == 'top_level'){
       this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
-    } else{
+    } else if(this.role == 'security_officer'){
+      this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+    } else {
       this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
     }
   }

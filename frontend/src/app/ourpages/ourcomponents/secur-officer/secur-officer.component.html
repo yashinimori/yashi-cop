@@ -1,0 +1,31 @@
+<nb-card style="height: 99%;">
+  
+    <nb-card-header>
+      Данні
+    </nb-card-header>
+  
+    <nb-card-body>
+      <div class="col-12">
+        <nb-card size="small">
+          <nb-tabset fullWidth>
+
+            <nb-tab tabTitle="Користувачи">
+              <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
+              <nb-card style="height: 250px;">
+                <nb-card-body>
+
+                  <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
+                  </ng2-smart-table>
+
+                </nb-card-body>
+              </nb-card>
+      
+            </nb-tab>
+
+          </nb-tabset>
+        </nb-card>
+      </div>
+    
+    </nb-card-body>
+
+</nb-card>
