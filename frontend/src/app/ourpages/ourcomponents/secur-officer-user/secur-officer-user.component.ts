@@ -13,31 +13,29 @@ import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 
 @Component({
-  selector: 'ngx-secur-officer',
-  templateUrl: './secur-officer.component.html',
-  styleUrls: ['./secur-officer.component.scss']
+  selector: 'ngx-secur-officer-user',
+  templateUrl: './secur-officer-user.component.html',
+  styleUrls: ['./secur-officer-user.component.scss']
 })
-export class SecurOfficerComponent implements OnInit, OnDestroy {
+export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   role: string;
   pagerSize = 10;
   bankID: any;
   fieldsStatus: FieldsStatus;
   bank: Bank;
-  bankUserData: Array<BankUser>;
-  settingsBankUser: any;
-  sourceBankUser: LocalDataSource;
-  bankMerchData: Array<MerchUser>;
-  settingsMerch: any;
-  sourceMerch: LocalDataSource;
+  logsData: Array<BankUser>;
+  settingsLogs: any;
+  sourceLogs: LocalDataSource;
   userId: any;
+  userData: any;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService) {
     this.bank = new Bank();
-    this.bankUserData = new Array<BankUser>();
-    this.bankMerchData = new Array<MerchUser>();
+    this.logsData = new Array<BankUser>();
+    
   }
 
   bankUsersSubscription: Subscription = new Subscription();
@@ -46,44 +44,20 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     
     this.role = localStorage.getItem('role');
     console.log('BankSingleComponent role ' +this.role);
-    this.userId = localStorage.getItem('user_id');
+    
+    this.userId = this.transferService.userID.getValue();
     console.log('BankSingleComponent userId ' +this.userId);
 
     this.bankID = this.transferService.bankID.getValue();
     console.log('this.bankID = ' + this.bankID);
 
     this.generateStatusFields();
-    this.setSettingsGridBankUser(this.role);
-    
-    this.getBankEmployees(this.userId);
 
+    this.setSettingsGridLogs(this.role);
+    //this.getLogsData(this.userId);
+    
   }
   
-  getBankEmployees(userId: any){
-    
-
-    this.httpServise.getBankEmployees(Number(userId)).subscribe({
-      next: (response: any) => {
-        console.log('getBankEmployees()'); 
-        console.log(response);
-
-        if(response && response['length'] ){
-
-          let data = response[0];
-          this.bankID = data.bank.id;
-          
-          this.getBankUserData(this.bankID);
-
-        }
-
-      }
-    });
-  }
- 
-  createBankUser(){
-    this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-user']);
-  }
 
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
@@ -91,19 +65,18 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     console.log(this.fieldsStatus);
   }
   
-  
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
     //this.transferService.bankID.next('');
   }
 
 
-  setSettingsGridBankUser(role:string){
+  setSettingsGridLogs(role:string){
     console.log('setSettingsGridBankUser()' + role);
 
     switch(role){
       case 'security_officer': {
-        this.settingsBankUser = {
+        this.settingsLogs = {
           pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
           actions:{
@@ -154,7 +127,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
       }
       break;
       default:{
-        this.settingsBankUser = {
+        this.settingsLogs = {
           actions:{
             add: false,
             edit: false,
@@ -166,16 +139,16 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
         
   }
 
-  getBankUserData(id: any) {
-    console.log('getBankUserData()');
-    this.bankUserData = new Array<BankUser>();
+  getLogsData(id: any) {
+    console.log('getLogsData()');
+    this.logsData = new Array<BankUser>();
 
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded bank users '); 
+        console.log('loaded logs '); 
         console.log(response);
 
         let data: any;
@@ -200,16 +173,16 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
           t.unit = el['unit'];
           t.registration_date = user['registration_date'];
 
-          self.bankUserData.push(t);
+          self.logsData.push(t);
           
           console.log(t);
 
         });
         
-        self.sourceBankUser = new LocalDataSource();
-        self.sourceBankUser.load(self.bankUserData);
+        self.sourceLogs = new LocalDataSource();
+        self.sourceLogs.load(self.logsData);
 
-        console.log(self.sourceBankUser);
+        console.log(self.sourceLogs);
         
       },
       error: error => {
@@ -221,10 +194,31 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     });
   }
 
-  onUserRowSelect(event): void {
-    this.transferService.userID.next(event.data.id);
-    this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer-user']);
+
+  getUserData(userId: any) {
+    console.log('loadBanks()');
+    this.bank = new Bank();
+
+    let self = this;
+    this.httpServise.getBankEmployees(userId).subscribe({
+      next: (response: any) => {
+        console.log('loaded user'); 
+        console.log(response);
+        this.userData = response;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+    
+      }
+    });
   }
 
+
+  goBack(){
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+  }
 
 }
