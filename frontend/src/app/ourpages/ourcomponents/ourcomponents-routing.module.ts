@@ -17,6 +17,7 @@ import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
 import { BankSingleComponent } from './bank-single/bank-single.component';
+import { TopOfficerComponent } from './top-officer/top-officer.component';
 
 const routes: Routes = [{
   path: '',
@@ -81,6 +82,10 @@ const routes: Routes = [{
     {
       path: 'bank-single',
       component: BankSingleComponent,
+    },
+    {
+      path: 'top-officer',
+      component: TopOfficerComponent,
     },
     
 

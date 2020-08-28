@@ -1,0 +1,22 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.div-panel{
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.label-caption {
+  width: 38%;
+  text-transform: uppercase;
+}
+.label-data {
+  width: 60%;
+  font-weight: bold;
+  text-transform: uppercase;
+}

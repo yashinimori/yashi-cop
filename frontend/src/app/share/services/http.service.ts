@@ -194,5 +194,8 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
+  getBankEmployees(userId: any){
+    return this.http.get(URL_BANK_USERS+`/?all&user=${userId}`, this.getHeaders());
+  }
 
 }
