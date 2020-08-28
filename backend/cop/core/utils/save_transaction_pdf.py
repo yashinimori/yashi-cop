@@ -22,6 +22,6 @@ def save_transaction_pdf(transaction):
 
 
 def render_transaction_for_pdf(transaction):
-    template = get_template('pdf.html')
+    template = get_template('transaction/transaction_details.html')
     html = template.render({'object': transaction})
     return html

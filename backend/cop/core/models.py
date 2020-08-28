@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
 
+from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 from cop.core.utils.sha256 import generate_sha256
 
 User = settings.AUTH_USER_MODEL
@@ -302,9 +303,39 @@ class Claim(BaseModel):
     def officer_answer_refund(self):
         return self.officer_answer_reason == self.ACCEPTED_REFUND or self.officer_answer_reason == self.PARTLY_REFUND
 
+    def assign_transaction(self):
+        approval_code = self.trans_approval_code
+        qs = Transaction.objects.filter(pan__startswith=self.pan[0:6], pan__endswith=self.pan[-4:],
+                                        trans_amount=self.trans_amount, trans_date__date=self.trans_date)
+        if approval_code:
+            qs.filter(approval_code=approval_code)
+        transaction = qs.first()
+        if transaction:
+            self.transaction = transaction
+            self.result = transaction.result
+            self.save()
+            if self.result == Transaction.Results.SUCCESSFUL:
+                self.add_transaction_data()
+
+    def add_transaction_data(self):
+        media_path = save_transaction_pdf(self.transaction)
+        system_user = User.objects.get(email='system@cop.cop')
+        ClaimDocument.objects.create(
+            type=ClaimDocument.Types.ATM_LOG,
+            file=media_path,
+            claim=self,
+            user=system_user
+        )
+        Comment.objects.create(
+            text='згідно проведеного аналізу операція була завершена успішно, кошти були отримані',
+            user=system_user,
+            claim=self
+        )
+
 
 class ClaimDocument(BaseModel):
     """Upload Documents for specific Claim."""
+
     class Types:
         SUBSTITUTE_DRAFT = 'substitute_draft'
         CHECK = 'check'

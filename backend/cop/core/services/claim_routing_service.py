@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
 from cop.core.utils.claim_reason_codes import ClaimReasonCodes as crc
-from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 
 User = get_user_model()
 
@@ -32,7 +31,7 @@ class ClaimRoutingService:
 
         self.assign_rc_by_claim_rc(validated_data['claim_reason_code'])
         self.assign_bank_by_pan()
-        self.assign_transaction()
+        self.claim.assign_transaction()
 
     def assign_by_merch_id(self, merch_id):
         from cop.core.models import Merchant
@@ -77,34 +76,3 @@ class ClaimRoutingService:
         from cop.core.models import ATM
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
 
-    def assign_transaction(self):
-        from cop.core.models import Transaction
-
-        approval_code = self.claim.trans_approval_code
-        qs = Transaction.objects.filter(pan__startswith=self.claim.pan[0:6], pan__endswith=self.claim.pan[-4:],
-                                        trans_amount=self.claim.trans_amount, trans_date=self.claim.trans_date)
-        if approval_code:
-            qs.filter(approval_code=approval_code)
-        transaction = qs.first()
-        if transaction:
-            self.claim.transaction = transaction
-            self.claim.result = transaction.result
-            if self.claim.result == Transaction.Results.SUCCESSFUL:
-                self.change_stage_add_comment(transaction)
-
-    def change_stage_add_comment(self, transaction):
-        from cop.core.models import ClaimDocument, Comment
-
-        media_path = save_transaction_pdf(transaction)
-        system_user = User.objects.get(email='system@cop.cop')
-        ClaimDocument.objects.create(
-            type=ClaimDocument.Types.ATM_LOG,
-            file=media_path,
-            claim=self.claim,
-            user=system_user
-        )
-        Comment.objects.create(
-            text='згідно проведеного аналізу операція була завершена успішно, кошти були отримані',
-            user=system_user,
-            claim=self.claim
-        )
