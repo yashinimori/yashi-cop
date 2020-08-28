@@ -125,6 +125,7 @@ class StatusService(BaseStatusService):
         if self.initial_status == 17:
             if self.user.is_chargeback_officer:
                 if self.claim.escalation_form_received:
+                    # TODO add chargeback date
                     self.set_status(19)
                 elif self.claim.close_form_received:
                     self.set_status(23)
@@ -372,7 +373,7 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.clarify_form_received:
                     self.set_status(40)
-                elif self.claim.close_form_received and self.claim.officer_answer_refund:  # TODO status dasn't exist
+                elif self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(43)
                 elif self.claim.close_form_received:
                     self.set_status(41)

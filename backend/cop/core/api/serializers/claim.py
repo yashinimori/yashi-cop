@@ -130,6 +130,7 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
+        # TODO:
         if claim_reason_code:
             validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
         instance = super().update(instance, validated_data)
@@ -140,17 +141,22 @@ class ClaimSerializer(serializers.ModelSerializer):
     def set_status(self, status_index=None):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
-        docs_request_rc = '0100'
-        if claim.claim_reason_code == docs_request_rc:
-            claim.status = Status.objects.get(index=1)
-        else:
-            claim.status = Status.objects.get(index=6)
+        if not claim.status:
+            self.set_initial_status()
         if claim.claim_reason_code in allocation_rc:
             AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
         elif claim.bank and claim.merchant:
             StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
         elif not claim.bank and not claim.merchant:
             CardholderStatuses(claim=claim, user=self.context["request"].user, status_index=status_index)
+
+    def set_initial_status(self):
+        claim = self.instance
+        docs_request_rc = '0100'
+        if claim.claim_reason_code == docs_request_rc:
+            claim.status = Status.objects.get(index=1)
+        else:
+            claim.status = Status.objects.get(index=6)
 
 
 class ClaimListSerializer(serializers.ModelSerializer):

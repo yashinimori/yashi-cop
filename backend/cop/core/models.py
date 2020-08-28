@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 from cop.core.utils.sha256 import generate_sha256
@@ -446,7 +447,7 @@ class Report(BaseModel):
         ('finished', 'Finished'),
     )
     claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE, blank=True, null=True)
-    log = models.FileField(upload_to='logs/%Y/%m/%d/')
+    log = models.FileField(storage=S3Boto3Storage(bucket='coplogs'))
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)
     log_hash = models.CharField(unique=True, max_length=256, db_index=True, null=True, blank=True)
