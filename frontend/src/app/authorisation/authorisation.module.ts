@@ -21,6 +21,7 @@ import {
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PasswordComponent } from './password/password.component';
+import { ActivationComponent } from './activation/activation.component';
 
 // const childrens = [
 //   {path: 'login', component: LoginComponent},
@@ -54,6 +55,7 @@ import { PasswordComponent } from './password/password.component';
     LoginComponent, 
     RegistrationComponent,
     PasswordComponent,
+    ActivationComponent,
   ],
   imports: [
 
