@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         console.log(response); 
         localStorage.setItem('token', response.access); 
-        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());          
+        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());    
       },
       error: error => {
         console.error('There was an error!', error);

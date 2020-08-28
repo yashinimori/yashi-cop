@@ -29,6 +29,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   bankMerchData: Array<MerchUser>;
   settingsMerch: any;
   sourceMerch: LocalDataSource;
+  userId: any;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -45,28 +46,36 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     
     this.role = localStorage.getItem('role');
     console.log('BankSingleComponent role ' +this.role);
-
+    this.userId = localStorage.getItem('user_id');
+    console.log('BankSingleComponent userId ' +this.userId);
 
     this.bankID = this.transferService.bankID.getValue();
     console.log('this.bankID = ' + this.bankID);
 
-    this.bank = new Bank();
-    this.getBankData(this.bankID);
-
     this.generateStatusFields();
 
     this.setSettingsGridBankUser(this.role);
-    this.getBankUserData(this.bankID);
-    
     this.setSettingsGridMerch(this.role);
-    this.getMerchantData(this.bankID);
 
-
-    this.httpServise.getBankEmployees().subscribe({
+    this.httpServise.getBankEmployees(Number(this.userId)).subscribe({
       next: (response: any) => {
         console.log('getBankEmployees()'); 
         console.log(response);
+
+        if(response && response['length'] ){
+
+          let data = response[0];
+          this.bankID = data.bank.id;
+          console.log('this.bankID' + this.bankID) ;
+          this.bank = new Bank();
+          // this.getBankData(this.bankID);
+          
+          this.getBankUserData(this.bankID);
+          this.getMerchantData(this.bankID);
+
         }
+
+      }
     });
 
   }
@@ -127,12 +136,10 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
 
   setSettingsGridBankUser(role:string){
-    console.log('setSettingsGridBankUser(c:string)' + role);
+    console.log('setSettingsGridBankUser()' + role);
 
     switch(role){
-      case 'admin':
-      case 'cop_manager':
-      case 'chargeback_officer':  {
+      case 'top_level': {
         this.settingsBankUser = {
           pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
@@ -177,13 +184,13 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
             registration_date:{
               title: 'Регістрація',
               type: 'string',
-
+  
             }
           },
         };
       }
       break;
-      default: {
+      default:{
         this.settingsBankUser = {
           actions:{
             add: false,
@@ -192,10 +199,71 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
- 
 
+
+    // if(role != 'top_level'){
+    //   this.settingsBankUser = {
+    //       actions:{
+    //         add: false,
+    //         edit: false,
+    //         delete: false,
+    //       },
+    //     };
+    // } else{
+
+    //   this.settingsBankUser = {
+    //     pager:{perPage: this.pagerSize},
+    //     //hideSubHeader: true,
+    //     actions:{
+    //       add: false,
+    //       edit: false,
+    //       delete: false,
+    //     },
+    //     columns: {
+    //       // id: {
+    //       //   title: 'ID',
+    //       //   type: 'string',
+    //       // },
+    //       userId: {
+    //         title: 'Користувач',
+    //         type: 'string',
+    //       },
+    //       role: {
+    //         title: 'Роль',
+    //         type: 'string',
+    //       },
+    //       first_name: {
+    //         title: 'Імя',
+    //         type: 'string',
+    //       },
+    //       last_name: {
+    //         title: 'Прізвище',
+    //         type: 'string',
+    //       },
+    //       unit: {
+    //         title: 'Підрозділ',
+    //         type: 'string',
+    //       },
+    //       phone: {
+    //         title: 'Телефон',
+    //         type: 'string',
+    //       },
+    //       email: {
+    //         title: 'Пошта',
+    //         type: 'string',
+    //       },
+    //       registration_date:{
+    //         title: 'Регістрація',
+    //         type: 'string',
+
+    //       }
+    //     },
+    //   };
+
+    // }
+
+        
   }
 
   getBankUserData(id: any) {
@@ -258,9 +326,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     console.log('setSettingsGridMerchant(c:string)' + role);
 
     switch(role){
-      case 'admin':
-      case 'cop_manager':
-      case 'chargeback_officer':  {
+      case 'top_level': {
         this.settingsMerch = {
           pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
