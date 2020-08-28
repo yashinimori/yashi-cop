@@ -68,6 +68,7 @@ export class FieldsStatus {
     scf_query_comment: paramStatusFields;
     scf_query_upload_doc: paramStatusFields;
     bank_single_view: paramStatusFields;
+    list_claims: paramStatusFields;
 
     default() {
         this.pan = new paramStatusFields({invisible: true});
@@ -108,17 +109,18 @@ export class FieldsStatus {
         this.button_escal_finish = new paramStatusFields({invisible: true});
         this.button_escal_add_responce = new paramStatusFields({invisible: true});
         this.button_request_docs = new paramStatusFields({invisible: true});
-
         this.scf_query_comment = new paramStatusFields({invisible: true});
         this.scf_query_upload_doc = new paramStatusFields({invisible: true});
-
         this.bank_single_view = new paramStatusFields({invisible: true});
+        this.list_claims = new paramStatusFields({invisible: true});
+        
     }
 
     public setStatusByRole(role: string) {
 
         switch(role) { 
             case 'merchant':{ 
+                this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -164,6 +166,7 @@ export class FieldsStatus {
             break; 
             case 'cardholder': 
             case 'user': { 
+                this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -207,8 +210,53 @@ export class FieldsStatus {
                 this.scf_query_upload_doc = new paramStatusFields({invisible: true});
             } 
             break; 
-            case 'cop_manager':
+            case 'cop_manager':{
+                this.list_claims = new paramStatusFields({invisible: true});
+                this.bank_single_view = new paramStatusFields({invisible: false});
+                this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.merchantID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.terminalID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.amount = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.currency = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.authCode = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.comment = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.cOPClaimID = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.merchantName = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.reasonCodeGroup = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.status = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.actionNeeded = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.result = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.dueDate = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false});  
+                this.scf_finish_reason = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_finish_decision = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_finish_responce = new paramStatusFields({invisible: true}); 
+                this.scf_finish_amount = new paramStatusFields({invisible: false, readonly:false, required: false});
+                this.scf_finish_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_escal_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_escal_mmt = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_escal_reasoncode = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_escal_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_clarif_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_clarif_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.button_escalation = new paramStatusFields({invisible: false});
+                this.button_escal_clarif = new paramStatusFields({invisible: false});
+                this.button_escal_finish = new paramStatusFields({invisible: false});
+                this.button_escal_add_responce = new paramStatusFields({invisible: true});
+                this.button_request_docs = new paramStatusFields({invisible: false});
+                this.scf_query_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.scf_query_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+            }
+            break;
             case 'chargeback_officer': { 
+                this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -253,6 +301,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'top_level': { 
+                this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
