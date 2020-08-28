@@ -319,8 +319,10 @@ class Claim(BaseModel):
                 self.add_transaction_data()
 
     def add_transaction_data(self):
+        from django.contrib.auth import get_user_model
+
         media_path = save_transaction_pdf(self.transaction)
-        system_user = User.objects.get(email='system@cop.cop')
+        system_user = get_user_model().objects.get(email='system@cop.cop')
         ClaimDocument.objects.create(
             type=ClaimDocument.Types.ATM_LOG,
             file=media_path,
