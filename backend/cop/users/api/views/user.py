@@ -10,9 +10,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from cop.users.api.serializers.user import UserSerializer
-from cop.users.api.serializers.users_registration import SecurityOfficerRegistrationSerializer, \
-    TopLevelRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer, \
-    CopManagerRegistrationSerializer
+from cop.users.api.serializers.users_registration import CardholderRegistrationSerializer, \
+    SecurityOfficerRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer
 
 User = get_user_model()
 
@@ -27,8 +26,9 @@ class CustomRegistrationView(DjoserUserViewSet):
         serializer_class = super().get_serializer_class()
         # handling user_create
         if self.request.user.is_authenticated and self.is_create_serializer(serializer_class):
-            serializer_class = self.get_serializer_based_on_role(serializer_class)
-        return serializer_class
+            return self.get_serializer_based_on_role(serializer_class)
+        else:
+            return CardholderRegistrationSerializer
 
     @staticmethod
     def can_create_all_user_types(user):
@@ -50,9 +50,7 @@ class CustomRegistrationView(DjoserUserViewSet):
         role_serializer_binding = {
             User.Roles.MERCHANT: MerchantRegistrationSerializer,
             User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
-            User.Roles.SECURITY_OFFICER: SecurityOfficerRegistrationSerializer,
-            User.Roles.TOP_LEVEL: TopLevelRegistrationSerializer,
-            User.Roles.COP_MANAGER: CopManagerRegistrationSerializer,
+            User.Roles.CARDHOLDER: CardholderRegistrationSerializer,
         }
         if role in role_serializer_binding:
             return role_serializer_binding[role]

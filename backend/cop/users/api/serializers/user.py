@@ -17,10 +17,6 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
             'role',
         )
 
-    def create(self, validated_data):
-        validated_data['role'] = User.Roles.CARDHOLDER
-        return super().create(validated_data)
-
 
 class UserSerializer(BaseUserSerializer):
     claim_fields = serializers.CharField(required=False)
