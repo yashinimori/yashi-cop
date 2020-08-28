@@ -115,13 +115,6 @@
 
 </div>
 
-
-
-<div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
-    <button  nbButton status="primary" (click)="onClickEscalationFinish()">Завершити</button>
-</div>
-
-
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible"
         nbButton status="primary" (click)="onClickFinish()" >Завершити</button>

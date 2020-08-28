@@ -155,7 +155,7 @@ export class FieldsStatus {
                 this.scf_clarif_upload_doc = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.button_escalation = new paramStatusFields({invisible: true});
                 this.button_escal_clarif = new paramStatusFields({invisible: false});
-                this.button_escal_finish = new paramStatusFields({invisible: true});
+                this.button_escal_finish = new paramStatusFields({invisible: false});
                 this.button_escal_add_responce = new paramStatusFields({invisible: true});
                 this.button_request_docs = new paramStatusFields({invisible: true});
                 this.scf_query_comment = new paramStatusFields({invisible: true});
