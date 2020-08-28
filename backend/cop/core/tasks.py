@@ -9,7 +9,6 @@ from django.utils import timezone
 from django.utils.timezone import make_aware
 
 from config import celery_app
-from cop.core.models import Comment, Status
 
 User = get_user_model()
 
@@ -194,26 +193,8 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
 def assign_claim_transaction(report):
     """Set Claim transaction."""
-    from cop.core.models import Transaction
     claim = report.claim_document.claim
-    approval_code = claim.trans_approval_code
-    qs = Transaction.objects.filter(pan__startswith=claim.pan[0:6], pan__endswith=claim.pan[-4:], report=report,
-                                    trans_amount=claim.trans_amount, trans_date=claim.trans_date)
-    if approval_code:
-        qs.filter(approval_code=approval_code)
-    transaction = qs.first()
-    if transaction:
-        claim.transaction = transaction
-        claim.result = transaction.result
-        system_user = User.objects.get(email='system@cop.cop')
-        Comment.objects.create(
-            text='згідно проведеного аналізу операція була завершена успішно, кошти були отримані',
-            user=system_user,
-            claim=claim
-        )
-        if claim.status.is_pre_mediation:
-            claim.status = Status.objects.get(index=5)
-        claim.save()
+    claim.assign_transaction()
 
 # def claim_docs_90_days(chb_officer):
 #     claim_docs_older_90d = ClaimDocument.objects.filter(create_date__lte=timezone.now() - datetime.timedelta(days=90),

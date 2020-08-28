@@ -14,12 +14,14 @@ import { TransferService } from '../../../share/services/transfer.service';
 export class MerchUserComponent implements OnInit {
   public data: MerchUser;
   bankID: string;
+  role: any;
 
   constructor(private httpService: HttpService,
     private router: Router,
     private transferService: TransferService,) {
     
       this.bankID = '';
+      this.role = '';
   }
 
   ngOnInit(): void {
@@ -27,11 +29,18 @@ export class MerchUserComponent implements OnInit {
 
     this.bankID = this.transferService.bankID.getValue();
     console.log('this.bankID = ' + this.bankID);
+    
+    this.role = localStorage.getItem('role');
   }
 
   goBack(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    if(this.role == 'top_level'){
+      this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
+    } else{
+      this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    }
+
   }
 
   createMerchUser() {
@@ -73,8 +82,7 @@ export class MerchUserComponent implements OnInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-          this.transferService.bankID.next(this.bankID);
-          this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+          this.goBack();
         }
       });
       

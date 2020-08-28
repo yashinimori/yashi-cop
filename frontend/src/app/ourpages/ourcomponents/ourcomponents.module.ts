@@ -37,6 +37,8 @@ import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
 import { BankSingleComponent } from './bank-single/bank-single.component';
 import { ChartjsPieComponent } from '../../pages/charts/chartjs/chartjs-pie.component'
+import { TopOfficerComponent } from './top-officer/top-officer.component';
+import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 
 
 @NgModule({
@@ -78,7 +80,10 @@ import { ChartjsPieComponent } from '../../pages/charts/chartjs/chartjs-pie.comp
     MerchUserComponent,
     BankComponent,
     BankListComponent,
-    BankSingleComponent,        
+    BankSingleComponent,          
+    TopOfficerComponent,    
+    SecurOfficerComponent,
+            
   ],
   // providers: [
     

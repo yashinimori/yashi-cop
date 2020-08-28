@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         console.log(response); 
         localStorage.setItem('token', response.access); 
-        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());          
+        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());    
       },
       error: error => {
         console.error('There was an error!', error);
@@ -50,8 +50,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         } else {
           localStorage.setItem('role', response.role);
           localStorage.setItem('fio', response.first_name +' '+ response.last_name);
+          localStorage.setItem('user_id', response['id']);
         }
-
+        console.log(localStorage);
       },
       error: error => {
         console.error('There was an error!', error);

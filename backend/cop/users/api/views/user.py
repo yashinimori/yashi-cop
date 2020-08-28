@@ -1,6 +1,4 @@
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.utils.module_loading import import_string
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
@@ -9,10 +7,10 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from cop.users.api.serializers.chargebackofficer_registration import ChargebackOfficerRegistrationSerializer
-from cop.users.api.serializers.merchant_registration import MerchantRegistrationSerializer
-from cop.users.api.serializers.security_officer_registration import SecurityOfficerRegistrationSerializer
 from cop.users.api.serializers.user import UserSerializer
+from cop.users.api.serializers.users_registration import SecurityOfficerRegistrationSerializer, \
+    TopLevelRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer, \
+    CopManagerRegistrationSerializer
 
 User = get_user_model()
 
@@ -22,32 +20,38 @@ class CustomRegistrationView(DjoserUserViewSet):
     def get_serializer_class(self):
         serializer_class = super().get_serializer_class()
 
-        # handling user_create
-        if serializer_class == import_string(settings.DJOSER['SERIALIZERS']['user_create']):
+        if self.request.user.is_authenticated:
             serializer_class = self.get_serializer_based_on_role(serializer_class)
 
         return serializer_class
 
+    @staticmethod
+    def can_create_all_user_types(user):
+        return user.is_cop_manager or user.is_security_officer
+
     def get_serializer_based_on_role(self, serializer_class):
-        data = self.request.data
-        current_user = self.request.user
-        if current_user.is_authenticated:
-            if data.get('role') == User.Roles.MERCHANT:
-                if current_user.is_cop_manager or current_user.is_security_officer:
-                    serializer_class = MerchantRegistrationSerializer
-                else:
-                    raise PermissionDenied({"message": "You don't have permission to access"})
-            elif data.get('role') in (User.Roles.CHARGEBACK_OFFICER, User.Roles.TOP_LEVEL):
-                if current_user.is_cop_manager or current_user.is_security_officer:
-                    serializer_class = ChargebackOfficerRegistrationSerializer
-                else:
-                    raise PermissionDenied({"message": "You don't have permission to access"})
-            elif data.get('role') == User.Roles.SECURITY_OFFICER:
-                if current_user.is_security_officer or current_user.is_cop_manager:
-                    serializer_class = SecurityOfficerRegistrationSerializer
-                else:
-                    raise PermissionDenied({"message": "You don't have permission to access"})
+        role = self.request.data.get('role')
+        user = self.request.user
+        if self.can_create_all_user_types(user):
+            serializer_class = self.get_role_serializer(role, serializer_class)
+        elif user.is_top_level:
+            serializer_class = SecurityOfficerRegistrationSerializer
+        else:
+            raise PermissionDenied({"message": "You don't have permission to perform this action"})
         return serializer_class
+
+    @staticmethod
+    def get_role_serializer(role, default_serializer):
+        role_serializer_binding = {
+            User.Roles.MERCHANT: MerchantRegistrationSerializer,
+            User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
+            User.Roles.SECURITY_OFFICER: SecurityOfficerRegistrationSerializer,
+            User.Roles.TOP_LEVEL: TopLevelRegistrationSerializer,
+            User.Roles.COP_MANAGER: CopManagerRegistrationSerializer,
+        }
+        if role in role_serializer_binding:
+            return role_serializer_binding[role]
+        return default_serializer
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):

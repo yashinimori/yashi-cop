@@ -15,6 +15,7 @@ export class BankUserComponent implements OnInit {
   public data: BankUser;
   public listRole: Array<SelectorData>;
   bankID: string;
+  role: any;
 
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
@@ -22,6 +23,7 @@ export class BankUserComponent implements OnInit {
     private transferService: TransferService,) {
 
     this.bankID = '';
+    this.role = '';
   }
 
   ngOnInit(): void {
@@ -30,6 +32,8 @@ export class BankUserComponent implements OnInit {
 
     this.bankID = this.transferService.bankID.getValue();
     console.log('BankUserComponent this.bankID = ' + this.bankID);
+
+    this.role = localStorage.getItem('role');
   }
 
 
@@ -62,8 +66,7 @@ export class BankUserComponent implements OnInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-          this.transferService.bankID.next(this.bankID);
-          this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+          this.goBack();
         }
       });
 
@@ -73,7 +76,13 @@ export class BankUserComponent implements OnInit {
 
   goBack(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    if(this.role == 'top_level'){
+      this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
+    } else if(this.role == 'security_officer'){
+      this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+    } else {
+      this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    }
   }
   
 

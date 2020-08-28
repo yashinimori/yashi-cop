@@ -2,9 +2,75 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from rest_framework import serializers
 
-from cop.core.models import Merchant, Terminal
+from cop.core.models import BankEmployee, Terminal, Merchant
+from cop.users.api.serializers.user import UserRegistrationSerializer
 
 User = get_user_model()
+
+
+class SecurityOfficerRegistrationSerializer(UserRegistrationSerializer):
+    def create(self, validated_data):
+        validated_data['role'] = User.Roles.SECURITY_OFFICER
+        return super(BaseUserRegistrationSerializer, self).create(validated_data)
+
+
+class TopLevelRegistrationSerializer(UserRegistrationSerializer):
+    def create(self, validated_data):
+        validated_data['role'] = User.Roles.TOP_LEVEL
+        return super(BaseUserRegistrationSerializer, self).create(validated_data)
+
+
+class CopManagerRegistrationSerializer(UserRegistrationSerializer):
+    def create(self, validated_data):
+        validated_data['role'] = User.Roles.COP_MANAGER
+        return super(BaseUserRegistrationSerializer, self).create(validated_data)
+
+
+class BankEmployeeSerializes(serializers.ModelSerializer):
+    class Meta:
+        model = BankEmployee
+        fields = (
+            'bank',
+            'unit',
+        )
+
+
+class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
+    bankemployee = BankEmployeeSerializes()
+
+    class Meta(BaseUserRegistrationSerializer.Meta):
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'password',
+            'phone',
+            'role',
+            'created_by',
+            'bankemployee',
+        )
+
+    def validate(self, attrs):
+        bank_employee = attrs.pop('bankemployee')
+        attrs['bankemployee'] = bank_employee
+        return attrs
+
+    def create(self, validated_data):
+        bank_employee = validated_data.pop('bankemployee')
+        password = User.objects.make_random_password()
+        validated_data['password'] = password
+        validated_data['created_by'] = self.context["request"].user
+        self.context["password"] = password
+        instance = super().create(validated_data)
+
+        bank = bank_employee.get("bank")
+        BankEmployee.objects.create(
+            user=instance,
+            bank=bank,
+            unit=bank_employee['unit']
+        )
+        return instance
 
 
 class TerminalSerializer(serializers.ModelSerializer):

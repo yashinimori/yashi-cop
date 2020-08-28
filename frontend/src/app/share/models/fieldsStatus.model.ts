@@ -302,7 +302,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'top_level': { 
-                this.list_claims = new paramStatusFields({invisible: false});
+                this.list_claims = new paramStatusFields({invisible: true});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.transDate = new paramStatusFields({invisible: false, readonly:false, required: false});
