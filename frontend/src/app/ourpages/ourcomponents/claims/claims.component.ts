@@ -7,6 +7,7 @@ import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 
 @Component({
   selector: 'ngx-claims',
@@ -19,6 +20,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   source: LocalDataSource;
   role: string;
   pagerSize = 10;
+  fieldsStatus: FieldsStatus;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -46,6 +48,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     
     this.role = localStorage.getItem('role');
     console.log('ClaimsComponent role ' +this.role);
+
+    this.generateStatusFields();
 
     this.setSettingsGrid(this.role);
     this.getClaimsData();
@@ -284,4 +288,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
   }
+
+
+  generateStatusFields() {
+    this.fieldsStatus = new FieldsStatus();
+    this.fieldsStatus.setStatusByRole(this.role);
+  }
+  
+
 }

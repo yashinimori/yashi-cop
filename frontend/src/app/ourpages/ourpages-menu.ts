@@ -105,20 +105,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'БАНК',
     icon: 'layout-outline',
-    hidden: setHiddenCOPManager(),
+    hidden: setHiddenBank(),
     children: [
       {
         title: 'Лист банків',
         link: '/ourpages/ourcomponents/bank-list',
       },
-      {
-        title: 'Новий bank',
-        link: '/ourpages/ourcomponents/bank',
-      },
-      {
-        title: 'Новий користувач',
-        link: '/ourpages/ourcomponents/bank-user',
-      },
+      // {
+      //   title: 'Новий bank',
+      //   link: '/ourpages/ourcomponents/bank',
+      // },
+      // {
+      //   title: 'Новий користувач',
+      //   link: '/ourpages/ourcomponents/bank-user',
+      // },
     ],
   },
   {
@@ -192,3 +192,15 @@ function setHiddenMerchant(){
 
   return true;
 }
+
+function setHiddenBank(){
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenBank() ' + role);
+
+  if(role && (role=='cop_manager'))
+    return false;
+
+  return true;
+}
+
+

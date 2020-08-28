@@ -1,17 +1,20 @@
-<div *ngIf="role ==='cardholder' || role ==='сс_branch'" class="button-enter">
-  <a nbButton status="primary" href="ourpages/ourcomponents/single-claim">Додати скаргу</a>
+<div *ngIf="!fieldsStatus.fieldsStatus.invisible">
+  <div *ngIf="role ==='cardholder'" class="button-enter">
+    <a nbButton status="primary" href="ourpages/ourcomponents/single-claim">Додати скаргу</a>
+  </div>
+  <nb-card >
+    
+      <nb-card-header>
+        Список скарг
+      </nb-card-header>
+    
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source" 
+        (userRowSelect)="onUserRowSelect($event)"
+        (deleteConfirm)="onDeleteConfirm($event)">
+        </ng2-smart-table>
+      </nb-card-body>
+  
+  </nb-card>
+  
 </div>
-<nb-card>
-  
-    <nb-card-header>
-      Список скарг
-    </nb-card-header>
-  
-    <nb-card-body>
-      <ng2-smart-table [settings]="settings" [source]="source" 
-      (userRowSelect)="onUserRowSelect($event)"
-      (deleteConfirm)="onDeleteConfirm($event)">
-      </ng2-smart-table>
-    </nb-card-body>
-
-</nb-card>
