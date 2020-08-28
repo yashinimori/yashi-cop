@@ -249,7 +249,7 @@ class Claim(BaseModel):
     # transaction
     trans_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     trans_currency = models.CharField(choices=Transaction.CURRENCY_CHOICES, max_length=3)
-    trans_approval_code = models.CharField(max_length=6)
+    trans_approval_code = models.CharField(max_length=6, blank=True, null=True)
     trans_date = models.DateTimeField(max_length=12)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True,
                                     related_name='transactions')
