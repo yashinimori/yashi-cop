@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.module_loading import import_string
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
@@ -16,13 +18,16 @@ User = get_user_model()
 
 
 class CustomRegistrationView(DjoserUserViewSet):
+    @staticmethod
+    def is_create_serializer(serializer_class):
+        default_create_serializer = import_string(settings.DJOSER['SERIALIZERS']['user_create'])
+        return serializer_class == default_create_serializer
 
     def get_serializer_class(self):
         serializer_class = super().get_serializer_class()
-
-        if self.request.user.is_authenticated:
+        # handling user_create
+        if self.request.user.is_authenticated and self.is_create_serializer(serializer_class):
             serializer_class = self.get_serializer_based_on_role(serializer_class)
-
         return serializer_class
 
     @staticmethod
