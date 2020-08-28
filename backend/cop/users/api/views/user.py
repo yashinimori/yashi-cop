@@ -7,10 +7,10 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from cop.users.api.serializers.chargebackofficer_registration import ChargebackOfficerRegistrationSerializer
-from cop.users.api.serializers.merchant_registration import MerchantRegistrationSerializer
-from cop.users.api.serializers.security_officer_registration import SecurityOfficerRegistrationSerializer
 from cop.users.api.serializers.user import UserSerializer
+from cop.users.api.serializers.users_registration import SecurityOfficerRegistrationSerializer, \
+    TopLevelRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer, \
+    CopManagerRegistrationSerializer
 
 User = get_user_model()
 
@@ -30,8 +30,7 @@ class CustomRegistrationView(DjoserUserViewSet):
         return user.is_cop_manager or user.is_security_officer
 
     def get_serializer_based_on_role(self, serializer_class):
-        data = self.request.data
-        role = data.get('role')
+        role = self.request.data.get('role')
         user = self.request.user
         if self.can_create_all_user_types(user):
             serializer_class = self.get_role_serializer(role, serializer_class)
@@ -47,6 +46,8 @@ class CustomRegistrationView(DjoserUserViewSet):
             User.Roles.MERCHANT: MerchantRegistrationSerializer,
             User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
             User.Roles.SECURITY_OFFICER: SecurityOfficerRegistrationSerializer,
+            User.Roles.TOP_LEVEL: TopLevelRegistrationSerializer,
+            User.Roles.COP_MANAGER: CopManagerRegistrationSerializer,
         }
         if role in role_serializer_binding:
             return role_serializer_binding[role]
