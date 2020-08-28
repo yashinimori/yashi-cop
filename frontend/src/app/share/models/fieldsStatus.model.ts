@@ -163,6 +163,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'cardholder': 
+            case 'cc_branch': 
             case 'user': { 
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});

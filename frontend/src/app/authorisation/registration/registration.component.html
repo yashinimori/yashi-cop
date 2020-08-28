@@ -1,8 +1,10 @@
-  <div class="row">
+  <div class="row justify-content-center">
   
     <div class="center-screen">
       <nb-card class="registration-card">
-        <nb-card-header>Реєстрація</nb-card-header>
+        <nb-card-header>
+          <img src="src/app/authorisation/logo-01(white).png" alt="Logo">
+        </nb-card-header>
         <nb-card-body>
           
           <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
@@ -15,7 +17,7 @@
         </nb-card-body>
         <nb-card-footer>
           <div class="button-enter">
-            <button nbButton status="primary" (click)="createUser()">Enter</button>
+            <button nbButton status="primary" (click)="createUser()">Реєстрація</button>
           </div>
         </nb-card-footer>
       </nb-card>

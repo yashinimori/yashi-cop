@@ -36,6 +36,7 @@ import { MerchUserComponent } from './merch-user/merch-user.component';
 import { BankComponent } from './bank/bank.component';
 import { BankListComponent } from './bank-list/bank-list.component';
 import { BankSingleComponent } from './bank-single/bank-single.component';
+import { ChartjsPieComponent } from '../../pages/charts/chartjs/chartjs-pie.component'
 
 
 @NgModule({
@@ -73,13 +74,11 @@ import { BankSingleComponent } from './bank-single/bank-single.component';
     ChboMyClaimsComponent,
     ChartDonatComponent,
     HorizontalBarComponent,
-
     BankUserComponent,
     MerchUserComponent,
     BankComponent,
     BankListComponent,
     BankSingleComponent,        
-            
   ],
   // providers: [
     

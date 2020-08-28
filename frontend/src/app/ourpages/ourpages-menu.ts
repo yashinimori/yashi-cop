@@ -105,7 +105,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'БАНК',
     icon: 'layout-outline',
-    //hidden: setHiddenMerchant(),
+    hidden: setHiddenCOPManager(),
     children: [
       {
         title: 'Лист банків',
@@ -124,7 +124,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'МЕРЧАНТ',
     icon: 'layout-outline',
-    //hidden: setHiddenMerchant(),
+    hidden: setHiddenCOPManager(),
     children: [
       {
         title: 'Новий мерчант',
@@ -145,9 +145,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 function setHiddenUser(){
   let role= localStorage.getItem('role');
-  //console.log('setHidden() ' + role);
+  console.log('setHidden() ' + role);
 
-  if(role && (role=='user' || role=='cardholder'))
+  if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
     return false;
 
   return true;
@@ -158,6 +158,16 @@ function setHiddenAdmin(){
   //console.log('setHiddenAdmin() ' + role);
 
   if(role && (role=='admin'))
+    return false;
+
+  return true;
+}
+
+function setHiddenCOPManager(){
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenAdmin() ' + role);
+
+  if(role && (role=='cop_manager'))
     return false;
 
   return true;

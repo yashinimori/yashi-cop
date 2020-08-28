@@ -54,7 +54,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
 
   hideColumnForUser(role:string){
-    if(role && (role == 'cardholder' || role == 'user')){
+    if(role && (role == 'cardholder' || role == 'user' || role == 'cc_branch')){
         delete this.settings.columns.id;
     }
   }
@@ -143,6 +143,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       break;
       case 'merchant':
       case 'cardholder':
+      case 'cc_branch':
       case 'user': {
         this.settings = {
           pager:{perPage: this.pagerSize},
