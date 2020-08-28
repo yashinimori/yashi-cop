@@ -64,7 +64,9 @@
             <nb-tab tabTitle="Пароль">
               <nb-card >
                 <nb-card-body>
-
+                  
+                  <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="email" maxlength="40"> 
+                  <button nbButton status="primary" (click)="sendMail()">Надіслати</button>
 
                 </nb-card-body>
               </nb-card>

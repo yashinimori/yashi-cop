@@ -28,6 +28,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   sourceLogs: LocalDataSource;
   userId: any;
   userData: any;
+  email: string;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -55,10 +56,11 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
 
     this.setSettingsGridLogs(this.role);
     //this.getLogsData(this.userId);
+
+    this.getUserData(this.userId);
     
   }
   
-
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
@@ -205,6 +207,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         console.log('loaded user'); 
         console.log(response);
         this.userData = response;
+        this.email = this.userData[0].user.email;
       },
       error: error => {
         console.error('There was an error!', error);
@@ -219,6 +222,25 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   goBack(){
     this.transferService.bankID.next(this.bankID);
     this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+  }
+
+  sendMail(){
+    let d = {
+      "email": this.email
+    };
+    this.httpServise.sendEmailResetPass(d).subscribe({
+      next: (response: any) => {
+        console.log('sent email'); 
+        console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+    
+      }
+    });
+
   }
 
 }
