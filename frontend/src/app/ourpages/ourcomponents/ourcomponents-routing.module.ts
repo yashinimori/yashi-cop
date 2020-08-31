@@ -29,6 +29,10 @@ const routes: Routes = [{
       path: 'claims',
       component: ClaimsComponent,
     },
+    // {
+    //   path: 'claims/:status',
+    //   component: ClaimsComponent,
+    // },
     {
       path: 'single-claim',
       component: SingleClaimComponent,
@@ -54,7 +58,7 @@ const routes: Routes = [{
       component: ChboDashboardComponent,
     },
     {
-      path: 'chbo-my-claims',
+      path: 'chbo-my-claims/:status',
       component: ChboMyClaimsComponent,
     },
     {

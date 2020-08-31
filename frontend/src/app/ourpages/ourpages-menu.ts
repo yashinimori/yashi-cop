@@ -70,22 +70,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'pre-mediation',
         icon: 'radio-button-off-outline',
-        link: '/ourpages/ourcomponents/chbo-my-claims',
+        link: '/ourpages/ourcomponents/chbo-my-claims/pre-mediation',
       },
       {
         title: 'mediation',
         icon: 'radio-button-off-outline',
-        link: '#',
+        link: '/ourpages/ourcomponents/chbo-my-claims/mediation',
       },
       {
         title: 'chargebacks',
         icon: 'radio-button-off-outline',
-        link: '#',
+        link: '/ourpages/ourcomponents/chbo-my-claims/chargebacks',
       },
       {
         title: 'archive',
         icon: 'radio-button-off-outline',
-        link: '#',
+        link: '/ourpages/ourcomponents/chbo-my-claims/archive',
       },
     ],
   },
