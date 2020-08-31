@@ -158,11 +158,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
+            // id: {
+            //   title: '#',
+            //   type: 'string',
+            //   hidden: true,
+            //   filter: false,               
+            // },
             id: {
-              title: '#',
+              title: 'ID',
               type: 'string',
-              hidden: true,
-              filter: false,               
             },
             pan: {
               title: 'Номер карти',
@@ -176,18 +180,42 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                 else
                   return '';
               }
-            },  
-            term_id: {
-              title: "Ім'я терміналу",
-              type: 'string',
-            },    
+            }, 
             merch_name_ips: {
               title: "Назва торговця",
               type: 'string',
+            }, 
+            term_id: {
+              title: "Ім'я терміналу",
+              type: 'string',
+            },   
+            trans_amount: {
+              title: "Cума",
+              type: 'number',
+            }, 
+            trans_currency: {
+              title: "Валюта",
+              type: 'string',
+            },
+            auth_code: {
+              title: "Код авторизації",
+              type: 'number',
             },
             claim_reason_code: {
               title: "Reason Code",
               type: 'number',
+            },
+            status: {
+              title: "Статус",
+              type: 'string',
+            },
+            action_needed: {
+              title: "Індикатор",
+              type: 'string',
+            },
+            result: {
+              title: "Результат",
+              type: 'string',
             },
             due_date: {
               title: 'Кінцевий термін претензії.',
@@ -197,10 +225,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                 else
                   return '';
               }
-            },
-            action_needed: {
-              title: "Індикатор",
-              type: 'string',
             },
           },
         };
