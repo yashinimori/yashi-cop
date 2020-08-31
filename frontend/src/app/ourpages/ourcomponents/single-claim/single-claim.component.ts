@@ -194,6 +194,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
  
 
     this.getDates();
+
+    this.loadClaimDocumsnts();
   }
 
   ngOnDestroy(): void {
@@ -290,6 +292,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
   }
+
+
+  loadClaimDocumsnts(){
+    this.httpService.getClaimDocs(this.claimId).subscribe({
+      next: (response: any) => {
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+        console.log(response);
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+  }
+
 
 
   lastStep(code:string) {

@@ -108,13 +108,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     hidden: setHiddenBank(),
     children: [
       {
-        title: 'Лист банків',
+        title: 'Список банків',
         link: '/ourpages/ourcomponents/bank-list',
       },
-      // {
-      //   title: 'Новий bank',
-      //   link: '/ourpages/ourcomponents/bank',
-      // },
+      {
+        title: 'Новий банк',
+        link: '/ourpages/ourcomponents/bank',
+      },
       // {
       //   title: 'Новий користувач',
       //   link: '/ourpages/ourcomponents/bank-user',
