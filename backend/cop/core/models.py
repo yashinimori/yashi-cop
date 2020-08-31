@@ -254,7 +254,7 @@ class Claim(BaseModel):
     trans_currency = models.CharField(choices=Transaction.CURRENCY_CHOICES, max_length=3)
     trans_approval_code = models.CharField(max_length=6, blank=True, null=True)
     trans_date = models.DateTimeField(max_length=12)
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True,
+    transaction = models.ForeignKey(Transaction, on_delete=models.SET_NULL, blank=True, null=True,
                                     related_name='transactions')
     pan = models.CharField(max_length=16)
 
