@@ -6,5 +6,6 @@ class LoggerConfig(AppConfig):
     verbose_name = 'Logger'
 
     def ready(self):
-        pass
+        import cop.logger.signals   # noqa F405
+
 

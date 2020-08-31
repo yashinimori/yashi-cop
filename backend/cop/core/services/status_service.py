@@ -3,6 +3,7 @@
 from django.apps import apps
 
 from django.contrib.auth import get_user_model
+from django.utils.timezone import now
 
 Status = apps.get_model('core', 'Status')
 Claim = apps.get_model('core', 'Claim')
@@ -119,13 +120,13 @@ class StatusService(BaseStatusService):
                     self.set_status(51)
                 elif self.claim.escalation_form_received:
                     self.set_status(17)
+                    self.claim.chargeback_date = now()
 
     def chargeback(self):
-        """ 9-25 statuses """
+        """ 17-24 statuses """
         if self.initial_status == 17:
             if self.user.is_chargeback_officer:
                 if self.claim.escalation_form_received:
-                    # TODO add chargeback date
                     self.set_status(19)
                 elif self.claim.close_form_received:
                     self.set_status(23)
@@ -150,6 +151,7 @@ class StatusService(BaseStatusService):
         elif self.initial_status == 21:
             if self.user.is_chargeback_officer:
                 if self.claim.clarify_form_received:
+                    self.claim.second_presentment_date = now()
                     self.set_status(27)
                 elif self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(14)
@@ -173,14 +175,13 @@ class StatusService(BaseStatusService):
                     self.set_status(51)
 
     def chargeback_escalation(self):
-        """ 26-29 statuses """
+        """ 27-49 statuses """
         if self.initial_status == 27:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
                 elif self.claim.clarify_form_received:
                     self.set_status(26)
-        elif self.initial_status == 27:
             if self.user.is_chargeback_officer:
                 if self.claim.escalation_form_received:
                     self.set_status(31)
