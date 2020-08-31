@@ -222,8 +222,7 @@
             <div style="display: flex; flex-direction: column; width: 100%;">
                 <div style="margin-bottom: 1em;">
                     <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
-                        Текст: {{ item.text }}<br>
-                        Дата: {{ item.create_date_str }}
+                        {{ item.create_date_str }}  
                     </nb-list-item>
                   <!-- <span>Файл: {{item.file}} </span> -->
                 </div>
