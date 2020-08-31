@@ -21,6 +21,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
+  handleKeyUp(e){
+    if(e.keyCode === '13'){
+      console.log(e)
+       this.enter();
+  
+      }
+  }
+
   enter() {
     //console.log("enter()");
     //console.log(this.data);

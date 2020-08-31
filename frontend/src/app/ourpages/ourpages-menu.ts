@@ -124,7 +124,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'МЕРЧАНТ',
     icon: 'layout-outline',
-    hidden: true,
+    hidden: setHiddenCOPManager(),
     children: [
       {
         title: 'Новий мерчант',
@@ -183,10 +183,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 function setHiddenUser(){
   let role= localStorage.getItem('role');
-  //console.log('setHidden() ' + role);
+  console.log('setHidden() ' + role);
 
-  if(role && (role=='user' || role=='cardholder'))
-    return false;
+  if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
+    console.log('setHidden() ' + role); return false;
 
   return true;
 }
@@ -196,6 +196,16 @@ function setHiddenAdmin(){
   //console.log('setHiddenAdmin() ' + role);
 
   if(role && (role=='admin'))
+    return false;
+
+  return true;
+}
+
+function setHiddenCOPManager(){
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenAdmin() ' + role);
+
+  if(role && (role=='cop_manager'))
     return false;
 
   return true;
@@ -245,7 +255,7 @@ function setHiddenTopOfficer(){
 
 function setHiddenSecurOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenSecurOfficer() ' + role);
+  // console.log('setHiddenSecurOfficer() ' + role);
 
   if(role && (role=='security_officer'))
     return false;

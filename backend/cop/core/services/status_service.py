@@ -407,9 +407,7 @@ class AllocationStatusService(BaseStatusService):
                     self.set_status(51)
 
 
-class CardholderStatuses(BaseStatusService):
+class CardholderStatusService(BaseStatusService):
     def closed(self):
         if self.initial_status == 50 and self.user.is_cardholder:
             self.set_status(51)
-
-

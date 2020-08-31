@@ -1,16 +1,19 @@
-import {Component, OnInit, OnDestroy } from '@angular/core'
+import {Component, OnInit, OnDestroy, NgModule } from '@angular/core'
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { LocalDataSource } from 'ng2-smart-table';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { ClaimComment } from '../../../share/models/claim-comment.model';
 import { DatePipe } from '@angular/common';
+// import { ChartjsPieComponent } from '../../../pages/charts/chartjs/chartjs-pie.component';
 
 
 
 @Component({
     selector: 'app-chbo-dashboard',
-    templateUrl: './chbo-dashboard.component.html'
+    
+    templateUrl: './chbo-dashboard.component.html',
+    
 })
 export class ChboDashboardComponent implements OnInit, OnDestroy{
     claimsLen: Array<ClaimView>;

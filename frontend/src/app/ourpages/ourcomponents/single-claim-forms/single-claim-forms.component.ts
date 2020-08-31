@@ -272,7 +272,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
     this.reasonClosing = new Array<SelectorData>();
 
-    if(this.role == 'cardholder'){
+    if(this.role == 'cardholder' || this.role == 'cc_branch'){
       this.reasonClosing.push({id:1, caption:"я отримав необхідні документи та згоден завершити розгляд"});
       this.reasonClosing.push({id:2, caption:"я згоден з результатами розгляду"});
       this.reasonClosing.push({id:3, caption:"мою скаргу задоволено"});
