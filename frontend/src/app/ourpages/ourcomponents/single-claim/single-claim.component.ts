@@ -368,6 +368,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('saveClaim()');
     //this.claimData.form_name = 'claim_form';
     
+    //this.claimData.trans_date = this.claimData.trans_date + new Date().getTimezoneOffset();
+
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         console.log('ok');
@@ -677,8 +679,18 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  saveDates(){
-    
+  saveClaimUpdate(){
+    this.httpService.updateClaim(this.claimId).subscribe({
+      next: (response: any) => {
+        console.log('updateClaim ok');
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    }); 
   }
 
 }

@@ -29,11 +29,15 @@ const routes: Routes = [{
       path: 'claims',
       component: ClaimsComponent,
     },
-    // {
-    //   path: 'claims/:status',
-    //   component: ClaimsComponent,
-    // },
     {
+       path: 'claims/all',
+       component: ClaimsComponent,
+    },
+    {
+      path: 'claims/archive',
+      component: ClaimsComponent,
+   },
+   {
       path: 'single-claim',
       component: SingleClaimComponent,
     },

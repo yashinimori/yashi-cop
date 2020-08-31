@@ -2,18 +2,18 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Наші компоненти (ch)',
+    title: 'Мої зверненя',
     icon: 'layout-outline',
     hidden: setHiddenUser(),
     children: [
       {
         title: 'список скарг',
-        link: '/ourpages/ourcomponents/claims',
+        link: '/ourpages/ourcomponents/claims/all',
       },
-      // {
-      //   title: 'скарга',
-      //   link: '/ourpages/ourcomponents/single-claim',
-      // },
+      {
+         title: 'завершені',
+         link: '/ourpages/ourcomponents/claims/archive',
+       },
     ],
   },
   {
