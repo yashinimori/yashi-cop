@@ -23,8 +23,6 @@ urlpatterns += [
     # DRF auth token
     path('api/v1/auth/jwt/create/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/auth/', include('djoser.urls.jwt')),
-    # Old code
-    path('old/', include('cop.bank.urls'))
 ]
 
 if settings.DEBUG:
