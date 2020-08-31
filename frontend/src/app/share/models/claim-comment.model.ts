@@ -4,4 +4,5 @@ export class ClaimComment  {
   create_date: Date;
   update_date: Date;
   create_date_str: string;
+  user: string;
 }
