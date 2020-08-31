@@ -25,4 +25,5 @@ export class ClaimView extends ClaimRegistration {
   form_name: string;
   mmt: string;
   officer_answer_reason: string;
+  user: any;
 }
