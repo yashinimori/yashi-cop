@@ -14,7 +14,6 @@
     <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу' 
             || claimData.status == 'Chargeback опротестование сформировано') "
         nbButton status="primary" (click)="onClickRequestDocs()" style="margin-left: 10px;" >Запит документів</button>
-
 </div>
 
 <div *ngIf="!isNewRecord" class="div-panel" >
@@ -66,7 +65,7 @@
         </nb-card>
     </div>
   
-    <div class="right-panel" *ngIf="!role=='chargeback_officer'">
+    <!-- <div class="right-panel">
         <nb-card style="width: 100%; height: 400px;">
 
             <nb-card-body>
@@ -109,7 +108,7 @@
         
         </nb-card>
     
-    </div>
+    </div> -->
 
     <div class="right-panel" *ngIf="role=='chargeback_officer'">
         <nb-card style="width: 100%; height: 400px;">
@@ -148,12 +147,14 @@
   
               <nb-tab tabTitle="Комментари">
                 
-                <nb-card style="height: 250px;">
+                <nb-card style="width: 100%; height: 320px;">
                   <nb-card-body>
-  
-                    <!-- <ng2-smart-table [settings]="settingsLogs" [source]="sourceLogs">
-                    </ng2-smart-table> -->
-  
+                    <nb-list >
+                        <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
+                            {{ item.create_date_str}} {{ item.text }} 
+                          
+                        </nb-list-item>
+                    </nb-list>  
                   </nb-card-body>
                 </nb-card>
         
@@ -162,10 +163,41 @@
               <nb-tab tabTitle="Дати">
                 <nb-card >
                   <nb-card-body>
-                    
-                    <!-- <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="40"> 
-                    <button nbButton status="primary" (click)="sendMail()">Надіслати</button>
-   -->
+                  
+                    <input class="input-date center" nbInput 
+                        placeholder="chargeback_date"
+                        [nbDatepicker]="formpicker_chargeback_date"
+                        [(ngModel)]="chargeback_date">
+                    <nb-datepicker #formpicker_chargeback_date></nb-datepicker> 
+
+                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                        placeholder="second_presentment_date"
+                        [nbDatepicker]="formpicker_second_presentment_date"
+                        [(ngModel)]="second_presentment_date">
+                    <nb-datepicker #formpicker_second_presentment_date></nb-datepicker> 
+
+                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                        placeholder="pre_arbitration_date"
+                        [nbDatepicker]="formpicker_pre_arbitration_date"
+                        [(ngModel)]="pre_arbitration_date">
+                    <nb-datepicker #formpicker_pre_arbitration_date></nb-datepicker> 
+
+                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                        placeholder="pre_arbitration_response_date"
+                        [nbDatepicker]="formpicker_pre_arbitration_response_date"
+                        [(ngModel)]="pre_arbitration_response_date">
+                    <nb-datepicker #formpicker_pre_arbitration_response_date></nb-datepicker> 
+
+                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                        placeholder="arbitration_response_date"
+                        [nbDatepicker]="formpicker_arbitration_response_date"
+                        [(ngModel)]="arbitration_response_date">
+                    <nb-datepicker #formpicker_arbitration_response_date></nb-datepicker> 
+
+                    <div class="center" style="margin-top: 10px;" >
+                        <button  nbButton status="primary" (click)="saveDates()">Зберегти</button>
+                      </div>
+
                   </nb-card-body>
                 </nb-card>
               </nb-tab>

@@ -126,6 +126,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   comments: Array<ClaimComment>;
   documents: Array<ClaimDocument>;
   
+  chargeback_date: Date;
+  second_presentment_date: Date;
+  pre_arbitration_date: Date;
+  pre_arbitration_response_date: Date;
+  arbitration_date: Date;
+  arbitration_response_date : Date;
 
   ngOnInit(): void {
     //console.log('ngOnInit');
@@ -180,6 +186,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       this.getListQuestions();
     }
  
+
+    this.getDates();
   }
 
   ngOnDestroy(): void {
@@ -223,9 +231,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         let item = new ClaimComment();
         item.text = el.text;
         if(el.create_date)
-          item.create_date_str = this.datePipe.transform(new Date(el.create_date), 'dd-MM-yyyy hh:mm:ss');
+          item.create_date_str = this.datePipe.transform(new Date(el.create_date), 'dd/MM/yyyy');
         else
           item.create_date_str = '';
+
+          console.log('setClaimComments');
+          console.log(item);
 
         this.comments.push(item);
       });
@@ -613,6 +624,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.transferService.singleClaimFormsSettings.next(val);
   
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+  }
+
+  getDates(){
+
+  }
+
+  saveDates(){
+    
   }
 
 }
