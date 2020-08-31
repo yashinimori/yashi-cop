@@ -164,7 +164,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     def get_initial_status(crc_code: str):
         docs_request_rc = '0100'
         if crc_code == docs_request_rc:
-            return Status.objects.get(index=1)
+            return Status.objects.get(index=2)
         return Status.objects.get(index=6)
 
 
