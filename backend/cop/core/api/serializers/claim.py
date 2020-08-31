@@ -83,6 +83,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     status = StatusSerializer(read_only=True, required=False)
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
+    merchant = MerchantSerializer(read_only=True)
 
     class Meta:
         model = Claim
@@ -112,7 +113,9 @@ class ClaimSerializer(serializers.ModelSerializer):
             "issuer_mmt",
             "form_name",
             "status",
-            "officer_answer_reason"
+            "officer_answer_reason",
+            "chargeback_date",
+            "second_presentment_date"
         )
 
     def create(self, validated_data):
