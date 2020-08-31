@@ -187,7 +187,7 @@ function setHiddenUser(){
   console.log('setHidden() ' + role);
 
   if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
-    console.log('setHidden() ' + role); return false;
+    return false;
 
   return true;
 }

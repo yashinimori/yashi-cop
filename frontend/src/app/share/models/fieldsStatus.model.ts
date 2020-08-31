@@ -69,8 +69,11 @@ export class FieldsStatus {
     scf_query_upload_doc: paramStatusFields;
     bank_single_view: paramStatusFields;
     list_claims: paramStatusFields;
+    aRN_editor: paramStatusFields;
+    save_edit_claim: paramStatusFields;
 
     default() {
+        this.save_edit_claim = new paramStatusFields({invisible: true});
         this.pan = new paramStatusFields({invisible: true});
         this.transDate = new paramStatusFields({invisible: true});
         this.merchantID = new paramStatusFields({invisible: true});
@@ -113,6 +116,7 @@ export class FieldsStatus {
         this.scf_query_upload_doc = new paramStatusFields({invisible: true});
         this.bank_single_view = new paramStatusFields({invisible: true});
         this.list_claims = new paramStatusFields({invisible: true});
+        this.aRN_editor = new paramStatusFields({invisible: true});
         
     }
 
@@ -120,6 +124,8 @@ export class FieldsStatus {
 
         switch(role) { 
             case 'merchant':{ 
+                this.save_edit_claim = new paramStatusFields({invisible: true});
+                this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -167,6 +173,8 @@ export class FieldsStatus {
             case 'cardholder': 
             case 'cc_branch': 
             case 'user': { 
+                this.save_edit_claim = new paramStatusFields({invisible: true});
+                this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -212,6 +220,8 @@ export class FieldsStatus {
             } 
             break; 
             case 'cop_manager':{
+                this.save_edit_claim = new paramStatusFields({invisible: true});
+                this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: true});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -257,6 +267,8 @@ export class FieldsStatus {
             }
             break;
             case 'chargeback_officer': { 
+                this.save_edit_claim = new paramStatusFields({invisible: false});
+                this.aRN_editor = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});
@@ -277,7 +289,7 @@ export class FieldsStatus {
                 this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: true});
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false});  
@@ -302,6 +314,8 @@ export class FieldsStatus {
             } 
             break; 
             case 'top_level': { 
+                this.save_edit_claim = new paramStatusFields({invisible: true});
+                this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: true});
                 this.bank_single_view = new paramStatusFields({invisible: false});
                 this.pan = new paramStatusFields({invisible: false, readonly:false, required: false});

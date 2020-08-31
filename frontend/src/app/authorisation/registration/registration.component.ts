@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
       next: (response: any) => {
         console.log('ok');
         console.log(response); 
-        this.router.navigate(['ourpages']);
+        this.router.navigate(['auth', 'login']);
       },
       error: error => {
         console.error('There was an error!', error);

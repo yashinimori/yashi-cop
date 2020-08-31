@@ -195,7 +195,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.getDates();
 
-    this.loadClaimDocumsnts();
+    //this.loadClaimDocumsnts();
   }
 
   ngOnDestroy(): void {
