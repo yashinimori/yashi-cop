@@ -13,6 +13,10 @@
     width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
   }
 
+  .logoimg{
+    width: 200px;
+  }
+
   nb-action {
     height: auto;
     display: flex;

@@ -186,7 +186,7 @@ function setHiddenUser(){
   console.log('setHidden() ' + role);
 
   if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
-    return false;
+    console.log('setHidden() ' + role); return false;
 
   return true;
 }
@@ -255,7 +255,7 @@ function setHiddenTopOfficer(){
 
 function setHiddenSecurOfficer(){
   let role= localStorage.getItem('role');
-  console.log('setHiddenSecurOfficer() ' + role);
+  // console.log('setHiddenSecurOfficer() ' + role);
 
   if(role && (role=='security_officer'))
     return false;
