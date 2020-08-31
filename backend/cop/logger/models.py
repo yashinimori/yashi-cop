@@ -53,6 +53,8 @@ class LoggerEntry(models.Model):
         settings.AUTH_USER_MODEL,
         models.CASCADE,
         verbose_name=_('user'),
+        null=True,
+        blank=True
     )
     content_type = models.ForeignKey(
         ContentType,

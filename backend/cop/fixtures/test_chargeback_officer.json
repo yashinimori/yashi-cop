@@ -12,7 +12,6 @@
       "first_name": "Chargeback",
       "last_name": "Officer",
       "role": "chargeback_officer",
-      "unit": null,
       "phone": 77777777,
       "email": "officer@cop.cop",
       "claim_fields": "[]",

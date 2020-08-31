@@ -8,3 +8,4 @@ class LoggerConfig(AppConfig):
     def ready(self):
         pass
 
+
