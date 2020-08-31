@@ -235,8 +235,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         else
           item.create_date_str = '';
 
-          console.log('setClaimComments');
-          console.log(el);
+        item.user = el.user.first_name + ' ' + el.user.last_name;
+        //console.log('setClaimComments');
+        console.log(el);
+        
+        console.log(el.user.first_name);
 
         this.comments.push(item);
       });

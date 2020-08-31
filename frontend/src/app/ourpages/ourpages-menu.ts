@@ -10,10 +10,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'список скарг',
         link: '/ourpages/ourcomponents/claims',
       },
-      {
-        title: 'скарга',
-        link: '/ourpages/ourcomponents/single-claim',
-      },
+      // {
+      //   title: 'скарга',
+      //   link: '/ourpages/ourcomponents/single-claim',
+      // },
     ],
   },
   {
@@ -25,10 +25,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'список скарг',
         link: '/ourpages/ourcomponents/claims',
       },
-      {
-        title: 'скарга',
-        link: '/ourpages/ourcomponents/single-claim',
-      },
+      // {
+      //   title: 'скарга',
+      //   link: '/ourpages/ourcomponents/single-claim',
+      // },
     ],
   },
   {
@@ -173,10 +173,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Messages',
     icon: 'email-outline',
+    hidden: setHiddenMessages(),
   },
   {
     title: 'Settings',
-    
+    hidden: setHiddenSettings(),
   },
   
 ];
@@ -258,6 +259,29 @@ function setHiddenSecurOfficer(){
   // console.log('setHiddenSecurOfficer() ' + role);
 
   if(role && (role=='security_officer'))
+    return false;
+
+  return true;
+}
+
+
+function setHiddenMessages(){
+
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenMessages() ' + role);
+
+  if(role && (role=='cop_manager'))
+    return false;
+
+  return true;
+}
+
+function setHiddenSettings(){
+
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenMessages() ' + role);
+
+  if(role && (role=='cop_manager'))
     return false;
 
   return true;
