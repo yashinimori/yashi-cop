@@ -5,8 +5,9 @@ import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 
 @Component({
     selector: 'app-chbo-my-claims',
@@ -18,11 +19,13 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   source: LocalDataSource;
   role: string;
   pagerSize = 10;
+  fieldsStatus: FieldsStatus;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService,
+    private activatedRoute: ActivatedRoute,) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -42,9 +45,103 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+    let status = this.activatedRoute.snapshot.paramMap.get('status');
+    this.activatedRoute.params.subscribe(routeParams => {
+      // (routeParams.id);
+      console.log('STATUS:   ' + routeParams.status);
+    });
+    this.role = localStorage.getItem('role');
+    console.log('ClaimsComponent role ' +this.role);
+
+    this.generateStatusFields();
+
+    this.setSettingsGrid(this.role);
     this.getClaimsData();
     
+  }
+
+  setSettingsGrid(role:string){
+    console.log('setSettingsGrid(c:string)' + role);
+
+    switch(role){
+      case 'admin':
+      case 'chargeback_officer':  {
+        this.settings = {
+          pager:{perPage: this.pagerSize},
+          //hideSubHeader: true,
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+          columns: {
+            id: {
+              title: 'ID',
+              type: 'string',
+            },
+            pan: {
+              title: 'Номер карти',
+              type: 'string',
+            },
+            trans_date: {
+              title: 'Дата транзакції',
+              valuePrepareFunction: (trans_date) => {
+                if(trans_date)
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },      
+            merch_name_ips: {
+              title: "Назва торговця",
+              type: 'string',
+            },
+            term_id: {
+              title: "Ім'я терміналу",
+              type: 'string',
+            },
+            trans_amount: {
+              title: "Cума",
+              type: 'number',
+            },
+            trans_currency: {
+              title: "Валюта",
+              type: 'string',
+            },
+            auth_code: {
+              title: "Код авторизації",
+              type: 'number',
+            },
+            claim_reason_code: {
+              title: "Reason Code",
+              type: 'number',
+            },
+            status: {
+              title: "Статус",
+              type: 'string',
+            },
+            action_needed: {
+              title: "Індикатор",
+              type: 'string',
+            },
+            result: {
+              title: "Результат",
+              type: 'string',
+            },
+            due_date: {
+              title: 'Кінцевий термін претензії.',
+              valuePrepareFunction: (due_date) => {
+                if(due_date)
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },
+      
+          },
+        };
+      }
+    }
   }
 
   getClaimsData() {
@@ -115,4 +212,10 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
   }
+
+  generateStatusFields() {
+    this.fieldsStatus = new FieldsStatus();
+    this.fieldsStatus.setStatusByRole(this.role);
+  }
+  
 }
