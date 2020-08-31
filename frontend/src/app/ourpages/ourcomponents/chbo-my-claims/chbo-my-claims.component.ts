@@ -45,18 +45,24 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let status = this.activatedRoute.snapshot.paramMap.get('status');
+    
     this.activatedRoute.params.subscribe(routeParams => {
       // (routeParams.id);
+      let status = routeParams.status;
       console.log('STATUS:   ' + routeParams.status);
+      this.role = localStorage.getItem('role');
+      console.log('ClaimsComponent role ' +this.role);
+      this.generateStatusFields();
+
+      this.setSettingsGrid(this.role);
+      this.getClaimsData(status);
     });
-    this.role = localStorage.getItem('role');
-    console.log('ClaimsComponent role ' +this.role);
+    
 
-    this.generateStatusFields();
+    // this.generateStatusFields();
 
-    this.setSettingsGrid(this.role);
-    this.getClaimsData();
+    // this.setSettingsGrid(this.role);
+    // this.getClaimsData();
     
   }
 
@@ -144,7 +150,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getClaimsData() {
+  getClaimsData(s) {
     console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
@@ -164,8 +170,12 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           data = response;
 
         data.forEach(el => {
+          //Тут иф на проверку статуса
+          console.log('INLOOP STATUS  '+ s)
+          console.log('INLOOP STAGE  '+ el['status']['stage'])
+          if(el['status']['stage'] === s){
           let t = new ClaimView();
-    
+          
           t.id = el['id'];
           t.pan = el['pan'];
           t.trans_date = el['trans_date'];
@@ -174,7 +184,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           t.trans_currency = el['trans_currency'];
           t.auth_code = el['auth_code'];
           t.claim_reason_code = el['reason_code'];
-          t.status = el['status'];
+          t.status = el['status'];// status string
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];
@@ -188,7 +198,8 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           self.claimsData.push(t);
           
           console.log(t);
-
+          //до сюда
+          }
         });
 
         //self.source = new LocalDataSource(self.claimsData);

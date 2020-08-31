@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   handleKeyUp(e){
-    if(e.keyCode === '13'){
-      console.log(e)
+    console.log(e);
+    if(e.keyCode === 13){
+      console.log(e);
        this.enter();
   
       }

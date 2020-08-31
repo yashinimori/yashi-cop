@@ -70,7 +70,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'pre-mediation',
         icon: 'radio-button-off-outline',
-        link: '/ourpages/ourcomponents/chbo-my-claims/pre-mediation',
+        link: '/ourpages/ourcomponents/chbo-my-claims/pre_mediation',
       },
       {
         title: 'mediation',
