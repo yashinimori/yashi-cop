@@ -10,4 +10,5 @@ export class TransferService {
   public pAD: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public singleClaimFormsSettings: BehaviorSubject<SingleClaimFormsTransfer> = new BehaviorSubject<SingleClaimFormsTransfer>(null);
   public bankID: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public userID: BehaviorSubject<string> = new BehaviorSubject<string>('');
 }

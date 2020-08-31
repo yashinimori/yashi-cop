@@ -14,6 +14,7 @@ import { URL_GET_CLAIM_LIST,
   URL_CREATE_NEW_BANK,
   URL_BANK,
   URL_BANK_USERS,
+  URL_RESET_PASS,
 } from '../urlConstants';
 
 @Injectable({
@@ -196,6 +197,11 @@ export class HttpService {
 
   getBankEmployees(userId: any){
     return this.http.get(URL_BANK_USERS+`/?all&user=${userId}`, this.getHeaders());
+  }
+
+
+  sendEmailResetPass(data: any){
+    return this.http.post(URL_RESET_PASS, data, this.getHeaders());
   }
 
 }

@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   enter() {
+    //console.log("enter()");
+    //console.log(this.data);
     // localStorage.setItem('token', 'erwer');
     // localStorage.setItem('role', 'user');
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
@@ -40,11 +42,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
+  
   getUserInfo() {
+    let password_change_required = false;
+
     this.loginSubscription = this.authService.login().subscribe({
       next: (response: any) => {
         console.log('getUserInfo'); 
         console.log(response); 
+
+        if(response['password_change_required']) 
+          password_change_required = true;
+
         if(response.role.length == 0) {
           localStorage.setItem('role', 'user');
         } else {
@@ -58,7 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+        if(password_change_required) 
+          this.router.navigate(['auth', 'password']);
+        else
+          this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
       }
     });
   }

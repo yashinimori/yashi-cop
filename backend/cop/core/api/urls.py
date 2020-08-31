@@ -8,6 +8,7 @@ from cop.core.api.views.claim import ClaimFormToPDFView
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
 from cop.core.api.views.comment import CommentCreateView
 from cop.core.api.views.merchant import MerchantViewSet
+from cop.core.api.views.reason_codes import ReasonCodeListAPIView
 from cop.core.api.views.report import ReportCreateCreateView
 from cop.core.api.views.stage_history import StageHistoryView
 from cop.core.api.views.surveyquestion import SurveyQuestionViewSet
@@ -33,4 +34,5 @@ urlpatterns = router.urls + [
     path('bank-employees/', BankEmployeeList.as_view()),
     path('bank-employees/<pk>/', BankEmployeeRetrieveUpdate.as_view()),
     path('claim/<pk>/pdf/', ClaimFormToPDFView.as_view()),
+    path('reason-codes/', ReasonCodeListAPIView.as_view()),
 ]

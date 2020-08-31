@@ -1,0 +1,82 @@
+<nb-card style="height: 99%;">
+  
+    <nb-card-header>
+      Данні
+    </nb-card-header>
+  
+    <nb-card-body>
+      <button nbButton status="primary" (click)="goBack()">Повернутись</button>
+      <div class="col-12">
+        <nb-card size="small">
+          <nb-tabset fullWidth>
+
+            <nb-tab tabTitle="Користувач">
+              <nb-card >
+                <nb-card-body>
+
+                  <div class="div-panel" >
+                    <label class="label-caption">Ім'я</label> 
+                    <label class="label-data">{{ userData.first_name }}</label>
+                  </div>
+                  
+                  <div class="div-panel" >
+                    <label class="label-caption">Прізвище</label> 
+                    <label class="label-data">{{ userData.last_name }}</label>
+                  </div>
+                  
+                  <div class="div-panel" >
+                    <label class="label-caption">Підрозділ</label> 
+                    <label class="label-data">{{ userData.unit }}</label>
+                  </div>
+                  
+                  <div class="div-panel" >
+                    <label class="label-caption">Телефон</label> 
+                    <label class="label-data">{{ userData.phone }}</label>
+                  </div>
+                  
+                  <div class="div-panel" >
+                    <label class="label-caption">Email</label> 
+                    <label class="label-data">{{ userData.email }}</label>
+                  </div>
+
+                  <div class="div-panel" >
+                    <label class="label-caption">Роль</label> 
+                    <label class="label-data">{{ userData.role }}</label>
+                  </div>
+
+                </nb-card-body>
+              </nb-card>
+            </nb-tab>
+
+            <nb-tab tabTitle="Логи">
+              
+              <nb-card style="height: 250px;">
+                <nb-card-body>
+
+                  <ng2-smart-table [settings]="settingsLogs" [source]="sourceLogs">
+                  </ng2-smart-table>
+
+                </nb-card-body>
+              </nb-card>
+      
+            </nb-tab>
+
+            <nb-tab tabTitle="Пароль">
+              <nb-card >
+                <nb-card-body>
+                  
+                  <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="40"> 
+                  <button nbButton status="primary" (click)="sendMail()">Надіслати</button>
+
+                </nb-card-body>
+              </nb-card>
+            </nb-tab>
+
+
+          </nb-tabset>
+        </nb-card>
+      </div>
+    
+    </nb-card-body>
+
+</nb-card>

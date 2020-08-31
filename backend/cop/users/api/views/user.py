@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.module_loading import import_string
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
@@ -8,22 +10,25 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from cop.users.api.serializers.user import UserSerializer
-from cop.users.api.serializers.users_registration import SecurityOfficerRegistrationSerializer, \
-    TopLevelRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer, \
-    CopManagerRegistrationSerializer
+from cop.users.api.serializers.users_registration import CardholderRegistrationSerializer, \
+    SecurityOfficerRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer
 
 User = get_user_model()
 
 
 class CustomRegistrationView(DjoserUserViewSet):
+    @staticmethod
+    def is_create_serializer(serializer_class):
+        default_create_serializer = import_string(settings.DJOSER['SERIALIZERS']['user_create'])
+        return serializer_class == default_create_serializer
 
     def get_serializer_class(self):
         serializer_class = super().get_serializer_class()
-
-        if self.request.user.is_authenticated:
-            serializer_class = self.get_serializer_based_on_role(serializer_class)
-
-        return serializer_class
+        # handling user_create
+        if self.request.user.is_authenticated and self.is_create_serializer(serializer_class):
+            return self.get_serializer_based_on_role(serializer_class)
+        else:
+            return CardholderRegistrationSerializer
 
     @staticmethod
     def can_create_all_user_types(user):
@@ -45,9 +50,7 @@ class CustomRegistrationView(DjoserUserViewSet):
         role_serializer_binding = {
             User.Roles.MERCHANT: MerchantRegistrationSerializer,
             User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
-            User.Roles.SECURITY_OFFICER: SecurityOfficerRegistrationSerializer,
-            User.Roles.TOP_LEVEL: TopLevelRegistrationSerializer,
-            User.Roles.COP_MANAGER: CopManagerRegistrationSerializer,
+            User.Roles.CARDHOLDER: CardholderRegistrationSerializer,
         }
         if role in role_serializer_binding:
             return role_serializer_binding[role]

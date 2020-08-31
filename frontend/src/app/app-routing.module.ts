@@ -14,6 +14,9 @@ import { AppealsComponent } from './website/appeals/appeals.component';
 import { LoginComponent } from './authorisation/login/login.component';
 import { RegistrationComponent } from './authorisation/registration/registration.component';
 import { AuthGuard } from './share/auth.guard';
+import { PasswordComponent } from './authorisation/password/password.component';
+import { ActivationComponent } from './authorisation/activation/activation.component';
+
 
 const routes: Routes = [
  
@@ -46,7 +49,17 @@ const routes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent,
-      }
+      },
+      {
+        path: 'password',
+        component: PasswordComponent,
+      },
+      {
+        path: 'activation/:uid/:token',
+        component: ActivationComponent,
+      },
+
+      
       ],
     },
     // {

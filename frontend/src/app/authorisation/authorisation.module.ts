@@ -20,6 +20,8 @@ import {
 } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
+import { PasswordComponent } from './password/password.component';
+import { ActivationComponent } from './activation/activation.component';
 
 // const childrens = [
 //   {path: 'login', component: LoginComponent},
@@ -51,7 +53,9 @@ import { ThemeModule } from '../@theme/theme.module';
   declarations: [
     AuthorisationComponent, 
     LoginComponent, 
-    RegistrationComponent
+    RegistrationComponent,
+    PasswordComponent,
+    ActivationComponent,
   ],
   imports: [
 

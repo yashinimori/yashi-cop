@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 from cop.core.utils.sha256 import generate_sha256
@@ -248,7 +249,7 @@ class Claim(BaseModel):
     # transaction
     trans_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     trans_currency = models.CharField(choices=Transaction.CURRENCY_CHOICES, max_length=3)
-    trans_approval_code = models.CharField(max_length=6)
+    trans_approval_code = models.CharField(max_length=6, blank=True, null=True)
     trans_date = models.DateTimeField(max_length=12)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, blank=True, null=True,
                                     related_name='transactions')
@@ -318,8 +319,10 @@ class Claim(BaseModel):
                 self.add_transaction_data()
 
     def add_transaction_data(self):
+        from django.contrib.auth import get_user_model
+
         media_path = save_transaction_pdf(self.transaction)
-        system_user = User.objects.get(email='system@cop.cop')
+        system_user = get_user_model().objects.get(email='system@cop.cop')
         ClaimDocument.objects.create(
             type=ClaimDocument.Types.ATM_LOG,
             file=media_path,
@@ -446,7 +449,7 @@ class Report(BaseModel):
         ('finished', 'Finished'),
     )
     claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE, blank=True, null=True)
-    log = models.FileField(upload_to='logs/%Y/%m/%d/')
+    log = models.FileField(storage=S3Boto3Storage(bucket='coplogs'))
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)
     log_hash = models.CharField(unique=True, max_length=256, db_index=True, null=True, blank=True)

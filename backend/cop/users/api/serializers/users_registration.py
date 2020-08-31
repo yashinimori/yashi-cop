@@ -14,15 +14,9 @@ class SecurityOfficerRegistrationSerializer(UserRegistrationSerializer):
         return super(BaseUserRegistrationSerializer, self).create(validated_data)
 
 
-class TopLevelRegistrationSerializer(UserRegistrationSerializer):
+class CardholderRegistrationSerializer(UserRegistrationSerializer):
     def create(self, validated_data):
-        validated_data['role'] = User.Roles.TOP_LEVEL
-        return super(BaseUserRegistrationSerializer, self).create(validated_data)
-
-
-class CopManagerRegistrationSerializer(UserRegistrationSerializer):
-    def create(self, validated_data):
-        validated_data['role'] = User.Roles.COP_MANAGER
+        validated_data['role'] = User.Roles.CARDHOLDER
         return super(BaseUserRegistrationSerializer, self).create(validated_data)
 
 
