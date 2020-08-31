@@ -227,7 +227,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
 
   sendMail(){
     let d = {
-      "email": this.email
+      "email": this.userData.email
     };
     this.httpServise.sendEmailResetPass(d).subscribe({
       next: (response: any) => {

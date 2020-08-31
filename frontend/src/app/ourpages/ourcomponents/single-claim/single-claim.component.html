@@ -66,7 +66,7 @@
         </nb-card>
     </div>
   
-    <div class="right-panel">
+    <div class="right-panel" *ngIf="!role=='chargeback_officer'">
         <nb-card style="width: 100%; height: 400px;">
 
             <nb-card-body>
@@ -111,7 +111,70 @@
     
     </div>
 
-    
+    <div class="right-panel" *ngIf="role=='chargeback_officer'">
+        <nb-card style="width: 100%; height: 400px;">
+            <nb-tabset fullWidth>
+  
+              <nb-tab tabTitle="Результат+Документи">
+                <nb-card style="width: 100%; height: 320px;">
+                  <nb-card-body>
+                    <div >
+                        <label>Результат</label>
+                        <br>
+                        <label style="font-weight: bold;">{{claimData.result}}</label>
+                    </div>
+                    
+                    <div>
+                        <label>Документи</label>
+                        <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a>
+                        <br>
+                        <nb-list >
+                            <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <div>
+                                        Описание: {{ item.description }}
+                                    </div>
+                                    <div>
+                                        Файл: <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
+                                    </div>
+                                </div>
+                            </nb-list-item>
+                        </nb-list>
+                    </div>
+  
+                  </nb-card-body>
+                </nb-card>
+              </nb-tab>
+  
+              <nb-tab tabTitle="Комментари">
+                
+                <nb-card style="height: 250px;">
+                  <nb-card-body>
+  
+                    <!-- <ng2-smart-table [settings]="settingsLogs" [source]="sourceLogs">
+                    </ng2-smart-table> -->
+  
+                  </nb-card-body>
+                </nb-card>
+        
+              </nb-tab>
+  
+              <nb-tab tabTitle="Дати">
+                <nb-card >
+                  <nb-card-body>
+                    
+                    <!-- <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="40"> 
+                    <button nbButton status="primary" (click)="sendMail()">Надіслати</button>
+   -->
+                  </nb-card-body>
+                </nb-card>
+              </nb-tab>
+  
+  
+            </nb-tabset>
+          </nb-card>
+  
+    </div>
 
 </div>
 
