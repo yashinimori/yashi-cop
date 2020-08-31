@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
-from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatuses
+from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatusService
 from cop.users.api.serializers.user import UserSerializer
 
 User = get_user_model()
@@ -116,12 +116,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        current_user = self.context["request"].user
-        claim_reason_code = validated_data.pop('claim_reason_code', None)
-        if claim_reason_code:
-            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
-            validated_data['status'] = Status.objects.get(pk=1)  # as the status field can't be null
-        validated_data['user'] = current_user
+        validated_data = self.update_initial_data(validated_data)
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
@@ -130,33 +125,47 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         claim_reason_code = validated_data.pop('claim_reason_code', None)
-        # TODO:
-        if claim_reason_code:
-            validated_data['claim_reason_code'] = ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
         instance = super().update(instance, validated_data)
         self.instance = instance
         self.set_status()
         return instance
 
-    def set_status(self, status_index=None):
+    def set_status(self):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
-        if not claim.status:
-            self.set_initial_status()
+        service_data = {'claim': claim, 'user': self.context["request"].user}
+        service = None
         if claim.claim_reason_code in allocation_rc:
-            AllocationStatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+            service = AllocationStatusService
         elif claim.bank and claim.merchant:
-            StatusService(claim=claim, user=self.context["request"].user, status_index=status_index)
+            service = StatusService
         elif not claim.bank and not claim.merchant:
-            CardholderStatuses(claim=claim, user=self.context["request"].user, status_index=status_index)
+            service = CardholderStatusService
+        self.start_service(service, **service_data)
 
-    def set_initial_status(self):
-        claim = self.instance
+    @staticmethod
+    def start_service(service, **kwargs):
+        if service:
+            service(**kwargs)
+
+    def update_initial_data(self, validated_data):
+        validated_data['user'] = self.context["request"].user
+        crc_instance = self.get_crc(validated_data)
+        validated_data['claim_reason_code'] = crc_instance
+        validated_data['status'] = self.get_initial_status(crc_instance.code)
+        return validated_data
+
+    def get_crc(self, validated_data):
+        """Update claim_reason_code. """
+        claim_reason_code = validated_data['claim_reason_code']
+        return ReasonCodeGroup.objects.get(code=claim_reason_code['code'])
+
+    @staticmethod
+    def get_initial_status(crc_code: str):
         docs_request_rc = '0100'
-        if claim.claim_reason_code == docs_request_rc:
-            claim.status = Status.objects.get(index=1)
-        else:
-            claim.status = Status.objects.get(index=6)
+        if crc_code == docs_request_rc:
+            return Status.objects.get(index=1)
+        return Status.objects.get(index=6)
 
 
 class ClaimListSerializer(serializers.ModelSerializer):
