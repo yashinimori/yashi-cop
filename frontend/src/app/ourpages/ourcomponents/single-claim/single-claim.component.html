@@ -53,7 +53,7 @@
                     <label class="label-data">{{claimData.reason_code_group}}</label> 
                 </div>
     
-                <div class="div-panel" *ngIf="fieldsStatus.aRN.invisible">
+                <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
                     <label class="label-caption">ARN</label> 
                     <label class="label-data">{{claimData.arn}}</label> 
                 </div>

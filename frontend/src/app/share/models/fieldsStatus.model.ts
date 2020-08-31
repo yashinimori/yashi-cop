@@ -140,7 +140,7 @@ export class FieldsStatus {
                 this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: true}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
@@ -187,7 +187,7 @@ export class FieldsStatus {
                 this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: true}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false}); 
@@ -232,7 +232,7 @@ export class FieldsStatus {
                 this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: true}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false});  
@@ -322,7 +322,7 @@ export class FieldsStatus {
                 this.currencyName = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.fio = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.rC = new paramStatusFields({invisible: false, readonly:false, required: false}); 
-                this.aRN = new paramStatusFields({invisible: false, readonly:false, required: false}); 
+                this.aRN = new paramStatusFields({invisible: true}); 
                 this.docs = new paramStatusFields({invisible: false, readonly:false, required: false}); 
                 this.single_claim_form = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.scf_finish_comment = new paramStatusFields({invisible: false, readonly:false, required: false});  
