@@ -14,7 +14,7 @@
         </nb-card-body>
         <nb-card-footer>
           <div class="button-enter">
-            <button  nbButton status="primary" (click)="enter()">Логін</button>
+            <button  nbButton status="primary" (click)="enter()" (keyup)="handleKeyUp($event)">Логін</button>
           </div>
           <div class="button-enter mt-20">
             <a nbButton status="primary" href="auth/registration">Реєстрція</a>
