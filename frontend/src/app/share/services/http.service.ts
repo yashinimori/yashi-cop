@@ -204,4 +204,8 @@ export class HttpService {
     return this.http.post(URL_RESET_PASS, data, this.getHeaders());
   }
 
+  getClaim(id: any) {
+    return this.http.get(URL_CLAIM + id + '/', this.getHeaders());
+  }
+
 }

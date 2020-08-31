@@ -23,7 +23,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     private transferService: TransferService, 
     private httpService: HttpService,
     private router: Router,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef) { 
+
+      this.claimData = new ClaimView();
+    }
 
   @ViewChild('one') one:TemplateRef<any>;
   @ViewChild('two') two:TemplateRef<any>;
@@ -135,8 +138,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     //console.log('ngOnInit');
-
     
+    this.claimData = new ClaimView();
+    this.claimData.user = {};
+
     this.role = localStorage.getItem('role');
     console.log('SingleClaimComponent role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
@@ -144,6 +149,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.claimId.length != 0) {
       this.loadClaim();
+
+      //this.getClaim(this.claimId);
     }
     this.generateStatusFields();
 
@@ -168,8 +175,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       groupQuery17: new FormControl(),
 
     });
-
-    this.claimData = new ClaimView();
+    
     this.stepNewRecord = 1;
 
     //this.claimId = this.transferService.cOPClaimID.getValue();
@@ -223,6 +229,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
+  getClaim(id: any){
+
+    this.httpService.getClaim(id).subscribe({
+      next: (response: any) => {
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+        console.log(response);
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
     let c = this.claimData['comments'];
@@ -237,9 +261,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
         item.user = el.user.first_name + ' ' + el.user.last_name;
         //console.log('setClaimComments');
-        console.log(el);
+        //console.log(el);
         
-        console.log(el.user.first_name);
+        //console.log(el.user.first_name);
 
         this.comments.push(item);
       });

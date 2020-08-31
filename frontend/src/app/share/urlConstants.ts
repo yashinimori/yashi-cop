@@ -21,6 +21,7 @@ export const URL_GET_TIMELINE_INFO = `${MAIN_URL}/api/v1/claim/`;
 export const URL_UPDATE_CLAIM = `${MAIN_URL}/api/v1/claims/`;
 export const URL_UPLOAD_CLAIM_DOC = `${MAIN_URL}/api/v1/claim-documents/`;
 export const URL_CLAIM = `${MAIN_URL}/api/v1/claim/`;
+export const URL_CLAIM_DOC = `${MAIN_URL}/api/v1/claim/`;
 
 export const URL_CREATE_NEW_BANK = `${MAIN_URL}/api/v1/banks/`;
 export const URL_BANK = `${MAIN_URL}/api/v1/banks`;
