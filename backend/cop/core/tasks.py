@@ -4,8 +4,8 @@ import logging
 import re
 import traceback
 
-import pytz
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.timezone import make_aware
 
 from config import celery_app
@@ -162,9 +162,11 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         date_match = re.search('([0-9]{1,2})/([0-9]{1,2})/([0-9]{1,2})', line)
         if date_match:
+            year = int(date_match.group(3))
+            year = year if year > 2000 else year + 2000
             trans_date = datetime.date(day=int(date_match.group(1)),
                                        month=int(date_match.group(2)),
-                                       year=2000 + int(date_match.group(3)))
+                                       year=year)
 
         utrnno_match = re.search('UTRNNO: ([0-9]+)', line)
         if utrnno_match:
@@ -177,10 +179,10 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
     if trans_date and trans_time:
         trans_date = datetime.datetime.combine(trans_date, trans_time)
-        transaction.trans_date = make_aware(trans_date, timezone=pytz.timezone('Europe/Kiev'))
+        transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
     elif trans_time and previous_transaction:
         trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_time)
-        transaction.trans_date = make_aware(trans_date, timezone=pytz.timezone('Europe/Kiev'))
+        transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
 
     if not transaction.result:
         if transaction.utrnno:
