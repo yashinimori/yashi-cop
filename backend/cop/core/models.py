@@ -46,6 +46,9 @@ class BankEmployee(BaseModel):
     unit = models.CharField(max_length=200, null=True, blank=True)
     atm = models.ManyToManyField('ATM', related_name='bank_employees')
 
+    def __str__(self):
+        return f"{self.bank} {self.user}"
+
 
 class Merchant(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
