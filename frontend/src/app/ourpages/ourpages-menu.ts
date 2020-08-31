@@ -89,17 +89,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  
   {
-    title: 'Наші компоненти (mc)',
+    title: 'Претензії',
     icon: 'layout-outline',
     hidden: setHiddenMerchant(),
     children: [
       {
-        title: 'список скарг',
-        link: '/ourpages/ourcomponents/claims',
+        title: 'зверненя',
+        link: '/ourpages/ourcomponents/claims/all',
       },
-      
+      {
+        title: 'завершені',
+        link: '/ourpages/ourcomponents/claims/archive',
+     },
     ],
   },
   {

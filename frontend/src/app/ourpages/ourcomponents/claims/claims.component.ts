@@ -52,6 +52,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
     this.generateStatusFields();
     
+    this.stageParam = '';
     let urlArr = this.router.url.split('/');
     console.log(urlArr);
     this.stageParam = urlArr[urlArr.length - 1]
@@ -302,7 +303,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           self.claimsData = self.claimsData.filter(i=>i.status != 'archive' );
         } else if(this.role =='cardholder' && this.stageParam == 'archive'){
           self.claimsData = self.claimsData.filter(i=>i.status == 'archive' );
+        } else if(this.role =='merchant' && this.stageParam == 'all'){
+          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' );
+        } else if(this.role =='merchant' && this.stageParam == 'archive'){
+          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' );
         } 
+
 
         //self.source = new LocalDataSource(self.claimsData);
         self.source = new LocalDataSource();
