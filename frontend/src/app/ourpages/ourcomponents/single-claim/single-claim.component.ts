@@ -700,6 +700,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     }); 
   }
 
+
+  get getUrlPDF(){
+    let url = '';
+
+    if(this.claimId) {
+      url = '/api/v1/claim/'+ this.claimId +'/pdf/'
+    }
+    
+    return url;
+  }
+
 }
 
 
