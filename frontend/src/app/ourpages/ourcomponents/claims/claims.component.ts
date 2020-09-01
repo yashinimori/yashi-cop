@@ -74,9 +74,88 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     //console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
-      case 'admin':
-      case 'сс_branch':
       case 'chargeback_officer':  {
+        this.settings = {
+          pager:{perPage: this.pagerSize},
+          //hideSubHeader: true,
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+          columns: {
+            id: {
+              title: 'ID',
+              type: 'string',
+            },
+            // id2: {
+            //   title: 'ID2',
+            //   type: 'html',
+            // },
+            pan: {
+              title: 'Номер карти',
+              type: 'string',
+            },
+            trans_date: {
+              title: 'Дата транзакції',
+              valuePrepareFunction: (trans_date) => {
+                if(trans_date)
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },      
+            merch_name_ips: {
+              title: "Назва торговця",
+              type: 'string',
+            },
+            term_id: {
+              title: "Ім'я терміналу",
+              type: 'string',
+            },
+            trans_amount: {
+              title: "Cума",
+              type: 'number',
+            },
+            trans_currency: {
+              title: "Валюта",
+              type: 'string',
+            },
+            auth_code: {
+              title: "Код авторизації",
+              type: 'number',
+            },
+            claim_reason_code: {
+              title: "Reason Code",
+              type: 'number',
+            },
+            status: {
+              title: "Статус",
+              type: 'string',
+            },
+            action_needed: {
+              title: "Індикатор",
+              type: 'string',
+            },
+            result: {
+              title: "Результат",
+              type: 'string',
+            },
+            due_date: {
+              title: 'Кінцевий термін претензії.',
+              valuePrepareFunction: (due_date) => {
+                if(due_date)
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
+            },
+      
+          },
+        };
+      }
+      case 'admin':
+      case 'сс_branch': {
         this.settings = {
           pager:{perPage: this.pagerSize},
           //hideSubHeader: true,
@@ -272,7 +351,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
         data.forEach(el => {
           let t = new ClaimView();
-    
+          
+          if(this.role == 'chargeback_officer'){
+            //t.id2 = '<a href="'+res.data[i].fname+'">Link</a>'
+          }
+
           t.id = el['id'];
           t.pan = el['pan'];
           t.trans_date = el['trans_date'];
