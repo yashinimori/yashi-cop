@@ -40,7 +40,7 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    console.log(req);
+    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -99,7 +99,7 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    console.log(req);
+    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
    
@@ -147,7 +147,7 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    console.log(req);
+    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -172,7 +172,7 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    console.log(req);
+    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -192,7 +192,7 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    console.log(req);
+    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 

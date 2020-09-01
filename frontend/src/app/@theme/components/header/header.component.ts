@@ -53,8 +53,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.role = localStorage.getItem('role');
-    console.log('HeaderComponent role ' +this.role);
-    console.log(localStorage);
+    //console.log('HeaderComponent role ' +this.role);
+    //console.log(localStorage);
 
     this.user_fio = localStorage.getItem('fio');
     if(!this.user_fio)

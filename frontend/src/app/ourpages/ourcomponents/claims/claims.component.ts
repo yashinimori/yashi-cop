@@ -54,7 +54,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     
     this.stageParam = '';
     let urlArr = this.router.url.split('/');
-    console.log(urlArr);
     this.stageParam = urlArr[urlArr.length - 1]
 
     this.setSettingsGrid(this.role);
@@ -72,7 +71,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
   
   setSettingsGrid(role:string){
-    console.log('setSettingsGrid(c:string)' + role);
+    //console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
