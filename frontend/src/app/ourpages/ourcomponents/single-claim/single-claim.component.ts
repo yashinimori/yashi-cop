@@ -711,6 +711,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     return url;
   }
 
+  goBack(){
+    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+  }
+
 }
 
 

@@ -91,28 +91,27 @@
                     <br>
                     <nb-list >
                         <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
-                          Текст: {{ item.text }}<br>
-                          Дата: {{ item.create_date_str }}
+                            {{item.user}} {{ item.create_date_str}} {{ item.text }} 
                         </nb-list-item>
-                    </nb-list>
+                    </nb-list>  
                 </div>
 
                 <div>
                     <label>Документи</label>
-                    <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a>
-                    <br>
-                    <nb-list >
-                        <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
-                            <div style="display: flex; flex-direction: column;">
-                                <div>
-                                    Описание: {{ item.description }}
+                        <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
+                        <br>
+                        <nb-list >
+                            <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <!-- <div>
+                                        Описание: {{ item.description }}
+                                    </div> -->
+                                    <div>
+                                        <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
+                                    </div>
                                 </div>
-                                <div>
-                                    Файл: <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
-                                </div>
-                            </div>
-                        </nb-list-item>
-                    </nb-list>
+                            </nb-list-item>
+                        </nb-list>
                 </div>
                 
             </nb-card-body>
@@ -136,16 +135,16 @@
                     
                     <div>
                         <label>Документи</label>
-                        <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a>
+                        <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
                         <br>
                         <nb-list >
                             <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
                                 <div style="display: flex; flex-direction: column;">
-                                    <div>
+                                    <!-- <div>
                                         Описание: {{ item.description }}
-                                    </div>
+                                    </div> -->
                                     <div>
-                                        Файл: <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
+                                        <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
                                     </div>
                                 </div>
                             </nb-list-item>
@@ -162,8 +161,7 @@
                   <nb-card-body>
                     <nb-list >
                         <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
-                            {{ item.create_date_str}} {{ item.text }} [{{item.user}}]
-                          
+                            {{item.user}} {{ item.create_date_str}} {{ item.text }} 
                         </nb-list-item>
                     </nb-list>  
                   </nb-card-body>
@@ -233,6 +231,9 @@
     <button  *ngIf="!isNewRecord && !fieldsStatus.save_edit_claim.invisible" 
         style="margin-left: 10px;"
         nbButton status="primary" (click)="saveClaimUpdate()">Зберегти</button>
+    <button  style="margin-left: 10px;"
+        nbButton status="primary" (click)="goBack()">До списку</button>
+
 </div>
 
 <div class="row" *ngIf="!isNewRecord">
