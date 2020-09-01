@@ -88,9 +88,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'ID',
               type: 'string',
             },
-            // id2: {
-            //   title: 'ID2',
-            //   type: 'html',
+            // openClaim: {
+            //    title: 'ID2',
+            //    type: 'html',
             // },
             pan: {
               title: 'Номер карти',
@@ -154,6 +154,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       }
+      break;
       case 'admin':
       case 'сс_branch': {
         this.settings = {
@@ -353,7 +354,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           let t = new ClaimView();
           
           if(this.role == 'chargeback_officer'){
-            //t.id2 = '<a href="'+res.data[i].fname+'">Link</a>'
+            //this.transferService.cOPClaimID.next(el['id']);
+            //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+            //t.openClaim = '<a href="/ourpages/ourcomponents/single-claim" target="_blank">'+el['id']+'</a>'
+            //t.openClaim = '<a (click)="goToLink("/ourpages/ourcomponents/single-claim", '+ el['id'] + ')">'+el['id']+'</a>'
           }
 
           t.id = el['id'];
@@ -377,7 +381,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           
           self.claimsData.push(t);
           
-          //console.log(t);
+          console.log(t);
 
         });
 
@@ -414,7 +418,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.claimsSubscription.unsubscribe();
   }
 
-
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
@@ -424,5 +427,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
   }
   
+  goToLink(url: string, id: string){
+    this.transferService.cOPClaimID.next(id);
+    window.open(url, "_blank");
+} 
 
 }
