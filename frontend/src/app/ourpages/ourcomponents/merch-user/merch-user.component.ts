@@ -54,8 +54,8 @@ export class MerchUserComponent implements OnInit {
       let d = {
         "email": this.data.email,
         "password": this.data.password,
-        "first_name": this.data.first_name,
-        "last_name": this.data.last_name,
+        "first_name": '',
+        "last_name": '',
         "phone": this.data.phone,
         "role": "merchant",
         "merchant" : {
