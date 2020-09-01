@@ -4,7 +4,7 @@ from rest_framework import serializers
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
 from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatusService
-from cop.users.api.serializers.user import UserSerializer
+from cop.users.api.serializers.user import UserSerializer, UserSerializerLight
 
 User = get_user_model()
 
@@ -57,7 +57,7 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClaimDocument
-        fields = ('id', 'file', 'description', 'type', 'claim', 'user')
+        fields = ('id', 'file', 'description', 'type', 'claim', 'user', 'create_date')
         read_only_fields = ('user', )
 
     def create(self, validated_data):
@@ -67,6 +67,14 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data['user'] = self.context["request"].user
         return super(ClaimDocumentSerializer, self).update(instance, validated_data)
+
+
+class ClaimDocumentNestedSerializer(serializers.ModelSerializer):
+    user = UserSerializerLight()
+
+    class Meta:
+        model = ClaimDocument
+        fields = ('id', 'file', 'description', 'type', 'user', 'create_date')
 
 
 class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
@@ -115,7 +123,8 @@ class ClaimSerializer(serializers.ModelSerializer):
             "status",
             "officer_answer_reason",
             "chargeback_date",
-            "second_presentment_date"
+            "second_presentment_date",
+            "arn"
         )
 
     def create(self, validated_data):
@@ -196,4 +205,3 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "result",
             "status"
         )
-

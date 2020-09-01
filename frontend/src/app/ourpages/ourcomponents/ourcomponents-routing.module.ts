@@ -70,6 +70,10 @@ const routes: Routes = [{
       component: ChartDonatComponent,
     },
     {
+      path: 'chartss',
+      component: ChartDonatComponent,
+    },
+    {
       path: 'horizontal-bar',
       component: HorizontalBarComponent,
     },

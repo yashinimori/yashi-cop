@@ -40,6 +40,7 @@ import { ChartjsPieComponent } from '../../pages/charts/chartjs/chartjs-pie.comp
 import { TopOfficerComponent } from './top-officer/top-officer.component';
 import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-user.component';
+import { ChartssComponent } from './chartss/chartss.component';
 
 
 @NgModule({
@@ -86,7 +87,7 @@ import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-us
     TopOfficerComponent,    
     SecurOfficerComponent,
     SecurOfficerUserComponent,
-            
+    ChartssComponent,
   ],
   // providers: [
     

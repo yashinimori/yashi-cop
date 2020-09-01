@@ -65,7 +65,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
 
   hideColumnForUser(role:string){
-    if(role && (role == 'cardholder' || role == 'user' || role == 'cc_branch')){
+    if(role && (role == 'cardholder' || role == 'user')){
         delete this.settings.columns.id;
     }
   }
@@ -75,6 +75,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
     switch(role){
       case 'admin':
+      case 'сс_branch':
       case 'chargeback_officer':  {
         this.settings = {
           pager:{perPage: this.pagerSize},
@@ -154,7 +155,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       break;
       case 'merchant':
       case 'cardholder':
-      case 'сс_branch':
       case 'user': {
         this.settings = {
           pager:{perPage: this.pagerSize},
@@ -253,7 +253,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    //console.log('loadClaims()');
+    console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
@@ -335,6 +335,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
+  }
+
+  add_claim(){
+    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
   }
   
 

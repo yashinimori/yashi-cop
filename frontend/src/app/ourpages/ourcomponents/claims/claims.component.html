@@ -1,6 +1,7 @@
 <div *ngIf="!fieldsStatus.list_claims.invisible">
-  <div *ngIf="role ==='cardholder' || role ==='cc_branch'" class="button-enter">
-    <a nbButton status="primary" href="ourpages/ourcomponents/single-claim">Додати скаргу</a>
+  <div *ngIf="!fieldsStatus.button_add_claim.invisible" class="button-enter">
+    <button  nbButton status="primary" (click)="add_claim()">Додати скаргу</button>
+    <!-- <a nbButton status="primary" href="ourpages/ourcomponents/single-claim"></a> -->
   </div>
   <nb-card >
     
