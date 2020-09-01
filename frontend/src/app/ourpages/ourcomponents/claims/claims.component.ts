@@ -5,7 +5,7 @@ import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 
@@ -21,6 +21,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   role: string;
   pagerSize = 10;
   fieldsStatus: FieldsStatus;
+  stageParam: string;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -50,10 +51,17 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     console.log('ClaimsComponent role ' +this.role);
 
     this.generateStatusFields();
+    
+    this.stageParam = '';
+    let urlArr = this.router.url.split('/');
+    console.log(urlArr);
+    this.stageParam = urlArr[urlArr.length - 1]
 
     this.setSettingsGrid(this.role);
     this.getClaimsData();
     this.hideColumnForUser(this.role);
+    
+
   }
 
 
@@ -343,15 +351,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    console.log('loadClaims()');
+    //console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
     this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded Claims '); 
-        console.log(response);
+        //console.log('loaded Claims '); 
+        //console.log(response);
 
         let data: any;
 
@@ -371,22 +379,33 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.trans_currency = el['trans_currency'];
           t.auth_code = el['auth_code'];
           t.claim_reason_code = el['reason_code'];
-          t.status = el['status'];
+          t.status = el.status['stage'];
           t.action_needed = el['action_needed'];
           t.result = el['result'];
           t.due_date = el['due_date'];
           t.ch_comments = el['ch_comments'];
 
           let m = el['merchant'];
-          console.log(m);
+          //console.log(m);
           if(m) 
             t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
+
+        if(this.role =='cardholder' && this.stageParam == 'all'){
+          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' );
+        } else if(this.role =='cardholder' && this.stageParam == 'archive'){
+          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' );
+        } else if(this.role =='merchant' && this.stageParam == 'all'){
+          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' );
+        } else if(this.role =='merchant' && this.stageParam == 'archive'){
+          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' );
+        } 
+
 
         //self.source = new LocalDataSource(self.claimsData);
         self.source = new LocalDataSource();
@@ -394,7 +413,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
         //self.source .refresh();
 
-        console.log(self.source);
+        //console.log(self.source);
         
       },
       error: error => {

@@ -340,20 +340,20 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
             //   title: 'ID',
             //   type: 'string',
             // },
-            first_name: {
-              title: 'Імя',
-              type: 'string',
-            },
-            last_name: {
-              title: 'Прізвище',
-              type: 'string',
-            },
+            // first_name: {
+            //   title: 'Імя',
+            //   type: 'string',
+            // },
+            // last_name: {
+            //   title: 'Прізвище',
+            //   type: 'string',
+            // },
             merch_id: {
               title: 'Merchant ID',
               type: 'string',
             },
             name_legal: {
-              title: 'юридична назва',
+              title: 'Юридична назва',
               type: 'string',
             },
             mcc: {
@@ -361,7 +361,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             description: {
-              title: 'вид діяльності',
+              title: 'Вид діяльності',
               type: 'string',
             },
             phone: {
@@ -373,7 +373,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             name_ips: {
-              title: 'назва торговця в МПС',
+              title: 'Назва торговця в МПС',
               type: 'string',
             },
             address: {
@@ -385,7 +385,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             contact_person: {
-              title: 'контактна особа',
+              title: 'Контактна особа',
               type: 'string',
             },
       

@@ -28,4 +28,5 @@ class TransactionSerializer(serializers.ModelSerializer):
             'cash_retracted',
             'cash_taken',
             'card_taken',
+            'raw'
         )

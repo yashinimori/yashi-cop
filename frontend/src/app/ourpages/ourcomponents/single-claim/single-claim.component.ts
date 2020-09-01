@@ -194,6 +194,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
  
 
     this.getDates();
+
+    //this.loadClaimDocumsnts();
   }
 
   ngOnDestroy(): void {
@@ -292,6 +294,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
+  loadClaimDocumsnts(){
+    this.httpService.getClaimDocs(this.claimId).subscribe({
+      next: (response: any) => {
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+        console.log(response);
+        console.log("this.claimData--------------------------------------------------------------------------------------------");
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+  }
+
+
+
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
     this.claimData.comment = this.claimData.ch_comments;
@@ -347,6 +367,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   saveClaim() {
     console.log('saveClaim()');
     //this.claimData.form_name = 'claim_form';
+    
+    //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
+
+    let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
+    this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
     
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
@@ -540,6 +565,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   
   onClickGoNextStep(){
+    console.log(this.claimData.trans_date);
+
     console.log(this.claimData);
     this.part = 'one';
     this.stepNewRecord = 2;
@@ -657,9 +684,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  saveDates(){
-    
+  saveClaimUpdate(){
+    this.httpService.updateClaim(this.claimId).subscribe({
+      next: (response: any) => {
+        console.log('updateClaim ok');
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    }); 
   }
 
 }
+
 

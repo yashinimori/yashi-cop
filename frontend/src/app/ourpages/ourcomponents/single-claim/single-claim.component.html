@@ -58,6 +58,14 @@
                     <label class="label-data">{{claimData.arn}}</label> 
                 </div>
     
+                <div class="div-panel" *ngIf="!fieldsStatus.aRN_editor.invisible">
+                    <label class="label-caption">ARN</label> 
+                    <input class="input-data" nbInput placeholder="ARN" 
+                        [required]="fieldsStatus.comment.required" 
+                        [readonly]="fieldsStatus.comment.readonly"
+                        [(ngModel)]="claimData.arn">
+                </div>
+
             </nb-card-body>
         
         </nb-card>
@@ -192,10 +200,6 @@
                         [(ngModel)]="arbitration_response_date">
                     <nb-datepicker #formpicker_arbitration_response_date></nb-datepicker> 
 
-                    <div class="center" style="margin-top: 10px;" >
-                        <button  nbButton status="primary" (click)="saveDates()">Зберегти</button>
-                      </div>
-
                   </nb-card-body>
                 </nb-card>
               </nb-tab>
@@ -206,6 +210,8 @@
   
     </div>
 
+    <!-- <a href="/api/v1/claim/3/pdf/" target="_blank" >doc</a> -->
+
 </div>
 
 <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
@@ -213,6 +219,9 @@
         nbButton status="primary" (click)="onClickFinish()" >Завершити</button>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
         nbButton status="primary" (click)="onClickFinish()" >Додати Коментар</button>
+    <button  *ngIf="!isNewRecord && !fieldsStatus.save_edit_claim.invisible" 
+        style="margin-left: 10px;"
+        nbButton status="primary" (click)="saveClaimUpdate()">Зберегти</button>
 </div>
 
 <div class="row" *ngIf="!isNewRecord">

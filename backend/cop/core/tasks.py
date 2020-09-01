@@ -162,9 +162,11 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         date_match = re.search('([0-9]{1,2})/([0-9]{1,2})/([0-9]{1,2})', line)
         if date_match:
+            year = int(date_match.group(3))
+            year = year if year > 2000 else year + 2000
             trans_date = datetime.date(day=int(date_match.group(1)),
                                        month=int(date_match.group(2)),
-                                       year=int(date_match.group(3)))
+                                       year=year)
 
         utrnno_match = re.search('UTRNNO: ([0-9]+)', line)
         if utrnno_match:

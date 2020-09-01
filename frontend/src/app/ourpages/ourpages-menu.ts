@@ -2,18 +2,18 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Наші компоненти (ch)',
+    title: 'Мої зверненя',
     icon: 'layout-outline',
     hidden: setHiddenUser(),
     children: [
       {
         title: 'список скарг',
-        link: '/ourpages/ourcomponents/claims',
+        link: '/ourpages/ourcomponents/claims/all',
       },
-      // {
-      //   title: 'скарга',
-      //   link: '/ourpages/ourcomponents/single-claim',
-      // },
+      {
+         title: 'завершені',
+         link: '/ourpages/ourcomponents/claims/archive',
+       },
     ],
   },
   {
@@ -89,17 +89,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  
   {
-    title: 'Наші компоненти (mc)',
+    title: 'Претензії',
     icon: 'layout-outline',
     hidden: setHiddenMerchant(),
     children: [
       {
-        title: 'список скарг',
-        link: '/ourpages/ourcomponents/claims',
+        title: 'зверненя',
+        link: '/ourpages/ourcomponents/claims/all',
       },
-      
+      {
+        title: 'завершені',
+        link: '/ourpages/ourcomponents/claims/archive',
+     },
     ],
   },
   {
@@ -108,13 +110,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     hidden: setHiddenBank(),
     children: [
       {
-        title: 'Лист банків',
+        title: 'Список банків',
         link: '/ourpages/ourcomponents/bank-list',
       },
-      // {
-      //   title: 'Новий bank',
-      //   link: '/ourpages/ourcomponents/bank',
-      // },
+      {
+        title: 'Новий банк',
+        link: '/ourpages/ourcomponents/bank',
+      },
       // {
       //   title: 'Новий користувач',
       //   link: '/ourpages/ourcomponents/bank-user',
@@ -187,7 +189,7 @@ function setHiddenUser(){
   console.log('setHidden() ' + role);
 
   if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
-    console.log('setHidden() ' + role); return false;
+    return false;
 
   return true;
 }

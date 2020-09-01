@@ -15,6 +15,7 @@ import { URL_GET_CLAIM_LIST,
   URL_BANK,
   URL_BANK_USERS,
   URL_RESET_PASS,
+  URL_CLAIM_DOC,
 } from '../urlConstants';
 
 @Injectable({
@@ -206,6 +207,10 @@ export class HttpService {
 
   getClaim(id: any) {
     return this.http.get(URL_CLAIM + id + '/', this.getHeaders());
+  }
+
+  getClaimDocs(id: any) {
+    return this.http.get(URL_CLAIM_DOC + id + '/pdf/', this.getHeaders());
   }
 
 }

@@ -77,7 +77,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "cop.users.apps.UsersConfig",
     "cop.core.apps.CoreConfig",
-    "cop.bank.apps.BankConfig",
     "cop.logger.apps.LoggerConfig",
 ]
 
