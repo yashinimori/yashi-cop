@@ -20,6 +20,7 @@ import { BankSingleComponent } from './bank-single/bank-single.component';
 import { TopOfficerComponent } from './top-officer/top-officer.component';
 import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-user.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 const routes: Routes = [{
   path: '',
@@ -109,7 +110,10 @@ const routes: Routes = [{
       path: 'secur-officer-user',
       component: SecurOfficerUserComponent,
     },
-    
+    {
+      path: 'statistic',
+      component: StatisticComponent,
+    },
 
   ],
 }];

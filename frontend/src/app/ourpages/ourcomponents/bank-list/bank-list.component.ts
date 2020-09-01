@@ -33,7 +33,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('BankListComponent role ' +this.role);
+    //console.log('BankListComponent role ' +this.role);
 
     this.setSettingsGrid(this.role);
     this.getBanksData();
