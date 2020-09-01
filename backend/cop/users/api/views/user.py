@@ -11,7 +11,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from cop.users.api.serializers.user import UserSerializer
 from cop.users.api.serializers.users_registration import CardholderRegistrationSerializer, \
-    SecurityOfficerRegistrationSerializer, MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer
+    MerchantRegistrationSerializer, ChargebackOfficerRegistrationSerializer
 
 User = get_user_model()
 
@@ -39,8 +39,6 @@ class CustomRegistrationView(DjoserUserViewSet):
         user = self.request.user
         if self.can_create_all_user_types(user):
             serializer_class = self.get_role_serializer(role, serializer_class)
-        elif user.is_top_level:
-            serializer_class = SecurityOfficerRegistrationSerializer
         else:
             raise PermissionDenied({"message": "You don't have permission to perform this action"})
         return serializer_class
@@ -51,6 +49,8 @@ class CustomRegistrationView(DjoserUserViewSet):
             User.Roles.MERCHANT: MerchantRegistrationSerializer,
             User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
             User.Roles.CARDHOLDER: CardholderRegistrationSerializer,
+            User.Roles.TOP_LEVEL: ChargebackOfficerRegistrationSerializer,
+            User.Roles.SECURITY_OFFICER: ChargebackOfficerRegistrationSerializer,
         }
         if role in role_serializer_binding:
             return role_serializer_binding[role]
