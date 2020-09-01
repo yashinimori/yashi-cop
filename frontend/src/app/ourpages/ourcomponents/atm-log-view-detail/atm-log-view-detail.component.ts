@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./atm-log-view-detail.component.scss']
 })
 export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
-  armTransactionsData: Array<AtmTransactionView>;
+  atmTransactionsData: Array<AtmTransactionView>;
   settings: any;
   source: LocalDataSource;
   role: string;
@@ -23,12 +23,16 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   selectedFile: any;
   //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   acceptFiles = 'application/txt/*';
+  isShowGrid = true;
+  atmTransactionsDataItem: AtmTransactionView;
+
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
     private httpService: HttpService) {
-    
+      
+      this.atmTransactionsDataItem = new AtmTransactionView();
   }
 
   atmLogViewDetailSubscription: Subscription = new Subscription();
@@ -37,10 +41,16 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   onUserRowSelect(event): void {
     //this.transferService.cOPClaimID.next(event.data.id);
     //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.isShowGrid = false;
+    this.atmTransactionsDataItem = new AtmTransactionView();
+
+    this.atmTransactionsDataItem = this.atmTransactionsData.find(i=>i.id == event.data.id);
   }
 
   ngOnInit(): void {
-    
+    this.isShowGrid = true;
+    this.atmTransactionsDataItem = new AtmTransactionView();
+
     this.role = localStorage.getItem('role');
     
     this.setSettingsGrid(this.role);
@@ -192,7 +202,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
 
   getTransactionsData() {
     console.log('getTransactionsData()'); 
-    this.armTransactionsData = new Array<AtmTransactionView>();
+    this.atmTransactionsData = new Array<AtmTransactionView>();
     let self = this;
     this.atmLogViewDetailSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
@@ -210,10 +220,10 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
 
         // });
 
-        this.armTransactionsData = response.results;
+        this.atmTransactionsData = response.results;
         
         self.source = new LocalDataSource();
-        self.source.load(self.armTransactionsData);
+        self.source.load(self.atmTransactionsData);
         
 
         console.log(self.source);
@@ -232,6 +242,14 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
     this.atmLogViewDetailSubscription.unsubscribe();
   }
 
-    
+  goBack(){
+    this.isShowGrid = true;
+  }    
+
+  getDateFormat(date: Date){
+    if(date) 
+      return this.datePipe.transform(new Date(date), 'dd-MM-yyyy hh:mm:ss');
+    return '';
+  }    
 
 }

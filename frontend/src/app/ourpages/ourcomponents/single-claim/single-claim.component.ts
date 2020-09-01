@@ -685,7 +685,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaimUpdate(){
-    this.httpService.updateClaim(this.claimId).subscribe({
+    this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
         console.log('updateClaim ok');
       },
