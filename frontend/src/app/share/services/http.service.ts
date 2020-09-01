@@ -16,6 +16,14 @@ import { URL_GET_CLAIM_LIST,
   URL_BANK_USERS,
   URL_RESET_PASS,
   URL_CLAIM_DOC,
+  URL_BANK_COUNT_UPDATED_CLAIMS,
+  URL_BANK_COUNT_NEW_CLAIMS,
+  URL_COUNT_UPDATED_CLAIMS,
+  URL_COUNT_NEW_CLAIMS,
+  URL_COUNT_CLAIMS_BY_STAGES,
+  URL_COUNT_CLAIMS_BY_RC_GROUP,
+  URL_COUNT_CLAIMS_BY_SUPPORT,
+
 } from '../urlConstants';
 
 @Injectable({
@@ -212,5 +220,57 @@ export class HttpService {
   getClaimDocs(id: any) {
     return this.http.get(URL_CLAIM_DOC + id + '/pdf/', this.getHeaders());
   }
+
+  getBankCountUpdatedClaims(bankId: string) {
+    let req = '';
+    req = `${URL_BANK_COUNT_UPDATED_CLAIMS}${bankId}/stats/updated-claims/`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+  
+  getBankCountNewClaims(bankId: string) {
+    let req = '';
+    req = `${URL_BANK_COUNT_NEW_CLAIMS}${bankId}/stats/`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+  
+  getCountUpdatedClaims() {
+    let req = '';
+    req = `${URL_COUNT_UPDATED_CLAIMS}`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+  
+  getCountNewClaims() {
+    let req = '';
+    req = `${URL_COUNT_NEW_CLAIMS}`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+  
+  getCountClaimsByStages() {
+    let req = '';
+    req = `${URL_COUNT_CLAIMS_BY_STAGES}`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
+  
+  getCountClaimsByRcGroup() {
+    let req = '';
+    req = `${URL_COUNT_CLAIMS_BY_RC_GROUP}`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
+  
+  getCountClaimsBySupport() {
+    let req = '';
+    req = `${URL_COUNT_CLAIMS_BY_SUPPORT}`;
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
 
 }

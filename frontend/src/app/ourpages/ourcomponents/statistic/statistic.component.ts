@@ -29,7 +29,133 @@ export class StatisticComponent implements OnInit, OnDestroy {
     this.role = localStorage.getItem('role');
     //console.log('StatisticComponent role ' +this.role);
 
+    // this.loadBankCountUpdatedClaims("1");
+    // this.loadBankCountNewClaims("1");
+    // this.loadCountUpdatedClaims();
+    // this.loadCountNewClaims();
+    // this.loadCountClaimsByStages();
+    // this.loadCountClaimsByRcGroup();
+    // this.loadCountClaimsBySupport();
+
   }
 
   ngOnDestroy(): void{ }
+
+  loadBankCountUpdatedClaims(bankId: string){
+    //console.log('loadCountUpdatedClaims(bankId: string)');
+    this.httpServise.getBankCountUpdatedClaims(bankId).subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+  loadBankCountNewClaims(bankId: string){
+    //console.log('loadCountNewClaims(bankId: string)');
+    this.httpServise.getBankCountNewClaims(bankId).subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+
+  loadCountUpdatedClaims(){
+    //console.log('loadCountUpdatedClaims()');
+    this.httpServise.getCountUpdatedClaims().subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+  loadCountNewClaims(){
+    //console.log('loadCountNewClaims()');
+    this.httpServise.getCountNewClaims().subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+  
+  loadCountClaimsByStages(){
+    //console.log('getCountClaimsByStages()');
+    this.httpServise.getCountClaimsByStages().subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+  
+  loadCountClaimsByRcGroup(){
+    //console.log('getCountClaimsByRcGroup()');
+    this.httpServise.getCountClaimsByRcGroup().subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+  loadCountClaimsBySupport(){
+    //console.log('getCountClaimsBySupport()');
+    this.httpServise.getCountClaimsBySupport().subscribe({
+      next: (response: any) => {
+        //console.log(response);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+
+  }
+
+
+
 }
