@@ -11,6 +11,8 @@ from cop.core.api.views.merchant import MerchantViewSet
 from cop.core.api.views.reason_codes import ReasonCodeListAPIView
 from cop.core.api.views.report import ReportCreateCreateView
 from cop.core.api.views.stage_history import StageHistoryView
+from cop.core.api.views.statistic import BankStats, BankUpdatedClaimsStatistics, ClaimsStatistics, \
+    UpdatedClaimsStatistics, ClaimsStatisticsByStatusStage, ClaimsStatisticsByRcGroup, ClaimsStatisticsBySupportChoices
 from cop.core.api.views.surveyquestion import SurveyQuestionViewSet
 from cop.core.api.views.terminal import TerminalViewSet
 from cop.core.api.views.transaction import TransactionViewSet
@@ -36,4 +38,11 @@ urlpatterns = router.urls + [
     path('bank-employees/<pk>/', BankEmployeeRetrieveUpdate.as_view()),
     path('claim/<pk>/pdf/', ClaimFormToPDFView.as_view()),
     path('reason-codes/', ReasonCodeListAPIView.as_view()),
+    path('bank/<pk>/stats/updated-claims/', BankUpdatedClaimsStatistics.as_view()),
+    path('bank/<pk>/stats/', BankStats.as_view()),
+    path('stats/updated-claims/', UpdatedClaimsStatistics.as_view()),
+    path('stats/', ClaimsStatistics.as_view()),
+    path('stats/by-status-stages/', ClaimsStatisticsByStatusStage.as_view()),
+    path('stats/by-rc-group/', ClaimsStatisticsByRcGroup.as_view()),
+    path('stats/by-support/', ClaimsStatisticsBySupportChoices.as_view()),
 ]

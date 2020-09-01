@@ -203,5 +203,6 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "reason_code",
             "action_needed",
             "result",
-            "status"
+            "status",
+            "create_date",
         )
