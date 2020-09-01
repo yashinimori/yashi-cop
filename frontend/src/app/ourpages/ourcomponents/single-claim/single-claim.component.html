@@ -14,7 +14,7 @@
         nbButton status="primary" (click)="onClickRequestDocs()" style="margin-left: 10px;" >Запит документів</button>
 </div>
 
-<div *ngIf="!isNewRecord" class="div-panel" >
+<div *ngIf="!isNewRecord && isUIloaded" class="div-panel" >
     <div class="left-panel">
        
         <nb-card style="width: 100%; height: 400px;">
@@ -160,7 +160,7 @@
                 <nb-card style="width: 100%; height: 320px;">
                   <nb-card-body>
                     <nb-list >
-                        <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
+                        <nb-list-item *ngFor="let item of Timeline.comments" style="font-weight: bold;">
                             {{item.user}} {{ item.create_date_str}} {{ item.text }} 
                         </nb-list-item>
                     </nb-list>  

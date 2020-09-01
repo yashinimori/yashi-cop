@@ -16,6 +16,7 @@ import { URL_GET_CLAIM_LIST,
   URL_BANK_USERS,
   URL_RESET_PASS,
   URL_CLAIM_DOC,
+  URL_GET_TIMELINE_INFO,
 } from '../urlConstants';
 
 @Injectable({
@@ -46,6 +47,10 @@ export class HttpService {
 
   getSingleClaim(id: any) {
     return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
+  }
+
+  getTimeLine(id: any){
+    return this.http.get(URL_GET_TIMELINE_INFO + '/' + id + '/timeline/', this.getHeaders());
   }
 
   createNewClaim(claim: any) {

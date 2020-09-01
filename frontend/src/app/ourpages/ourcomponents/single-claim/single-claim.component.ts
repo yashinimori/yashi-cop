@@ -11,6 +11,8 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
 import { ClaimComment } from '../../../share/models/claim-comment.model';
 import { ClaimDocument } from '../../../share/models/claim-document.model';
+import { runInThisContext } from 'vm';
+import { TimelineView } from '../../../share/models/timeline-view.model'
 
 @Component({
   selector: 'ngx-single-claim',
@@ -56,8 +58,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   cOPClaimID: string;
   isNewRecord: boolean = true;
+  isUIloaded: boolean = false;
   getClaimSubscription: Subscription = new Subscription();
   claimData: ClaimView;
+  Timeline: TimelineView;
   //listMerchant: Array<SelectorData>;
   listCurrency: Array<SelectorData>;
   listQuestions: Array<SelectorData>;
@@ -140,7 +144,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //console.log('ngOnInit');
     
     this.claimData = new ClaimView();
+    this.Timeline = new TimelineView();
     this.claimData.user = {};
+    
 
     this.role = localStorage.getItem('role');
     console.log('SingleClaimComponent role ' +this.role);
@@ -149,6 +155,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.claimId.length != 0) {
       this.loadClaim();
+      this.timeline();
     }
     this.generateStatusFields();
 
@@ -207,6 +214,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  timeline(){
+    console.log('timeline()');
+
+    this.httpService.getTimeLine(this.claimId).subscribe({
+        next: (response: any) => {
+          this.Timeline = response;
+          console.log(response);
+          // console.log(this.Timeline);
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+         
+        }
+      });
+  }
+
   loadClaim() {
     console.log('loadClaim');
 
@@ -223,7 +248,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-         
+          this.isUIloaded = true;
         }
       });
   }

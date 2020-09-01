@@ -65,7 +65,7 @@ import { ChartssComponent } from './chartss/chartss.component';
     NbInputModule,
     ChartsModule,
     NbStepperModule,
-    
+    // ChartsModule,
   ],
   declarations: [
     OurComponentsComponent,
