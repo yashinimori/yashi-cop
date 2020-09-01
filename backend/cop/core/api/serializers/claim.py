@@ -123,7 +123,8 @@ class ClaimSerializer(serializers.ModelSerializer):
             "status",
             "officer_answer_reason",
             "chargeback_date",
-            "second_presentment_date"
+            "second_presentment_date",
+            "arn"
         )
 
     def create(self, validated_data):
