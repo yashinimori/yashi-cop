@@ -149,8 +149,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.claimId.length != 0) {
       this.loadClaim();
-
-      //this.getClaim(this.claimId);
     }
     this.generateStatusFields();
 
@@ -196,6 +194,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getDates();
 
     //this.loadClaimDocumsnts();
+    
   }
 
   ngOnDestroy(): void {
@@ -210,12 +209,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadClaim() {
     console.log('loadClaim');
-    // this.httpService.getTimelineInfo(this.claimId)
-
 
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;
+          console.log(response);
           console.log(this.claimData);
           this.setClaimComments();
           this.setClaimDocumsnts();
@@ -231,23 +229,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  getClaim(id: any){
-
-    this.httpService.getClaim(id).subscribe({
-      next: (response: any) => {
-        console.log("this.claimData--------------------------------------------------------------------------------------------");
-        console.log(response);
-        console.log("this.claimData--------------------------------------------------------------------------------------------");
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      },
-      complete: () => {
+  // getClaim(id: any){
+  //   console.log('getClaim(id: any)');
+  //   this.httpService.getClaim(id).subscribe({
+  //     next: (response: any) => {
+  //       console.log("this.claimData--------------------------------------------------------------------------------------------");
+  //       console.log(response);
+  //       console.log("this.claimData--------------------------------------------------------------------------------------------");
+  //     },
+  //     error: error => {
+  //       console.error('There was an error!', error);
+  //     },
+  //     complete: () => {
        
-      }
-    });
+  //     }
+  //   });
 
-  }
+  // }
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
@@ -686,6 +684,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaimUpdate(){
+    console.log('saveClaimUpdate()');
+    console.log(this.claimData);
+    this.claimData.claimId = this.claimData.id;
     this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
         console.log('updateClaim ok');
@@ -697,6 +698,21 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
     }); 
+  }
+
+
+  get getUrlPDF(){
+    let url = '';
+
+    if(this.claimId) {
+      url = '/api/v1/claim/'+ this.claimId +'/pdf/'
+    }
+    
+    return url;
+  }
+
+  goBack(){
+    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
 }

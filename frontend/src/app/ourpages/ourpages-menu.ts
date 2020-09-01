@@ -186,7 +186,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 function setHiddenUser(){
   let role= localStorage.getItem('role');
-  console.log('setHidden() ' + role);
+  //console.log('setHidden() ' + role);
 
   if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
     return false;

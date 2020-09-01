@@ -26,5 +26,11 @@ export class ClaimView extends ClaimRegistration {
   mmt: string;
   officer_answer_reason: string;
   user: any;
+  chargeback_date: Date;
+  second_presentment_date: Date;
+  pre_arbitration_date: Date;
+  pre_arbitration_response_date: Date;
+  arbitration_date: Date;
+  arbitration_response_date: Date;
   
 }

@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   handleKeyUp(e){
-    console.log(e);
+    //console.log(e);
     if(e.keyCode === 13){
       console.log(e);
        this.enter();
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
     this.getTokenSubscription = this.authService.getToken(this.data).subscribe({
       next: (response: any) => {
-        console.log(response); 
+        //console.log(response); 
         localStorage.setItem('token', response.access); 
         localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());    
       },
@@ -54,11 +54,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   getUserInfo() {
     let password_change_required = false;
-
+    let role = '';
     this.loginSubscription = this.authService.login().subscribe({
       next: (response: any) => {
-        console.log('getUserInfo'); 
-        console.log(response); 
+        //console.log('getUserInfo'); 
+        //console.log(response); 
+        role = response.role;
+        console.log(role); 
 
         if(response['password_change_required']) 
           password_change_required = true;
@@ -70,16 +72,31 @@ export class LoginComponent implements OnInit, OnDestroy {
           localStorage.setItem('fio', response.first_name +' '+ response.last_name);
           localStorage.setItem('user_id', response['id']);
         }
-        console.log(localStorage);
+        //console.log(localStorage);
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-        if(password_change_required) 
+        if(password_change_required) {
           this.router.navigate(['auth', 'password']);
-        else
-          this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+        } else {
+          if(role == 'chargeback_officer')
+            this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+          else if(role == 'security_officer')
+            this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+          else if(role == 'cop_manager')
+            this.router.navigate(['ourpages', 'ourcomponents', 'bank-list']);
+          else if(role == 'merchant')
+            this.router.navigate(['ourpages', 'ourcomponents', 'claims','all']);
+          else if(role == 'cardholder')
+            this.router.navigate(['ourpages', 'ourcomponents', 'claims','all']);
+          else if(role == 'top_level')
+            this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
+          else
+            this.router.navigate(['ourpages', 'ourcomponents']);
+        }
+          
       }
     });
   }

@@ -52,7 +52,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   // }
   
   setSettingsGrid(role:string){
-    console.log('setSettingsGrid(c:string)' + role);
+    //console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':

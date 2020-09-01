@@ -66,7 +66,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   }
 
   setSettingsGrid(role:string){
-    console.log('setSettingsGrid(c:string)' + role);
+    //console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
@@ -80,37 +80,37 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-             trans_start: {
-               title: 'Початок транзакції',
-               valuePrepareFunction: (trans_date) => {
-                 if(trans_date)
-                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-             }, 
+            //  trans_start: {
+            //    title: 'Початок транзакції',
+            //    valuePrepareFunction: (trans_date) => {
+            //      if(trans_date)
+            //        return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            //  }, 
             pan: {
               title: 'Номер карти',
               type: 'string',
             },
-            pin_entered:{
-              title: 'PIN',
-               valuePrepareFunction: (pin_entered) => {
-                 if(pin_entered)
-                   return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            cash_request:{
-              title: 'Запит грошей',
-               valuePrepareFunction: (cash_request) => {
-                 if(cash_request)
-                   return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
+            // pin_entered:{
+            //   title: 'PIN',
+            //    valuePrepareFunction: (pin_entered) => {
+            //      if(pin_entered)
+            //        return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // cash_request:{
+            //   title: 'Запит грошей',
+            //    valuePrepareFunction: (cash_request) => {
+            //      if(cash_request)
+            //        return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
             trans_amount: {
               title: 'Сума',
               type: 'string',
@@ -123,59 +123,59 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
               title: 'Код затвердження',
               type: 'string',
             },
-            cash_presented:{
-              title: 'Готівка представлена',
-               valuePrepareFunction: (cash_presented) => {
-                 if(cash_presented)
-                   return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            cash_taken:{
-              title: 'Готівка отримана',
-               valuePrepareFunction: (cash_taken) => {
-                 if(cash_taken)
-                   return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            cash_count: {
-              title: 'Кількість готівки',
-              type: 'string',
-            },
-            card_taken:{
-              title: 'Картка отримана',
-               valuePrepareFunction: (card_taken) => {
-                 if(card_taken)
-                   return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            cash_retracted:{
-              title: 'Відмома',
-               valuePrepareFunction: (cash_retracted) => {
-                 if(cash_retracted)
-                   return this.datePipe.transform(new Date(cash_retracted), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            trans_end:{
-              title: 'Кінец транзакції',
-               valuePrepareFunction: (trans_end) => {
-                 if(trans_end)
-                   return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
-                 else
-                   return '';
-               }
-            },
-            error: {
-              title: 'Помилки',
-              type: 'string',
-            },
+            // cash_presented:{
+            //   title: 'Готівка представлена',
+            //    valuePrepareFunction: (cash_presented) => {
+            //      if(cash_presented)
+            //        return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // cash_taken:{
+            //   title: 'Готівка отримана',
+            //    valuePrepareFunction: (cash_taken) => {
+            //      if(cash_taken)
+            //        return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // cash_count: {
+            //   title: 'Кількість готівки',
+            //   type: 'string',
+            // },
+            // card_taken:{
+            //   title: 'Картка отримана',
+            //    valuePrepareFunction: (card_taken) => {
+            //      if(card_taken)
+            //        return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // cash_retracted:{
+            //   title: 'Відмома',
+            //    valuePrepareFunction: (cash_retracted) => {
+            //      if(cash_retracted)
+            //        return this.datePipe.transform(new Date(cash_retracted), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // trans_end:{
+            //   title: 'Кінец транзакції',
+            //    valuePrepareFunction: (trans_end) => {
+            //      if(trans_end)
+            //        return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
+            //      else
+            //        return '';
+            //    }
+            // },
+            // error: {
+            //   title: 'Помилки',
+            //   type: 'string',
+            // },
             result: {
               title: 'Результат',
               type: 'string',
