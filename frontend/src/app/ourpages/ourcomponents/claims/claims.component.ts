@@ -401,7 +401,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
         //self.source .refresh();
 
-        console.log(self.source);
+        //console.log(self.source);
         
       },
       error: error => {

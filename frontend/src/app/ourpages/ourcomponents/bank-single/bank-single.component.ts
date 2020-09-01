@@ -79,7 +79,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   }
   
   getBankData(id: any) {
-    console.log('loadBanks()');
+    //console.log('loadBanks()');
     this.bank = new Bank();
 
     let self = this;
@@ -87,8 +87,8 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.httpServise.getBank(id).subscribe({
       next: (response: any) => {
-        console.log('loaded bank '); 
-        console.log(response);
+        //console.log('loaded bank '); 
+        //console.log(response);
 
         this.bank.id = response['id'];
         this.bank.bin = response['bin'];
@@ -198,8 +198,8 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded bank users '); 
-        console.log(response);
+        //console.log('loaded bank users '); 
+        //console.log(response);
 
         let data: any;
 
@@ -225,7 +225,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
 
           self.bankUserData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
         
@@ -372,7 +372,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
 
           self.bankMerchData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
         

@@ -128,7 +128,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   getBanksData() {
-    console.log('loadBanks()');
+    //console.log('loadBanks()');
     this.banksData = new Array<Bank>();
 
     let self = this;
@@ -136,8 +136,8 @@ export class BankListComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.banksSubscription = this.httpServise.getBankList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded banks '); 
-        console.log(response);
+        //console.log('loaded banks '); 
+        //console.log(response);
 
         let data: any;
 
@@ -162,7 +162,7 @@ export class BankListComponent implements OnInit, OnDestroy {
 
           self.banksData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
 
@@ -172,7 +172,7 @@ export class BankListComponent implements OnInit, OnDestroy {
         self.source.load(self.banksData);
         //self.source .refresh();
 
-        console.log(self.source);
+        //console.log(self.source);
         
       },
       error: error => {
