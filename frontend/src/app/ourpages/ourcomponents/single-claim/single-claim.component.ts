@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
 import { ClaimComment } from '../../../share/models/claim-comment.model';
@@ -400,6 +400,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     switch(par.part) {
       case 'one':
         this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
+        console.log(par.formGroups.value.groupQuery1)
         if(par.formGroups.value.groupQuery1.val == 1) {
           this.part = 'two';
         } else {
