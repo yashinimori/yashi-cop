@@ -165,7 +165,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'cardholder': 
-            case 'cc_branch': 
+            case 'сс_branch': 
             case 'user': { 
                 this.list_claims = new paramStatusFields({invisible: false});
                 this.bank_single_view = new paramStatusFields({invisible: false});

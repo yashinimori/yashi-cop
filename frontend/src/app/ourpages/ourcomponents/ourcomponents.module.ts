@@ -63,6 +63,7 @@ import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-us
     NbRadioModule,
     NbInputModule,
     ChartsModule,
+    NbStepperModule,
     
   ],
   declarations: [

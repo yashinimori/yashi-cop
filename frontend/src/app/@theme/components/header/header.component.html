@@ -7,9 +7,7 @@
       <img src="assets/images/logo.png" alt="Logo" class="logoimg">
     </a>
   </div>
-  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary" class="ml-70">
-    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-  </nb-select>
+  
 </div>
 
 
@@ -20,6 +18,9 @@
 -->
 
 <div class="header-container">
+  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+  </nb-select>
   <nb-actions size="small">
     <nb-action class="control-item">
       <nb-search type="rotate-layout"></nb-search>

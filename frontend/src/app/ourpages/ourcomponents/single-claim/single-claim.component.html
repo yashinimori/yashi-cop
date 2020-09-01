@@ -231,9 +231,442 @@
     </nb-card>
 </div>
 
+
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+
+
 <div *ngIf="isNewRecord && role !='merchant'" >
+    <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; margin: auto;">
+        <nb-card-header style="width: 100%; text-align: center;">
+                Нове звернення
+        </nb-card-header>
+        
+        <nb-card-body>
+        
+    <nb-stepper orientation="horizontal">
+        <nb-step label="step number one">
+            <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
+                <label class="label-caption">Номер карти</label> 
+                <input class="input-data" nbInput placeholder="Номер карти"
+                    id="pan" name="pan"
+                    [required]="fieldsStatus.pan.required" 
+                    [readonly]="fieldsStatus.pan.readonly"
+                    [(ngModel)]="claimData.pan"
+                    minlength="16"
+                    maxlength="16"
+                    >
+                <!-- <div *ngIf="pan.invalid && (pan.dirty || pan.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="pan.errors.required">
+                        Name is required.
+                    </div>
+                    <div *ngIf="pan.errors.minlength">
+                        Name must be at least 4 characters long.
+                    </div>
+                </div> -->
+                    
+            </div>
+            
+            <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
+                <label class="label-caption">Дата транзакції</label> 
+                <input class="input-date" nbInput 
+                    placeholder="Дата транзакції"
+                    [nbDatepicker]="formpicker"
+                    [required]="fieldsStatus.transDate.required" 
+                    [readonly]="fieldsStatus.transDate.readonly"
+                    [(ngModel)]="claimData.trans_date"
+                    minlength="12"
+                    maxlength="12"
+                    >
+                <nb-datepicker #formpicker></nb-datepicker> 
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
+                <label class="label-caption">Торгова точка</label> 
+                <nb-select class="selector-list" [(selected)]="claimData.merch_id"
+                    [required]="fieldsStatus.merchantID.required" 
+                    [disabled]="fieldsStatus.merchantID.readonly" >
+                    <nb-option *ngFor="let item of merchantsArr" [value]="item.id">
+                        {{ item.name_ips }}
+                    </nb-option>
+                </nb-select>
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
+                <label class="label-caption">Terminal ID</label> 
+                <input class="input-data" nbInput placeholder="Terminal ID" 
+                    [required]="fieldsStatus.terminalID.required" 
+                    [readonly]="fieldsStatus.terminalID.readonly" 
+                    [(ngModel)]="claimData.term_id"
+                    minlength="8"
+                    maxlength="8"
+                    >
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
+                <label class="label-caption">Cума операції</label> 
+                <input class="input-data" nbInput placeholder="Cума операції" 
+                    [required]="fieldsStatus.amount.required" 
+                    [readonly]="fieldsStatus.amount.readonly" 
+                    [(ngModel)]="claimData.trans_amount"
+                    minlength="10"
+                    maxlength="10"
+                    >
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
+                <label class="label-caption">Валюта операції</label> 
+                <nb-select class="selector-list" [(selected)]="claimData.trans_currency"
+                    [required]="fieldsStatus.currency.required" 
+                    [disabled]="fieldsStatus.currency.readonly">
+                    <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
+                        {{ item.caption }}
+                    </nb-option>
+                </nb-select>
+            </div>
+
+            <!-- <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button> -->
+            <div class="center">
+                <button  nbButton status="primary" (click)="onClickBack()" nbStepperPrevious>Повернутися</button>
+                <button *ngIf="!isLastStep" nbButton nbStepperNext status="primary" style="margin-left: 10px;" (click)="change(this)" nbStepperNext>Далі</button>
+                <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+            </div>
+        </nb-step>
+
+        <!-- </nb-card-body> -->
+        <!-- <nb-card-footer> -->
+            <!-- <div class="center"> -->
+              <!-- <button  nbButton status="primary" (click)="onClickGoNextStep()">До наступного кроку</button> -->
+            <!-- </div> -->
+          <!-- </nb-card-footer> -->
+    <!-- </nb-card> -->
+
+
+<!-- &&&&&&&&&&&&&&&&&&&&&& -->
+    <!-- <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; height: 450px;margin: auto;"> -->
+        <!-- <nb-card-header style="width: 100%; text-align: center;"> -->
+                <!-- Нове звернення -->
+        <!-- </nb-card-header> -->
+        
+        <!-- <nb-card-body> -->
+
+        <nb-step label="stepLabel2">
+            <ng-template #stepLabel2>
+                <div>
+                    step number three
+                </div>
+            </ng-template>
+            <div class="div-panel" *ngIf="!fieldsStatus.authCode.invisible">
+                <label class="label-caption">Код операції</label> 
+                <input class="input-data" nbInput placeholder="Код операції" 
+                    [required]="fieldsStatus.authCode.required" 
+                    [readonly]="fieldsStatus.authCode.readonly"
+                    [(ngModel)]="claimData.trans_approval_code"
+                    minlength="6"
+                    maxlength="6"
+                    >
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
+                <label class="label-caption">Коментарі</label> 
+                <input class="input-data" nbInput placeholder="Коментарі" 
+                    [required]="fieldsStatus.comment.required" 
+                    [readonly]="fieldsStatus.comment.readonly"
+                    [(ngModel)]="claimData.ch_comments">
+            </div>
+
+            <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
+                <label class="label-caption">Додати документи</label> 
+                <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                            type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                <div *ngFor="let file of filesArr" class="fileAttached">
+                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                </div>
+
+            </div>
+
+            <!-- <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button> -->
+            <div class="center">
+                <button  nbButton status="primary" (click)="onClickBack()" nbStepperPrevious>Повернутися</button>
+                <button *ngIf="!isLastStep" nbButton nbStepperNext status="primary" style="margin-left: 10px;" (click)="change(this)" nbStepperNext>Далі</button>
+                <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+            </div>
+        </nb-step>
+        <!-- </nb-card-body>
+        <nb-card-footer>
+            <div class="center">
+              <button  nbButton status="primary" (click)="onClickGoNextStep()">До наступного кроку</button>
+            </div>
+          </nb-card-footer>
+    </nb-card> -->
+
+
+
+
+
+
+
+    <!-- <nb-card *ngIf="stepNewRecord==2"  style="width: 49%; height: 450px;margin: auto;">
+            <nb-card-header style="width: 100%; text-align: center;">
+                    Нове звернення
+            </nb-card-header>
+            
+            <nb-card-body> -->
+        <nb-step label="stepLabel3">
+            <ng-template #stepLabel3>
+                <div>
+                    step number two
+                </div>
+            </ng-template>
+            <form [formGroup]="formGroups" >
+                    <ng-container [ngTemplateOutlet]="this[part]"></ng-container>
+                
+                    <ng-template #one> 
+                        <label class="label-question center">
+                            Ви підтверджуєте, що брали участь у транзакції?
+                        </label> 
+                        <nb-radio-group name="groupQuery1" formControlName="groupQuery1" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue1">
+                            <nb-radio [value] = "valNo" >{{valNo.text}}</nb-radio>
+                            <nb-radio [value] = "valYes" >{{valYes.text}}</nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+                
+                    <ng-template #two> 
+                        <label class="label-question center">
+                            Чи Ви раніше робили транзакції у даного торговця?
+                        </label> 
+                        <nb-radio-group name="groupQuery2" formControlName="groupQuery2" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue2">
+                            <nb-radio [value] = "valNo" >{{valNo.text}}</nb-radio>
+                            <nb-radio [value] = "valYes2" >{{valYes2.text}}</nb-radio>
+                            <nb-radio [value] = "valYes3" >{{valYes3.text}}</nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+                
+                    <ng-template #three>
+                        <label class="label-question center">
+                            Де знаходиться картка?
+                        </label> 
+                        <nb-radio-group name="groupQuery3" formControlName="groupQuery3" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue3">
+                            <nb-radio [value] = "valWhereCard" >{{valWhereCard.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valWhereCard2" >{{valWhereCard2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #four>
+                        <label class="label-question center">
+                            Вкажить дату викрадення
+                        </label> 
+                        <input class="control-input-questions" nbInput 
+                            placeholder="Вкажить дату викрадення"
+                            [nbDatepicker]="formpicker"
+                            [(ngModel)]="claimData.transDate"
+                            formControlName="groupQuery4"  >
+                        <nb-datepicker #formpicker></nb-datepicker> 
+                    </ng-template>
+
+                    <ng-template #five>
+                        <label class="label-question center">
+                            Вам потрібні документи по транзакції для власних потреб
+                        </label> 
+                        <nb-radio-group name="groupQuery5" formControlName="groupQuery5" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue5">
+                            <nb-radio [value] = "valNeedDocument" >{{valNeedDocument.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valNeedDocument2" >{{valNeedDocument2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #six>
+                        <label class="label-question center">
+                            Операцію було проведено в банкоматі?
+                        </label> 
+                        <nb-radio-group name="groupQuery6" formControlName="groupQuery6" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue6">
+                            <nb-radio [value] = "valOperation" >{{valOperation.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valOperation2" >{{valOperation2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #seven>
+                        <label class="label-question center">
+                            Кошти не були отримані?
+                        </label> 
+                        <nb-radio-group name="groupQuery7" formControlName="groupQuery7" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue7">
+                            <nb-radio [value] = "valMoney" >{{valMoney.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valMoney2" >{{valMoney2.text}}
+                            </nb-radio>                     
+                        </nb-radio-group>
+                    </ng-template>
+                
+                    <ng-template #eight>
+                        <label class="label-question center">
+                            В повному обсязі чи частково?
+                        </label> 
+                        <nb-radio-group name="groupQuery8" formControlName="groupQuery8" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue8">
+                            <nb-radio [value] = "valOll" >{{valOll.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valOll2" >{{valOll2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #nine>
+                        <label class="label-question center">
+                            Вкажіть яку суму не отриманих коштів
+                        </label> 
+                        <input class="input-data" nbInput placeholder="Вкажіть яку суму не отриманих коштів"
+                            name="groupQuery9" formControlName="groupQuery9" 
+                            >
+                    </ng-template>
+
+                    <ng-template #ten>
+                        <label class="label-question center">
+                            Операція проведена в інтернеті?
+                        </label> 
+                        <nb-radio-group name="groupQuery10" formControlName="groupQuery10" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue10">
+                            <nb-radio [value] = "valWhereOperation" >{{valWhereOperation.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valWhereOperation2" >{{valWhereOperation2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #eleven>
+                        <label class="label-question center">
+                            Чи товар був отриманий/послуга надана?
+                        </label> 
+                        <nb-radio-group name="groupQuery11" formControlName="groupQuery11" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue11">
+                            <nb-radio [value] = "valGet" >{{valGet.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valGet2" >{{valGet2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #twelve>
+                        <label class="label-question center">
+                            Оберіть причину із списку
+                        </label> 
+                        <nb-select name="groupQuery12" formControlName="groupQuery12"
+                            class="selector-list-questions" [(selected)]="question">
+                            <nb-option *ngFor="let item of listQuestions" [value]="item">
+                                {{ item.caption }}
+                            </nb-option>
+                        </nb-select>
+                    </ng-template>
+
+                    <ng-template #thirteen>
+                        <label class="label-question center">
+                            Вкажіть яким чином було проведено оплату
+                        </label> 
+                        <nb-radio-group name="groupQuery13" formControlName="groupQuery13" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue13">
+                            <nb-radio [value] = "valPay" >{{valPay.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valPay2" >{{valPay2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                    <ng-template #fourteen>
+                        <label class="label-question center">
+                            Вказати дату повернення
+                        </label> 
+                        <input class="input-date" nbInput 
+                            placeholder="Вказати дату повернення"
+                            [nbDatepicker]="formpicker"
+                            name="groupQuery14" formControlName="groupQuery14" 
+                            [(ngModel)]="claimData.trans_date">
+                        <nb-datepicker #formpicker></nb-datepicker> 
+                    </ng-template>
+                
+                    <ng-template #fiveteen>
+                        <label class="label-question center">
+                            Вкажить дату повернення
+                        </label> 
+                        <input class="input-date" nbInput 
+                            placeholder="Вкажить дату повернення"
+                            [nbDatepicker]="formpicker"
+                            name="groupQuery15" formControlName="groupQuery15" 
+                            [(ngModel)]="claimData.comments">
+                        <nb-datepicker #formpicker></nb-datepicker> 
+                    </ng-template>
+
+                    <ng-template #sixteen>
+                        <label class="label-question center">
+                            Вкажить правильну суму та валюту
+                        </label> 
+                        <input class="control-input-questions" nbInput placeholder="Cума"
+                            name="groupQuery16" formControlName="groupQuery16"  >
+                        <nb-select class="control-input-questions" [(selected)]="claimData.currency">
+                            <nb-option *ngFor="let item of listCurrency" [value]="item.id">
+                                {{ item.caption }}
+                            </nb-option>
+                        </nb-select>
+                    </ng-template> 
+
+                    <ng-template #seventeen>
+                        <label class="label-question center">
+                            Чи Ви робили повернення товару?
+                        </label> 
+                        <nb-radio-group name="groupQuery17" formControlName="groupQuery17" 
+                            class="input-radio" [(ngModel)]="radioGroupQueryValue15">
+                            <nb-radio [value] = "valBack" >{{valBack.text}}
+                            </nb-radio>
+                            <nb-radio [value] = "valBack2" >{{valBack2.text}}
+                            </nb-radio>
+                        </nb-radio-group>
+                    </ng-template>
+
+                </form>
+        <!-- <button nbButton nbStepperPrevious>prev</button>
+        <button nbButton nbStepperNext>next</button> -->
+        <div class="center">
+            <button  nbButton status="primary" (click)="onClickBack()" nbStepperPrevious>Повернутися</button>
+            <button *ngIf="!isLastStep" nbButton nbStepperNext status="primary" style="margin-left: 10px;" (click)="change(this)" nbStepperNext>Далі</button>
+            <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+        </div>
+        </nb-step>
+      </nb-stepper>
+      </nb-card-body>
+      <nb-card-footer>
+        <!-- <div class="center">
+            <button  nbButton status="primary" (click)="onClickBack()">Повернутися</button>
+            <button *ngIf="!isLastStep" nbButton nbStepperNext status="primary" style="margin-left: 10px;" (click)="change(this)">Далі</button>
+            <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+        </div> -->
+      </nb-card-footer>
+    <!-- </nb-card> -->
+      <!-- <nb-card-footer>
+        <div class="center">
+          <button  nbButton status="primary" (click)="onClickGoNextStep()">До наступного кроку</button>
+        </div>
+      </nb-card-footer> -->
     
-        <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; height: 450px;margin: auto;">
+    <!-- </nb-card> -->
+
+  <!-- </div>     -->
+    
+    <!-- <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; height: 450px;margin: auto;">
             <nb-card-header style="width: 100%; text-align: center;">
                 Нове звернення
               </nb-card-header>
@@ -577,9 +1010,9 @@
                     <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
                 </div>
               </nb-card-footer>
-        </nb-card>
+        </nb-card> -->
 
 
     
 
-</div>
+<!-- </div> -->

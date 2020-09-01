@@ -66,7 +66,104 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   setSettingsGrid(role:string){
     console.log('setSettingsGrid(c:string)' + role);
 
+        // this.settings = {
+        //   pager:{perPage: this.pagerSize},
+        //   //hideSubHeader: true,
+        //   actions:{
+        //     add: false,
+        //     edit: false,
+        //     delete: false,
+        //   },
+        //   columns: {
+        //     // id: {
+        //     //   title: '#',
+        //     //   type: 'string',
+        //     //   hidden: true,
+        //     //   filter: false,               
+        //     // },
+        //     id: {
+        //       title: 'ID',
+        //       type: 'string',
+        //     },
+        //     pan: {
+        //       title: 'Номер карти',
+        //       type: 'string',
+        //     },
+        //     trans_date: {
+        //       title: 'Дата транзакції',
+        //       valuePrepareFunction: (trans_date) => {
+        //         if(trans_date)
+        //           return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+        //         else
+        //           return '';
+        //       }
+        //     }, 
+        //     merch_name_ips: {
+        //       title: "Назва торговця",
+        //       type: 'string',
+        //     }, 
+        //     term_id: {
+        //       title: "Ім'я терміналу",
+        //       type: 'string',
+        //     },   
+        //     trans_amount: {
+        //       title: "Cума",
+        //       type: 'number',
+        //     }, 
+        //     trans_currency: {
+        //       title: "Валюта",
+        //       type: 'string',
+        //     },
+        //     auth_code: {
+        //       title: "Код авторизації",
+        //       type: 'number',
+        //     },
+        //     claim_reason_code: {
+        //       title: "Reason Code",
+        //       type: 'number',
+        //     },
+        //     status: {
+        //       title: "Статус",
+        //       type: 'string',
+        //     },
+        //     action_needed: {
+        //       title: "Індикатор",
+        //       type: 'string',
+        //     },
+        //     result: {
+        //       title: "Результат",
+        //       type: 'string',
+        //     },
+        //     due_date: {
+        //       title: 'Кінцевий термін претензії.',
+        //       valuePrepareFunction: (due_date) => {
+        //         if(due_date)
+        //           return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+        //         else
+        //           return '';
+        //       }
+        //     },
+        //   },
+        // };
+    
+
+
+
+
+
+
+
+
+
     switch(role){
+
+
+
+
+
+
+
+
       case 'admin':
       case 'chargeback_officer':  {
         this.settings = {
@@ -147,7 +244,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       break;
       case 'merchant':
       case 'cardholder':
-      case 'cc_branch':
+      case 'сс_branch':
       case 'user': {
         this.settings = {
           pager:{perPage: this.pagerSize},
