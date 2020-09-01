@@ -265,14 +265,14 @@ export class BankSingleComponent implements OnInit, OnDestroy {
             //   title: 'ID',
             //   type: 'string',
             // },
-            first_name: {
-              title: 'Імя',
-              type: 'string',
-            },
-            last_name: {
-              title: 'Прізвище',
-              type: 'string',
-            },
+            // first_name: {
+            //   title: 'Імя',
+            //   type: 'string',
+            // },
+            // last_name: {
+            //   title: 'Прізвище',
+            //   type: 'string',
+            // },
             merch_id: {
               title: 'Merchant ID',
               type: 'string',

@@ -123,17 +123,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
     ],
   },
-  {
-    title: 'МЕРЧАНТ',
-    icon: 'layout-outline',
-    hidden: setHiddenCOPManager(),
-    children: [
-      {
-        title: 'Новий мерчант',
-        link: '/ourpages/ourcomponents/merch-user',
-      },
-    ],
-  },
+  // {
+  //   title: 'МЕРЧАНТ',
+  //   icon: 'layout-outline',
+  //   hidden: setHiddenCOPManager(),
+  //   children: [
+  //     {
+  //       title: 'Новий мерчант',
+  //       link: '/ourpages/ourcomponents/merch-user',
+  //     },
+  //   ],
+  // },
   {
     title: 'Користувачи',
     icon: 'layout-outline',
