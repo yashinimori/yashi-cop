@@ -71,8 +71,10 @@ export class FieldsStatus {
     list_claims: paramStatusFields;
     aRN_editor: paramStatusFields;
     save_edit_claim: paramStatusFields;
+    button_add_claim: paramStatusFields;
 
     default() {
+        this.button_add_claim = new paramStatusFields({invisible: true});
         this.save_edit_claim = new paramStatusFields({invisible: true});
         this.pan = new paramStatusFields({invisible: true});
         this.transDate = new paramStatusFields({invisible: true});
@@ -124,6 +126,7 @@ export class FieldsStatus {
 
         switch(role) { 
             case 'merchant':{ 
+                this.button_add_claim = new paramStatusFields({invisible: true});
                 this.save_edit_claim = new paramStatusFields({invisible: true});
                 this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: false});
@@ -173,6 +176,7 @@ export class FieldsStatus {
             case 'cardholder': 
             case 'сс_branch': 
             case 'user': { 
+                this.button_add_claim = new paramStatusFields({invisible: false});
                 this.save_edit_claim = new paramStatusFields({invisible: true});
                 this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: false});
@@ -220,6 +224,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'cop_manager':{
+                this.button_add_claim = new paramStatusFields({invisible: true});
                 this.save_edit_claim = new paramStatusFields({invisible: true});
                 this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: true});
@@ -267,6 +272,7 @@ export class FieldsStatus {
             }
             break;
             case 'chargeback_officer': { 
+                this.button_add_claim = new paramStatusFields({invisible: false});
                 this.save_edit_claim = new paramStatusFields({invisible: false});
                 this.aRN_editor = new paramStatusFields({invisible: false, readonly:false, required: false});
                 this.list_claims = new paramStatusFields({invisible: false});
@@ -314,6 +320,7 @@ export class FieldsStatus {
             } 
             break; 
             case 'top_level': { 
+                this.button_add_claim = new paramStatusFields({invisible: true});
                 this.save_edit_claim = new paramStatusFields({invisible: true});
                 this.aRN_editor = new paramStatusFields({invisible: true});
                 this.list_claims = new paramStatusFields({invisible: true});
