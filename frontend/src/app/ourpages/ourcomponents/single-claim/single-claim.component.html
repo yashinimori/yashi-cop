@@ -655,6 +655,7 @@
                         [(ngModel)]="claimData.pan"
                         minlength="16"
                         maxlength="16"
+                        
                         >
                         
                 </div>
@@ -669,8 +670,9 @@
                         [(ngModel)]="claimData.trans_date"
                         minlength="12"
                         maxlength="12"
+                        
                         >
-                    <nb-datepicker #formpicker></nb-datepicker> 
+                    <nb-datepicker #formpicker format="MM/dd/yyyy"></nb-datepicker> 
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
@@ -685,7 +687,7 @@
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
-                    <label class="label-caption">Terminal ID</label> 
+                    <label class="label-caption">Номер терміналу</label> 
                     <input class="input-data" nbInput placeholder="Terminal ID" 
                         [required]="fieldsStatus.terminalID.required" 
                         [readonly]="fieldsStatus.terminalID.readonly" 
@@ -904,12 +906,14 @@
                         <label class="label-question center">
                             Оберіть причину із списку
                         </label> 
-                        <nb-select name="groupQuery12" formControlName="groupQuery12"
-                            class="selector-list-questions" [(selected)]="question">
-                            <nb-option *ngFor="let item of listQuestions" [value]="item">
-                                {{ item.caption }}
-                            </nb-option>
-                        </nb-select>
+                        <div class="center_select">
+                            <nb-select name="groupQuery12" formControlName="groupQuery12"
+                                class="selector-list-questions" [(selected)]="question">
+                                <nb-option *ngFor="let item of listQuestions" [value]="item">
+                                    {{ item.caption }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
                     </ng-template>
 
                     <ng-template #thirteen>
