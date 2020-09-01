@@ -5,3 +5,20 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+.center-screen {
+  text-align: center;
+}
+.div-panel{
+  display: flex;
+  margin-bottom: 10px;
+}
+.label-caption {
+  width: 38%;
+  text-transform: uppercase;
+}
+.label-data {
+  width: 60%;
+  font-weight: bold;
+  text-transform: uppercase;
+}

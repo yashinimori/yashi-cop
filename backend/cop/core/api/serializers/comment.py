@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from cop.core.models import Comment, Claim
+from cop.users.api.serializers.user import UserSerializerLight
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
@@ -15,3 +16,16 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         validated_data['user'] = self.context["request"].user
         validated_data['claim'] = claim
         return super(CommentCreateSerializer, self).create(validated_data)
+
+
+class CommentListSerializer(serializers.ModelSerializer):
+    user = UserSerializerLight()
+
+    class Meta:
+        model = Comment
+        fields = (
+            'id',
+            'text',
+            'user',
+            'create_date',
+        )

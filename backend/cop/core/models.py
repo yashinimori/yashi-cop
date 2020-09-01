@@ -431,6 +431,8 @@ class Status(BaseModel):
 class StageChangesHistory(BaseModel):
     AUTOMATICALLY = 'Автоматично'
 
+    status_from = models.ForeignKey(Status, on_delete=models.CASCADE, related_name='history_status_from')
+    status_to = models.ForeignKey(Status, on_delete=models.CASCADE, related_name='history_status_to')
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='stages')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     reason = models.CharField(max_length=999, default=AUTOMATICALLY)

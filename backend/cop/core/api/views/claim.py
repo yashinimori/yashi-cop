@@ -1,10 +1,12 @@
+from itertools import chain
+
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, get_object_or_404
+from rest_framework.generics import CreateAPIView, get_object_or_404, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,8 +14,10 @@ from weasyprint import HTML
 
 from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
-    ClaimDocumentReportsSerializer
-from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup, SurveyQuestion
+    ClaimDocumentReportsSerializer, ClaimDocumentNestedSerializer
+from cop.core.api.serializers.comment import CommentListSerializer
+from cop.core.api.serializers.stage_history import StageHistorySerializer, StageHistoryNestedSerializer
+from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup, SurveyQuestion, Comment, StageChangesHistory
 
 User = get_user_model()
 
@@ -42,6 +46,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "trans_date",
         "action_needed",
         "result",
+        "comments",
         "due_date",
     )
 
@@ -177,3 +182,35 @@ class ClaimFormToPDFView(APIView):
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'inline; filename="claim.pdf"'
         return response
+
+
+class ClaimTimelineView(APIView):
+
+    def get(self, request, pk):
+        return Response(data=self.get_queryset())
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        comments = Comment.objects.filter(claim__pk=pk)
+        documents = ClaimDocument.objects.filter(claim__pk=pk)
+        stage_changes = StageChangesHistory.objects.filter(claim__pk=pk)
+
+        # Create an iterator for the querysets and turn it into a list.
+        results_list = list(chain(comments, documents, stage_changes))
+        # Optionally filter based on date, score, etc.
+        sorted_list = sorted(results_list, key=lambda instance: instance.create_date, reverse=True)
+
+        # Build the list with items based on the FeedItemSerializer fields
+        results = list()
+        for entry in sorted_list:
+            item_type = entry.__class__.__name__.lower()
+            if isinstance(entry, Comment):
+                serializer = CommentListSerializer(entry)
+            if isinstance(entry, ClaimDocument):
+                serializer = ClaimDocumentNestedSerializer(entry)
+            if isinstance(entry, StageChangesHistory):
+                serializer = StageHistoryNestedSerializer(entry)
+
+            results.append({'item_type': item_type, 'data': serializer.data})
+
+        return results

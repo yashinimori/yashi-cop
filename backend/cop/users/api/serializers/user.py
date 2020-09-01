@@ -52,3 +52,15 @@ class UserSerializer(BaseUserSerializer):
                 User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL) and not instance.last_login
         else:
             return False
+
+
+class UserSerializerLight(BaseUserSerializer):
+
+    class Meta(BaseUserSerializer.Meta):
+        fields = BaseUserSerializer.Meta.fields + (
+            'email',
+            'first_name',
+            'last_name',
+            'role',
+        )
+        read_only_fields = BaseUserSerializer.Meta.read_only_fields

@@ -5,6 +5,8 @@ from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 
+from cop.core.models import StageChangesHistory
+
 Status = apps.get_model('core', 'Status')
 Claim = apps.get_model('core', 'Claim')
 User = get_user_model()
@@ -57,6 +59,14 @@ class BaseStatusService:
     def set_status(self, status_index: int):
         self.claim.status = Status.objects.get(index=status_index)
 
+        StageChangesHistory.objects.create(
+            status_from=Status.objects.get(index=self.initial_status),
+            status_to=Status.objects.get(index=status_index),
+            claim=self.claim,
+            user=self.user,
+            status=self.claim.status
+        )
+
     def pre_mediation(self):
         pass
 
@@ -108,7 +118,7 @@ class StatusService(BaseStatusService):
     def mediation(self):
         if self.initial_status == 5:
             if self.user.is_cardholder:
-                if self.claim.escalate_form_received:
+                if self.claim.escalation_form_received:
                     self.set_status(6)
         if self.initial_status == 6:
             if self.user.is_merchant:
@@ -274,7 +284,7 @@ class AllocationStatusService(BaseStatusService):
     def mediation(self):
         if self.initial_status == 5:
             if self.user.is_cardholder:
-                if self.claim.escalate_form_received:
+                if self.claim.escalation_form_received:
                     self.set_status(6)
         if self.initial_status == 6:
             if self.user.is_merchant:
