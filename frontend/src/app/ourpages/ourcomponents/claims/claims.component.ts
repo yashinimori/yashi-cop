@@ -386,17 +386,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         });
 
         if(this.role =='cardholder' && this.stageParam == 'all'){
-          self.claimsData = self.claimsData.filter(i=>i.status != 'archive');
-          self.claimsData = self.claimsData.filter(i=>i.status != 'closed');
+          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' && i.status != 'closed');
         } else if(this.role =='cardholder' && this.stageParam == 'archive'){
-          self.claimsData = self.claimsData.filter(i=>i.status == 'archive');
-          self.claimsData = self.claimsData.filter(i=>i.status == 'closed' );
+          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' || i.status == 'closed' );
         } else if(this.role =='merchant' && this.stageParam == 'all'){
-          self.claimsData = self.claimsData.filter(i=>i.status != 'archive');
-          self.claimsData = self.claimsData.filter(i=>i.status != 'closed' );
+          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' && i.status != 'closed' );
         } else if(this.role =='merchant' && this.stageParam == 'archive'){
-          self.claimsData = self.claimsData.filter(i=>i.status == 'archive');
-          self.claimsData = self.claimsData.filter(i=>i.status == 'closed' );
+          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' || i.status == 'closed' );
         } 
 
         //self.source = new LocalDataSource(self.claimsData);
