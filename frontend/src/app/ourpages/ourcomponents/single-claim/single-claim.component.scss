@@ -47,10 +47,20 @@
     display: flex; 
     margin: auto; 
     text-align: center;
+    flex-direction: column;
+    align-items: center;
 }
 .selector-list-questions {
-    width: 100%;   
+    width: 100%; 
+    margin: 0 auto;
 }
 .control-input-questions {
     width: 380px;   
+}
+
+.center_select{
+    display: flex; 
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
 }

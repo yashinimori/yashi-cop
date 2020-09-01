@@ -103,28 +103,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fieldsStatus: FieldsStatus;
   editedAnswers: Array<any> = new Array<any>();
-  valNo = {val: 1, text: 'ні'};
-  valYes = {val: 2, text: 'так'};
-  valYes2 = {val: 2, text: 'так, але вважаю, що це шахрайство'};
-  valYes3 = {val: 3, text: "так, але я не пам'ятаю транзакцію"};
-  valWhereCard = {val: 1, text: 'картка в моєму володінні'};
-  valWhereCard2 = {val: 2, text: 'картка була загублена або вкрадена'};
-  valNeedDocument = {val: 1, text: 'так'};
-  valNeedDocument2 = {val: 2, text: 'ні, я хочу подати заявку на повернення коштів'};
-  valOperation = {val: 1, text: 'так'};
-  valOperation2 = {val: 2, text: 'ні, це була оплата товарів або послуг'};
-  valMoney = {val: 1, text: 'ні, це була інша операція в цьому банкоматі'};
-  valMoney2 = {val: 2, text: 'так'};
-  valOll = {val: 1, text: 'частково'};
-  valOll2 = {val: 2, text: 'в повному обсязі'};
-  valWhereOperation = {val: 1, text: 'так'};
-  valWhereOperation2 = {val: 2, text: 'ні'};
-  valGet = {val: 1, text: 'ні'};
-  valGet2 = {val: 2, text: 'так'};
-  valPay = {val: 1, text: 'готівкою'};
-  valPay2 = {val: 2, text: 'іншою картою'};
-  valBack = {val: 1, text: 'так'};
-  valBack2 = {val: 2, text: 'ні'};
+  valNo = {val: 1, text: 'Ні'};
+  valYes = {val: 2, text: 'Так'};
+  valYes2 = {val: 2, text: 'Так, але вважаю, що це шахрайство'};
+  valYes3 = {val: 3, text: "Так, але я не пам'ятаю транзакцію"};
+  valWhereCard = {val: 1, text: 'Картка в моєму володінні'};
+  valWhereCard2 = {val: 2, text: 'Картка була загублена або вкрадена'};
+  valNeedDocument = {val: 1, text: 'Так'};
+  valNeedDocument2 = {val: 2, text: 'Ні, я хочу подати заявку на повернення коштів'};
+  valOperation = {val: 1, text: 'Так'};
+  valOperation2 = {val: 2, text: 'Ні, це була оплата товарів або послуг'};
+  valMoney = {val: 1, text: 'Ні, це була інша операція в цьому банкоматі'};
+  valMoney2 = {val: 2, text: 'Так'};
+  valOll = {val: 1, text: 'Частково'};
+  valOll2 = {val: 2, text: 'В повному обсязі'};
+  valWhereOperation = {val: 1, text: 'Так'};
+  valWhereOperation2 = {val: 2, text: 'Ні'};
+  valGet = {val: 1, text: 'Ні'};
+  valGet2 = {val: 2, text: 'Так'};
+  valPay = {val: 1, text: 'Готівкою'};
+  valPay2 = {val: 2, text: 'Іншою картою'};
+  valBack = {val: 1, text: 'Так'};
+  valBack2 = {val: 2, text: 'Ні'};
   
   comments: Array<ClaimComment>;
   documents: Array<ClaimDocument>;
@@ -623,7 +623,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listQuestions.push({id:4, caption:"Підписка була скасована, але суму було списано"});
     this.listQuestions.push({id:5, caption:"Отримані товари були пошкоджені, або не такі, як було описано в замовлені"});
     this.listQuestions.push({id:6, caption:"Неправильна сума або валюта транзакція"});
-    this.listQuestions.push({id:7, caption:"інша причина"});
+    this.listQuestions.push({id:7, caption:"Інша причина"});
   }
 
 

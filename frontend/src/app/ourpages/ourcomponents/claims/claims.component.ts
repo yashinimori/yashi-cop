@@ -340,7 +340,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
         //console.log('loaded Claims '); 
-        //console.log(response);
+        console.log(response);
 
         let data: any;
 
@@ -398,7 +398,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
         //self.source .refresh();
 
-        //console.log(self.source);
+        console.log(self.source);
         
       },
       error: error => {
