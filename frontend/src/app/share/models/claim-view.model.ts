@@ -30,6 +30,7 @@ export class ClaimView extends ClaimRegistration {
   second_presentment_date: Date;
   pre_arbitration_date: Date;
   pre_arbitration_response_date: Date;
+  arbitration_date: Date;
   arbitration_response_date: Date;
   
 }

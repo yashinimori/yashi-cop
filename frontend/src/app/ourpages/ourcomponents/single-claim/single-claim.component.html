@@ -125,7 +125,7 @@
         <nb-card style="width: 100%; height: 400px;">
             <nb-tabset fullWidth>
   
-              <nb-tab tabTitle="Результат+Документи">
+              <nb-tab tabTitle="Результат">
                 <nb-card style="width: 100%; height: 320px;">
                   <nb-card-body>
                     <div >
@@ -171,36 +171,42 @@
         
               </nb-tab>
   
-              <nb-tab tabTitle="Дати">
+              <nb-tab tabTitle="Назва полей">
                 <nb-card >
                   <nb-card-body>
                   
                     <input class="input-date center" nbInput 
-                        placeholder="chargeback_date"
+                        placeholder="Chb date"
                         [nbDatepicker]="formpicker_chargeback_date"
                         [(ngModel)]="claimData.chargeback_date">
                     <nb-datepicker #formpicker_chargeback_date></nb-datepicker> 
 
                     <input class="input-date center" nbInput style="margin-top: 10px;"
-                        placeholder="second_presentment_date"
+                        placeholder="Sec Pres date"
                         [nbDatepicker]="formpicker_second_presentment_date"
                         [(ngModel)]="claimData.second_presentment_date">
                     <nb-datepicker #formpicker_second_presentment_date></nb-datepicker> 
 
                     <input class="input-date center" nbInput style="margin-top: 10px;"
-                        placeholder="pre_arbitration_date"
+                        placeholder="Pre Arb date"
                         [nbDatepicker]="formpicker_pre_arbitration_date"
                         [(ngModel)]="claimData.pre_arbitration_date">
                     <nb-datepicker #formpicker_pre_arbitration_date></nb-datepicker> 
 
                     <input class="input-date center" nbInput style="margin-top: 10px;"
-                        placeholder="pre_arbitration_response_date"
+                        placeholder="Pre Arb Resp date"
                         [nbDatepicker]="formpicker_pre_arbitration_response_date"
                         [(ngModel)]="claimData.pre_arbitration_response_date">
                     <nb-datepicker #formpicker_pre_arbitration_response_date></nb-datepicker> 
 
                     <input class="input-date center" nbInput style="margin-top: 10px;"
-                        placeholder="arbitration_response_date"
+                        placeholder="Arb date"
+                        [nbDatepicker]="formpicker_arbitration_response_date"
+                        [(ngModel)]="claimData.arbitration_date">
+                    <nb-datepicker #formpicker_arbitration_response_date></nb-datepicker> 
+
+                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                        placeholder="Arb Resp date"
                         [nbDatepicker]="formpicker_arbitration_response_date"
                         [(ngModel)]="claimData.arbitration_response_date">
                     <nb-datepicker #formpicker_arbitration_response_date></nb-datepicker> 
