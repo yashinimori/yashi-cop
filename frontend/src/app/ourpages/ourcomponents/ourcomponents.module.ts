@@ -41,6 +41,7 @@ import { TopOfficerComponent } from './top-officer/top-officer.component';
 import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-user.component';
 import { ChartssComponent } from './chartss/chartss.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { ChartssComponent } from './chartss/chartss.component';
     SecurOfficerComponent,
     SecurOfficerUserComponent,
     ChartssComponent,
+    StatisticComponent,
   ],
   // providers: [
     

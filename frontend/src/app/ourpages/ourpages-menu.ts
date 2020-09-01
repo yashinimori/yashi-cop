@@ -123,17 +123,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
     ],
   },
-  {
-    title: 'МЕРЧАНТ',
-    icon: 'layout-outline',
-    hidden: setHiddenCOPManager(),
-    children: [
-      {
-        title: 'Новий мерчант',
-        link: '/ourpages/ourcomponents/merch-user',
-      },
-    ],
-  },
+  // {
+  //   title: 'МЕРЧАНТ',
+  //   icon: 'layout-outline',
+  //   hidden: setHiddenCOPManager(),
+  //   children: [
+  //     {
+  //       title: 'Новий мерчант',
+  //       link: '/ourpages/ourcomponents/merch-user',
+  //     },
+  //   ],
+  // },
   {
     title: 'Користувачи',
     icon: 'layout-outline',
@@ -172,6 +172,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
     ],
   },
+  {
+    title: 'Статистика',
+    icon: 'layout-outline',
+    hidden: setHiddenStatistic(),
+    children: [
+      {
+        title: 'Статистика',
+        link: '/ourpages/ourcomponents/statistic',
+      },
+    ],
+  },  
+
   {
     title: 'Messages',
     icon: 'email-outline',
@@ -244,7 +256,6 @@ function setHiddenBank(){
   return true;
 }
 
-
 function setHiddenTopOfficer(){
   let role= localStorage.getItem('role');
   //console.log('setHiddenTopOfficer() ' + role);
@@ -288,3 +299,14 @@ function setHiddenSettings(){
 
   return true;
 }
+
+function setHiddenStatistic(){
+  let role= localStorage.getItem('role');
+  //console.log('setHiddenStatistic() ' + role);
+
+  if(role && (role=='cop_manager' || role=='top_level') )
+    return false;
+
+  return true;
+}
+

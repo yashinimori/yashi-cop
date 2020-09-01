@@ -54,6 +54,18 @@ class UserSerializer(BaseUserSerializer):
             return False
 
 
+class UserLiteSerializer(BaseUserSerializer):
+
+    class Meta(BaseUserSerializer.Meta):
+        fields = BaseUserSerializer.Meta.fields + (
+            'email',
+            'first_name',
+            'last_name',
+            'role',
+        )
+        read_only_fields = BaseUserSerializer.Meta.read_only_fields
+
+
 class UserSerializerLight(BaseUserSerializer):
 
     class Meta(BaseUserSerializer.Meta):

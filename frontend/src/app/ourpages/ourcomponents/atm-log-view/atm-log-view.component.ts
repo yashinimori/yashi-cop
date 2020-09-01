@@ -217,7 +217,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
         self.source.load(self.atmTransactionsData);
         
 
-        console.log(self.source);
+        //console.log(self.source);
         
       },
       error: error => {

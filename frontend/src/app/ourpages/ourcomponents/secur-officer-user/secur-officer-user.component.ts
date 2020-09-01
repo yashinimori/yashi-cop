@@ -173,7 +173,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
 
           self.logsData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
         

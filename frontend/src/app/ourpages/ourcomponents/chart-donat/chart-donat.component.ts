@@ -100,7 +100,7 @@ export class ChartDonatComponent {
 
             self.claimsData.push(t);
             
-            console.log(t);
+            //console.log(t);
             
   
           });
@@ -112,7 +112,7 @@ export class ChartDonatComponent {
           self.source.load(self.claimsData);
           //self.source .refresh();
   
-          console.log(self.source);
+          //console.log(self.source);
           
         },
         error: error => {

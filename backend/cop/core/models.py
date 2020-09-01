@@ -159,6 +159,20 @@ class Transaction(BaseModel):
 
 class ReasonCodeGroup(BaseModel):
     ATM_CLAIM_CODE = '0001'
+
+    class Group:
+        FRAUD = 'fraud'
+        AUTHORIZATION = 'authorization'
+        POINT_OF_INTERACTION_ERROR = 'point_of_interaction_error'
+        CARDHOLDER_DISPUTES = 'cardholder_disputes'
+        CHOICES = (
+            (FRAUD, 'Fraud'),
+            (AUTHORIZATION, 'Authorization'),
+            (POINT_OF_INTERACTION_ERROR, 'Point-of-Interaction Error'),
+            (CARDHOLDER_DISPUTES, 'Cardholder Disputes'),
+        )
+
+    group = models.CharField(max_length=128, choices=Group.CHOICES, null=True, blank=True)
     code = models.CharField(max_length=4)
     visa = models.CharField(max_length=128, blank=True, null=True)
     mastercard = models.CharField(max_length=128, blank=True, null=True)
@@ -192,12 +206,16 @@ class Claim(BaseModel):
             (FAILED, 'Failed'),
             (NEUTRAL, 'Neutral'),
         )
-    SUPPORT_CHOICES = (
-        ('one_them_chargeback', 'One them chargebacks'),
-        ('on_us_chargeback', 'On us chargeback'),
-        ('us_on_us', 'Us on us'),
-        ('fraud', 'Fraud'),
-    )
+
+    class Support:
+        US_ON_THEM = 'us_on_them'
+        THEM_ON_US = 'them_on_us'
+        US_ON_US = 'us_on_us'
+        CHOICES = (
+            (US_ON_THEM, 'Us on them'),
+            (THEM_ON_US, 'Them on us'),
+            (US_ON_US, 'Us on us'),
+        )
 
     ACCEPTED_REFUND = 1
     PARTLY_REFUND = 2
@@ -266,7 +284,7 @@ class Claim(BaseModel):
 
     status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
-    support = models.CharField(choices=SUPPORT_CHOICES, max_length=999, blank=True, null=True)
+    support = models.CharField(choices=Support.CHOICES, max_length=999, blank=True, null=True)
 
     answers = JSONField(max_length=999, blank=True, null=True)
 
