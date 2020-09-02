@@ -1,4 +1,5 @@
-  <div class="row justify-content-center">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+ <div class="row justify-content-center">
   
     <div class="center-screen">
       <nb-card class="registration-card">
@@ -13,7 +14,10 @@
           <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
           <input nbInput placeholder="Login" [(ngModel)]="data.login" maxlength="200"> 
           <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40"> 
+          <!-- <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div> -->
+          <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"></ngx-recaptcha2>
           
+         
         </nb-card-body>
         <nb-card-footer>
           <div class="button-enter">
@@ -21,6 +25,7 @@
           </div>
         </nb-card-footer>
       </nb-card>
+      
     </div>
       
   </div>
