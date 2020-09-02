@@ -14,7 +14,6 @@
       "role": "chargeback_officer",
       "phone": 77777777,
       "email": "officer@cop.cop",
-      "claim_fields": "[]",
       "registration_date": "2020-08-10",
       "groups": [],
       "user_permissions": []

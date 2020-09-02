@@ -1835,7 +1835,6 @@
       "unit": null,
       "phone": "77777777",
       "email": "officer@cop.cop",
-      "claim_fields": "[]",
       "registration_date": "2020-08-10",
       "groups": [],
       "user_permissions": []
@@ -1857,7 +1856,6 @@
       "unit": null,
       "phone": "77777777",
       "email": "merchant@cop.cop",
-      "claim_fields": "[]",
       "registration_date": "2020-08-10",
       "groups": [],
       "user_permissions": []
@@ -1879,7 +1877,6 @@
       "unit": null,
       "phone": "",
       "email": "adm@adm.adm",
-      "claim_fields": null,
       "registration_date": "2020-08-13",
       "groups": [],
       "user_permissions": []

@@ -76,7 +76,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=999, choices=Roles.CHOICES)
     phone = models.CharField(max_length=13)
     email = models.EmailField(_('email address'), unique=True, max_length=999)
-    claim_fields = ArrayField(models.CharField(max_length=128), default=CLAIM_DEFAULT_DISPLAY_FIELDS)
+    displayable_claim_fields = ArrayField(models.CharField(max_length=128), default=CLAIM_DEFAULT_DISPLAY_FIELDS)
     registration_date = models.DateField(auto_now_add=True, editable=False)
 
     USERNAME_FIELD = 'email'
