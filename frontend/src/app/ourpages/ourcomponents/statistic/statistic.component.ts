@@ -33,7 +33,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
     // this.loadBankCountNewClaims("1");
     // this.loadCountUpdatedClaims();
     // this.loadCountNewClaims();
-    // this.loadCountClaimsByStages();
+    this.loadCountClaimsByStages();
     // this.loadCountClaimsByRcGroup();
     // this.loadCountClaimsBySupport();
 
@@ -45,7 +45,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
     //console.log('loadCountUpdatedClaims(bankId: string)');
     this.httpServise.getBankCountUpdatedClaims(bankId).subscribe({
       next: (response: any) => {
-        //console.log(response);
+        
       },
       error: error => {
         console.error('There was an error!', error);
@@ -111,7 +111,9 @@ export class StatisticComponent implements OnInit, OnDestroy {
     //console.log('getCountClaimsByStages()');
     this.httpServise.getCountClaimsByStages().subscribe({
       next: (response: any) => {
-        //console.log(response);
+        console.log(response);
+        console.log("BLA");
+        console.log("BLAAA" + response['pre_mediation_claims']);
       },
       error: error => {
         console.error('There was an error!', error);

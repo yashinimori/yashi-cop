@@ -10,36 +10,36 @@ import { NbThemeService } from '@nebular/theme';
 
 
 @Component({
-    selector: 'app-chbo-dashboard',
-    
+    selector: 'app-chbo-dashboard', 
     templateUrl: './chbo-dashboard.component.html',
     
 })
 export class ChboDashboardComponent implements OnInit, OnDestroy{
-    claimsLen: Array<ClaimView>;
-    claimsData: Array<ClaimView>;
-    source: LocalDataSource;
-    claimData: ClaimView;
-    claimId: any;
-    data: any;
-    options: any;
-    themeSubscription: any;
+    // claimsLen: Array<ClaimView>;
+    // claimsData: Array<ClaimView>;
+    // source: LocalDataSource;
+    // claimData: ClaimView;
+    // claimId: any;
+    // data: any;
+    // options: any;
+    // themeSubscription: any;
+    // role: string;
     
     constructor(private httpServise: HttpService, private datePipe: DatePipe, private theme: NbThemeService){
-        this.claimsLen = new Array<ClaimView>();
-        this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+        // this.claimsLen = new Array<ClaimView>();
+        // this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
-          const colors: any = config.variables;
-          const chartjs: any = config.variables.chartjs;
+        //   const colors: any = config.variables;
+        //   const chartjs: any = config.variables.chartjs;
     
-          this.data = {
-            labels: ['Download Sales', 'In-Store Sales', 'Mail Sales'],
-            datasets: [{
-              data: [300, 500, 100],
-              backgroundColor: [colors.primaryLight, colors.infoLight, colors.successLight],
-            }],
-          };
-        });
+        //   this.data = {
+        //     labels: ['Download Sales', 'In-Store Sales', 'Mail Sales'],
+        //     datasets: [{
+        //       data: [300, 500, 100],
+        //       backgroundColor: [colors.primaryLight, colors.infoLight, colors.successLight],
+        //     }],
+        //   };
+        // });
     }
     // data = {
     //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -70,13 +70,31 @@ export class ChboDashboardComponent implements OnInit, OnDestroy{
     //     },
     //   ],
     // };
-    comments: Array<ClaimComment>;
+    // comments: Array<ClaimComment>;
     // claimsData: ClaimView;
-    claimsSubscription: Subscription = new Subscription();
+    // claimsSubscription: Subscription = new Subscription();
 
     ngOnInit(): void {
-        // this.getClaimsData();
-        console.log(this.data)
+    //     // this.getClaimsData();
+    //     this.role = localStorage.getItem('role');
+    //     console.log(this.data)
+    //     this.loadCountClaimsByStages();
+    //   }
+    
+    //   loadCountClaimsByStages(){
+    //     //console.log('getCountClaimsByStages()');
+    //     this.httpServise.getCountClaimsByStages().subscribe({
+    //       next: (response: any) => {
+    //         console.log(response);
+    //       },
+    //       error: error => {
+    //         console.error('There was an error!', error);
+    //       },
+    //       complete: () => {
+           
+    //       }
+    //     });
+    
       }
 
     
