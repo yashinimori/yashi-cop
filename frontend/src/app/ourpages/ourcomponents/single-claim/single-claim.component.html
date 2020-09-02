@@ -257,7 +257,7 @@
                             {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}  повідомив:  {{ item.data.text }} 
                         </div>   
                         <div *ngIf="item.item_type === 'claimdocument'">
-                            {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}  файл: {{ item.data.file }} 
+                            {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}  файл: <a href="{{ item.data.file }}" target="_blank" >{{ item.data.file }}</a>
                         </div>     
                     </div>
                   <!-- <span>Файл: {{item.file}} </span> -->
