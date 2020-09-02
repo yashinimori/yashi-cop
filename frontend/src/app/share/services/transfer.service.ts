@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SingleClaimFormsTransfer } from '../models/single-claim-forms-transfer.model';
+import { DoughnutTransfer } from '../models/doughnut.transfer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +13,6 @@ export class TransferService {
   public bankID: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public bankBIN: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public userID: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public claimsByStages: BehaviorSubject<DoughnutTransfer> = new BehaviorSubject<DoughnutTransfer>(null);
+  public claimsByRcGroup: BehaviorSubject<DoughnutTransfer> = new BehaviorSubject<DoughnutTransfer>(null);
 }

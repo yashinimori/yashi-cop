@@ -42,6 +42,8 @@ import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-user.component';
 import { ChartssComponent } from './chartss/chartss.component';
 import { StatisticComponent } from './statistic/statistic.component';
+import { StatisticClaimsByStagesComponent } from './statistic/chart-statistic-claims-stages.component';
+import { StatisticClaimsByRcGroupComponent } from './statistic/chart-statistic-claims-rc-group.component';
 
 
 @NgModule({
@@ -90,6 +92,8 @@ import { StatisticComponent } from './statistic/statistic.component';
     SecurOfficerUserComponent,
     ChartssComponent,
     StatisticComponent,
+    StatisticClaimsByStagesComponent,
+    StatisticClaimsByRcGroupComponent,
   ],
   // providers: [
     
