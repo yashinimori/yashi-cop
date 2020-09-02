@@ -6,9 +6,12 @@ import traceback
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, now
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from config import celery_app
+from cop.core.emails import send_expiration_notification, send_claim_notification
+from cop.core.models import ClaimDocument, BankEmployee, Report, StageChangesHistory, Claim
 
 User = get_user_model()
 
@@ -198,13 +201,66 @@ def assign_claim_transaction(report):
     claim = report.claim_document.claim
     claim.assign_transaction()
 
-# def claim_docs_90_days(chb_officer):
-#     claim_docs_older_90d = ClaimDocument.objects.filter(create_date__lte=timezone.now() - datetime.timedelta(days=90),
-#                                                         claim__bank=chb_officer.bank)
-#     # TODO: send to cbh officers email notification that files will be deleted soon
-#
-#
-# def claim_docs_97_days(chb_officer):
-#     claims_older_90d = ClaimDocument.objects.filter(create_date__lte=timezone.now() - datetime.timedelta(days=90),
-#                                                     claim__bank=chb_officer.bank)
-#     # TODO: send cbh officers email notification
+
+@celery_app.task(ignore_result=True)
+def send_file_expiration_notification(pk: int):
+    doc = ClaimDocument.objects.filter(pk=pk).first()
+    if doc and doc.claim.bank:
+        chb_officer = BankEmployee.objects.filter(bank=doc.claim.bank, user__role=User.roles.chargeback_officer).first()
+        if chb_officer:
+            storage = S3Boto3Storage()
+            in_seven_days = 604800
+            url = storage.url(name=doc.file.name, expire=in_seven_days)
+            send_expiration_notification(url, chb_officer.user.email)
+
+
+@celery_app.task(ignore_result=True)
+def delete_expired_files(pk: int):
+    doc = ClaimDocument.objects.filter(pk=pk).first()
+    if doc:
+        doc.file.delete()
+
+
+@celery_app.task(ignore_result=True)
+def delete_expired_report_files(pk: int):
+    report = Report.objects.filter(pk=pk).first()
+    if report:
+        report.log.delete()
+
+
+@celery_app.task(ignore_result=True)
+def claim_reminder_notification(claim_id: int, email_to: str):
+    claim = Claim.objects.get(id=claim_id)
+    send_claim_notification(claim, email_to)
+
+
+@celery_app.task(ignore_result=True)
+def acquirer_reminder_notification(claim_id: int, email_to: str):
+    claim = Claim.objects.get(id=claim_id)
+    send_claim_notification(claim, email_to)
+    claim.flag = Claim.Flags.RED
+    claim.save()
+
+
+@celery_app.task(ignore_result=True)
+def issuer_reminder_notification(claim_id: int, email_to: str):
+    claim = Claim.objects.get(id=claim_id)
+    send_claim_notification(claim, email_to)
+    claim.flag = Claim.Flags.RED
+    claim.save()
+
+
+@celery_app.task(ignore_result=True)
+def archive_claim(claim_id):
+    claim = Claim.objects.get(id=claim_id)
+    last_status_changes = StageChangesHistory.objects.filter(claim=claim).order_by('create_date').last()
+    time_between_last_update = now() - last_status_changes.create_date
+    if claim.replier == claim.user and time_between_last_update.days > 29:
+        claim.archived = True
+        claim.save()
+
+
+def revoke_tasks(task_ids: [int or None]) -> []:
+    for task_id in task_ids:
+        celery_app.control.revoke(task_id)
+    return []
