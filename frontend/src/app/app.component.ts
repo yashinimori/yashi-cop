@@ -32,6 +32,11 @@ export class AppComponent implements OnInit {
       });
   }
 
+  resolved(captchaResponse: string, res) {
+    console.log(`Resolved response token: ${captchaResponse}`);
+   
+  }
+
   onContecxtItemSelection(title) {
     if(title == 'Log out'){
       localStorage.clear();

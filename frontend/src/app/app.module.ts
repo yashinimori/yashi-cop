@@ -22,6 +22,8 @@ import {
 } from '@nebular/theme';
 
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
+// import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 
 
@@ -46,7 +48,9 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     VerticalTimelineModule,
-
+    // RecaptchaModule,  //this is the recaptcha main module
+    // RecaptchaFormsModule, //this is the module for form incase form validation
+    NgxCaptchaModule,
   ],
   bootstrap: [AppComponent],
 })

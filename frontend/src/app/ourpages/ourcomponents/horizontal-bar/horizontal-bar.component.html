@@ -1,6 +1,7 @@
+<script src="node_modules/chart.js/src/chart.js"></script>
 <div class="chart-wrapper">
     <canvas baseChart 
-    [datasets]="barChartData"
+    [data]="data"
     [labels]="barChartLabels"
     [options]="barChartOptions"
     [plugins]="barChartPlugins"

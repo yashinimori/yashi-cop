@@ -73,6 +73,7 @@ import { ActivationComponent } from './activation/activation.component';
     NbIconModule,
 
     CommonModule,
+    
     // RouterModule.forChild(routes)
   ]
 })
