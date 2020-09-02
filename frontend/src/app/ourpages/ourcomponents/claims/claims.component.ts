@@ -333,7 +333,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    console.log('loadClaims()');
+    //console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
@@ -381,7 +381,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           
           self.claimsData.push(t);
           
-          console.log(t);
+          //console.log(t);
 
         });
 

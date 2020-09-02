@@ -13,6 +13,7 @@ import { ClaimComment } from '../../../share/models/claim-comment.model';
 import { ClaimDocument } from '../../../share/models/claim-document.model';
 import { runInThisContext } from 'vm';
 import { TimelineView } from '../../../share/models/timeline-view.model'
+import { MerchUser } from '../../../share/models/merch-user.model';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -101,7 +102,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   role: string;
   isLastStep: boolean = false;
-  merchantsArr: Array<any> = new Array<any>();
+  merchantsArr: Array<MerchUser> = new Array<MerchUser>();
   claimId: any;
   userId: any;
 
@@ -149,9 +150,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     
 
     this.role = localStorage.getItem('role');
-    console.log('SingleClaimComponent role ' +this.role);
+    //console.log('SingleClaimComponent role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
-    console.log('this.claimId = ' + this.claimId);
+    //console.log('this.claimId = ' + this.claimId);
 
     if (this.claimId.length != 0) {
       this.loadClaim();
@@ -189,14 +190,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isNewRecord = this.claimId.length == 0 ? true : false;
     console.log('this.isNewRecord = ' + this.isNewRecord);
 
-    if(!this.isNewRecord){
-      this.loadClaim();
-    } else {
-      this.getListMerchant();
-      this.getListCurrency();
-      this.getListQuestions();
-    }
+    // if(!this.isNewRecord){
+    //   this.loadClaim();
+    // } else {
+    //   this.getListMerchant();
+    //   this.getListCurrency();
+    //   this.getListQuestions();
+    // }
  
+    this.getListMerchant();
+    this.getListCurrency();
+    this.getListQuestions();
 
     this.getDates();
 
@@ -238,6 +242,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;
+          console.log('loaded Claim');
           console.log(response);
           console.log(this.claimData);
           this.setClaimComments();
@@ -613,16 +618,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getListMerchant(){
-    // this.listMerchant = new Array<SelectorData>();
-    // this.listMerchant.push({id:1, caption:"Rukavichka 1"});
-    // this.listMerchant.push({id:2, caption:"Rukavichka 2"});
+    this.merchantsArr = new Array<MerchUser>();
 
     console.log('loadMerchants');
-    this.httpService.getMerchants().subscribe({
+    this.httpService.getMerchantsAll().subscribe({
         next: (response: any) => {
-          
+          console.log('loaded Merchants');
           console.log(response); 
-          this.merchantsArr = response.results;
+          this.merchantsArr = response;
         },
         error: error => {
           console.error('There was an error!', error);
@@ -740,6 +743,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
+  get getClaimData_merch_name_ips(): string{
+    if(this.claimData && this.claimData.merchant &&  this.claimData.merchant.name_ips )
+      return this.claimData.merchant.name_ips;
+    else 
+      return '';
+  }
+  
+
 }
-
-
