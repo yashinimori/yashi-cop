@@ -57,10 +57,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     let role = '';
     this.loginSubscription = this.authService.login().subscribe({
       next: (response: any) => {
-        //console.log('getUserInfo'); 
+        console.log('getUserInfo'); 
         //console.log(response); 
         role = response.role;
         console.log(role); 
+
+        console.log(response['password_change_required']); 
 
         if(response['password_change_required']) 
           password_change_required = true;
