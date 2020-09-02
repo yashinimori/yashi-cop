@@ -42,6 +42,7 @@ export class BankListComponent implements OnInit, OnDestroy {
 
   onUserRowSelect(event): void {
     this.transferService.bankID.next(event.data.id);
+    this.transferService.bankBIN.next(event.data.bin);
     this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
   }
 
