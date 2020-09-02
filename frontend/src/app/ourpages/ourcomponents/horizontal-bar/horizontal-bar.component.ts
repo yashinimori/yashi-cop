@@ -9,18 +9,16 @@ import { HttpService } from '../../../share/services/http.service';
 })
 
 export class HorizontalBarComponent{
-
+    types: any;
     barChartOptions: ChartOptions = {
         responsive: true,
       };
-      barChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+      barChartLabels: Label[] = ['authorization_claims', 'cardholder_disputes_claims', 'fraud_claims', 'point_of_interaction_error_claims'];
       barChartType: ChartType = 'bar';
       barChartLegend = true;
       barChartPlugins = [];
     
-      barChartData: ChartDataSets[] = [
-        { data: [45, 37, 60, 70, 46, 33], label: 'типи скарг' }
-      ];
+      barChartData: ChartDataSets;
     
       constructor(
         private httpServise: HttpService) {
@@ -34,8 +32,14 @@ export class HorizontalBarComponent{
         //console.log('getCountClaimsByRcGroup()');
         this.httpServise.getCountClaimsByRcGroup().subscribe({
           next: (response: any) => {
+            this.types = response;
             console.log('response');
             console.log(response);
+            this.barChartData = [
+              
+                { data: [this.types['authorization_claims'], this.types['cardholder_disputes_claims'], this.types['fraud_claims'], this.types['point_of_interaction_error_claims']], label: 'типи скарг' }
+            
+            ];
           },
           error: error => {
             console.error('There was an error!', error);

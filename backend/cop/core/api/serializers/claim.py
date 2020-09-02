@@ -1,6 +1,10 @@
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
+from django_celery_beat.utils import now
 from rest_framework import serializers
 
+from cop.core.tasks import send_file_expiration_notification, delete_expired_files, delete_expired_report_files
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
 from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatusService
@@ -62,11 +66,29 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['user'] = self.context["request"].user
-        return super(ClaimDocumentSerializer, self).create(validated_data)
+        self.instance = super(ClaimDocumentSerializer, self).create(validated_data)
+        self.create_tasks()
+        return self.instance
 
     def update(self, instance, validated_data):
         validated_data['user'] = self.context["request"].user
         return super(ClaimDocumentSerializer, self).update(instance, validated_data)
+
+    def create_tasks(self):
+        if self.instance.type == ClaimDocument.Types.ATM_LOG:
+            self.create_log_tasks()
+        else:
+            self.create_file_tasks()
+
+    def create_log_tasks(self):
+        in_120_days = now() + timedelta(days=120)
+        delete_expired_files.apply_async((self.instance.id,), eta=in_120_days)
+
+    def create_file_tasks(self):
+        in_90_days = now() + timedelta(days=90)
+        in_97_days = now() + timedelta(days=97)
+        send_file_expiration_notification.apply_async((self.instance.id,), eta=in_90_days)
+        delete_expired_files.apply_async((self.instance.id,), eta=in_97_days)
 
 
 class ClaimDocumentNestedSerializer(serializers.ModelSerializer):
@@ -81,6 +103,8 @@ class ClaimDocumentReportsSerializer(ClaimDocumentSerializer):
     def create(self, validated_data):
         instance = super().create(validated_data)
         Report.objects.create(log=validated_data['file'], claim_document=instance)
+        in_120_days = now() + timedelta(days=120)
+        delete_expired_report_files.apply_async((self.instance.id,), eta=in_120_days)
         return instance
 
 
@@ -132,7 +156,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
-        self.set_status()
+        self.set_status(is_created=True)
         return instance
 
     def update(self, instance, validated_data):
@@ -142,21 +166,22 @@ class ClaimSerializer(serializers.ModelSerializer):
         self.set_status()
         return instance
 
-    def set_status(self):
+    def set_status(self, is_created=False):
         claim = self.instance
         allocation_rc = ['0017', '0018', '0019', '0020', '0021', '0022', '0023', '0024']
-        service_data = {'claim': claim, 'user': self.context["request"].user}
+        service_data = {'claim': claim, 'user': self.context["request"].user, 'is_created': is_created}
         service = None
+        claim.action_needed = True
         if claim.claim_reason_code in allocation_rc:
             service = AllocationStatusService
         elif claim.bank and claim.merchant:
             service = StatusService
         elif not claim.bank and not claim.merchant:
+            claim.action_needed = False
             service = CardholderStatusService
         self.start_service(service, **service_data)
 
-    @staticmethod
-    def start_service(service, **kwargs):
+    def start_service(self, service, **kwargs):
         if service:
             service(**kwargs)
 

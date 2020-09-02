@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
@@ -228,11 +228,21 @@ class Claim(BaseModel):
         (DECLINED_REFUND_COMMENTS, "в поверненні відмовлено, коментарі додаються"),
     )
 
+    class Flags:
+        YELLOW = 'yellow'
+        RED = 'red'
+        CHOICES = (
+            (YELLOW, 'Yellow'),
+            (RED, 'Red'),
+        )
+
     form_name = models.CharField(choices=FormNames.CHOICES, max_length=32, null=True, blank=True)
     officer_answer_reason = models.CharField(choices=OFFICER_ANSWER_REASON_CHOICES, max_length=2, null=True, blank=True)
-    user = models.ForeignKey(User, related_name='claim_users', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, related_name='claim_users', on_delete=models.SET_NULL, blank=True, null=True)
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
-    chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.CASCADE, blank=True, null=True)
+    replier = models.ForeignKey(User, related_name='claim_repliers', on_delete=models.SET_NULL, blank=True, null=True)
+    chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.SET_NULL,
+                                           blank=True, null=True)
 
     issuer_mmt = models.CharField(max_length=40, null=True, blank=True)
     acquirer_mmt = models.CharField(max_length=40, null=True, blank=True)
@@ -242,7 +252,7 @@ class Claim(BaseModel):
 
     source = models.CharField(max_length=999, null=True, blank=True)
     arn = models.CharField(max_length=23, null=True, blank=True)
-    flag = models.CharField(max_length=999, null=True, blank=True)
+    flag = models.CharField(choices=Flags.CHOICES, max_length=12, null=True, blank=True)
     atm = models.ForeignKey('ATM', on_delete=models.SET_NULL, null=True, blank=True)
 
     # merchant
@@ -280,7 +290,7 @@ class Claim(BaseModel):
     reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')
     reason_code = models.CharField(max_length=4, blank=True, null=True, help_text='IPS code')
 
-    action_needed = models.CharField(max_length=999, null=True, blank=True)
+    action_needed = models.BooleanField(default=False)
 
     status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
@@ -288,6 +298,7 @@ class Claim(BaseModel):
 
     answers = JSONField(max_length=999, blank=True, null=True)
 
+    reminder_task_ids = ArrayField(ArrayField(models.CharField(max_length=32)), blank=True, null=True)
     due_date = models.DateTimeField(null=True, blank=True)
     dispute_date = models.DateTimeField(null=True, blank=True)
     registration_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -376,7 +387,7 @@ class ClaimDocument(BaseModel):
         )
     type = models.CharField(choices=Types.choices, max_length=20, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    file = models.FileField(upload_to='claim-documents/')
+    file = models.FileField()
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
