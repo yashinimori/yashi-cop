@@ -35,11 +35,11 @@ export class HorizontalBarComponent{
             this.types = response;
             console.log('response');
             console.log(response);
-            this.barChartData = [
+            // this.barChartData = [
               
-                { data: [this.types['authorization_claims'], this.types['cardholder_disputes_claims'], this.types['fraud_claims'], this.types['point_of_interaction_error_claims']], label: 'типи скарг' }
+            //     { data: [this.types['authorization_claims'], this.types['cardholder_disputes_claims'], this.types['fraud_claims'], this.types['point_of_interaction_error_claims']], label: 'типи скарг' }
             
-            ];
+            // ];
           },
           error: error => {
             console.error('There was an error!', error);
