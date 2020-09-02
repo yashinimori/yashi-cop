@@ -137,6 +137,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Індикатор",
               type: 'string',
             },
+            flag:{
+              title: "flag",
+              type: 'string',
+            },
             result: {
               title: "Результат",
               type: 'string',
@@ -213,6 +217,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             action_needed: {
               title: "Індикатор",
+              type: 'string',
+            },
+            flag:{
+              title: "flag",
               type: 'string',
             },
             result: {
@@ -300,6 +308,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Індикатор",
               type: 'string',
             },
+            flag:{
+              title: "flag",
+              type: 'string',
+            },
             result: {
               title: "Результат",
               type: 'string',
@@ -340,7 +352,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded Claims '); 
+        console.log('loaded Claims '); 
         console.log(response);
 
         let data: any;
@@ -373,6 +385,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.result = el['result'];
           t.due_date = el['due_date'];
           t.ch_comments = el['ch_comments'];
+          t.flag = el['flag'];
 
           let m = el['merchant'];
           //console.log(m);
