@@ -45,7 +45,7 @@
     
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantName.invisible">
                     <label class="label-caption">Назва торговця</label> 
-                    <label class="label-data">{{claimData.merchant.name_ips}}</label> 
+                    <label class="label-data">{{getClaimData_merch_name_ips}}</label> 
                 </div>
     
                 <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
@@ -155,18 +155,16 @@
                 </nb-card>
               </nb-tab>
   
-              <nb-tab tabTitle="Комментари">
+              <nb-tab tabTitle="Комментарі">
                 
                 <nb-card style="width: 100%; height: 320px;">
                   <nb-card-body>
-                    <div>
-                        <!-- <div *ngFor="let item of Timeline.comments" style="font-weight: bold;">
-                            <div *ngIf="item.item_type === 'comment'">
-                                {{item.data.create_date}} {{ item.data.user.first_name}} {{ item.data.user.last_name}} {{ item.data.text }} 
-                            </div>     
-                            
-                        </div> -->
-                    </div>  
+                    <nb-list >
+                        <!-- <nb-list-item *ngFor="let item of Timeline.comments" >  -->
+                        <nb-list-item *ngFor="let item of comments" >
+                            {{ item.create_date_str}} {{item.user}}  повідомив: {{ item.text }} 
+                        </nb-list-item>
+                    </nb-list>  
                   </nb-card-body>
                 </nb-card>
         
@@ -177,36 +175,42 @@
                   <nb-card-body>
                   
                     <input class="input-date center" nbInput 
+                        style="width: 100%; max-width: 35em;"
                         placeholder="Chb date"
                         [nbDatepicker]="formpicker_chargeback_date"
                         [(ngModel)]="claimData.chargeback_date">
                     <nb-datepicker #formpicker_chargeback_date></nb-datepicker> 
 
-                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                    <input class="input-date center calendar-set" nbInput 
+                        style="margin-top: 10px; width: 100%; max-width: 35em;"
                         placeholder="Sec Pres date"
                         [nbDatepicker]="formpicker_second_presentment_date"
                         [(ngModel)]="claimData.second_presentment_date">
                     <nb-datepicker #formpicker_second_presentment_date></nb-datepicker> 
 
-                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                    <input class="input-date center" nbInput 
+                        style="margin-top: 10px; width: 100%; max-width: 35em;"
                         placeholder="Pre Arb date"
                         [nbDatepicker]="formpicker_pre_arbitration_date"
                         [(ngModel)]="claimData.pre_arbitration_date">
                     <nb-datepicker #formpicker_pre_arbitration_date></nb-datepicker> 
 
-                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                    <input class="input-date center" nbInput 
+                        style="margin-top: 10px; width: 100%; max-width: 35em;"
                         placeholder="Pre Arb Resp date"
                         [nbDatepicker]="formpicker_pre_arbitration_response_date"
                         [(ngModel)]="claimData.pre_arbitration_response_date">
                     <nb-datepicker #formpicker_pre_arbitration_response_date></nb-datepicker> 
 
-                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                    <input class="input-date center" nbInput 
+                        style="margin-top: 10px; width: 100%; max-width: 35em;"
                         placeholder="Arb date"
-                        [nbDatepicker]="formpicker_arbitration_response_date"
+                        [nbDatepicker]="formpicker_arbitration_date"
                         [(ngModel)]="claimData.arbitration_date">
-                    <nb-datepicker #formpicker_arbitration_response_date></nb-datepicker> 
+                    <nb-datepicker #formpicker_arbitration_date></nb-datepicker> 
 
-                    <input class="input-date center" nbInput style="margin-top: 10px;"
+                    <input class="input-date center" nbInput 
+                        style="margin-top: 10px; width: 100%; max-width: 35em;"
                         placeholder="Arb Resp date"
                         [nbDatepicker]="formpicker_arbitration_response_date"
                         [(ngModel)]="claimData.arbitration_response_date">
@@ -696,7 +700,7 @@
                 </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
-                    <label class="label-caption">Торгова точка</label> 
+                    <label class="label-caption">Торгова точка 1</label> 
                     <nb-select class="selector-list" [(selected)]="claimData.merch_id"
                         [required]="fieldsStatus.merchantID.required" 
                         [disabled]="fieldsStatus.merchantID.readonly" >
