@@ -22,6 +22,7 @@ urlpatterns += [
     path("api/v1/", include("config.api_router")),
     # DRF auth token
     path('api/v1/auth/jwt/create/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
 ]
 

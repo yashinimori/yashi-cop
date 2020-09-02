@@ -8,16 +8,10 @@ from cop.users.api.serializers.user import UserRegistrationSerializer
 User = get_user_model()
 
 
-class SecurityOfficerRegistrationSerializer(UserRegistrationSerializer):
-    def create(self, validated_data):
-        validated_data['role'] = User.Roles.SECURITY_OFFICER
-        return super(BaseUserRegistrationSerializer, self).create(validated_data)
-
-
-class CardholderRegistrationSerializer(UserRegistrationSerializer):
+class CardholderRegistrationSerializer(BaseUserRegistrationSerializer):
     def create(self, validated_data):
         validated_data['role'] = User.Roles.CARDHOLDER
-        return super(BaseUserRegistrationSerializer, self).create(validated_data)
+        return super().create(validated_data)
 
 
 class BankEmployeeSerializes(serializers.ModelSerializer):
@@ -54,8 +48,8 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
         bank_employee = validated_data.pop('bankemployee')
         password = User.objects.make_random_password()
         validated_data['password'] = password
-        validated_data['created_by'] = self.context["request"].user
         self.context["password"] = password
+        validated_data['created_by'] = self.context["request"].user
         instance = super().create(validated_data)
 
         bank = bank_employee.get("bank")
