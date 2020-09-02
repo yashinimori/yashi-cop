@@ -20,7 +20,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 
 class UserSerializer(BaseUserSerializer):
-    claim_fields = serializers.CharField(required=False)
+    displayable_claim_fields = serializers.CharField(required=False)
     password_change_required = serializers.SerializerMethodField()
 
     class Meta(BaseUserSerializer.Meta):
@@ -32,7 +32,7 @@ class UserSerializer(BaseUserSerializer):
             'last_name',
             'phone',
             'role',
-            'claim_fields',
+            'displayable_claim_fields',
             'password_change_required',
             'registration_date',
         )

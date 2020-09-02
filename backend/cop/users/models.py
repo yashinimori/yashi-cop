@@ -5,15 +5,11 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from cop.core.models import Claim
-
-
-def get_claim_field_help_text():
-    claim_fields_lst = Claim._meta.fields
-    claim_fields_help_test = 'Available fields: '
-    for i in claim_fields_lst:
-        claim_fields_help_test += f'{i.get_attname()}, '
-    return claim_fields_help_test
+CLAIM_DEFAULT_DISPLAY_FIELDS = [
+    'id', 'pan', 'trans_date', 'term_id', 'terminal',
+    'merchant', 'merch_id', 'merch_name_ips', 'trans_amount', 'trans_currency',
+    'trans_approval_code', 'claim_reason_code', 'status', 'result', 'due_date', 'action_needed'
+]
 
 
 class UserManager(BaseUserManager):
@@ -53,6 +49,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Default user for cop.
     """
+
     class Roles:
         TOP_LEVEL = 'top_level'
         SECURITY_OFFICER = 'security_officer'
@@ -79,8 +76,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=999, choices=Roles.CHOICES)
     phone = models.CharField(max_length=13)
     email = models.EmailField(_('email address'), unique=True, max_length=999)
-    claim_fields = ArrayField(models.CharField(max_length=128), blank=True, null=True,
-                              help_text=get_claim_field_help_text())
+    displayable_claim_fields = ArrayField(models.CharField(max_length=128), default=CLAIM_DEFAULT_DISPLAY_FIELDS)
     registration_date = models.DateField(auto_now_add=True, editable=False)
 
     USERNAME_FIELD = 'email'
