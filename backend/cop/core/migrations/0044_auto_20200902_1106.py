@@ -24,29 +24,4 @@ class Migration(migrations.Migration):
             name='replier',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='claim_repliers', to=settings.AUTH_USER_MODEL),
         ),
-        migrations.AlterField(
-            model_name='claim',
-            name='action_needed',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AlterField(
-            model_name='claim',
-            name='chargeback_officer',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='claim_chargeback_officers', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AlterField(
-            model_name='claim',
-            name='flag',
-            field=models.CharField(blank=True, choices=[('yellow', 'Yellow'), ('red', 'Red')], max_length=12, null=True),
-        ),
-        migrations.AlterField(
-            model_name='claim',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='claim_users', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AlterField(
-            model_name='claimdocument',
-            name='file',
-            field=models.FileField(upload_to=''),
-        ),
     ]

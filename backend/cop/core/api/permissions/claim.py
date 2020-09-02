@@ -20,11 +20,7 @@ class AllowClaimMerchantPermission(BasePermission):
 
 class AllowChbOffPermission(BasePermission):
     def has_permission(self, request, view):
-        current_claim = Claim.objects.get(id=view.kwargs['pk'])
-        if current_claim.chargeback_officer:
-            return request.user == current_claim.chargeback_officer
-        else:
-            return False
+        return request.user.is_chargeback_officer
 
 
 class HasMerchantClaimUpdatePermission(BasePermission):

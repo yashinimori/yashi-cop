@@ -11,7 +11,8 @@ else:
 
 router.register("users", CustomRegistrationView)
 core_routes = path("", include("cop.core.api.urls")),
+logger_routes = path("", include("cop.logger.api.urls")),
 
 
 urlpatterns = router.urls
-urlpatterns += core_routes
+urlpatterns += core_routes + logger_routes

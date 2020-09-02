@@ -8,7 +8,7 @@ from cop.core.tasks import send_file_expiration_notification, delete_expired_fil
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
 from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatusService
-from cop.users.api.serializers.user import UserSerializer, UserSerializerLight
+from cop.users.api.serializers.user import UserSerializer, UserSerializerLite
 
 User = get_user_model()
 
@@ -92,7 +92,7 @@ class ClaimDocumentSerializer(serializers.ModelSerializer):
 
 
 class ClaimDocumentNestedSerializer(serializers.ModelSerializer):
-    user = UserSerializerLight()
+    user = UserSerializerLite()
 
     class Meta:
         model = ClaimDocument
@@ -148,7 +148,8 @@ class ClaimSerializer(serializers.ModelSerializer):
             "officer_answer_reason",
             "chargeback_date",
             "second_presentment_date",
-            "arn"
+            "arn",
+            "flag"
         )
 
     def create(self, validated_data):
