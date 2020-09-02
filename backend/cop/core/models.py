@@ -290,7 +290,7 @@ class Claim(BaseModel):
     reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')
     reason_code = models.CharField(max_length=4, blank=True, null=True, help_text='IPS code')
 
-    action_needed = models.BooleanField(default=False)
+    # action_needed = models.BooleanField(default=False)
 
     status = models.ForeignKey('Status', on_delete=models.PROTECT)
     result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
