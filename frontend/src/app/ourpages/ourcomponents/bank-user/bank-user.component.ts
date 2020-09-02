@@ -49,7 +49,7 @@ export class BankUserComponent implements OnInit {
         "last_name": this.data.last_name,
         "phone": this.data.phone,
         "role": this.data.role,
-        "bank_employee": {
+        "bankemployee": {
             "bank": this.bankID,
             "unit": this.data.unit
           }
