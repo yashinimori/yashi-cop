@@ -3,13 +3,13 @@ from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from cop.core.api.permissions.base import ChargebackOfficerOnly
+from cop.core.api.permissions.base import AllowChargebackOfficerPermission
 from cop.core.api.serializers.transaction import TransactionSerializer
 from cop.core.models import Transaction
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, ChargebackOfficerOnly]
+    permission_classes = [IsAuthenticated, AllowChargebackOfficerPermission]
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all().order_by('id')
     http_method_names = ['get', 'delete', 'head', 'options']

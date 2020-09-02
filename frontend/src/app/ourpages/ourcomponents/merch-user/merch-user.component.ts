@@ -14,6 +14,7 @@ import { TransferService } from '../../../share/services/transfer.service';
 export class MerchUserComponent implements OnInit {
   public data: MerchUser;
   bankID: string;
+  bankBin: string;
   role: any;
 
   constructor(private httpService: HttpService,
@@ -28,6 +29,8 @@ export class MerchUserComponent implements OnInit {
     this.data = new MerchUser();
 
     this.bankID = this.transferService.bankID.getValue();
+    this.bankBin = this.transferService.bankBIN.getValue();
+
     console.log('this.bankID = ' + this.bankID);
     
     this.role = localStorage.getItem('role');
@@ -63,7 +66,7 @@ export class MerchUserComponent implements OnInit {
             "name_ips": this.data.name_ips,
             "bank": [Number(this.bankID)],
             "name_legal": this.data.name_legal,
-            "bin": '', // this.data.bin,
+            "bin": this.bankBin,
             "mcc": this.data.mcc,
             "description": this.data.description,
             "address": this.data.address,

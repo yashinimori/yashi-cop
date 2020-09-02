@@ -6,6 +6,7 @@ from rest_framework import serializers
 User = get_user_model()
 
 
+# This class is necessary for DJOSER.SERIALIZER settings
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
     class Meta(BaseUserRegistrationSerializer.Meta):
         fields = BaseUserRegistrationSerializer.Meta.fields + (
@@ -19,7 +20,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 
 class UserSerializer(BaseUserSerializer):
-    claim_fields = serializers.CharField(required=False)
+    displayable_claim_fields = serializers.CharField(required=False)
     password_change_required = serializers.SerializerMethodField()
 
     class Meta(BaseUserSerializer.Meta):
@@ -31,7 +32,7 @@ class UserSerializer(BaseUserSerializer):
             'last_name',
             'phone',
             'role',
-            'claim_fields',
+            'displayable_claim_fields',
             'password_change_required',
             'registration_date',
         )
@@ -54,19 +55,7 @@ class UserSerializer(BaseUserSerializer):
             return False
 
 
-class UserLiteSerializer(BaseUserSerializer):
-
-    class Meta(BaseUserSerializer.Meta):
-        fields = BaseUserSerializer.Meta.fields + (
-            'email',
-            'first_name',
-            'last_name',
-            'role',
-        )
-        read_only_fields = BaseUserSerializer.Meta.read_only_fields
-
-
-class UserSerializerLight(BaseUserSerializer):
+class UserSerializerLite(BaseUserSerializer):
 
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + (

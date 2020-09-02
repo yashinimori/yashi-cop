@@ -1,10 +1,13 @@
 """Keep service clean and small."""
+from datetime import timedelta
 
 from django.apps import apps
 
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 
+from cop.core.tasks import claim_reminder_notification, revoke_tasks, acquirer_reminder_notification, \
+    issuer_reminder_notification, archive_claim
 from cop.core.models import StageChangesHistory
 
 Status = apps.get_model('core', 'Status')
@@ -21,10 +24,13 @@ class BaseStatusService:
     initial_status: int
     form_name: str
 
-    def __init__(self, claim, user: User, status_index=None):
+    def __init__(self, claim, user: User, status_index=None, is_created=False):
         self.claim = claim
         self.user = user
-        self.initial_status = self.claim.status.index or 0
+        self.initial_status = self.claim.status.index
+        if is_created:
+            if self.initial_status == 2 or self.initial_status == 6 and self.claim.merchant:
+                self.create_merchant_notifications()
         if status_index:  # we already know which status it should be
             self.claim.status = self.statuses.get(index=status_index)
         elif not self.claim.status:
@@ -66,6 +72,76 @@ class BaseStatusService:
             user=self.user,
             status=self.claim.status
         )
+        if status_index == 51:
+            self.claim.action_needed = False
+            self.clean_previous_tasks()
+
+    def create_cardholder_notifications(self):
+        """Revoke previous notification tasks and create new one."""
+        self.clean_previous_tasks()
+        self.claim.replier = self.claim.user
+        self.claim.due_date = now() + timedelta(days=21)
+        notify_at_day = [6, 13, 20]
+        # send notification to cardholder at 7, 14, 20 day after claim creation
+        args = (self.claim.id, self.claim.user.email)
+        self.create_notifications(notify_at_day, args)
+        self.create_archive_claim_task()
+
+    def create_merchant_notifications(self):
+        """Revoke previous notification tasks and create new one."""
+        self.clean_previous_tasks()
+        self.claim.replier = self.claim.merchant.user
+        self.claim.due_date = now() + timedelta(days=7)
+        notify_at_day = [3, 5]
+        merchant_args = (self.claim.id, self.claim.merchant.user.email)
+        # send notification to merchant at 4, 6 day after claim creation
+        self.create_notifications(notify_at_day, merchant_args)
+        self.create_acquirer_notifications()
+
+    def create_acquirer_notifications(self):
+        """Notify Acquirer if Merchant did not answer."""
+        acquirer = self.claim.bank.employee_banks.filter(user__role=User.Roles.CHARGEBACK_OFFICER).first()
+        issuer = self.claim.bank.employee_banks.filter(user__role=User.Roles.CHARGEBACK_OFFICER).first()
+
+        if self.claim.status.is_mediation and acquirer:
+            # if merchant doesn't answer in 7 days send notification to acquirer and stage is Mediation
+            acquirer_args = (self.claim.id, acquirer.user.email)
+            acquirer_reminder_notification.apply_async(acquirer_args, eta=self.claim.due_date)
+
+            # if acquirer won't answer in due_date + 7 date notify card issuer (эмитента)
+            if issuer:
+                issuer_args = (self.claim.id, issuer.user.email)
+                acquirer_due_date = self.claim.due_date + timedelta(days=7)
+                issuer_reminder_notification.apply_async(issuer_args, eta=acquirer_due_date)
+        if self.claim.status.is_chargeback or self.claim.status.is_chargeback_escalation and acquirer:
+            self.clean_previous_tasks()
+            self.claim.due_date = now() + timedelta(days=45)
+            # if acquirer doesn't answer in 45 days send notification to шыыгу and stage is Mediation
+            acquirer_args = (self.claim.id, acquirer.user.email)
+            acquirer_reminder_notification.apply_async(acquirer_args)
+
+            # if acquirer won't answer in due_date + 7 date notify card issuer (эмитента)
+            if issuer:
+                issuer_args = (self.claim.id, issuer.user.email)
+                issuer_reminder_notification.apply_async(issuer_args, eta=self.claim.due_date)
+
+    def clean_previous_tasks(self):
+        """Revoke all notification tasks."""
+        self.claim.reminder_task_ids = revoke_tasks(self.claim.reminder_task_ids or [])
+
+    def create_notifications(self, notify_at_day, args):
+        task_ids = []
+        for days in notify_at_day:
+            eta = now() + timedelta(days=days)
+            task = claim_reminder_notification.apply_async(args, eta=eta)
+            task_ids.append(task.id)
+        notify_now = claim_reminder_notification.apply_async(args, countdown=3)
+        self.claim.reminder_task_ids = task_ids
+
+    def create_archive_claim_task(self):
+        eta = now() + timedelta(days=30)
+        task = archive_claim.apply_async((self.claim.id,), eta=eta)
+        self.claim.reminder_task_ids.append(task.id)
 
     def pre_mediation(self):
         pass
@@ -108,22 +184,26 @@ class StatusService(BaseStatusService):
             if self.user.is_merchant:
                 if self.claim.close_form_received:
                     self.set_status(4)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 4:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
                 elif self.claim.escalation_form_received:
                     self.set_status(5)
+                    self.create_cardholder_notifications()
 
     def mediation(self):
         if self.initial_status == 5:
             if self.user.is_cardholder:
                 if self.claim.escalation_form_received:
                     self.set_status(6)
+                    self.create_merchant_notifications()
         if self.initial_status == 6:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
                     self.set_status(8)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 8:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -131,6 +211,7 @@ class StatusService(BaseStatusService):
                 elif self.claim.escalation_form_received:
                     self.set_status(17)
                     self.claim.chargeback_date = now()
+                    self.create_acquirer_notifications()
 
     def chargeback(self):
         """ 17-24 statuses """
@@ -142,6 +223,7 @@ class StatusService(BaseStatusService):
                     self.set_status(23)
                 elif self.claim.clarify_form_received:
                     self.set_status(18)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 18:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -163,6 +245,8 @@ class StatusService(BaseStatusService):
                 if self.claim.clarify_form_received:
                     self.claim.second_presentment_date = now()
                     self.set_status(27)
+                    self.create_cardholder_notifications()
+                    self.create_acquirer_notifications()
                 elif self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(14)
                 elif self.claim.close_form_received:
@@ -179,6 +263,7 @@ class StatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
                     self.set_status(24)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 24:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -209,10 +294,13 @@ class StatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(34)
+                    self.create_cardholder_notifications()
                 elif self.claim.close_form_received:
                     self.set_status(32)
+                    self.create_cardholder_notifications()
                 elif self.claim.clarify_form_received:
                     self.set_status(40)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 32:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -221,6 +309,7 @@ class StatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
                     self.set_status(34)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 34:
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
@@ -240,6 +329,7 @@ class StatusService(BaseStatusService):
                     self.set_status(47)
                 elif self.claim.close_form_received:
                     self.set_status(46)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 46:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -252,12 +342,14 @@ class StatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(48)
+                    self.create_cardholder_notifications()
                 elif self.claim.close_form_received:
                     self.set_status(49)
         elif self.initial_status == 48:
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
                     self.set_status(49)
+                    self.create_cardholder_notifications()
             elif self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
@@ -274,28 +366,33 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_merchant:
                 if self.claim.close_form_received:
                     self.set_status(4)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 4:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
                 elif self.claim.escalation_form_received:
                     self.set_status(5)
+                    self.create_cardholder_notifications()
 
     def mediation(self):
         if self.initial_status == 5:
             if self.user.is_cardholder:
                 if self.claim.escalation_form_received:
+                    self.create_merchant_notifications()
                     self.set_status(6)
         if self.initial_status == 6:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
                     self.set_status(8)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 8:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
                     self.set_status(51)
                 elif self.claim.escalation_form_received:
                     self.set_status(9)
+                    self.create_acquirer_notifications()
 
     def chargeback(self):
         if self.initial_status == 9:
@@ -306,6 +403,7 @@ class AllocationStatusService(BaseStatusService):
                     self.set_status(15)
                 elif self.claim.clarify_form_received:
                     self.set_status(10)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 10:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -316,6 +414,7 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.escalation_form_received:
                     self.set_status(26)
+                    self.create_acquirer_notifications()
                 elif self.claim.clarify_form_received:
                     self.set_status(12)
         elif self.initial_status == 12:
@@ -345,10 +444,12 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.clarify_form_received:
                     self.set_status(27)
+                    self.create_cardholder_notifications()
                 elif self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(14)
                 elif self.claim.close_form_received:
                     self.set_status(28)
+                    self.create_cardholder_notifications()
                 elif self.claim.escalation_form_received:
                     self.set_status(35)
         elif self.initial_status == 27:
@@ -372,6 +473,7 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
                     self.set_status(38)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 38:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:
@@ -384,10 +486,13 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.clarify_form_received:
                     self.set_status(40)
+                    self.create_cardholder_notifications()
                 elif self.claim.close_form_received and self.claim.officer_answer_refund:
                     self.set_status(43)
+                    self.create_cardholder_notifications()
                 elif self.claim.close_form_received:
                     self.set_status(41)
+                    self.create_cardholder_notifications()
                 elif self.claim.escalation_form_received:
                     self.set_status(42)
         elif self.initial_status == 40:
@@ -412,6 +517,7 @@ class AllocationStatusService(BaseStatusService):
             if self.user.is_chargeback_officer:
                 if self.claim.close_form_received:
                     self.set_status(45)
+                    self.create_cardholder_notifications()
         elif self.initial_status == 45:
             if self.user.is_cardholder:
                 if self.claim.close_form_received:

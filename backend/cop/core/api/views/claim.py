@@ -16,8 +16,8 @@ from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
     ClaimDocumentReportsSerializer, ClaimDocumentNestedSerializer
 from cop.core.api.serializers.comment import CommentListSerializer
-from cop.core.api.serializers.stage_history import StageHistorySerializer, StageHistoryNestedSerializer
-from cop.core.models import Claim, ClaimDocument, Status, ReasonCodeGroup, SurveyQuestion, Comment, StageChangesHistory
+from cop.core.api.serializers.stage_history import StageHistorySerializerLite
+from cop.core.models import Claim, ClaimDocument, ReasonCodeGroup, SurveyQuestion, Comment, StageChangesHistory
 
 User = get_user_model()
 
@@ -161,7 +161,7 @@ class ClaimTimelineView(APIView):
             if isinstance(entry, ClaimDocument):
                 serializer = ClaimDocumentNestedSerializer(entry)
             if isinstance(entry, StageChangesHistory):
-                serializer = StageHistoryNestedSerializer(entry)
+                serializer = StageHistorySerializerLite(entry)
 
             results.append({'item_type': item_type, 'data': serializer.data})
 
@@ -193,7 +193,7 @@ class ClaimTimelineView(APIView):
             if isinstance(entry, ClaimDocument):
                 serializer = ClaimDocumentNestedSerializer(entry)
             if isinstance(entry, StageChangesHistory):
-                serializer = StageHistoryNestedSerializer(entry)
+                serializer = StageHistorySerializerLite(entry)
 
             results.append({'item_type': item_type, 'data': serializer.data})
 

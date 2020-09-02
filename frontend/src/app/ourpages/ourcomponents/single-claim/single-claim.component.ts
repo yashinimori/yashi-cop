@@ -224,8 +224,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.httpService.getTimeLine(this.claimId).subscribe({
         next: (response: any) => {
           this.Timeline = response;
+          console.log('loaded timeline()');
           console.log(response);
-          // console.log(this.Timeline);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -749,6 +749,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     else 
       return '';
   }
-  
+ 
+  getDateFormat(date: any){
+    if(date)
+      return this.datePipe.transform(new Date(date), 'dd/MM/yyyy');
+    else
+      return '';
+}
 
 }

@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from cop.core.models import Comment, Claim
-from cop.users.api.serializers.user import UserSerializerLight
+from cop.users.api.serializers.user import UserSerializerLite
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentListSerializer(serializers.ModelSerializer):
-    user = UserSerializerLight()
+    user = UserSerializerLite()
 
     class Meta:
         model = Comment

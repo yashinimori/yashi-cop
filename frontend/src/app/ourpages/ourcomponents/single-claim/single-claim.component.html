@@ -90,7 +90,7 @@
                     <label>Коментар</label>
                     <br>
                     <nb-list >
-                        <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
+                        <nb-list-item *ngFor="let item of comments" >
                             {{item.user}} {{ item.create_date_str}} {{ item.text }} 
                         </nb-list-item>
                     </nb-list>  
@@ -252,12 +252,12 @@
                     <!-- <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
                         {{ item.create_date_str }}  
                     </nb-list-item> -->
-                    <div *ngFor="let item of Timeline" style="font-weight: bold;">
+                    <div *ngFor="let item of Timeline" style="margin-bottom: 2em; margin-top: 1em;">
                         <div *ngIf="item.item_type === 'comment'">
-                            {{item.data.create_date}} {{ item.data.user.first_name}} {{ item.data.user.last_name}} {{ item.data.text }} 
+                            {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}  повідомив:  {{ item.data.text }} 
                         </div>   
                         <div *ngIf="item.item_type === 'claimdocument'">
-                            {{item.data.create_date}} {{ item.data.user.first_name}} {{ item.data.user.last_name}} {{ item.data.file }} 
+                            {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}  файл: <a href="{{ item.data.file }}" target="_blank" >{{ item.data.file.split('/').pop() }}</a>
                         </div>     
                     </div>
                   <!-- <span>Файл: {{item.file}} </span> -->

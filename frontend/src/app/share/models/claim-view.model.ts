@@ -33,4 +33,5 @@ export class ClaimView extends ClaimRegistration {
   arbitration_date: Date;
   arbitration_response_date: Date;
   openClaim: string;
+  flag: boolean;
 }

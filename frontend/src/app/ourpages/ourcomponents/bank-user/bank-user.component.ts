@@ -49,7 +49,7 @@ export class BankUserComponent implements OnInit {
         "last_name": this.data.last_name,
         "phone": this.data.phone,
         "role": this.data.role,
-        "bank_employee": {
+        "bankemployee": {
             "bank": this.bankID,
             "unit": this.data.unit
           }
@@ -112,12 +112,12 @@ export class BankUserComponent implements OnInit {
   
   getRoles(){
     this.listRole = new Array<SelectorData>();
-    this.listRole.push({id:1, caption:"cardholder"});
-    this.listRole.push({id:2, caption:"merchant"});
-    this.listRole.push({id:3, caption:"user"});
+    //this.listRole.push({id:1, caption:"cardholder"});
+    //this.listRole.push({id:2, caption:"merchant"});
+    //this.listRole.push({id:3, caption:"user"});
     this.listRole.push({id:4, caption:"chargeback_officer"});
     this.listRole.push({id:5, caption:"cop_manager"});
-    
+    this.listRole.push({id:4, caption:"top_level"});
 
   }
 

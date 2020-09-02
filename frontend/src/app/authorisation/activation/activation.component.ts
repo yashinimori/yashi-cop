@@ -39,7 +39,7 @@ export class ActivationComponent implements OnInit {
         console.log('userActivated'); 
         console.log(response); 
         setTimeout(()=>{
-          //this.router.navigate(['auth', 'login']);
+          this.router.navigate(['auth', 'login']);
         }, 3000);
       },
       error: error => {
