@@ -13,7 +13,7 @@ class UserAdmin(auth_admin.UserAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'role', 'claim_fields')}),
+        (None, {'fields': ('email', 'password', 'role', 'displayable_claim_fields')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
