@@ -6,12 +6,15 @@ import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
+import { TransferService } from '../../../share/services/transfer.service';
+import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
 
 @Component({
     selector: 'app-chart-donat',
     templateUrl: './chart-donat.component.html',
 })
 export class ChartDonatComponent {
+    data: DoughnutTransfer;
     claims: any;
     doughnutChartLabels: Label[] = ['pre-mediation', 'mediation', 'chargeback', 'chargeback escalation', 'closed'];
     doughnutChartType: ChartType = 'doughnut';
@@ -22,8 +25,8 @@ export class ChartDonatComponent {
             "rgba(224, 0, 112, 1)",
             "rgba(224, 50, 37, 1)",
             "rgba(51, 70, 0, 1)"]
-    constructor(
-      private httpServise: HttpService) {
+    constructor(public transferService: TransferService,
+      public httpServise: HttpService) {
     }
     
     
@@ -34,12 +37,23 @@ export class ChartDonatComponent {
     
 
     ngOnInit(): void {
+      console.log('ChartDonatComponent');
       // this.getClaimsData();
       this.role = localStorage.getItem('role');
       // console.log(this.data)
       console.log(this.doughnutChartData);
-      this.loadCountClaimsByStages();
+      //this.loadCountClaimsByStages();
       console.log(this.doughnutChartData);
+
+      // this.data = this.transferService.doughnutTransfer.getValue();
+
+      // if(this.data){
+      //   this.doughnutChartLabels = this.data.chartLabels;
+      //   this.doughnutChartType = this.data.chartType;
+      //   this.doughnutChartData = this.data.chartData;
+      //   this.colours = this.data.colours;
+      // }
+
     }
 
     
