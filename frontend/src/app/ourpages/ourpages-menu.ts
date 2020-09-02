@@ -80,12 +80,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'chargebacks',
         icon: 'radio-button-off-outline',
-        link: '/ourpages/ourcomponents/chbo-my-claims/chargebacks',
+        link: '/ourpages/ourcomponents/chbo-my-claims/chargeback',
       },
       {
         title: 'archive',
         icon: 'radio-button-off-outline',
-        link: '/ourpages/ourcomponents/chbo-my-claims/archive',
+        link: '/ourpages/ourcomponents/chbo-my-claims/closed',
       },
     ],
   },

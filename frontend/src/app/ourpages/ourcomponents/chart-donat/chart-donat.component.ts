@@ -15,7 +15,13 @@ export class ChartDonatComponent {
     claims: any;
     doughnutChartLabels: Label[] = ['pre-mediation', 'mediation', 'chargeback', 'chargeback escalation', 'closed'];
     doughnutChartType: ChartType = 'doughnut';
-    
+    doughnutChartData: MultiDataSet = [];
+    is_data_ready = false;
+    colours = ["rgba(0, 108, 112, 1)",
+            "rgba(224, 224, 0, 1)",
+            "rgba(224, 0, 112, 1)",
+            "rgba(224, 50, 37, 1)",
+            "rgba(51, 70, 0, 1)"]
     constructor(
       private httpServise: HttpService) {
     }
@@ -31,13 +37,12 @@ export class ChartDonatComponent {
       // this.getClaimsData();
       this.role = localStorage.getItem('role');
       // console.log(this.data)
+      console.log(this.doughnutChartData);
       this.loadCountClaimsByStages();
-      
+      console.log(this.doughnutChartData);
     }
 
-    doughnutChartData: MultiDataSet = [
-      [this.claims['pre_mediation_claims'], this.claims['mediation_claims'], this.claims['chargeback_claims'], this.claims['chargeback_escalation_claims'], this.claims['closed_claims']]
-    ];
+    
   
     loadCountClaimsByStages(){
       //console.log('getCountClaimsByStages()');
@@ -46,15 +51,16 @@ export class ChartDonatComponent {
           this.claims = response;
           console.log(this.claims['pre_mediation_claims']);
           console.log(response);
-          doughnutChartData:  [
+          this.doughnutChartData = [
             [this.claims['pre_mediation_claims'], this.claims['mediation_claims'], this.claims['chargeback_claims'], this.claims['chargeback_escalation_claims'], this.claims['closed_claims']]
           ];
+          // this.doughnutChartData
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-         
+          this.is_data_ready = true;
         }
       });
   
