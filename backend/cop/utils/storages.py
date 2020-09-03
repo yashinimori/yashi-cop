@@ -6,12 +6,14 @@ class StaticRootS3Boto3Storage(S3Boto3Storage):
     default_acl = "public-read"
 
 
-class MediaRootS3Boto3Storage(S3Boto3Storage):
+class PrivateMediaRootS3Boto3Storage(S3Boto3Storage):
     location = "media"
+    default_acl = 'private'
     file_overwrite = False
 
 
 class LogsRootS3Boto3Storage(S3Boto3Storage):
-    location = "logs"
-    file_overwrite = False
     bucket_name = 'coplogs'
+    location = "logs"
+    default_acl = 'private'
+    file_overwrite = False

@@ -11,7 +11,7 @@ from django.utils.timezone import make_aware, now
 from config import celery_app
 from cop.core.emails import send_expiration_notification, send_claim_notification
 from cop.core.models import ClaimDocument, BankEmployee, Report, StageChangesHistory, Claim
-from cop.utils.storages import MediaRootS3Boto3Storage
+from cop.utils.storages import PrivateMediaRootS3Boto3Storage
 
 User = get_user_model()
 
@@ -208,7 +208,7 @@ def send_file_expiration_notification(pk: int):
     if doc and doc.claim.bank:
         chb_officer = BankEmployee.objects.filter(bank=doc.claim.bank, user__role=User.roles.chargeback_officer).first()
         if chb_officer:
-            storage = MediaRootS3Boto3Storage()
+            storage = PrivateMediaRootS3Boto3Storage()
             in_seven_days = 604800
             url = storage.url(name=doc.file.name, expire=in_seven_days)
             send_expiration_notification(url, chb_officer.user.email)
