@@ -7,7 +7,8 @@ from rest_framework import serializers
 from cop.core.tasks import send_file_expiration_notification, delete_expired_files, delete_expired_report_files
 from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
 from cop.core.services.claim_routing_service import ClaimRoutingService
-from cop.core.services.status_service import StatusService, AllocationStatusService, CardholderStatusService
+from cop.core.services.status_service import AllocationStatusService, CardholderStatusService, \
+    StatusServiceLite
 from cop.users.api.serializers.user import UserSerializer, UserSerializerLite
 
 User = get_user_model()
@@ -176,7 +177,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         if claim.claim_reason_code in allocation_rc:
             service = AllocationStatusService
         elif claim.bank and claim.merchant:
-            service = StatusService
+            service = StatusServiceLite
         elif not claim.bank and not claim.merchant:
             claim.action_needed = False
             service = CardholderStatusService
