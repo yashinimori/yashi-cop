@@ -47,31 +47,31 @@ export class ChartDonatComponent implements OnInit {
           //console.log(response);
           
           this.doughnutChartLabels = [
-            'arbitration_claims',
+            // 'arbitration_claims',
             'chargeback_claims',
             'chargeback_escalation_claims',
-            'closed_claims',
-            'dispute_claims',
-            'dispute_response_claims',
-            'final_ruling_claims',
+            // 'closed_claims',
+            // 'dispute_claims',
+            // 'dispute_response_claims',
+            // 'final_ruling_claims',
             'mediation_claims',
-            'pre_arbitration_claims',
-            'pre_arbitration_response_claims',
+            // 'pre_arbitration_claims',
+            // 'pre_arbitration_response_claims',
             'pre_mediation_claims'
           ];
           
           this.doughnutChartData  = [{
             data: [
-              response['arbitration_claims'],
+              // response['arbitration_claims'],
               response['chargeback_claims'],
               response['chargeback_escalation_claims'],
-              response['closed_claims'],
-              response['dispute_claims'],
-              response['dispute_response_claims'],
-              response['final_ruling_claims'],
+              // response['closed_claims'],
+              // response['dispute_claims'],
+              // response['dispute_response_claims'],
+              // response['final_ruling_claims'],
               response['mediation_claims'],
-              response['pre_arbitration_claims'],
-              response['pre_arbitration_response_claims'],
+              // response['pre_arbitration_claims'],
+              // response['pre_arbitration_response_claims'],
               response['pre_mediation_claims']
             ] 
           }];

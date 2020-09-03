@@ -1,13 +1,19 @@
 <div class="row">
     <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Претензії без призначення</nb-card-header>
-        <nb-card-body>
+        <nb-card-header>Нові претензії</nb-card-header>
+        <nb-card-body class="statistic_center" style="display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;">
             {{ all_new_claims }}
         </nb-card-body>
     </nb-card>
     <nb-card class="col-6 col-sm-3">
         <nb-card-header>Претензії оновлені</nb-card-header>
-        <nb-card-body>
+        <nb-card-body class="statistic_center" style="display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;">
         {{ all_updated_claims }}
         </nb-card-body>
     </nb-card>
@@ -31,7 +37,7 @@
 
 <div class="row">
     <nb-card class="col-6">
-        <nb-card-header>Nebula</nb-card-header>
+        <nb-card-header>Останні дії</nb-card-header>
         <nb-card-body>
             <div >
                 <label>Коментар</label>
