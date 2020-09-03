@@ -14,6 +14,11 @@ class AllowCopManagerPermission(permissions.BasePermission):
         return request.user.is_cop_manager
 
 
+class AllowSecurityOfficerPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_security_officer
+
+
 class AllowBankEmployeesPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.role in [User.Roles.COP_MANAGER, User.Roles.TOP_LEVEL, User.Roles.CHARGEBACK_OFFICER]
