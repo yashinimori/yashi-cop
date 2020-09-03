@@ -10,6 +10,7 @@ class PrivateMediaRootS3Boto3Storage(S3Boto3Storage):
     location = "media"
     default_acl = 'private'
     file_overwrite = False
+    custom_domain = False
 
 
 class LogsRootS3Boto3Storage(S3Boto3Storage):
@@ -17,3 +18,4 @@ class LogsRootS3Boto3Storage(S3Boto3Storage):
     location = "logs"
     default_acl = 'private'
     file_overwrite = False
+    custom_domain = False
