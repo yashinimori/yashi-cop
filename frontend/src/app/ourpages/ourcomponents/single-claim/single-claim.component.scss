@@ -41,6 +41,7 @@
     // text-transform: uppercase;
     font-weight: bold;
     margin: auto;
+    text-align: left;
 }
 .input-radio{
     width: 100%;
@@ -48,7 +49,7 @@
     margin: auto; 
     text-align: center;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 .selector-list-questions {
     width: 100%; 
