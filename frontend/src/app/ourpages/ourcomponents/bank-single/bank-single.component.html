@@ -1,17 +1,17 @@
-<nb-card style="height: 40em;">
+<nb-card style="height: 40em; ">
   
     <nb-card-header>
       Банк 
       <button  nbButton status="primary" (click)="goStatistic()">Cтатистика</button>
     </nb-card-header>
   
-    <nb-card-body>
+    <nb-card-body style="overflow-y: hidden;">
       <div class="col-12">
         <nb-card size="small" style="height: 33em;" >
           <nb-tabset fullWidth>
             <nb-tab tabTitle="Інфо">
 
-              <nb-card style="height: 250px;">
+              <nb-card style="height: 28em;">
                 <nb-card-body>
 
                   <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
@@ -66,7 +66,7 @@
 
             <nb-tab tabTitle="Користувачи">
               <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
-              <nb-card style="height: 250px;">
+              <nb-card style="height: 25em;">
                 <nb-card-body>
 
                   <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
@@ -79,7 +79,7 @@
             
             <nb-tab tabTitle="Мерчанти">
               <button nbButton status="primary" (click)="createMerch()">Зарегистрировать</button>
-              <nb-card style="height: 250px;">
+              <nb-card style="height: 25em;">
                 <nb-card-body>
 
                   <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
@@ -88,6 +88,19 @@
                 </nb-card-body>
               </nb-card>
             </nb-tab>
+
+            <nb-tab tabTitle="ATM">
+              <button nbButton status="primary" (click)="createMerch()">Зарегистрировать</button>
+              <nb-card style="height: 25em;">
+                <nb-card-body>
+
+                  <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
+                  </ng2-smart-table>
+
+                </nb-card-body>
+              </nb-card>
+            </nb-tab>
+
 
           </nb-tabset>
         </nb-card>
