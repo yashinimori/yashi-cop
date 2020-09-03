@@ -3,7 +3,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 
-from cop.core.api.permissions.base import AllowCopManagerPermission
+from cop.core.api.permissions.base import AllowSecurityOfficerPermission
 from cop.logger.api.serializers.logger import LoggerEntrySerializer
 from cop.logger.models import LoggerEntry
 
@@ -11,7 +11,7 @@ from cop.logger.models import LoggerEntry
 class LoggerListRetrieveView(ReadOnlyModelViewSet):
     serializer_class = LoggerEntrySerializer
     queryset = LoggerEntry.objects.all().order_by('-action_time')
-    permission_classes = (IsAuthenticated, AllowCopManagerPermission,)
+    permission_classes = (IsAuthenticated, AllowSecurityOfficerPermission,)
 
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
