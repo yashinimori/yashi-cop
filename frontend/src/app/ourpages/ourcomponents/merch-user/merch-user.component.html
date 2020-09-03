@@ -1,16 +1,26 @@
 <div class="center-screen">
-  
+
   <nb-card style="width: 39%; margin: auto; ">
     <nb-card-header style="width: 100%;">
       Реєстрація мерчанта
     </nb-card-header>
-    
+
     <nb-card-body>
 
       <!-- <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
       <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999"> -->
-      
+
       <input nbInput placeholder="Merchant ID" [(ngModel)]="data.merch_id" maxlength="999">
+      <div class="div-panel">
+        <label class="label-caption">Банк</label>
+        <nb-select class="selector-list"
+          [(ngModel)]="bankID"
+        >
+          <nb-option *ngFor="let item of banksList" [value]="item.id">
+            {{ item.name_eng }}
+          </nb-option>
+        </nb-select>
+      </div>
       <input nbInput placeholder="Юридична назва" [(ngModel)]="data.name_legal" maxlength="999">
       <input nbInput placeholder="MCC" [(ngModel)]="data.mcc" maxlength="999">
       <input nbInput placeholder="Вид діяльності" [(ngModel)]="data.description" maxlength="999">
@@ -34,4 +44,4 @@
 
   </nb-card>
 
-</div>     
+</div>

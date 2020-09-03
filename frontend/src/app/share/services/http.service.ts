@@ -173,6 +173,11 @@ export class HttpService {
   }
 
 
+  getAllBank() {
+    return this.http.get(URL_BANK + '?all', this.getHeaders());
+  }
+
+
   getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
 
