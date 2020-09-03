@@ -66,7 +66,8 @@
               <nb-card style="height: 28em;">
                 <nb-card-body>
                   
-                  <input nbInput placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="40"> 
+                  <input nbInput style="width: 25em;"
+                    placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"> 
                   <button nbButton status="primary" style="margin-left: 10px;"
                     (click)="sendMail()">Надіслати</button>
 
