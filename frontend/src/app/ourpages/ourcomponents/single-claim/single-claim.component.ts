@@ -733,7 +733,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     let url = '';
 
     if(this.claimId) {
-      url = '/api/v1/claim/'+ this.claimId +'/pdf/'
+      url = 'https://APP0.chargebackoptimizer.com/api/v1/claim/'+ this.claimId +'/pdf/'
     }
     
     return url;
@@ -755,6 +755,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       return this.datePipe.transform(new Date(date), 'dd/MM/yyyy');
     else
       return '';
-}
+  }
 
 }

@@ -313,6 +313,11 @@ DJOSER = {
     },
     'EMAIL': {
         "activation": "cop.users.api.email.CustomActivationEmail",
+    },
+    'PERMISSIONS': {
+        'user_create': ['rest_framework.permissions.AllowAny',
+                        'cop.users.api.permissions.user_registration'
+                        '.UserRegistrationPermission'],
     }
 }
 

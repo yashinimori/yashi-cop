@@ -3,10 +3,10 @@ from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
-from storages.backends.s3boto3 import S3Boto3Storage
 
 from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 from cop.core.utils.sha256 import generate_sha256
+from cop.utils.storages import LogsRootS3Boto3Storage
 
 User = settings.AUTH_USER_MODEL
 
@@ -387,7 +387,7 @@ class ClaimDocument(BaseModel):
         )
     type = models.CharField(choices=Types.choices, max_length=20, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    file = models.FileField()
+    file = models.FileField(upload_to='claim-documents/')
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='documents')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -483,7 +483,7 @@ class Report(BaseModel):
         ('finished', 'Finished'),
     )
     claim_document = models.ForeignKey(ClaimDocument, on_delete=models.CASCADE, blank=True, null=True)
-    log = models.FileField(storage=S3Boto3Storage(bucket='coplogs'))
+    log = models.FileField(storage=LogsRootS3Boto3Storage())
     status = models.CharField(choices=STATUSES, max_length=100, db_index=True, default=STATUSES[0][0])
     error = models.TextField(null=True, blank=True)
     log_hash = models.CharField(unique=True, max_length=256, db_index=True, null=True, blank=True)

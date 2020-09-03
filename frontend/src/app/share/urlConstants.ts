@@ -73,3 +73,7 @@ export const URL_COUNT_CLAIMS_BY_SUPPORT = `${MAIN_URL}/api/v1/stats/by-support/
 // ?end-date=&start_date=
 // для временного периода
 
+export const URL_CREATE_NEW_ATM = `${MAIN_URL}/api/v1/atms/`;
+export const URL_GET_ATMS = `${MAIN_URL}/api/v1/atms/`;
+
+export const URL_GET_LOGGER = `${MAIN_URL}/api/v1/logger/`;

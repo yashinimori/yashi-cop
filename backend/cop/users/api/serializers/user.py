@@ -21,7 +21,6 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
 class UserSerializer(BaseUserSerializer):
     displayable_claim_fields = serializers.CharField(required=False)
-    password_change_required = serializers.SerializerMethodField()
 
     class Meta(BaseUserSerializer.Meta):
         fields = BaseUserSerializer.Meta.fields + (
@@ -46,13 +45,6 @@ class UserSerializer(BaseUserSerializer):
 
     def can_user_deactivate(self):
         return self.context["request"].user.is_cop_manager
-
-    def get_password_change_required(self, instance):
-        if instance.created_by:
-            return instance.created_by.role in (
-                User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL) and not instance.last_login
-        else:
-            return False
 
 
 class UserSerializerLite(BaseUserSerializer):

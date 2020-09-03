@@ -3,9 +3,14 @@ from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSeria
 from rest_framework import serializers
 
 from cop.core.models import BankEmployee, Terminal, Merchant
-from cop.users.api.serializers.user import UserRegistrationSerializer
 
 User = get_user_model()
+
+
+def set_password_change_required(instance):
+    if instance.created_by.role in (User.Roles.COP_MANAGER, User.Roles.SECURITY_OFFICER, User.Roles.TOP_LEVEL):
+        instance.password_change_required = True
+        instance.save()
 
 
 class CardholderRegistrationSerializer(BaseUserRegistrationSerializer):
@@ -32,7 +37,6 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
             'email',
             'first_name',
             'last_name',
-            'password',
             'phone',
             'role',
             'created_by',
@@ -40,23 +44,25 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
         )
 
     def validate(self, attrs):
+        password = User.objects.make_random_password()
+        attrs['password'] = password
+        self.context["password"] = password
         bank_employee = attrs.pop('bankemployee')
         attrs['bankemployee'] = bank_employee
         return attrs
 
     def create(self, validated_data):
         bank_employee = validated_data.pop('bankemployee')
-        password = User.objects.make_random_password()
-        validated_data['password'] = password
-        self.context["password"] = password
         validated_data['created_by'] = self.context["request"].user
         instance = super().create(validated_data)
+
+        set_password_change_required(instance)
 
         bank = bank_employee.get("bank")
         BankEmployee.objects.create(
             user=instance,
             bank=bank,
-            unit=bank_employee['unit']
+            unit=bank_employee.get("unit")
         )
         return instance
 
@@ -96,7 +102,6 @@ class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
             'email',
             'first_name',
             'last_name',
-            'password',
             'phone',
             'role',
             'created_by',
@@ -105,6 +110,9 @@ class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
         )
 
     def validate(self, attrs):
+        password = User.objects.make_random_password()
+        attrs['password'] = password
+        self.context["password"] = password
         merchant = attrs.pop('merchant')
         terminals = attrs.pop('terminals', None)
         attrs = super().validate(attrs)
@@ -116,10 +124,10 @@ class MerchantRegistrationSerializer(BaseUserRegistrationSerializer):
         merchant = validated_data.pop('merchant')
         terminals = validated_data.pop('terminals', None)
         validated_data['created_by'] = self.context["request"].user
-        password = User.objects.make_random_password()
-        validated_data['password'] = password
-        self.context["password"] = password
         instance = super().create(validated_data)
+
+        set_password_change_required(instance)
+
         banks = merchant.pop("bank", None)
         merchant = Merchant.objects.create(user=instance, **merchant)
         if banks:

@@ -304,7 +304,7 @@ function setHiddenStatistic(){
   let role= localStorage.getItem('role');
   //console.log('setHiddenStatistic() ' + role);
 
-  if(role && (role=='cop_manager' || role=='top_level') )
+  if(role && (role=='cop_manager' /* || role=='top_level' */) )
     return false;
 
   return true;

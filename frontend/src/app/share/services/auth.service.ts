@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_CREATE_TOKEN, URL_LOGIN, URL_SET_PASS, URL_USER_ACTIVATED } from '../urlConstants';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {URL_CREATE_TOKEN, URL_LOGIN, URL_SET_PASS, URL_USER_ACTIVATED} from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,6 @@ export class AuthService {
     return this.http.get(URL_LOGIN, this.getHeaders());
   }
 
-  
   private getHeaders() {
     let body = `JWT ${localStorage.getItem('token')}`;
     return {
@@ -28,14 +27,19 @@ export class AuthService {
     };
   }
 
-
-  setPassword(data: any ){
-    return this.http.post(URL_SET_PASS, data);
+  private getTokenHeader() {
+    return new HttpHeaders().set('Authorization', `JWT ${localStorage.getItem('token')}`)
   }
-  
+
+  setPassword(data: any) {
+    return this.http.post(URL_SET_PASS, data, {
+        headers: this.getTokenHeader()
+      }
+    );
+  }
+
   userActivated(data: any){
     return this.http.post(URL_USER_ACTIVATED, data);
   }
-
 
 }

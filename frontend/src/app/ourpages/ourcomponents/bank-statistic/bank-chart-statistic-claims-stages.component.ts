@@ -10,15 +10,16 @@ import { TransferService } from '../../../share/services/transfer.service';
 import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
 
 @Component({
-    selector: 'app-chart-statistic-claims-stages',
-    templateUrl: './chart-statistic-claims-stages.component.html',
+    selector: 'app-bank-chart-statistic-claims-stages',
+    templateUrl: './bank-chart-statistic-claims-stages.component.html',
 })
-export class StatisticClaimsByStagesComponent implements OnInit {
+export class BankStatisticClaimsByStagesComponent implements OnInit {
    
     role: string;
     doughnutChartLabels: any;
     doughnutChartData: any;
     is_data_ready = false;
+    bankId: string;
 
     constructor(private transferService: TransferService,
       private httpServise: HttpService) {
@@ -27,6 +28,8 @@ export class StatisticClaimsByStagesComponent implements OnInit {
     ngOnInit(): void {
       
       this.role = localStorage.getItem('role');
+      this.bankId = this.transferService.bankID.getValue();
+      console.log(this.bankId);
 
       //   console.log('transferService.claimsByStages.getValue()');
       //   let data = this.transferService.claimsByStages.getValue();
