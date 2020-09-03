@@ -6,7 +6,6 @@ from djoser.conf import settings as djoser_settings
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -20,6 +19,7 @@ User = get_user_model()
 
 
 class CustomRegistrationView(DjoserUserViewSet):
+
     @staticmethod
     def is_create_serializer(serializer_class):
         default_create_serializer = import_string(settings.DJOSER['SERIALIZERS']['user_create'])
@@ -28,28 +28,14 @@ class CustomRegistrationView(DjoserUserViewSet):
     def get_serializer_class(self):
         serializer_class = super().get_serializer_class()
 
-        if self.action == 'create':
-            return self.handle_create_action(serializer_class)
+        if self.is_create_serializer(serializer_class):
+            return self.get_serializer_based_on_role(serializer_class)
         else:
             return serializer_class
 
-    def handle_create_action(self, serializer_class):
-        if self.request.user.is_authenticated and self.is_create_serializer(serializer_class):
-            return self.get_serializer_based_on_role(serializer_class)
-        else:
-            return CardholderRegistrationSerializer
-
-    @staticmethod
-    def can_create_all_user_types(user):
-        return user.is_cop_manager or user.is_security_officer
-
     def get_serializer_based_on_role(self, serializer_class):
         role = self.request.data.get('role')
-        user = self.request.user
-        if self.can_create_all_user_types(user):
-            serializer_class = self.get_role_serializer(role, serializer_class)
-        else:
-            raise PermissionDenied({"message": "You don't have permission to perform this action"})
+        serializer_class = self.get_role_serializer(role, serializer_class)
         return serializer_class
 
     @staticmethod
@@ -59,6 +45,7 @@ class CustomRegistrationView(DjoserUserViewSet):
             User.Roles.CHARGEBACK_OFFICER: ChargebackOfficerRegistrationSerializer,
             User.Roles.TOP_LEVEL: ChargebackOfficerRegistrationSerializer,
             User.Roles.SECURITY_OFFICER: ChargebackOfficerRegistrationSerializer,
+            User.Roles.CARDHOLDER: CardholderRegistrationSerializer,
         }
         if role in role_serializer_binding:
             return role_serializer_binding[role]

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
-import { Bank } from '../../../share/models/bank.model';
+import {Component, OnInit} from '@angular/core';
+import {HttpService} from '../../../share/services/http.service';
+import {Router} from '@angular/router';
+import {Bank} from '../../../share/models/bank.model';
 
 @Component({
   selector: 'ngx-bank',
@@ -16,7 +16,7 @@ export class BankComponent implements OnInit {
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
               private router: Router,) {
-  
+
   }
 
   ngOnInit(): void {
@@ -28,26 +28,52 @@ export class BankComponent implements OnInit {
     if(this.enter() == 0){
 
       console.log(this.data);
-    
+
       this.httpService.createNewBank(this.data).subscribe({
         next: (response: any) => {
           console.log('ok');
-          console.log(response); 
+          console.log(response);
+
+          const bank_id = response['id'];
+          const user_data = {
+            'role': 'top_level',
+            'first_name': this.data.contact_person,
+            'last_name': this.data.contact_person,
+            'email': this.data.contact_email,
+            'phone': this.data.contact_telephone,
+            'bankemployee': {
+              'bank': bank_id,
+            },
+          };
+
+          this.httpService.createNewUser(user_data).subscribe({
+              next: (response: any) => {
+                console.log('ok');
+                console.log(response);
+              },
+              error: error => {
+                console.error('There was an error!', error);
+              },
+              complete: () => {
+              }
+          })
+
           this.router.navigate(['ourpages', 'ourcomponents','bank-list']);
+
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-        
+
         }
       });
 
     }
-    
+
   }
 
-  
+
 
   enter() {
 

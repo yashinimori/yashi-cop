@@ -49,7 +49,6 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Default user for cop.
     """
-
     class Roles:
         TOP_LEVEL = 'top_level'
         SECURITY_OFFICER = 'security_officer'
@@ -75,6 +74,7 @@ class User(AbstractUser):
     last_name = models.CharField(_("Last name of User"), max_length=999)
     role = models.CharField(max_length=999, choices=Roles.CHOICES)
     phone = models.CharField(max_length=13)
+    password_change_required = models.BooleanField(default=False)
     email = models.EmailField(_('email address'), unique=True, max_length=999)
     displayable_claim_fields = ArrayField(models.CharField(max_length=128), default=CLAIM_DEFAULT_DISPLAY_FIELDS)
     registration_date = models.DateField(auto_now_add=True, editable=False)

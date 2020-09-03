@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { URL_GET_CLAIM_LIST, 
-  URL_GET_MERCHANTS, 
-  URL_CREATE_CLAIM, 
+import { URL_GET_CLAIM_LIST,
+  URL_GET_MERCHANTS,
+  URL_CREATE_CLAIM,
   URL_GET_TRANSACTIONS_LIST,
   URL_UPLOAD_ATM_LOG,
   URL_CREATE_NEW_USER,
@@ -91,7 +91,7 @@ export class HttpService {
 
 
   createNewUser(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user);
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
   }
 
   createNewBank(user: any){
@@ -101,7 +101,7 @@ export class HttpService {
   createNewUserBank(user: any){
     //return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
     return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
-    
+
   }
 
   createNewUserMerch(user: any){
@@ -119,7 +119,7 @@ export class HttpService {
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-   
+
   uploadATMlog(file: any) {
     const formData: FormData = new FormData();
     formData.append('log', file, file.name);
@@ -171,7 +171,7 @@ export class HttpService {
   getBank(id: any) {
     return this.http.get(URL_BANK + '/' + id, this.getHeaders());
   }
-  
+
 
   getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
@@ -236,28 +236,28 @@ export class HttpService {
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-  
+
   getBankCountNewClaims(bankId: string) {
     let req = '';
     req = `${URL_BANK_COUNT_NEW_CLAIMS}${bankId}/stats/`;
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-  
+
   getCountUpdatedClaims() {
     let req = '';
     req = `${URL_COUNT_UPDATED_CLAIMS}`;
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-  
+
   getCountNewClaims() {
     let req = '';
     req = `${URL_COUNT_NEW_CLAIMS}`;
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-  
+
   getCountClaimsByStages() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_STAGES}`;
@@ -265,7 +265,7 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
-  
+
   getCountClaimsByRcGroup() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_RC_GROUP}`;
@@ -273,7 +273,7 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
-  
+
   getCountClaimsBySupport() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_SUPPORT}`;
@@ -304,7 +304,7 @@ export class HttpService {
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
-  
+
   getLoggerList(userId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
 
