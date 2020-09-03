@@ -24,6 +24,8 @@ import { URL_GET_CLAIM_LIST,
   URL_COUNT_CLAIMS_BY_STAGES,
   URL_COUNT_CLAIMS_BY_RC_GROUP,
   URL_COUNT_CLAIMS_BY_SUPPORT,
+  URL_CREATE_NEW_ATM,
+  URL_GET_ATMS,
 
 } from '../urlConstants';
 
@@ -104,7 +106,6 @@ export class HttpService {
   createNewUserMerch(user: any){
     return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
   }
-
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
@@ -279,5 +280,28 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
+  createNewATM(atm: any){
+    return this.http.post(URL_CREATE_NEW_ATM, atm, this.getHeaders());
+  }
+
+  getAtmList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = '';
+
+    // if(pageSize > 0 && pageNumber > 0)
+    //   req = `${URL_GET_ATMS}/?page_size=${pageSize}&page=${pageNumber}`;
+    // else
+    //   req = `${URL_GET_ATMS}/?all`;
+
+    req = `${URL_GET_ATMS}/?all&bank=${bankId}`;
+
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
 
 }

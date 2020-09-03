@@ -11,6 +11,7 @@ import { Bank } from '../../../share/models/bank.model';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
+import { ATM } from '../../../share/models/atm.model';
 
 @Component({
   selector: 'ngx-bank-single',
@@ -29,6 +30,10 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   bankMerchData: Array<MerchUser>;
   settingsMerch: any;
   sourceMerch: LocalDataSource;
+  atmData: Array<ATM>;
+  settingsATM: any;
+  sourceATM: LocalDataSource;
+
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -60,6 +65,10 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.setSettingsGridMerch(this.role);
     this.getMerchantData(this.bankID);
     
+    this.setSettingsGridATM(this.role);
+    this.getAtmData(this.bankID);
+
+    
   }
   
   createBankUser(){
@@ -70,6 +79,11 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   createMerch(){
     this.transferService.bankID.next(this.bankID);
     this.router.navigate(['ourpages', 'ourcomponents', 'merch-user']);
+  }
+
+  createATM(){
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'atm']);
   }
 
   generateStatusFields() {
@@ -395,4 +409,136 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.transferService.bankID.next(this.bankID);
     this.router.navigate(['ourpages', 'ourcomponents', 'bank-statistic']);
   }
+
+
+  setSettingsGridATM(role:string){
+    console.log('setSettingsGridMerchant(c:string)' + role);
+
+    switch(role){
+      //case 'admin':
+      //case 'chargeback_officer':
+      case 'cop_manager': {
+        this.settingsATM = {
+          pager:{perPage: this.pagerSize},
+          //hideSubHeader: true,
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+          columns: {
+            // id: {
+            //   title: 'ID',
+            //   type: 'string',
+            // },
+            // first_name: {
+            //   title: 'Імя',
+            //   type: 'string',
+            // },
+            // last_name: {
+            //   title: 'Прізвище',
+            //   type: 'string',
+            // },
+            merch_id: {
+              title: 'Merchant ID',
+              type: 'string',
+            },
+            name_legal: {
+              title: 'юридична назва',
+              type: 'string',
+            },
+            mcc: {
+              title: 'MCC',
+              type: 'string',
+            },
+            description: {
+              title: 'вид діяльності',
+              type: 'string',
+            },
+            name_ips: {
+              title: 'назва торговця в МПС',
+              type: 'string',
+            },
+            address: {
+              title: 'Адрес',
+              type: 'string',
+            },
+            contact_person: {
+              title: 'контактна особа',
+              type: 'string',
+            },
+      
+          },
+        };
+      }
+      break;
+      default: {
+        this.settingsATM = {
+          actions:{
+            add: false,
+            edit: false,
+            delete: false,
+          },
+        };
+      }
+
+    }
+ 
+
+  }
+
+  getAtmData(id: any) {
+    console.log('getAtmData()');
+    this.atmData = new Array<ATM>();
+
+    let self = this;
+    let pageSize = 0;
+    let pageNumber = 0;
+    this.bankUsersSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
+      next: (response: any) => {
+        console.log('loaded atm '); 
+        console.log(response);
+
+        let data: any;
+
+        if(pageSize > 0 && pageNumber > 0)
+          data = response.results;
+        else
+          data = response;
+
+        data.forEach(el => {
+          let t = new ATM();
+    
+          t.id = el['id'];
+          t.merch_id = el['merch_id'];
+          t.name_legal = el['name_legal'];
+          t.mcc = el['mcc'];
+          t.description = el['description'];
+          t.name_ips = el['name_ips'];
+          t.address = el['address'];
+          t.contact_person = el['contact_person'];
+          t.bank = id;
+
+          self.atmData.push(t);
+          
+          //console.log(t);
+
+        });
+        
+        self.sourceATM = new LocalDataSource();
+        self.sourceATM.load(self.atmData);
+
+        console.log(self.sourceBankUser);
+        
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+       
+      }
+    });
+  }
+  
+
 }
