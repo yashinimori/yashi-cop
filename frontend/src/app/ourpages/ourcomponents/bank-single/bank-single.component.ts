@@ -292,7 +292,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             name_legal: {
-              title: 'юридична назва',
+              title: 'Юридична назва',
               type: 'string',
             },
             mcc: {
@@ -300,7 +300,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             description: {
-              title: 'вид діяльності',
+              title: 'Вид діяльності',
               type: 'string',
             },
             phone: {
@@ -312,7 +312,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             name_ips: {
-              title: 'назва торговця в МПС',
+              title: 'Назва торговця в МПС',
               type: 'string',
             },
             address: {
@@ -324,7 +324,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             contact_person: {
-              title: 'контактна особа',
+              title: 'Контактна особа',
               type: 'string',
             },
       
@@ -444,7 +444,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             name_legal: {
-              title: 'юридична назва',
+              title: 'Юридична назва',
               type: 'string',
             },
             mcc: {
@@ -452,11 +452,11 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             description: {
-              title: 'вид діяльності',
+              title: 'Вид діяльності',
               type: 'string',
             },
             name_ips: {
-              title: 'назва торговця в МПС',
+              title: 'Назва торговця в МПС',
               type: 'string',
             },
             address: {
@@ -464,7 +464,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             contact_person: {
-              title: 'контактна особа',
+              title: 'Контактна особа',
               type: 'string',
             },
       
@@ -494,7 +494,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.bankUsersSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
+    this.bankUsersSubscription = this.httpServise.getAtmList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         console.log('loaded atm '); 
         console.log(response);

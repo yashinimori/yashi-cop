@@ -292,7 +292,7 @@ export class HttpService {
     // else
     //   req = `${URL_GET_ATMS}/?all`;
 
-    req = `${URL_GET_ATMS}/?all&bank=${bankId}`;
+    req = `${URL_GET_ATMS}?all&bank=${bankId}`;
 
     if(search != undefined) {
       req = req + `&search=${search}`;
