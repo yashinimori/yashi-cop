@@ -466,5 +466,9 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     });
   }
 
+  goStatistic(){
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['ourpages', 'ourcomponents', 'bank-statistic']);
+  }
 
 }

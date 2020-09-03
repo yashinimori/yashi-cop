@@ -1,0 +1,64 @@
+<script src="node_modules/chart.js/src/chart.js"></script>
+
+<div *ngIf="role ==='top_level' || role ==='cop_manager'" >
+
+  <nb-card>
+    
+      <nb-card-header>
+        Статистика
+        <button  nbButton status="primary" (click)="goBack()">Повернутись</button>
+      </nb-card-header>
+    
+      <nb-card-body>
+
+      <div class="row">
+
+        <nb-card class="col-3 col-sm-2">
+            <nb-card-header>блок 1</nb-card-header>
+            <nb-card-body>
+                <div style="text-align: center;">
+                  new_claims: {{b1_new_claims}}
+                  attend_to_claims: {{b1_attend_to_claims}}
+                </div>
+            </nb-card-body>
+        </nb-card>
+
+        <nb-card class="col-3 col-sm-5" >
+            <nb-card-header>блок 2</nb-card-header>
+            <nb-card-body style="width: 100%;">
+              <div style="text-align: center;">
+                <app-bank-chart-statistic-claims-stages></app-bank-chart-statistic-claims-stages>
+              </div>
+            </nb-card-body>
+        </nb-card>
+        
+      </div>
+
+
+
+      <div class="row">
+        
+        <nb-card class="col-3 col-sm-5">
+            <nb-card-header>блок 3</nb-card-header>
+            <nb-card-body>
+                <div style="text-align: center;">
+                  <app-bank-chart-statistic-claims-rc-group></app-bank-chart-statistic-claims-rc-group>
+                </div>
+            </nb-card-body>
+        </nb-card>
+
+        <nb-card class="col-3 col-sm-2">
+            <nb-card-header>блок 4</nb-card-header>
+            <div style="text-align: center; ">
+              active_bank_users: {{b4_active_bank_users}}              
+            </div>    
+        </nb-card>
+        
+      </div>
+
+
+      </nb-card-body>
+
+  </nb-card>
+
+</div>

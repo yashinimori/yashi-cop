@@ -44,6 +44,9 @@ import { ChartssComponent } from './chartss/chartss.component';
 import { StatisticComponent } from './statistic/statistic.component';
 import { StatisticClaimsByStagesComponent } from './statistic/chart-statistic-claims-stages.component';
 import { StatisticClaimsByRcGroupComponent } from './statistic/chart-statistic-claims-rc-group.component';
+import { BankStatisticClaimsByRcGroupComponent } from './bank-statistic/bank-chart-statistic-claims-rc-group.component';
+import { BankStatisticClaimsByStagesComponent } from './bank-statistic/bank-chart-statistic-claims-stages.component';
+import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 
 
 @NgModule({
@@ -94,6 +97,9 @@ import { StatisticClaimsByRcGroupComponent } from './statistic/chart-statistic-c
     StatisticComponent,
     StatisticClaimsByStagesComponent,
     StatisticClaimsByRcGroupComponent,
+    BankStatisticComponent,
+    BankStatisticClaimsByRcGroupComponent,
+    BankStatisticClaimsByStagesComponent,
   ],
   // providers: [
     

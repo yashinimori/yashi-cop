@@ -21,6 +21,7 @@ import { TopOfficerComponent } from './top-officer/top-officer.component';
 import { SecurOfficerComponent } from './secur-officer/secur-officer.component';
 import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-user.component';
 import { StatisticComponent } from './statistic/statistic.component';
+import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 
 const routes: Routes = [{
   path: '',
@@ -113,6 +114,10 @@ const routes: Routes = [{
     {
       path: 'statistic',
       component: StatisticComponent,
+    },
+    {
+      path: 'bank-statistic',
+      component: BankStatisticComponent,
     },
 
   ],
