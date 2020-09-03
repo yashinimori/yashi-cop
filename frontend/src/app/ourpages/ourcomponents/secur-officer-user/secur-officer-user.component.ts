@@ -52,7 +52,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     this.generateStatusFields();
 
     this.setSettingsGridLogs(this.role);
-    //this.getLogsData(this.userId);
+    this.getLogsData(this.userId);
 
     this.getUserData(this.userId);
     
@@ -70,7 +70,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   }
 
   setSettingsGridLogs(role:string){
-    console.log('setSettingsGridBankUser()' + role);
+    console.log('setSettingsGridLogs()' + role);
 
     switch(role){
       case 'security_officer': {
@@ -83,44 +83,28 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-            // id: {
-            //   title: 'ID',
-            //   type: 'string',
-            // },
-            userId: {
-              title: 'Користувач',
-              type: 'string',
+             id: {
+               title: 'ID',
+               type: 'string',
             },
-            role: {
-              title: 'Роль',
-              type: 'string',
+            action_time: {
+              title: 'Дата',
+              valuePrepareFunction: (action_time) => {
+                if(action_time)
+                  return this.datePipe.transform(new Date(action_time), 'dd-MM-yyyy hh:mm:ss');
+                else
+                  return '';
+              }
             },
-            first_name: {
-              title: 'Імя',
+            change_message: {
+              title: 'Повідомленя',
               type: 'string',
-            },
-            last_name: {
-              title: 'Прізвище',
+           },
+            ip: {
+              title: 'IP',
               type: 'string',
-            },
-            unit: {
-              title: 'Підрозділ',
-              type: 'string',
-            },
-            phone: {
-              title: 'Телефон',
-              type: 'string',
-            },
-            email: {
-              title: 'Пошта',
-              type: 'string',
-            },
-            registration_date:{
-              title: 'Регістрація',
-              type: 'string',
-  
-            }
-          },
+           },
+         },
         };
       }
       break;
@@ -144,7 +128,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
+    this.bankUsersSubscription = this.httpServise.getLoggerList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         console.log('loaded logs '); 
         console.log(response);
@@ -156,26 +140,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         else
           data = response;
 
-        data.forEach(el => {
-          let t = new BankUser();
-          
-          let user = el['user'];
-          
-          t.id = user['id'];
-          t.first_name = user['first_name'];
-          t.last_name = user['last_name'];
-          t.email = user['email'];
-          t.phone = user['phone'];
-          t.role = user['role'];
-          t.userId = user['userId'];
-          t.unit = el['unit'];
-          t.registration_date = user['registration_date'];
-
-          self.logsData.push(t);
-          
-          //console.log(t);
-
-        });
+          self.logsData = data;
         
         self.sourceLogs = new LocalDataSource();
         self.sourceLogs.load(self.logsData);

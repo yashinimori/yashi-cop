@@ -1,17 +1,17 @@
-<nb-card style="height: 99%;">
+<nb-card style="height: 40em; ">
   
     <nb-card-header>
       Данні
     </nb-card-header>
   
-    <nb-card-body>
+    <nb-card-body style="overflow-y: hidden;">
       <div class="col-12">
-        <nb-card size="small">
+        <nb-card size="small" style="height: 33em;">
           <nb-tabset fullWidth>
 
             <nb-tab tabTitle="Користувачи">
               <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
-              <nb-card style="height: 250px;">
+              <nb-card style="height: 25em;">
                 <nb-card-body>
 
                   <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser"

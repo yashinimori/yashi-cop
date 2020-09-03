@@ -26,6 +26,7 @@ import { URL_GET_CLAIM_LIST,
   URL_COUNT_CLAIMS_BY_SUPPORT,
   URL_CREATE_NEW_ATM,
   URL_GET_ATMS,
+  URL_GET_LOGGER,
 
 } from '../urlConstants';
 
@@ -303,5 +304,26 @@ export class HttpService {
     //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
+  
+  getLoggerList(userId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
+    let req = '';
+
+    // if(pageSize > 0 && pageNumber > 0)
+    //   req = `${URL_GET_LOGGER}/?page_size=${pageSize}&page=${pageNumber}`;
+    // else
+    //   req = `${URL_GET_LOGGER}/?all`;
+
+    req = `${URL_GET_LOGGER}?all&user=${userId}`;
+
+    if(search != undefined) {
+      req = req + `&search=${search}`;
+    }
+    if(ordering != undefined) {
+      req = req + `&ordering=${ordering}`;
+    }
+    //console.log(req);
+    return this.http.get(req, this.getHeaders());
+  }
+
 
 }
