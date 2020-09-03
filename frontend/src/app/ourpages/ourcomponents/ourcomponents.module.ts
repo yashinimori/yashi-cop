@@ -47,6 +47,7 @@ import { StatisticClaimsByRcGroupComponent } from './statistic/chart-statistic-c
 import { BankStatisticClaimsByRcGroupComponent } from './bank-statistic/bank-chart-statistic-claims-rc-group.component';
 import { BankStatisticClaimsByStagesComponent } from './bank-statistic/bank-chart-statistic-claims-stages.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
+import { ATMComponent } from './atm/atm.component';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import { BankStatisticComponent } from './bank-statistic/bank-statistic.componen
     BankStatisticComponent,
     BankStatisticClaimsByRcGroupComponent,
     BankStatisticClaimsByStagesComponent,
+    ATMComponent,
   ],
   // providers: [
     
