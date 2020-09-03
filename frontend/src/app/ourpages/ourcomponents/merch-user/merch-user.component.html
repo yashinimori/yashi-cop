@@ -12,9 +12,9 @@
 
       <input nbInput placeholder="Merchant ID" [(ngModel)]="data.merch_id" maxlength="999">
       <div class="div-panel">
-        <label class="label-caption">Банк</label>
         <nb-select class="selector-list"
           [(ngModel)]="bankID"
+          placeholder="Банк"
         >
           <nb-option *ngFor="let item of banksList" [value]="item.id">
             {{ item.name_eng }}
