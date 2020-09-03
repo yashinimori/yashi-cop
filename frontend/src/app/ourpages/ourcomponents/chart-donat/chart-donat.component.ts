@@ -13,77 +13,80 @@ import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model'
     selector: 'app-chart-donat',
     templateUrl: './chart-donat.component.html',
 })
-export class ChartDonatComponent {
-    data: DoughnutTransfer;
-    claims: any;
-    doughnutChartLabels: Label[] = ['pre-mediation', 'mediation', 'chargeback', 'chargeback escalation', 'closed'];
-    doughnutChartType: ChartType = 'doughnut';
-    doughnutChartData: MultiDataSet = [];
-    is_data_ready = false;
-    colours = ["rgba(0, 108, 112, 1)",
-            "rgba(224, 224, 0, 1)",
-            "rgba(224, 0, 112, 1)",
-            "rgba(224, 50, 37, 1)",
-            "rgba(51, 70, 0, 1)"]
-    constructor(public transferService: TransferService,
-      public httpServise: HttpService) {
-    }
-    
-    
-
-    claimsSubscription: Subscription = new Subscription();
-    source: LocalDataSource;
+export class ChartDonatComponent implements OnInit {
+   
     role: string;
-    
+    doughnutChartLabels: any;
+    doughnutChartData: any;
+    is_data_ready = false;
+
+    constructor(private transferService: TransferService,
+      private httpServise: HttpService) {
+    }
 
     ngOnInit(): void {
-      console.log('ChartDonatComponent');
-      // this.getClaimsData();
+      
       this.role = localStorage.getItem('role');
-      // console.log(this.data)
-      console.log(this.doughnutChartData);
-      //this.loadCountClaimsByStages();
-      console.log(this.doughnutChartData);
 
-      // this.data = this.transferService.doughnutTransfer.getValue();
+      //   console.log('transferService.claimsByStages.getValue()');
+      //   let data = this.transferService.claimsByStages.getValue();
+      //   console.log(data);
 
-      // if(this.data){
-      //   this.doughnutChartLabels = this.data.chartLabels;
-      //   this.doughnutChartType = this.data.chartType;
-      //   this.doughnutChartData = this.data.chartData;
-      //   this.colours = this.data.colours;
-      // }
-
+      this.doughnutChartData = [ { data: [] } ];
+      this.doughnutChartLabels = [];
+      this.loadCountClaimsByStages();
+      
     }
 
-    
-  
+
     loadCountClaimsByStages(){
-      //console.log('getCountClaimsByStages()');
+      console.log('getCountClaimsByStages()');
       this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
-          this.claims = response;
-          console.log(this.claims['pre_mediation_claims']);
-          console.log(response);
-          this.doughnutChartData = [
-            [this.claims['pre_mediation_claims'], this.claims['mediation_claims'], this.claims['chargeback_claims'], this.claims['chargeback_escalation_claims'], this.claims['closed_claims']]
+          //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          //console.log(response);
+          
+          this.doughnutChartLabels = [
+            'arbitration_claims',
+            'chargeback_claims',
+            'chargeback_escalation_claims',
+            'closed_claims',
+            'dispute_claims',
+            'dispute_response_claims',
+            'final_ruling_claims',
+            'mediation_claims',
+            'pre_arbitration_claims',
+            'pre_arbitration_response_claims',
+            'pre_mediation_claims'
           ];
-          // this.doughnutChartData
+          
+          this.doughnutChartData  = [{
+            data: [
+              response['arbitration_claims'],
+              response['chargeback_claims'],
+              response['chargeback_escalation_claims'],
+              response['closed_claims'],
+              response['dispute_claims'],
+              response['dispute_response_claims'],
+              response['final_ruling_claims'],
+              response['mediation_claims'],
+              response['pre_arbitration_claims'],
+              response['pre_arbitration_response_claims'],
+              response['pre_mediation_claims']
+            ] 
+          }];
+
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-          this.is_data_ready = true;
+      
         }
       });
   
     }
+  
     
-    
-    
-    ngOnDestroy(): void {
-      this.claimsSubscription.unsubscribe();
-    }
   }
   

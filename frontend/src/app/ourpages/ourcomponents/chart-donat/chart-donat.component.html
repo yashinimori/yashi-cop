@@ -1,11 +1,8 @@
-<script src="node_modules/chart.js/src/chart.js"></script>
-<!-- <div style="display: block; width: 100%; height: 100%;" > -->
-
-<div style="width: 100%; height: 100%;" >    
+<div style="display: block;  ;width: 100%; height: 100%;" >    
     <canvas baseChart
-                [data]="doughnutChartData"
-                [labels]="doughnutChartLabels"
-                [chartType]="doughnutChartType" 
-                id="canvas">
+        [datasets]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="'doughnut'" 
+        id="canvas">
     </canvas>
 </div>

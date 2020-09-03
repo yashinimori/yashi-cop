@@ -1,14 +1,14 @@
 <div class="row">
     <nb-card class="col-6 col-sm-3">
         <nb-card-header>Претензії без призначення</nb-card-header>
-        <!-- <nb-card-body> -->
-            <!-- {{ claimsLen.length }} -->
-        <!-- </nb-card-body> -->
+        <nb-card-body>
+            {{ all_new_claims }}
+        </nb-card-body>
     </nb-card>
     <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Мої звернення</nb-card-header>
+        <nb-card-header>Претензії оновлені</nb-card-header>
         <nb-card-body>
-        0
+        {{ all_updated_claims }}
         </nb-card-body>
     </nb-card>
     <nb-card class="col-6 col-sm-3">

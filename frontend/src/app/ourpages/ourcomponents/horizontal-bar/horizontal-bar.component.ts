@@ -1,141 +1,79 @@
 import {Component, OnInit} from '@angular/core'
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { ChartType } from 'chart.js';
+import { MultiDataSet, Label } from 'ng2-charts';
+import { ClaimView } from '../../../share/models/claim-view.model';
 import { HttpService } from '../../../share/services/http.service';
+import { Subscription } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
-import { NbThemeService, NbColorHelper } from '@nebular/theme';
+import { DatePipe } from '@angular/common';
+import { TransferService } from '../../../share/services/transfer.service';
+import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
 
 @Component({
     selector: 'app-horizontal-bar',
     templateUrl: './horizontal-bar.component.html',
 })
+export class HorizontalBarComponent implements OnInit {
+   
+    role: string;
+    barLabels: any;
+    barData: any;
+    is_data_ready = false;
 
-export class HorizontalBarComponent{
-    types: any;
-    themeSubscription: any;
-    barChartOptions: ChartOptions = {
-        responsive: true,
-      };
-      barChartLabels: Label[] = ['authorization_claims', 'cardholder_disputes_claims', 'fraud_claims', 'point_of_interaction_error_claims'];
-      barChartType: ChartType = 'bar';
-      barChartLegend = true;
-      barChartPlugins = [];
-      source: LocalDataSource;
-      role: string;
-      public barChartData: ChartDataSets[];
-      is_bar_data_ready = false;
-      data: any;
-      options: any;
-  httpServise: any;
+    constructor(private transferService: TransferService,
+      private httpServise: HttpService) {
+    }
+
+    ngOnInit(): void {
       
-      constructor(private theme: NbThemeService,
-        ) {
-           }
-      // constructor(
-      //   private httpServise: HttpService) {
-      //     this.data = {
-      //       labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-      //       datasets: [{
-      //         data: [65, 59, 80, 81, 56, 55, 40],
-      //         label: 'Series A',
-      //         // backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-      //       }, {
-      //         data: [28, 48, 40, 19, 86, 27, 90],
-      //         label: 'Series B',
-      //         // backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-      //       }],
-      //     };
-      // }
+      this.role = localStorage.getItem('role');
 
-      ngOnInit(): void{
-        this.role = localStorage.getItem('role');
-        this.someFunction();
-        // this.loadCountClaimsByRcGroup();
-      }
-    
+      //   console.log('transferService.claimsByStages.getValue()');
+      //   let data = this.transferService.claimsByStages.getValue();
+      //   console.log(data);
 
-      someFunction(){
-        this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-
-          const colors: any = config.variables;
-          const chartjs: any = config.variables.chartjs;
-    
-          this.data = {
-            labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-            datasets: [{
-              data: [65, 59, 80, 81, 56, 55, 40],
-              label: 'Series A',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-            }, {
-              data: [28, 48, 40, 19, 86, 27, 90],
-              label: 'Series B',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-            }],
-          };
-    
-          this.options = {
-            maintainAspectRatio: false,
-            responsive: true,
-            legend: {
-              labels: {
-                fontColor: chartjs.textColor,
-              },
-            },
-            scales: {
-              xAxes: [
-                {
-                  gridLines: {
-                    display: false,
-                    color: chartjs.axisLineColor,
-                  },
-                  ticks: {
-                    fontColor: chartjs.textColor,
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    display: true,
-                    color: chartjs.axisLineColor,
-                  },
-                  ticks: {
-                    fontColor: chartjs.textColor,
-                  },
-                },
-              ],
-            },
-          };
-        });
-        }
+      this.barData = [ { data: [] } ];
+      this.barLabels = [];
+      this.loadCountClaimsByRcGroup();
+      
+    }
 
 
-
-
-
-      loadCountClaimsByRcGroup(){
-        console.log('getCountClaimsByRcGroup()');
-        this.httpServise.getCountClaimsByRcGroup().subscribe({
-          next: (response: any) => {
-            this.types = response;
-            console.log('response');
-            console.log(response);
-            // this.barChartData = [
+    loadCountClaimsByRcGroup(){
+      console.log('getCountClaimsByStages()');
+      this.httpServise.getCountClaimsByRcGroup().subscribe({
+        next: (response: any) => {
+          //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          console.log(response);
+          
+          this.barLabels = [
+            'authorization_claims',
+            'cardholder_disputes_claims',
+            'fraud_claims',
+            'point_of_interaction_error_claims',
+          ];
+          
+          this.barData  = [{
+            data: [
+              response['authorization_claims'],
+              response['cardholder_disputes_claims'],
+              response['fraud_claims'],
+              response['point_of_interaction_error_claims'],
               
-            //     // { data: [this.types['authorization_claims'], this.types['cardholder_disputes_claims'], this.types['fraud_claims'], this.types['point_of_interaction_error_claims']], 
-            // { data: [1,2,3,4], label: 'типи скарг' }
-            
-            // ];
-            console.log(this.barChartData);
-          },
-          error: error => {
-            console.error('There was an error!', error);
-          },
-          complete: () => {
-            this.is_bar_data_ready = true;
-          }
-        });
-    
-      }
+            ] 
+          }];
+
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+      
+        }
+      });
   
+    }
+  
+    
   }
+  
