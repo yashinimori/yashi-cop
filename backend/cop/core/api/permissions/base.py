@@ -14,6 +14,11 @@ class AllowCopManagerPermission(permissions.BasePermission):
         return request.user.is_cop_manager
 
 
+class AllowTopLevelPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_top_level
+
+
 class AllowSecurityOfficerPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_security_officer

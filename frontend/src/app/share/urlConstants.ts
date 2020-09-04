@@ -30,6 +30,7 @@ export const URL_BANK_USERS = `${MAIN_URL}/api/v1/bank-employees`;
 
 export const URL_RESET_PASS = `${MAIN_URL}/api/v1/users/reset_password/`;
 export const URL_SET_PASS = `${MAIN_URL}/api/v1/users/set_password/`;
+export const RESET_PASSWORD_CONFIRM = `${MAIN_URL}/api/v1/users/reset_password_confirm/`;
 
 
 export const URL_GET_TIMELINE_INFO = `${MAIN_URL}/api/v1/claim`;
