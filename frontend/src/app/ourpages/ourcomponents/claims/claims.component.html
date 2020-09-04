@@ -1,12 +1,15 @@
 <div *ngIf="!fieldsStatus.list_claims.invisible">
-  <div *ngIf="!fieldsStatus.button_add_claim.invisible" class="button-enter">
-    <button  nbButton status="primary" (click)="add_claim()">Додати скаргу</button>
-    <!-- <a nbButton status="primary" href="ourpages/ourcomponents/single-claim"></a> -->
-  </div>
-  <nb-card style="margin-top: 10px;">
+  <nb-card style="height: 40em;">
     
       <nb-card-header>
-        Список скарг
+        <div style="display: flex;">
+          Список скарг
+          <div *ngIf="!fieldsStatus.button_add_claim.invisible && stageParam=='all'" 
+            class="button-enter" style="margin-left: 10px;">
+            <button  nbButton status="primary" (click)="add_claim()">Додати скаргу</button>
+          </div>
+        </div>
+              
       </nb-card-header>
     
       <nb-card-body>
