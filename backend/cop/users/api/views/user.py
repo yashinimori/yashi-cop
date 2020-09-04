@@ -64,6 +64,8 @@ class CustomRegistrationView(DjoserUserViewSet):
         if djoser_settings.SEND_ACTIVATION_EMAIL and user.is_cardholder:
             djoser_settings.EMAIL.activation(self.request, context).send(to)
         if djoser_settings.SEND_ACTIVATION_EMAIL and not user.is_cardholder:
+            user.is_active = True
+            user.save()
             djoser_settings.EMAIL.password_reset(self.request, context).send(to)
         elif djoser_settings.SEND_CONFIRMATION_EMAIL:
             djoser_settings.EMAIL.confirmation(self.request, context).send(to)
