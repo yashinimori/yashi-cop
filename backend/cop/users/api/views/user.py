@@ -61,7 +61,7 @@ class CustomRegistrationView(DjoserUserViewSet):
             "password": serializer.validated_data['password'],
         }
         to = [get_user_email(user)]
-        if djoser_settings.SEND_ACTIVATION_EMAIL and user.is_cardholder:
+        if djoser_settings.SEND_ACTIVATION_EMAIL:
             djoser_settings.EMAIL.activation(self.request, context, template_name='email/custom_activation.html').send(
                 to)
         elif djoser_settings.SEND_CONFIRMATION_EMAIL:
