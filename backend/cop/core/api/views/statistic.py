@@ -15,7 +15,7 @@ User = get_user_model()
 
 
 class BankStats(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
@@ -81,7 +81,7 @@ class BankStats(APIView):
 
 
 class BankUpdatedClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
@@ -104,7 +104,7 @@ class BankUpdatedClaimsStatistics(APIView):
 
 
 class ClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request):
@@ -120,7 +120,7 @@ class ClaimsStatistics(APIView):
 
 
 class UpdatedClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
@@ -142,7 +142,7 @@ class UpdatedClaimsStatistics(APIView):
 
 
 class ClaimsStatisticsByStatusStage(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request):
@@ -188,7 +188,7 @@ class ClaimsStatisticsByStatusStage(APIView):
 
 
 class ClaimsStatisticsByRcGroup(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request):
@@ -218,7 +218,7 @@ class ClaimsStatisticsByRcGroup(APIView):
 
 
 class ClaimsStatisticsBySupportChoices(APIView):
-    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
                           AllowTopLevelPermission)
 
     def get(self, request):
