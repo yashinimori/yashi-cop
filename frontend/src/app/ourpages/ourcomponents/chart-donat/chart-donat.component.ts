@@ -40,7 +40,7 @@ export class ChartDonatComponent implements OnInit {
 
 
     loadCountClaimsByStages(){
-      console.log('getCountClaimsByStages()');
+      //console.log('getCountClaimsByStages()');
       this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
           //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');

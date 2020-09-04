@@ -45,11 +45,8 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('BankSingleComponent role ' +this.role);
     this.userId = localStorage.getItem('user_id');
-    console.log('BankSingleComponent userId ' +this.userId);
     this.bankID = this.transferService.bankID.getValue();
-    console.log('this.bankID = ' + this.bankID);
 
     this.generateStatusFields();
     this.setSettingsGridBankUser(this.role);
@@ -59,12 +56,8 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   }
   
   getBankEmployees(userId: any){
-    
-
     this.httpServise.getBankEmployees(Number(userId)).subscribe({
       next: (response: any) => {
-        //console.log('getBankEmployees()'); 
-        //console.log(response);
 
         if(response && response['length'] ){
 
@@ -72,9 +65,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
           this.bankID = data.bank.id;
           
           this.getBankUserData(this.bankID);
-
         }
-
       }
     });
   }
@@ -87,7 +78,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    //console.log(this.fieldsStatus);
   }
   
   
@@ -98,8 +88,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
 
   setSettingsGridBankUser(role:string){
-    //console.log('setSettingsGridBankUser()' + role);
-
     switch(role){
       case 'security_officer': {
         this.settingsBankUser = {
@@ -166,7 +154,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   }
 
   getBankUserData(id: any) {
-    //console.log('getBankUserData()');
     this.bankUserData = new Array<BankUser>();
 
     let self = this;
@@ -174,9 +161,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded bank users '); 
-        //console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -201,15 +185,11 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
           self.bankUserData.push(t);
           
-          //console.log(t);
-
         });
         
         self.sourceBankUser = new LocalDataSource();
         self.sourceBankUser.load(self.bankUserData);
-
-        //console.log(self.sourceBankUser);
-        
+       
       },
       error: error => {
         console.error('There was an error!', error);

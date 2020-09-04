@@ -32,9 +32,6 @@ export class MerchUserComponent implements OnInit {
 
     this.bankID = this.transferService.bankID.getValue();
     this.bankBin = this.transferService.bankBIN.getValue();
-
-    console.log('this.bankID = ' + this.bankID);
-
     this.role = localStorage.getItem('role');
 
     this.getListBanks()
@@ -56,8 +53,6 @@ export class MerchUserComponent implements OnInit {
 
 
     if(this.enter() == 0){
-      console.log('createMerchUser()');
-      console.log(this.data);
 
       let d = {
         "email": this.data.email,
@@ -79,12 +74,10 @@ export class MerchUserComponent implements OnInit {
           }
       };
 
-      console.log(d);
 
       this.httpService.createNewUserMerch(d).subscribe({
         next: (response: any) => {
-          console.log('ok');
-          console.log(response);
+
         },
         error: error => {
           console.error('There was an error!', error);

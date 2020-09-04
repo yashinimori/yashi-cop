@@ -23,25 +23,25 @@ export class RegistrationComponent implements OnInit {
   }
  
   ngOnInit(): void {
-    console.log(this.data.role)
+    //console.log(this.data.role)
     // this.aFormGroup = this.formBuilder.group({
     //   recaptcha: ['', Validators.required]
     // });
   }
 
   resolved(captchaResponse: string, res) {
-    console.log(`Resolved response token: ${captchaResponse}`);
+    //console.log(`Resolved response token: ${captchaResponse}`);
    
   }
 
 
   createUser() {
-    console.log(this.data);
+    //console.log(this.data);
     // this.data.email.length
     this.httpService.createNewUser(this.data).subscribe({
       next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
+        //console.log('ok');
+        //console.log(response); 
         this.router.navigate(['auth', 'login']);
       },
       error: error => {

@@ -142,17 +142,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   arbitration_response_date : Date;
 
   ngOnInit(): void {
-    //console.log('ngOnInit');
-    
     this.claimData = new ClaimView();
     this.Timeline = new TimelineView();
     this.claimData.user = {};
-    
 
     this.role = localStorage.getItem('role');
-    //console.log('SingleClaimComponent role ' +this.role);
     this.claimId = this.transferService.cOPClaimID.getValue();
-    //console.log('this.claimId = ' + this.claimId);
 
     if (this.claimId.length != 0) {
       this.loadClaim();
@@ -188,7 +183,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
    
 
     this.isNewRecord = this.claimId.length == 0 ? true : false;
-    console.log('this.isNewRecord = ' + this.isNewRecord);
 
     // if(!this.isNewRecord){
     //   this.loadClaim();
@@ -219,13 +213,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   timeline(){
-    console.log('timeline()');
-
     this.httpService.getTimeLine(this.claimId).subscribe({
         next: (response: any) => {
           this.Timeline = response;
-          console.log('loaded timeline()');
-          console.log(response);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -237,14 +227,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadClaim() {
-    console.log('loadClaim');
-
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;
-          console.log('loaded Claim');
-          console.log(response);
-          console.log(this.claimData);
           this.setClaimComments();
           this.setClaimDocumsnts();
 
@@ -257,25 +242,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
-
-  // getClaim(id: any){
-  //   console.log('getClaim(id: any)');
-  //   this.httpService.getClaim(id).subscribe({
-  //     next: (response: any) => {
-  //       console.log("this.claimData--------------------------------------------------------------------------------------------");
-  //       console.log(response);
-  //       console.log("this.claimData--------------------------------------------------------------------------------------------");
-  //     },
-  //     error: error => {
-  //       console.error('There was an error!', error);
-  //     },
-  //     complete: () => {
-       
-  //     }
-  //   });
-
-  // }
+  
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
@@ -290,10 +257,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           item.create_date_str = '';
 
         item.user = el.user.first_name + ' ' + el.user.last_name;
-        //console.log('setClaimComments');
-        //console.log(el);
-        
-        //console.log(el.user.first_name);
 
         this.comments.push(item);
       });
@@ -325,9 +288,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   loadClaimDocumsnts(){
     this.httpService.getClaimDocs(this.claimId).subscribe({
       next: (response: any) => {
-        console.log("this.claimData--------------------------------------------------------------------------------------------");
-        console.log(response);
-        console.log("this.claimData--------------------------------------------------------------------------------------------");
       },
       error: error => {
         console.error('There was an error!', error);
@@ -350,7 +310,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       this.claimData.answers[Object.keys(this.editedAnswers[i])[0]] = this.editedAnswers[i][Object.keys(this.editedAnswers[i])[0]];
     }
     // this.saveClaim();
-    console.log(this.claimData.answers);
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
 
@@ -363,8 +322,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
       claim.user.id, '').subscribe({
         next: (response: any) => {
-          console.log('uploadDoc ok');
-          console.log(response); 
           this.filesArr = [];
         },
         error: error => {
@@ -380,8 +337,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   commentClaim(claimId: any, comment: any, form_name: any) {
     this.httpService.commentClaim(claimId, comment, form_name).subscribe({
       next: (response: any) => {
-        console.log('commentClaim ok');
-        console.log(response); 
       },
       error: error => {
         console.error('There was an error!', error);
@@ -393,7 +348,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }  
 
   saveClaim() {
-    console.log('saveClaim()');
     //this.claimData.form_name = 'claim_form';
     
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
@@ -403,13 +357,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
-
         this.uploadDoc(response);
         if(this.claimData.comment){
-          console.log('this.claimData.comment');
-          console.log(this.claimData.comment);
           this.commentClaim(response['id'], this.claimData.comment, '');
         }
         
@@ -424,11 +373,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   change(par: any) {
-    console.log(par);
     switch(par.part) {
       case 'one':
         this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
-        console.log(par.formGroups.value.groupQuery1)
         if(par.formGroups.value.groupQuery1.val == 1) {
           this.part = 'two';
         } else {
@@ -548,7 +495,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         break;
     }
-    console.log(this.editedAnswers);
+    
     // if(par.part == 'one') {
     //   console.log(par.formGroups.value.groupQuery1);
     //   if(par.formGroups.value.groupQuery1 == 1) {
@@ -574,13 +521,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   deleteAttachedFile(file:any) {
     this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e=> e == file)), 1);
   }
-
-
   
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    console.log(this.fieldsStatus);
   }
   
   public get getDateTrans(){
@@ -594,19 +538,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   
   onClickGoNextStep(){
-    console.log(this.claimData.trans_date);
-
-    console.log(this.claimData);
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
-
-    console.log('onClickGoNextStep');
   }
 
   onClickSend(){
-    console.log(this.claimData);
-    
     //this.transferService.pAD.next(this.claimData.pan.toString());
     //this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
@@ -620,11 +557,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   getListMerchant(){
     this.merchantsArr = new Array<MerchUser>();
 
-    console.log('loadMerchants');
     this.httpService.getMerchantsAll().subscribe({
         next: (response: any) => {
-          console.log('loaded Merchants');
-          console.log(response); 
           this.merchantsArr = response;
         },
         error: error => {
@@ -698,7 +632,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onClickRequestDocs(){
-    console.log('onClickRequestDocs() claimData.status' + this.claimData.status); 
     let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;  
     val.typeOperation = "QueryForm";
@@ -712,12 +645,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaimUpdate(){
-    console.log('saveClaimUpdate()');
-    console.log(this.claimData);
     this.claimData.claimId = this.claimData.id;
     this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
-        console.log('updateClaim ok');
       },
       error: error => {
         console.error('There was an error!', error);

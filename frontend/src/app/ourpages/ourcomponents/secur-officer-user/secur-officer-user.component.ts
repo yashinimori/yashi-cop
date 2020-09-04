@@ -41,13 +41,8 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('BankSingleComponent role ' +this.role);
-    
     this.userId = this.transferService.userID.getValue();
-    console.log('BankSingleComponent userId ' +this.userId);
-
     this.bankID = this.transferService.bankID.getValue();
-    console.log('this.bankID = ' + this.bankID);
 
     this.generateStatusFields();
 
@@ -61,7 +56,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    console.log(this.fieldsStatus);
   }
   
   ngOnDestroy(): void {
@@ -70,8 +64,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   }
 
   setSettingsGridLogs(role:string){
-    console.log('setSettingsGridLogs()' + role);
-
     switch(role){
       case 'security_officer': {
         this.settingsLogs = {
@@ -122,7 +114,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   }
 
   getLogsData(id: any) {
-    console.log('getLogsData()');
     this.logsData = new Array<BankUser>();
 
     let self = this;
@@ -130,9 +121,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getLoggerList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded logs '); 
-        console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -144,8 +132,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         
         self.sourceLogs = new LocalDataSource();
         self.sourceLogs.load(self.logsData);
-
-        console.log(self.sourceLogs);
         
       },
       error: error => {
@@ -164,8 +150,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     let self = this;
     this.httpServise.getBankEmployees(userId).subscribe({
       next: (response: any) => {
-        console.log('loaded user'); 
-        console.log(response);
         this.userData.id = response[0].user.id;
         this.userData.first_name = response[0].user.first_name;
         this.userData.last_name = response[0].user.last_name;
@@ -196,8 +180,6 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
     };
     this.httpServise.sendEmailResetPass(d).subscribe({
       next: (response: any) => {
-        console.log('sent email'); 
-        console.log(response);
       },
       error: error => {
         console.error('There was an error!', error);

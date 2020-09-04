@@ -48,8 +48,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('ClaimsComponent role ' +this.role);
-
+  
     this.generateStatusFields();
     
     this.stageParam = '';
@@ -71,8 +70,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
   
   setSettingsGrid(role:string){
-    //console.log('setSettingsGrid(c:string)' + role);
-
     switch(role){
       case 'chargeback_officer':  {
         this.settings = {
@@ -345,16 +342,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData() {
-    //console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
     this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded Claims '); 
-        console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -388,13 +381,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.flag = el['flag'];
 
           let m = el['merchant'];
-          //console.log(m);
           if(m) 
             t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
-          
-          //console.log(t);
 
         });
 
@@ -408,13 +398,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           self.claimsData = self.claimsData.filter(i=>i.status == 'archive' || i.status == 'closed' );
         } 
 
-        //self.source = new LocalDataSource(self.claimsData);
         self.source = new LocalDataSource();
-        //self.source.setPaging(1, 5);
         self.source.load(self.claimsData);
-        //self.source .refresh();
-
-        //console.log(self.source);
         
       },
       error: error => {

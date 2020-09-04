@@ -39,8 +39,6 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
       this.getTokenSubscription = this.authService.setPassword(d).subscribe({
         next: (response: any) => {
-          console.log(response); 
-
         },
         error: error => {
           console.error('There was an error!', error);

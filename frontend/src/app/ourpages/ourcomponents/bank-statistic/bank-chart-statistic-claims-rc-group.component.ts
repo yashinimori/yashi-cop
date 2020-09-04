@@ -29,7 +29,6 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit {
       
       this.role = localStorage.getItem('role');
       this.bankId = this.transferService.bankID.getValue();
-      console.log(this.bankId);
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
       this.loadCountClaimsByRcGroup();
@@ -38,10 +37,8 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit {
 
 
     loadCountClaimsByRcGroup(){
-      //console.log('getCountClaimsByRcGroup()');
       this.httpServise.getCountClaimsByRcGroup().subscribe({
         next: (response: any) => {
-          //console.log(response);
   
           this.doughnutChartLabels = [
             'fraud_claims',

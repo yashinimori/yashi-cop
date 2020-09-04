@@ -32,7 +32,6 @@ export class BankUserComponent implements OnInit {
     this.getRoles();
 
     this.bankID = this.transferService.bankID.getValue();
-    console.log('BankUserComponent this.bankID = ' + this.bankID);
 
     this.role = localStorage.getItem('role');
     this.getListBanks()
@@ -56,8 +55,6 @@ export class BankUserComponent implements OnInit {
   createBankUser() {
     if(this.enter() == 0){
 
-      console.log(this.data);
-
       let d = {
         "email": this.data.email,
         "password": this.data.password,
@@ -71,12 +68,8 @@ export class BankUserComponent implements OnInit {
           }
       };
 
-      console.log(d);
-
       this.httpService.createNewUserBank(d).subscribe({
         next: (response: any) => {
-          console.log('ok');
-          console.log(response);
         },
         error: error => {
           console.error('There was an error!', error);

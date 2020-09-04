@@ -45,12 +45,8 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    console.log('BankSingleComponent role ' +this.role);
     this.userId = localStorage.getItem('user_id');
-    console.log('BankSingleComponent userId ' +this.userId);
-
     this.bankID = this.transferService.bankID.getValue();
-    console.log('this.bankID = ' + this.bankID);
 
     this.generateStatusFields();
 
@@ -59,14 +55,10 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
     this.httpServise.getBankEmployees(Number(this.userId)).subscribe({
       next: (response: any) => {
-        console.log('getBankEmployees()'); 
-        console.log(response);
 
         if(response && response['length'] ){
-
           let data = response[0];
           this.bankID = data.bank.id;
-          console.log('this.bankID' + this.bankID) ;
           this.bank = new Bank();
           // this.getBankData(this.bankID);
           
@@ -93,11 +85,9 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    //console.log(this.fieldsStatus);
   }
   
   getBankData(id: any) {
-    //console.log('loadBanks()');
     this.bank = new Bank();
 
     let self = this;
@@ -105,9 +95,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.httpServise.getBank(id).subscribe({
       next: (response: any) => {
-        //console.log('loaded bank '); 
-        //console.log(response);
-
         this.bank.id = response['id'];
         this.bank.bin = response['bin'];
         this.bank.type = response['type'];
@@ -136,8 +123,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
 
   setSettingsGridBankUser(role:string){
-    //console.log('setSettingsGridBankUser()' + role);
-
     switch(role){
       case 'top_level': {
         this.settingsBankUser = {
@@ -267,7 +252,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   }
 
   getBankUserData(id: any) {
-    console.log('getBankUserData()');
     this.bankUserData = new Array<BankUser>();
 
     let self = this;
@@ -275,9 +259,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded bank users '); 
-        //console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -301,15 +282,11 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           t.registration_date = user['registration_date'];
 
           self.bankUserData.push(t);
-          
-          //console.log(t);
 
         });
         
         self.sourceBankUser = new LocalDataSource();
         self.sourceBankUser.load(self.bankUserData);
-
-        console.log(self.sourceBankUser);
         
       },
       error: error => {
@@ -323,7 +300,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
 
   setSettingsGridMerch(role:string){
-    console.log('setSettingsGridMerchant(c:string)' + role);
 
     switch(role){
       case 'top_level': {
@@ -409,7 +385,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   }
 
   getMerchantData(id: any) {
-    console.log('getMerchantData()');
     this.bankMerchData = new Array<MerchUser>();
 
     let self = this;
@@ -417,9 +392,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        console.log('loaded merch users '); 
-        console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -446,15 +418,11 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           t.contact_person = el['contact_person'];
 
           self.bankMerchData.push(t);
-          
-          //console.log(t);
 
         });
         
         self.sourceMerch = new LocalDataSource();
         self.sourceMerch.load(self.bankMerchData);
-
-        console.log(self.sourceBankUser);
         
       },
       error: error => {

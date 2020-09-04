@@ -19,8 +19,6 @@ export class ActivationComponent implements OnInit {
   getTokenSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    console.log('ActivationComponent  ngOnInit');
-
     let uid = this.activatedRoute.snapshot.paramMap.get('uid');
     let token = this.activatedRoute.snapshot.paramMap.get('token');
 
@@ -36,8 +34,6 @@ export class ActivationComponent implements OnInit {
     }
     this.authService.userActivated(d).subscribe({
       next: (response: any) => {
-        console.log('userActivated'); 
-        console.log(response); 
         setTimeout(()=>{
           this.router.navigate(['auth', 'login']);
         }, 3000);

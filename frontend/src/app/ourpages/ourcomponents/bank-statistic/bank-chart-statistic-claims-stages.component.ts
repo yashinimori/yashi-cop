@@ -29,7 +29,6 @@ export class BankStatisticClaimsByStagesComponent implements OnInit {
       
       this.role = localStorage.getItem('role');
       this.bankId = this.transferService.bankID.getValue();
-      console.log(this.bankId);
 
       //   console.log('transferService.claimsByStages.getValue()');
       //   let data = this.transferService.claimsByStages.getValue();
@@ -45,7 +44,7 @@ export class BankStatisticClaimsByStagesComponent implements OnInit {
 
 
     loadCountClaimsByStages(){
-      console.log('getCountClaimsByStages()');
+      //console.log('getCountClaimsByStages()');
       this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
           //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');

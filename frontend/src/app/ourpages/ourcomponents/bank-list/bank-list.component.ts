@@ -31,10 +31,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   banksSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-    //console.log('BankListComponent role ' +this.role);
-
     this.setSettingsGrid(this.role);
     this.getBanksData();
     //this.hideColumnForUser(this.role);
@@ -53,7 +50,6 @@ export class BankListComponent implements OnInit, OnDestroy {
   // }
   
   setSettingsGrid(role:string){
-    //console.log('setSettingsGrid(c:string)' + role);
 
     switch(role){
       case 'admin':
@@ -129,7 +125,6 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   getBanksData() {
-    //console.log('loadBanks()');
     this.banksData = new Array<Bank>();
 
     let self = this;
@@ -137,9 +132,6 @@ export class BankListComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.banksSubscription = this.httpServise.getBankList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded banks '); 
-        //console.log(response);
-
         let data: any;
 
         if(pageSize > 0 && pageNumber > 0)
@@ -162,18 +154,11 @@ export class BankListComponent implements OnInit, OnDestroy {
           t.contact_email = el['contact_email'];
 
           self.banksData.push(t);
-          
-          //console.log(t);
 
         });
 
-        //self.source = new LocalDataSource(self.claimsData);
         self.source = new LocalDataSource();
-        //self.source.setPaging(1, 5);
         self.source.load(self.banksData);
-        //self.source .refresh();
-
-        //console.log(self.source);
         
       },
       error: error => {

@@ -27,12 +27,8 @@ export class BankComponent implements OnInit {
 
     if(this.enter() == 0){
 
-      console.log(this.data);
-
       this.httpService.createNewBank(this.data).subscribe({
         next: (response: any) => {
-          console.log('ok');
-          console.log(response);
 
           const bank_id = response['id'];
           const user_data = {
@@ -48,8 +44,6 @@ export class BankComponent implements OnInit {
 
           this.httpService.createNewUser(user_data).subscribe({
               next: (response: any) => {
-                console.log('ok');
-                console.log(response);
               },
               error: error => {
                 console.error('There was an error!', error);

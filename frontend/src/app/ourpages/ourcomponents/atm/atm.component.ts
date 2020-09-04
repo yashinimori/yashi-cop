@@ -31,9 +31,6 @@ export class ATMComponent implements OnInit {
 
     this.bankID = this.transferService.bankID.getValue();
     this.bankBin = this.transferService.bankBIN.getValue();
-
-    console.log('this.bankID = ' + this.bankID);
-    
     this.role = localStorage.getItem('role');
   }
 
@@ -50,8 +47,6 @@ export class ATMComponent implements OnInit {
   createATM() {
 
     if(this.enter() == 0){
-      console.log('createMerchUser()');
-      console.log(this.data);
     
       let d = {
         
@@ -67,12 +62,8 @@ export class ATMComponent implements OnInit {
           
       };
 
-      console.log(d);
-
       this.httpService.createNewATM(d).subscribe({
         next: (response: any) => {
-          console.log('ok');
-          console.log(response); 
         },
         error: error => {
           console.error('There was an error!', error);

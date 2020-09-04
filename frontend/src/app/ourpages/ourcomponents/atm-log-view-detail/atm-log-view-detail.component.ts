@@ -66,8 +66,6 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   }
 
   setSettingsGrid(role:string){
-    //console.log('setSettingsGrid(c:string)' + role);
-
     switch(role){
       case 'admin':
       case 'chargeback_officer':  {
@@ -201,32 +199,14 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   }
 
   getTransactionsData() {
-    console.log('getTransactionsData()'); 
     this.atmTransactionsData = new Array<AtmTransactionView>();
     let self = this;
     this.atmLogViewDetailSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
-        console.log('loaded Transactions'); 
-        console.log(response);
-
-        // response.results.forEach(el => {
-        //   let t = new AtmTransactionView();
-             
-        //   t.pan = el['pan'];
-          
-        //   self.claimsData.push(t);
-          
-        //   //console.log(t);
-
-        // });
-
         this.atmTransactionsData = response.results;
         
         self.source = new LocalDataSource();
         self.source.load(self.atmTransactionsData);
-        
-
-        //console.log(self.source);
         
       },
       error: error => {

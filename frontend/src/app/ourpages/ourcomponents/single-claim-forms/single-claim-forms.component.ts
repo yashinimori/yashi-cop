@@ -50,7 +50,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
         
     this.role = localStorage.getItem('role');
-    console.log('SingleClaimFormsComponent this.role ' +this.role);
 
     this.generateStatusFields();
 
@@ -58,8 +57,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.filesArr = [];
 
     let v = this.transferService.singleClaimFormsSettings.getValue();
-    // console.log('SingleClaimFormsComponent ');
-    // console.log(v);
     this.claimId = v.claimId;
     this.typeOperation = v.typeOperation;
 
@@ -69,8 +66,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.getReasonCode();
 
     this.loadClaim();
-
-    
   }
 
   ngOnDestroy(): void {
@@ -80,17 +75,13 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
   
   loadClaim() {
-    console.log('loadClaim');
     this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;
-          console.log(this.claimData);
-          
           let user = this.claimData['user'];
           if(user){
             this.userId = user['id'];
           }
-          
         },
         error: error => {
           console.error('There was an error!', error);
@@ -129,8 +120,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
-    console.log('generateStatusFields()');
-    console.log(this.fieldsStatus);
   }
 
   onClickApply(){
@@ -179,8 +168,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       if(this.singleClaimFormsData.amount_move)
         arr.push('Сума: ' + this.singleClaimFormsData.amount_move)
 
-      console.log('claim.officer_answer_reason');
-      console.log(this.singleClaimFormsData.decisionId);
       if(this.role == 'chargeback_officer') {
         if(this.singleClaimFormsData.decisionId)
           claim.officer_answer_reason = String(this.singleClaimFormsData.decisionId);
@@ -201,11 +188,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       }
     }
         
-    console.log(claim);
     this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
-        console.log('updateClaim ok');
-        console.log(response); 
         this.uploadDoc(claim);
         this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
@@ -227,14 +211,10 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   uploadDoc(claim: any) {
     if(this.filesArr && this.filesArr.length > 0){
       let data = this.filesArr[0];
-      console.log('uploadDoc()');
-      console.log(data);
       
       this.httpService.uploadClaimDoc(data, "substitute_draft", this.claimId, 
         this.userId, claim.form_name).subscribe({
         next: (response: any) => {
-          console.log('uploadDoc ok');
-          console.log(response); 
           this.filesArr = [];
         },
         error: error => {
@@ -250,8 +230,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   commentClaim(claimId: any, comment: any, form_name: any) {
     this.httpService.commentClaim(claimId, comment, form_name).subscribe({
       next: (response: any) => {
-        console.log('commentClaim ok');
-        console.log(response); 
       },
       error: error => {
         console.error('There was an error!', error);

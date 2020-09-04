@@ -9,8 +9,8 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 
-import { WebsiteComponent } from './website/website.component';
-import { AppealsComponent } from './website/appeals/appeals.component';
+//import { WebsiteComponent } from './website/website.component';
+//import { AppealsComponent } from './website/appeals/appeals.component';
 import { LoginComponent } from './authorisation/login/login.component';
 import { RegistrationComponent } from './authorisation/registration/registration.component';
 import { AuthGuard } from './share/auth.guard';

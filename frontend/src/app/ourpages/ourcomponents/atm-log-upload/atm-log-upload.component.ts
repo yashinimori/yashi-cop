@@ -56,11 +56,9 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
 
   onClickUploadLogs() {
     let data = this.filesArr[0];
-    console.log(data);
+
     this.httpService.uploadATMlog(data).subscribe({
       next: (response: any) => {
-        console.log('ok');
-        console.log(response); 
         this.filesArr = [];
       },
       error: error => {

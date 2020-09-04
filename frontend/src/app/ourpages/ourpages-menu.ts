@@ -198,8 +198,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 function setHiddenUser(){
   let role= localStorage.getItem('role');
-  //console.log('setHidden() ' + role);
-
   if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
     return false;
 
@@ -208,8 +206,6 @@ function setHiddenUser(){
 
 function setHiddenAdmin(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenAdmin() ' + role);
-
   if(role && (role=='admin'))
     return false;
 
@@ -218,8 +214,6 @@ function setHiddenAdmin(){
 
 function setHiddenCOPManager(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenAdmin() ' + role);
-
   if(role && (role=='cop_manager'))
     return false;
 
@@ -228,8 +222,6 @@ function setHiddenCOPManager(){
 
 function setHiddenChargebackOfficer(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenChargebackOfficer() ' + role);
-
   if(role && (role=='chargeback_officer'))
     return false;
 
@@ -238,8 +230,6 @@ function setHiddenChargebackOfficer(){
 
 function setHiddenMerchant(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenMerchant() ' + role);
-
   if(role && (role=='merchant'))
     return false;
 
@@ -248,8 +238,6 @@ function setHiddenMerchant(){
 
 function setHiddenBank(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenBank() ' + role);
-
   if(role && (role=='cop_manager'))
     return false;
 
@@ -258,8 +246,6 @@ function setHiddenBank(){
 
 function setHiddenTopOfficer(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenTopOfficer() ' + role);
-
   if(role && (role=='top_level'))
     return false;
 
@@ -269,8 +255,6 @@ function setHiddenTopOfficer(){
 
 function setHiddenSecurOfficer(){
   let role= localStorage.getItem('role');
-  // console.log('setHiddenSecurOfficer() ' + role);
-
   if(role && (role=='security_officer'))
     return false;
 
@@ -279,10 +263,7 @@ function setHiddenSecurOfficer(){
 
 
 function setHiddenMessages(){
-
   let role= localStorage.getItem('role');
-  //console.log('setHiddenMessages() ' + role);
-
   if(role && (role=='cop_manager'))
     return false;
 
@@ -290,10 +271,7 @@ function setHiddenMessages(){
 }
 
 function setHiddenSettings(){
-
   let role= localStorage.getItem('role');
-  //console.log('setHiddenMessages() ' + role);
-
   if(role && (role=='cop_manager'))
     return false;
 
@@ -302,8 +280,6 @@ function setHiddenSettings(){
 
 function setHiddenStatistic(){
   let role= localStorage.getItem('role');
-  //console.log('setHiddenStatistic() ' + role);
-
   if(role && (role=='cop_manager' /* || role=='top_level' */) )
     return false;
 

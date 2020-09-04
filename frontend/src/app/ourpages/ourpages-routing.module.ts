@@ -13,11 +13,6 @@ const routes: Routes = [{
          .then(m => m.OurComponentsModule),
     },
     {
-      path: 'layout',
-      loadChildren: () => import('./layout/layout.module')
-        .then(m => m.LayoutModule),
-    },
-    {
       path: '',
       redirectTo: 'OurComponents',
       pathMatch: 'full',
