@@ -131,8 +131,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             action_needed: {
-              title: "Індикатор",
-              type: 'string',
+              title: "Дії",
+              //type: 'string',
+              valuePrepareFunction: (action_needed) => {
+                if(action_needed && action_needed == true)
+                  return 'Y';
+                else
+                  return 'N';
+              }
             },
             flag:{
               title: "flag",
@@ -213,8 +219,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             action_needed: {
-              title: "Індикатор",
-              type: 'string',
+              title: "Дії",
+              //type: 'string',
+              valuePrepareFunction: (action_needed) => {
+                if(action_needed && action_needed == true)
+                  return 'Y';
+                else
+                  return 'N';
+              }
             },
             flag:{
               title: "flag",
@@ -302,8 +314,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             action_needed: {
-              title: "Індикатор",
-              type: 'string',
+              title: "Дії",
+              //type: 'string',
+              valuePrepareFunction: (action_needed) => {
+                if(action_needed && action_needed == true)
+                  return 'Y';
+                else
+                  return 'N';
+              }
             },
             flag:{
               title: "flag",
