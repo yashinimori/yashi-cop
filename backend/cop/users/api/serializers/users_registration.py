@@ -48,8 +48,6 @@ class ChargebackOfficerRegistrationSerializer(BaseUserRegistrationSerializer):
         password = User.objects.make_random_password()
         attrs['password'] = password
         self.context["password"] = password
-        bank_employee = attrs.pop('bankemployee')
-        attrs['bankemployee'] = bank_employee
         return attrs
 
     def create(self, validated_data):
