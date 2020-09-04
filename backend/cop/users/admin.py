@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import ugettext_lazy as _
 
+from cop.users.models import BankEmployee, Merchant
+
 User = get_user_model()
 
 
@@ -31,3 +33,13 @@ class UserAdmin(auth_admin.UserAdmin):
     formfield_overrides = {
         ArrayField: {'widget': forms.Textarea(attrs={'rows': 5, 'cols': 50})},
     }
+
+
+@admin.register(BankEmployee)
+class BankEmployeeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Merchant)
+class MerchantAdmin(admin.ModelAdmin):
+    pass

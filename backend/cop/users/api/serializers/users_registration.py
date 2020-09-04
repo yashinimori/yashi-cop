@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from rest_framework import serializers
 
-from cop.core.models import BankEmployee, Terminal, Merchant
+from cop.core.models import Terminal
+from cop.users.models import Merchant, BankEmployee
 
 User = get_user_model()
 

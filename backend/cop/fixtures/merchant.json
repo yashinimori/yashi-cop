@@ -52,7 +52,7 @@
     }
   },
   {
-    "model": "core.merchant",
+    "model": "users.merchant",
     "pk": 1,
     "fields": {
       "create_date": "2020-08-13T10:21:07.636Z",

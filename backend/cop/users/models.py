@@ -14,6 +14,14 @@ def get_claim_default_display_fields():
     ]
 
 
+class BaseModel(models.Model):
+    create_date = models.DateTimeField(auto_now_add=True, db_index=True)
+    update_date = models.DateTimeField(auto_now=True)
+
+    class Meta(object):
+        abstract = True
+
+
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
 
@@ -130,3 +138,29 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Merchant(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ManyToManyField('core.Bank', blank=True)
+    merch_id = models.CharField(max_length=15, unique=True)
+    name_legal = models.CharField(max_length=999, blank=True, null=True)
+    bin = models.CharField(max_length=999, blank=True, null=True)
+    name_ips = models.CharField(max_length=999)
+    mcc = models.CharField(max_length=4, blank=True, null=True)
+    description = models.CharField(max_length=999, blank=True, null=True)
+    address = models.CharField(max_length=999, blank=True, null=True)
+    contact_person = models.CharField(max_length=999, blank=True, null=True)
+
+    def __str__(self):
+        return self.name_ips
+
+
+class BankEmployee(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ForeignKey('core.Bank', on_delete=models.CASCADE, related_name="employee_banks")
+    unit = models.CharField(max_length=200, null=True, blank=True)
+    atm = models.ManyToManyField('core.ATM', related_name='bank_employees')
+
+    def __str__(self):
+        return f"{self.bank} {self.user}"

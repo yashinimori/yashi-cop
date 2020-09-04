@@ -6,6 +6,7 @@ from rest_framework.exceptions import ValidationError
 
 from cop.core.utils.save_transaction_pdf import save_transaction_pdf
 from cop.core.utils.sha256 import generate_sha256
+from cop.users.models import Merchant
 from cop.utils.storages import LogsRootS3Boto3Storage
 
 User = settings.AUTH_USER_MODEL
@@ -38,32 +39,6 @@ class Bank(BaseModel):
 
     def __str__(self):
         return self.name_eng
-
-
-class BankEmployee(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="employee_banks")
-    unit = models.CharField(max_length=200, null=True, blank=True)
-    atm = models.ManyToManyField('ATM', related_name='bank_employees')
-
-    def __str__(self):
-        return f"{self.bank} {self.user}"
-
-
-class Merchant(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bank = models.ManyToManyField(Bank, blank=True)
-    merch_id = models.CharField(max_length=15, unique=True)
-    name_legal = models.CharField(max_length=999, blank=True, null=True)
-    bin = models.CharField(max_length=999, blank=True, null=True)
-    name_ips = models.CharField(max_length=999)
-    mcc = models.CharField(max_length=4, blank=True, null=True)
-    description = models.CharField(max_length=999, blank=True, null=True)
-    address = models.CharField(max_length=999, blank=True, null=True)
-    contact_person = models.CharField(max_length=999, blank=True, null=True)
-
-    def __str__(self):
-        return self.name_ips
 
 
 class ATM(BaseModel):

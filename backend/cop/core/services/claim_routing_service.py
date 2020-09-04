@@ -34,7 +34,7 @@ class ClaimRoutingService:
         self.claim.assign_transaction()
 
     def assign_by_merch_id(self, merch_id):
-        from cop.core.models import Merchant
+        from cop.users.models import Merchant
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
             self.claim.merchant = merchant

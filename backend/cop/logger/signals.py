@@ -7,8 +7,9 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.utils import timezone
 
-from cop.core.models import Claim, Terminal, Bank, BankEmployee, Merchant, ATM, Transaction, ReasonCodeGroup, Comment, \
+from cop.core.models import Claim, Terminal, Bank, ATM, Transaction, ReasonCodeGroup, Comment, \
     Status, Report
+from cop.users.models import Merchant, BankEmployee
 from cop.logger.models import LoggerEntry, LOGIN_SUCCESS, CHANGE, DELETION, ADDITION
 
 User = get_user_model()

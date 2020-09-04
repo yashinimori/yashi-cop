@@ -5,7 +5,8 @@ from django_celery_beat.utils import now
 from rest_framework import serializers
 
 from cop.core.tasks import send_file_expiration_notification, delete_expired_files, delete_expired_report_files
-from cop.core.models import Claim, Merchant, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
+from cop.core.models import Claim, ClaimDocument, Comment, ReasonCodeGroup, Bank, Report, Status
+from cop.users.models import Merchant
 from cop.core.services.claim_routing_service import ClaimRoutingService
 from cop.core.services.status_service import AllocationStatusService, CardholderStatusService, \
     StatusServiceLite
