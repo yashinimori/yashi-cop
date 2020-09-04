@@ -17,7 +17,8 @@ export class RegistrationComponent implements OnInit {
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              //private formBuilder: FormBuilder
+              ) {
     this.data = new Registration();
     this.siteKey = '6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I';
   }
