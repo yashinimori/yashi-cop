@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cop.core.models import Merchant
+from cop.users.models import Merchant
 
 
 class MerchantSerializer(serializers.ModelSerializer):

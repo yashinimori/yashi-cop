@@ -10,7 +10,8 @@ from django.utils.timezone import make_aware, now
 
 from config import celery_app
 from cop.core.emails import send_expiration_notification, send_claim_notification
-from cop.core.models import ClaimDocument, BankEmployee, Report, StageChangesHistory, Claim
+from cop.core.models import ClaimDocument, Report, StageChangesHistory, Claim
+from cop.users.models import BankEmployee
 from cop.utils.storages import PrivateMediaRootS3Boto3Storage
 
 User = get_user_model()

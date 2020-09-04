@@ -3,7 +3,7 @@ from rest_framework import filters
 from rest_framework import viewsets
 
 from cop.core.api.serializers.merchant import MerchantSerializer
-from cop.core.models import Merchant
+from cop.users.models import Merchant
 
 
 class MerchantViewSet(viewsets.ModelViewSet):

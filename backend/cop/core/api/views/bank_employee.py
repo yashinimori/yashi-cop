@@ -3,7 +3,7 @@ from rest_framework import filters
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 
 from cop.core.api.serializers.bank_employee import BankEmployeeSerializer
-from cop.core.models import BankEmployee
+from cop.users.models import BankEmployee
 
 
 class BankEmployeeList(ListAPIView):
