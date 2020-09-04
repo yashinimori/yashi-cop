@@ -19,7 +19,7 @@ import { ActivationComponent } from './authorisation/activation/activation.compo
 
 
 const routes: Routes = [
- 
+
     // {
     //   path: 'pages',
     //   loadChildren: () => import('./pages/pages.module')
@@ -51,7 +51,7 @@ const routes: Routes = [
         component: RegistrationComponent,
       },
       {
-        path: 'password',
+        path: 'password/:uid/:token',
         component: PasswordComponent,
       },
       {
@@ -59,8 +59,8 @@ const routes: Routes = [
         component: ActivationComponent,
       },
 
-      
-      ],
+
+    ],
     },
     // {
     //   path: 'auth',
