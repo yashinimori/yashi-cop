@@ -40,10 +40,22 @@ class BankStats(APIView):
         )
 
         annotate_by_rc_group = qs.aggregate(
-            fraud=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.FRAUD)),
-            authorization=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.AUTHORIZATION)),
-            point_of_interaction_error=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR)),
-            cardholder_disputes=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES)),
+            fraud=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.FRAUD) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.FRAUD)
+            )),
+            authorization=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.AUTHORIZATION) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.AUTHORIZATION)
+            )),
+            point_of_interaction_error=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR)
+            )),
+            cardholder_disputes=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES)
+            )),
         )
 
         # get bank employee
@@ -175,12 +187,6 @@ class ClaimsStatisticsByStatusStage(APIView):
             "mediation_claims": annotate_by_status_stage["mediation"],
             "chargeback_claims": annotate_by_status_stage["chargeback"],
             "chargeback_escalation_claims": annotate_by_status_stage["chargeback_escalation"],
-            "dispute_claims": annotate_by_status_stage["dispute"],
-            "dispute_response_claims": annotate_by_status_stage["dispute_response"],
-            "pre_arbitration_claims": annotate_by_status_stage["pre_arbitration"],
-            "pre_arbitration_response_claims": annotate_by_status_stage["pre_arbitration_response"],
-            "arbitration_claims": annotate_by_status_stage["arbitration"],
-            "final_ruling_claims": annotate_by_status_stage["final_ruling"],
             "closed_claims": annotate_by_status_stage["closed"],
         }
 
@@ -202,10 +208,22 @@ class ClaimsStatisticsByRcGroup(APIView):
             qs = qs.filter(create_date__lte=end_date)
 
         annotate_by_rc_group = qs.aggregate(
-            fraud=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.FRAUD)),
-            authorization=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.AUTHORIZATION)),
-            point_of_interaction_error=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR)),
-            cardholder_disputes=Count('claim_reason_code', filter=Q(claim_reason_code__group=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES)),
+            fraud=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.FRAUD) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.FRAUD)
+            )),
+            authorization=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.AUTHORIZATION) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.AUTHORIZATION)
+            )),
+            point_of_interaction_error=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR)
+            )),
+            cardholder_disputes=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES)
+            )),
         )
 
         data = {
