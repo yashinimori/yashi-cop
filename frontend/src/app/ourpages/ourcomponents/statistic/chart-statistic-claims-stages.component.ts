@@ -20,6 +20,8 @@ export class StatisticClaimsByStagesComponent implements OnInit {
     doughnutChartData: any;
     is_data_ready = false;
 
+    
+
     constructor(private transferService: TransferService,
       private httpServise: HttpService) {
     }
