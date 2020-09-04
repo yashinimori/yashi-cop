@@ -305,28 +305,28 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Код авторизації",
               type: 'number',
             },
-            claim_reason_code: {
-              title: "Reason Code",
-              type: 'number',
-            },
-            status: {
-              title: "Статус",
-              type: 'string',
-            },
-            action_needed: {
-              title: "Дії",
-              //type: 'string',
-              valuePrepareFunction: (action_needed) => {
-                if(action_needed && action_needed == true)
-                  return 'Y';
-                else
-                  return 'N';
-              }
-            },
-            flag:{
-              title: "flag",
-              type: 'string',
-            },
+            // claim_reason_code: {
+            //   title: "Reason Code",
+            //   type: 'number',
+            // },
+            // status: {
+            //   title: "Статус",
+            //   type: 'string',
+            // },
+            // action_needed: {
+            //   title: "Дії",
+            //   //type: 'string',
+            //   valuePrepareFunction: (action_needed) => {
+            //     if(action_needed && action_needed == true)
+            //       return 'Y';
+            //     else
+            //       return 'N';
+            //   }
+            // },
+            // flag:{
+            //   title: "flag",
+            //   type: 'string',
+            // },
             result: {
               title: "Результат",
               type: 'string',
