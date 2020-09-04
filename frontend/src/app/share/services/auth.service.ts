@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {URL_CREATE_TOKEN, URL_LOGIN, URL_SET_PASS, URL_USER_ACTIVATED} from '../urlConstants';
+import {RESET_PASSWORD_CONFIRM, URL_CREATE_TOKEN, URL_LOGIN, URL_USER_ACTIVATED} from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   setPassword(data: any) {
-    return this.http.post(URL_SET_PASS, data, {
+    return this.http.post(RESET_PASSWORD_CONFIRM, data, {
         headers: this.getTokenHeader()
       }
     );
