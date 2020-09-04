@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.module_loading import import_string
 from djoser import signals
-from djoser.conf import settings as djoser_settings
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
@@ -61,10 +60,10 @@ class CustomRegistrationView(DjoserUserViewSet):
             "password": serializer.validated_data['password'],
         }
         to = [get_user_email(user)]
-        if djoser_settings.SEND_ACTIVATION_EMAIL:
-            djoser_settings.EMAIL.activation(self.request, context).send(to)
-        elif djoser_settings.SEND_CONFIRMATION_EMAIL:
-            djoser_settings.EMAIL.confirmation(self.request, context).send(to)
+        if settings.SEND_ACTIVATION_EMAIL:
+            settings.EMAIL.activation(self.request, context).send(to)
+        elif settings.SEND_CONFIRMATION_EMAIL:
+            settings.EMAIL.confirmation(self.request, context).send(to)
 
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
