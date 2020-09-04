@@ -8,13 +8,14 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
+import { ChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-chart-donat',
     templateUrl: './chart-donat.component.html',
 })
 export class ChartDonatComponent implements OnInit {
-   
+    ChartOptions: ChartOptions;
     role: string;
     doughnutChartLabels: any;
     doughnutChartData: any;
@@ -25,6 +26,14 @@ export class ChartDonatComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      this.ChartOptions = {
+        // We use these empty structures as placeholders for dynamic theming.
+        legend: {
+          position: "right", // "center" , "right"
+          align: "start",  // "top" , "bottom"
+        },
+        
+      };
       
       this.role = localStorage.getItem('role');
 
