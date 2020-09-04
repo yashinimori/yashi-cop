@@ -177,6 +177,46 @@ class BaseStatusService:
         pass
 
 
+class StatusServiceLite(BaseStatusService):
+    def pre_mediation(self):
+        if self.user.is_cardholder:
+            if self.claim.escalation_form_received:
+                self.set_status(6)
+                self.create_merchant_notifications()
+            elif self.claim.close_form_received:
+                self.set_status(51)
+
+    def mediation(self):
+        if self.user.is_cardholder:
+            if self.claim.escalation_form_received:
+                self.set_status(17)
+                self.create_acquirer_notifications()
+            elif self.claim.close_form_received:
+                self.set_status(51)
+        if self.user.is_chargeback_officer:
+            if self.claim.close_form_received:
+                self.set_status(51)
+
+    def chargeback(self):
+        if self.user.is_cardholder:
+            if self.claim.close_form_received:
+                self.set_status(51)
+        if self.user.is_chargeback_officer:
+            if self.claim.escalation_form_received:
+                self.set_status(27)
+                self.create_acquirer_notifications()
+            if self.claim.close_form_received:
+                self.set_status(51)
+
+    def chargeback_escalation(self):
+        if self.user.is_cardholder:
+            if self.claim.close_form_received:
+                self.set_status(51)
+        if self.user.is_chargeback_officer:
+            if self.claim.close_form_received:
+                self.set_status(51)
+
+
 class StatusService(BaseStatusService):
 
     def pre_mediation(self):

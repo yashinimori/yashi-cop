@@ -1,35 +1,47 @@
 <div class="center-screen">
-  
+
   <nb-card style="width: 39%; margin: auto;">
     <nb-card-header style="width: 100%; ">
       Реєстрація користувача банку
     </nb-card-header>
-    
+
     <nb-card-body>
-      
+
       <input nbInput placeholder="Користувач" [(ngModel)]="data.userId" maxlength="200">
       <nb-select placeholder="Роль" class="selector-list" [(selected)]="data.role">
         <nb-option *ngFor="let item of listRole" [value]="item.caption">
-            {{ item.caption }}
+          {{ item.caption }}
         </nb-option>
       </nb-select>
+      <div class="div-panel">
+        <nb-select
+          class="selector-list"
+          [(ngModel)]="bankID"
+          placeholder="Банк"
+        >
+          <nb-option *ngFor="let item of banksList" [value]="item.id">
+            {{ item.name_eng }}
+          </nb-option>
+        </nb-select>
+      </div>
       <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
       <input nbInput placeholder="Прізвище" [(ngModel)]="data.last_name" maxlength="999">
       <input nbInput placeholder="Підрозділ" [(ngModel)]="data.unit" maxlength="200">
       <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
       <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
-      <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40"> 
-      
+      <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
+
     </nb-card-body>
 
     <nb-card-footer>
       <div class="button-enter">
         <button nbButton status="primary" (click)="goBack()">Повернутись</button>
         <button nbButton status="primary" style="margin-left: 10px;"
-          (click)="createBankUser()">Зарегистрировать</button>
+                (click)="createBankUser()">Зарегистрировать
+        </button>
       </div>
     </nb-card-footer>
 
   </nb-card>
 
-</div>     
+</div>

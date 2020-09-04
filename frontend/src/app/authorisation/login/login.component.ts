@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   public data: Authorization;
-  
+
   constructor(private authService: AuthService, private router: Router) {
     this.data = new Authorization();
   }
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(e.keyCode === 13){
       console.log(e);
        this.enter();
-  
+
       }
   }
 
@@ -38,9 +38,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
     this.getTokenSubscription = this.authService.getToken(this.data).subscribe({
       next: (response: any) => {
-        //console.log(response); 
-        localStorage.setItem('token', response.access); 
-        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());    
+        //console.log(response);
+        localStorage.setItem('token', response.access);
+        localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());
       },
       error: error => {
         console.error('There was an error!', error);
@@ -51,20 +51,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
   getUserInfo() {
     let password_change_required = false;
     let role = '';
     this.loginSubscription = this.authService.login().subscribe({
       next: (response: any) => {
-        console.log('getUserInfo'); 
-        //console.log(response); 
+
+        if (response['password_change_required']) {
+          this.router.navigate(['/password']);
+        }
+
         role = response.role;
-        console.log(role); 
 
-        console.log(response['password_change_required']); 
-
-        if(response['password_change_required']) 
+        if(response['password_change_required'])
           password_change_required = true;
 
         if(response.role.length == 0) {
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           else
             this.router.navigate(['ourpages', 'ourcomponents']);
         }
-          
+
       }
     });
   }

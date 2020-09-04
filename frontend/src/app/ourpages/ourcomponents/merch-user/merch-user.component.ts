@@ -20,10 +20,12 @@ export class MerchUserComponent implements OnInit {
   constructor(private httpService: HttpService,
     private router: Router,
     private transferService: TransferService,) {
-    
+
       this.bankID = '';
       this.role = '';
   }
+
+  banksList: any;
 
   ngOnInit(): void {
     this.data = new MerchUser();
@@ -32,8 +34,11 @@ export class MerchUserComponent implements OnInit {
     this.bankBin = this.transferService.bankBIN.getValue();
 
     console.log('this.bankID = ' + this.bankID);
-    
+
     this.role = localStorage.getItem('role');
+
+    this.getListBanks()
+
   }
 
   goBack(){
@@ -53,7 +58,7 @@ export class MerchUserComponent implements OnInit {
     if(this.enter() == 0){
       console.log('createMerchUser()');
       console.log(this.data);
-    
+
       let d = {
         "email": this.data.email,
         "password": this.data.password,
@@ -79,7 +84,7 @@ export class MerchUserComponent implements OnInit {
       this.httpService.createNewUserMerch(d).subscribe({
         next: (response: any) => {
           console.log('ok');
-          console.log(response); 
+          console.log(response);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -88,11 +93,11 @@ export class MerchUserComponent implements OnInit {
           this.goBack();
         }
       });
-      
+
     }
   }
 
-  
+
 
   enter() {
 
@@ -114,13 +119,25 @@ export class MerchUserComponent implements OnInit {
 
     // if (!this.data.phone)
     //   return 1;
-    
+
     // if (!this.data.role)
     //   return 1;
 
     return 0;
   }
 
-  
-  
+
+  private getListBanks() {
+    this.banksList = new Array<any>();
+
+    this.httpService.getAllBank().subscribe({
+      next: (response: any) => {
+        this.banksList = response;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {}
+    });
+  }
 }

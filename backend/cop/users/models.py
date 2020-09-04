@@ -5,11 +5,13 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-CLAIM_DEFAULT_DISPLAY_FIELDS = [
-    'id', 'pan', 'trans_date', 'term_id', 'terminal',
-    'merchant', 'merch_id', 'merch_name_ips', 'trans_amount', 'trans_currency',
-    'trans_approval_code', 'claim_reason_code', 'status', 'result', 'due_date', 'action_needed'
-]
+
+def get_claim_default_display_fields():
+    return [
+        'id', 'pan', 'trans_date', 'term_id', 'terminal',
+        'merchant', 'merch_id', 'merch_name_ips', 'trans_amount', 'trans_currency',
+        'trans_approval_code', 'claim_reason_code', 'status', 'result', 'due_date', 'action_needed'
+    ]
 
 
 class UserManager(BaseUserManager):
@@ -75,8 +77,9 @@ class User(AbstractUser):
     last_name = models.CharField(_("Last name of User"), max_length=999)
     role = models.CharField(max_length=999, choices=Roles.CHOICES)
     phone = models.CharField(max_length=13)
+    password_change_required = models.BooleanField(default=False)
     email = models.EmailField(_('email address'), unique=True, max_length=999)
-    displayable_claim_fields = ArrayField(models.CharField(max_length=128), default=CLAIM_DEFAULT_DISPLAY_FIELDS)
+    displayable_claim_fields = ArrayField(models.CharField(max_length=128), default=get_claim_default_display_fields)
     registration_date = models.DateField(auto_now_add=True, editable=False)
 
     USERNAME_FIELD = 'email'

@@ -16,6 +16,7 @@ export class BankUserComponent implements OnInit {
   public listRole: Array<SelectorData>;
   bankID: string;
   role: any;
+  banksList: any;
 
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
@@ -34,8 +35,23 @@ export class BankUserComponent implements OnInit {
     console.log('BankUserComponent this.bankID = ' + this.bankID);
 
     this.role = localStorage.getItem('role');
+    this.getListBanks()
   }
 
+  private getListBanks() {
+    this.banksList = new Array<any>();
+
+    this.httpService.getAllBank().subscribe({
+      next: (response: any) => {
+        this.banksList = response;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+      }
+    });
+  }
 
   createBankUser() {
     if(this.enter() == 0){
@@ -54,13 +70,13 @@ export class BankUserComponent implements OnInit {
             "unit": this.data.unit
           }
       };
-      
+
       console.log(d);
 
       this.httpService.createNewUserBank(d).subscribe({
         next: (response: any) => {
           console.log('ok');
-          console.log(response); 
+          console.log(response);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -71,7 +87,7 @@ export class BankUserComponent implements OnInit {
       });
 
     }
-    
+
   }
 
   goBack(){
@@ -84,10 +100,10 @@ export class BankUserComponent implements OnInit {
       this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
     }
   }
-  
+
 
   enter() {
-    
+
     if (!this.data.userId)
       return 1;
 
@@ -102,14 +118,14 @@ export class BankUserComponent implements OnInit {
 
     if (!this.data.phone)
       return 1;
-    
+
     if (!this.data.role)
       return 1;
 
     return 0;
   }
 
-  
+
   getRoles(){
     this.listRole = new Array<SelectorData>();
     //this.listRole.push({id:1, caption:"cardholder"});

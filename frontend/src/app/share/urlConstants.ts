@@ -55,7 +55,7 @@ export const URL_COUNT_UPDATED_CLAIMS = `${MAIN_URL}/api/v1/stats/updated-claims
 // api0.chargebackoptimizer.com/api/v1/stats/
 // new_claims - Количество новых претензий
 // attend_to_claims -Количество претензий, требующих внимания (5 дней до due date)
-export const URL_COUNT_NEW_CLAIMS = `${MAIN_URL}/api/v1/stats/`;
+export const URL_COUNT_NEW_CLAIMS = `${MAIN_URL}/api/v1/stats`;
 
 // api0.chargebackoptimizer.com/api/v1/stats/by-status-stages
 // pre_mediation_claims, mediation_claims, ... , closed_claims - Количество претензий в разрезе стадий(все в статусе closed за период)
