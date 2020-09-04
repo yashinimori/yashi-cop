@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { TransferService } from '../../../share/services/transfer.service';
-import { Router } from '@angular/router';
-import { HttpService } from '../../../share/services/http.service';
-import { Subscription } from 'rxjs';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
-import { SelectorData } from '../../../share/models/selector-data.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
-import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
-import { ClaimComment } from '../../../share/models/claim-comment.model';
-import { ClaimDocument } from '../../../share/models/claim-document.model';
-import { runInThisContext } from 'vm';
-import { TimelineView } from '../../../share/models/timeline-view.model'
-import { MerchUser } from '../../../share/models/merch-user.model';
+import {Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef} from '@angular/core';
+import {TransferService} from '../../../share/services/transfer.service';
+import {Router} from '@angular/router';
+import {HttpService} from '../../../share/services/http.service';
+import {Subscription} from 'rxjs';
+import {ClaimView} from '../../../share/models/claim-view.model';
+import {DatePipe} from '@angular/common';
+import {SelectorData} from '../../../share/models/selector-data.model';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {FieldsStatus} from '../../../share/models/fieldsStatus.model';
+import {SingleClaimFormsTransfer} from '../../../share/models/single-claim-forms-transfer.model';
+import {ClaimComment} from '../../../share/models/claim-comment.model';
+import {ClaimDocument} from '../../../share/models/claim-document.model';
+import {TimelineView} from '../../../share/models/timeline-view.model'
+import {MerchUser} from '../../../share/models/merch-user.model';
+import {MAIN_URL} from '../../../share/urlConstants';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -21,37 +21,37 @@ import { MerchUser } from '../../../share/models/merch-user.model';
   styleUrls: ['./single-claim.component.scss']
 })
 export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
-  
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService, 
-    private httpService: HttpService,
-    private router: Router,
-    private cdr: ChangeDetectorRef) { 
 
-      this.claimData = new ClaimView();
-    }
+  constructor(private datePipe: DatePipe,
+              private transferService: TransferService,
+              private httpService: HttpService,
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
 
-  @ViewChild('one') one:TemplateRef<any>;
-  @ViewChild('two') two:TemplateRef<any>;
-  @ViewChild('three') three:TemplateRef<any>;
-  @ViewChild('four') four:TemplateRef<any>;
-  @ViewChild('five') five:TemplateRef<any>;
-  @ViewChild('six') six:TemplateRef<any>;
-  @ViewChild('seven') seven:TemplateRef<any>;
-  @ViewChild('eight') eight:TemplateRef<any>;
-  @ViewChild('nine') nine:TemplateRef<any>;
-  @ViewChild('ten') ten:TemplateRef<any>;
-  @ViewChild('eleven') eleven:TemplateRef<any>;
-  @ViewChild('twelve') twelve:TemplateRef<any>;
-  @ViewChild('thirteen') thirteen:TemplateRef<any>;
-  @ViewChild('fourteen') fourteen:TemplateRef<any>;
-  @ViewChild('fiveteen') fiveteen:TemplateRef<any>;
-  @ViewChild('sixteen') sixteen:TemplateRef<any>;
-  @ViewChild('seventeen') seventeen:TemplateRef<any>;
+    this.claimData = new ClaimView();
+  }
+
+  @ViewChild('one') one: TemplateRef<any>;
+  @ViewChild('two') two: TemplateRef<any>;
+  @ViewChild('three') three: TemplateRef<any>;
+  @ViewChild('four') four: TemplateRef<any>;
+  @ViewChild('five') five: TemplateRef<any>;
+  @ViewChild('six') six: TemplateRef<any>;
+  @ViewChild('seven') seven: TemplateRef<any>;
+  @ViewChild('eight') eight: TemplateRef<any>;
+  @ViewChild('nine') nine: TemplateRef<any>;
+  @ViewChild('ten') ten: TemplateRef<any>;
+  @ViewChild('eleven') eleven: TemplateRef<any>;
+  @ViewChild('twelve') twelve: TemplateRef<any>;
+  @ViewChild('thirteen') thirteen: TemplateRef<any>;
+  @ViewChild('fourteen') fourteen: TemplateRef<any>;
+  @ViewChild('fiveteen') fiveteen: TemplateRef<any>;
+  @ViewChild('sixteen') sixteen: TemplateRef<any>;
+  @ViewChild('seventeen') seventeen: TemplateRef<any>;
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
-  
+
   filesLogArr: Array<any> = new Array<any>();
   selectedFileLog: any;
 
@@ -70,8 +70,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   question: number;
   exampleForm: any;
   formGroups: any;
-  groupQuery1: any; 
-  groupQuery2: any; 
+  groupQuery1: any;
+  groupQuery2: any;
   groupQuery3: any;
   groupQuery4: any;
   groupQuery5: any;
@@ -83,22 +83,22 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   groupQuery11: any;
   groupQuery12: any;
   groupQuery13: any;
-  groupQuery14: any;  
+  groupQuery14: any;
   groupQuery15: any;
   groupQuery16: any;
   groupQuery17: any;
 
-  public radioGroupQueryValue1: number = 0; 
-  public radioGroupQueryValue2: number = 0; 
-  public radioGroupQueryValue3: number = 0; 
-  public radioGroupQueryValue5: number = 0; 
-  public radioGroupQueryValue6: number = 0; 
-  public radioGroupQueryValue7: number = 0; 
-  public radioGroupQueryValue8: number = 0; 
-  public radioGroupQueryValue10: number = 0; 
-  public radioGroupQueryValue11: number = 0; 
-  public radioGroupQueryValue13: number = 0; 
-  public radioGroupQueryValue15: number = 0; 
+  public radioGroupQueryValue1: number = 0;
+  public radioGroupQueryValue2: number = 0;
+  public radioGroupQueryValue3: number = 0;
+  public radioGroupQueryValue5: number = 0;
+  public radioGroupQueryValue6: number = 0;
+  public radioGroupQueryValue7: number = 0;
+  public radioGroupQueryValue8: number = 0;
+  public radioGroupQueryValue10: number = 0;
+  public radioGroupQueryValue11: number = 0;
+  public radioGroupQueryValue13: number = 0;
+  public radioGroupQueryValue15: number = 0;
 
   role: string;
   isLastStep: boolean = false;
@@ -130,16 +130,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   valPay2 = {val: 2, text: 'Іншою картою'};
   valBack = {val: 1, text: 'Так'};
   valBack2 = {val: 2, text: 'Ні'};
-  
+
   comments: Array<ClaimComment>;
   documents: Array<ClaimDocument>;
-  
+
   chargeback_date: Date;
   second_presentment_date: Date;
   pre_arbitration_date: Date;
   pre_arbitration_response_date: Date;
   arbitration_date: Date;
-  arbitration_response_date : Date;
+  arbitration_response_date: Date;
 
   ngOnInit(): void {
     this.claimData = new ClaimView();
@@ -156,9 +156,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.generateStatusFields();
 
     this.formGroups = new FormGroup({
-      
-      groupQuery1: new FormControl(), 
-      groupQuery2: new FormControl(), 
+
+      groupQuery1: new FormControl(),
+      groupQuery2: new FormControl(),
       groupQuery3: new FormControl(),
       groupQuery4: new FormControl(),
       groupQuery5: new FormControl(),
@@ -170,17 +170,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       groupQuery11: new FormControl(),
       groupQuery12: new FormControl(),
       groupQuery13: new FormControl(),
-      groupQuery14: new FormControl(),  
+      groupQuery14: new FormControl(),
       groupQuery15: new FormControl(),
       groupQuery16: new FormControl(),
       groupQuery17: new FormControl(),
 
     });
-    
+
     this.stepNewRecord = 1;
 
     //this.claimId = this.transferService.cOPClaimID.getValue();
-   
+
 
     this.isNewRecord = this.claimId.length == 0 ? true : false;
 
@@ -191,7 +191,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //   this.getListCurrency();
     //   this.getListQuestions();
     // }
- 
+
     this.getListMerchant();
     this.getListCurrency();
     this.getListQuestions();
@@ -199,7 +199,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getDates();
 
     //this.loadClaimDocumsnts();
-    
+
   }
 
   ngOnDestroy(): void {
@@ -212,46 +212,46 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  timeline(){
+  timeline() {
     this.httpService.getTimeLine(this.claimId).subscribe({
-        next: (response: any) => {
-          this.Timeline = response;
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-         
-        }
-      });
+      next: (response: any) => {
+        this.Timeline = response;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    });
   }
 
   loadClaim() {
     this.httpService.getSingleClaim(this.claimId).subscribe({
-        next: (response: any) => {
-          this.claimData = response;
-          this.setClaimComments();
-          this.setClaimDocumsnts();
+      next: (response: any) => {
+        this.claimData = response;
+        this.setClaimComments();
+        this.setClaimDocumsnts();
 
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-          this.isUIloaded = true;
-        }
-      });
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.isUIloaded = true;
+      }
+    });
   }
-  
 
-  setClaimComments(){
+
+  setClaimComments() {
     this.comments = new Array<ClaimComment>();
     let c = this.claimData['comments'];
-    if(c){
+    if (c) {
       c.forEach(el => {
         let item = new ClaimComment();
         item.text = el.text;
-        if(el.create_date)
+        if (el.create_date)
           item.create_date_str = this.datePipe.transform(new Date(el.create_date), 'dd/MM/yyyy');
         else
           item.create_date_str = '';
@@ -264,19 +264,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  setClaimDocumsnts(){
+  setClaimDocumsnts() {
 
     this.documents = new Array<ClaimDocument>();
     let d = this.claimData['documents'];
-    if(d){
+    if (d) {
       d.forEach(el => {
         let item = new ClaimDocument();
         item.description = el['description'];
-        item.file = el['file'];       
-        if(item.file)
+        item.file = el['file'];
+        if (item.file)
           item.file_name = item.file.split('\\').pop().split('/').pop();
         else
-        item.file_name = 'Документ';
+          item.file_name = 'Документ';
 
         this.documents.push(item);
       });
@@ -285,7 +285,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  loadClaimDocumsnts(){
+  loadClaimDocumsnts() {
     this.httpService.getClaimDocs(this.claimId).subscribe({
       next: (response: any) => {
       },
@@ -293,20 +293,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+
       }
     });
   }
 
 
-
-  lastStep(code:string) {
+  lastStep(code: string) {
     this.claimData.claim_reason_code = code;
     this.claimData.comment = this.claimData.ch_comments;
     this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     this.isLastStep = true;
     this.claimData.answers = {};
-    for(let i = 0; i < this.editedAnswers.length; i++) {
+    for (let i = 0; i < this.editedAnswers.length; i++) {
       this.claimData.answers[Object.keys(this.editedAnswers[i])[0]] = this.editedAnswers[i][Object.keys(this.editedAnswers[i])[0]];
     }
     // this.saveClaim();
@@ -315,12 +314,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   uploadDoc(claim: any) {
-    if(this.filesArr && this.filesArr.length > 0){
+    if (this.filesArr && this.filesArr.length > 0) {
       let data = this.filesArr[0];
       claim.form_name = "claim_form";
 
-      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
-      claim.user.id, '').subscribe({
+      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
+        claim.user.id, '').subscribe({
         next: (response: any) => {
           this.filesArr = [];
         },
@@ -345,23 +344,23 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
     });
-  }  
+  }
 
   saveClaim() {
     //this.claimData.form_name = 'claim_form';
-    
+
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
 
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
-    
+
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         this.uploadDoc(response);
-        if(this.claimData.comment){
+        if (this.claimData.comment) {
           this.commentClaim(response['id'], this.claimData.comment, '');
         }
-        
+
       },
       error: error => {
         console.error('There was an error!', error);
@@ -373,10 +372,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   change(par: any) {
-    switch(par.part) {
+    switch (par.part) {
       case 'one':
-        this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
-        if(par.formGroups.value.groupQuery1.val == 1) {
+        this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1 ? false : true});
+        if (par.formGroups.value.groupQuery1.val == 1) {
           this.part = 'two';
         } else {
           this.part = 'five';
@@ -384,7 +383,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'two':
         this.editedAnswers.push({"2": par.formGroups.value.groupQuery2.text});
-        if(par.formGroups.value.groupQuery2.val == 3) {
+        if (par.formGroups.value.groupQuery2.val == 3) {
           this.part = 'five';
         } else {
           this.part = 'three';
@@ -392,19 +391,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'three':
         this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
-          if(par.formGroups.value.groupQuery3.val == 1) {
-            this.lastStep('0500');
-          } else {
-            this.part = 'four';
-          }
-          break;
+        if (par.formGroups.value.groupQuery3.val == 1) {
+          this.lastStep('0500');
+        } else {
+          this.part = 'four';
+        }
+        break;
       case 'four':
         this.editedAnswers.push({"4": par.formGroups.value.groupQuery4});
         this.lastStep('0021');
-          break;
+        break;
       case 'five':
         this.editedAnswers.push({"5": par.formGroups.value.groupQuery5.text});
-        if(par.formGroups.value.groupQuery5.val == 1) {
+        if (par.formGroups.value.groupQuery5.val == 1) {
           this.lastStep('0100');
         } else {
           this.part = 'six';
@@ -412,7 +411,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'six':
         this.editedAnswers.push({"6": par.formGroups.value.groupQuery6.text});
-        if(par.formGroups.value.groupQuery6.val == 1) {
+        if (par.formGroups.value.groupQuery6.val == 1) {
           this.part = 'seven';
         } else {
           this.part = 'ten';
@@ -420,7 +419,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'seven':
         this.editedAnswers.push({"7": par.formGroups.value.groupQuery7.text});
-        if(par.formGroups.value.groupQuery7.val == 1) {
+        if (par.formGroups.value.groupQuery7.val == 1) {
           this.lastStep('0500');
         } else {
           this.part = 'eight';
@@ -428,10 +427,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'eight':
         this.editedAnswers.push({"8": par.formGroups.value.groupQuery8.text});
-        if(par.formGroups.value.groupQuery8.val == 1) {
+        if (par.formGroups.value.groupQuery8.val == 1) {
           this.part = 'nine';
         } else {
-          this.lastStep('0001');      
+          this.lastStep('0001');
         }
         break;
       case 'nine':
@@ -439,12 +438,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lastStep('0001');
         break;
       case 'ten':
-        this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1? true:false});
+        this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1 ? true : false});
         this.part = 'eleven';
         break;
       case 'eleven':
-        this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1? false:true});
-        if(par.formGroups.value.groupQuery11.val == 1) {
+        this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1 ? false : true});
+        if (par.formGroups.value.groupQuery11.val == 1) {
           this.lastStep('0009');
         } else {
           this.part = 'twelve';
@@ -452,50 +451,50 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'twelve':
         this.editedAnswers.push({"12": par.formGroups.value.groupQuery12.caption});
-        if(par.formGroups.value.groupQuery12.id == 1) {
+        if (par.formGroups.value.groupQuery12.id == 1) {
           this.lastStep('0011');
-        } else if(par.formGroups.value.groupQuery12.id == 2) {
+        } else if (par.formGroups.value.groupQuery12.id == 2) {
           this.part = 'thirteen';
-        } else if(par.formGroups.value.groupQuery12.id == 3) {
+        } else if (par.formGroups.value.groupQuery12.id == 3) {
           this.part = 'fourteen';
-        } else if(par.formGroups.value.groupQuery12.id == 4) {
+        } else if (par.formGroups.value.groupQuery12.id == 4) {
           this.lastStep('0003');
-        } else if(par.formGroups.value.groupQuery12.id == 5) {
+        } else if (par.formGroups.value.groupQuery12.id == 5) {
           this.part = 'seventeen';
-        } else if(par.formGroups.value.groupQuery12.id == 6) {
+        } else if (par.formGroups.value.groupQuery12.id == 6) {
           this.part = 'sixteen';
-        } else if(par.formGroups.value.groupQuery12.id == 7) {
+        } else if (par.formGroups.value.groupQuery12.id == 7) {
           this.lastStep('0500');
         } else {
           console.log('stop');
         }
         break;
-        case 'thirteen':
-          this.editedAnswers.push({"13": par.formGroups.value.groupQuery13.text});
-          this.lastStep('0027');
+      case 'thirteen':
+        this.editedAnswers.push({"13": par.formGroups.value.groupQuery13.text});
+        this.lastStep('0027');
         break;
-        case 'fourteen':
-          this.editedAnswers.push({"14": this.claimData.trans_date});
-          this.lastStep('0004');
+      case 'fourteen':
+        this.editedAnswers.push({"14": this.claimData.trans_date});
+        this.lastStep('0004');
         break;
-        case 'fiveteen':
-          this.editedAnswers.push({"15": par.formGroups.value.groupQuery15.val == 1? true:false});
+      case 'fiveteen':
+        this.editedAnswers.push({"15": par.formGroups.value.groupQuery15.val == 1 ? true : false});
+        this.lastStep('0009');
+        break;
+      case 'sixteen':
+        this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
+        this.lastStep('0012');
+        break;
+      case 'seventeen':
+        this.editedAnswers.push({"17": par.formGroups.value.groupQuery17});
+        if (par.formGroups.value.groupQuery17.val == 1) {
+          this.part = 'fiveteen';
+        } else {
           this.lastStep('0009');
-        break;
-        case 'sixteen':
-          this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
-          this.lastStep('0012');
-        break;
-        case 'seventeen':
-          this.editedAnswers.push({"17": par.formGroups.value.groupQuery17});
-          if(par.formGroups.value.groupQuery17.val == 1) {
-            this.part = 'fiveteen';
-          } else {
-            this.lastStep('0009');
-          }
+        }
         break;
     }
-    
+
     // if(par.part == 'one') {
     //   console.log(par.formGroups.value.groupQuery1);
     //   if(par.formGroups.value.groupQuery1 == 1) {
@@ -504,147 +503,149 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //     this.part = 'five';
     //   }
     // }
-    
+
 
     //this.part = par.part == 'two'? 'one':'two';
   }
 
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
-    if(this.selectedFile.size > 50000000) {
+    if (this.selectedFile.size > 50000000) {
       alert('Файл занадто великий!');
     } else {
       this.filesArr.push(this.selectedFile);
     }
   }
 
-  deleteAttachedFile(file:any) {
-    this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e=> e == file)), 1);
+  deleteAttachedFile(file: any) {
+    this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e => e == file)), 1);
   }
-  
+
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
   }
-  
-  public get getDateTrans(){
-    if(this.claimData && this.claimData.trans_date){
+
+  public get getDateTrans() {
+    if (this.claimData && this.claimData.trans_date) {
       return this.datePipe.transform(new Date(this.claimData.trans_date), 'dd-MM-yyyy hh:mm:ss');
     } else {
       return '';
     }
-    
+
   }
 
-  
-  onClickGoNextStep(){
+
+  onClickGoNextStep() {
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
   }
 
-  onClickSend(){
+  onClickSend() {
     //this.transferService.pAD.next(this.claimData.pan.toString());
     //this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
-  onClickBack(){
+  onClickBack() {
     this.isLastStep = false;
     this.editedAnswers = new Array<any>();
     this.stepNewRecord = 1;
   }
 
-  getListMerchant(){
+  getListMerchant() {
     this.merchantsArr = new Array<MerchUser>();
 
     this.httpService.getMerchantsAll().subscribe({
-        next: (response: any) => {
-          this.merchantsArr = response;
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-         
-        }
-      });
+      next: (response: any) => {
+        this.merchantsArr = response;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+
+      }
+    });
   }
 
-  getListCurrency(){
+  getListCurrency() {
     this.listCurrency = new Array<SelectorData>();
-    this.listCurrency.push({id:1, caption:"uah"});
-    this.listCurrency.push({id:2, caption:"usd"});
-    this.listCurrency.push({id:2, caption:"eur"});
+    this.listCurrency.push({id: 1, caption: "uah"});
+    this.listCurrency.push({id: 2, caption: "usd"});
+    this.listCurrency.push({id: 2, caption: "eur"});
   }
 
-  getListQuestions(){
+  getListQuestions() {
     this.listQuestions = new Array<SelectorData>();
-    this.listQuestions.push({id:1, caption:"Дублювання транзакцій"});
-    this.listQuestions.push({id:2, caption:"Оплату проведено іншим способом"});
-    this.listQuestions.push({id:3, caption:"Товар або послугу повернено, але немає повернення коштів"});
-    this.listQuestions.push({id:4, caption:"Підписка була скасована, але суму було списано"});
-    this.listQuestions.push({id:5, caption:"Отримані товари були пошкоджені, або не такі, як було описано в замовлені"});
-    this.listQuestions.push({id:6, caption:"Неправильна сума або валюта транзакція"});
-    this.listQuestions.push({id:7, caption:"Інша причина"});
+    this.listQuestions.push({id: 1, caption: "Дублювання транзакцій"});
+    this.listQuestions.push({id: 2, caption: "Оплату проведено іншим способом"});
+    this.listQuestions.push({id: 3, caption: "Товар або послугу повернено, але немає повернення коштів"});
+    this.listQuestions.push({id: 4, caption: "Підписка була скасована, але суму було списано"});
+    this.listQuestions.push({
+      id: 5,
+      caption: "Отримані товари були пошкоджені, або не такі, як було описано в замовлені"
+    });
+    this.listQuestions.push({id: 6, caption: "Неправильна сума або валюта транзакція"});
+    this.listQuestions.push({id: 7, caption: "Інша причина"});
   }
-
 
 
   fileLogChanged(e) {
     this.selectedFileLog = e.target.files[0];
-    if(this.selectedFileLog.size > 50000000) {
+    if (this.selectedFileLog.size > 50000000) {
       alert('Файл занадто великий!');
     } else {
       this.filesLogArr.push(this.selectedFileLog);
     }
   }
 
-  deleteAttachedFileLog(file:any) {
-    this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
+  deleteAttachedFileLog(file: any) {
+    this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e => e == file)), 1);
   }
 
-  
-  onClickEscalation(){
+
+  onClickEscalation() {
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "NewEscalation";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  onClickFinish(){
+  onClickFinish() {
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  onClickClarifications(){
+  onClickClarifications() {
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "Clarifications";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  onClickRequestDocs(){
+  onClickRequestDocs() {
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "QueryForm";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
-  getDates(){
+  getDates() {
 
   }
 
-  saveClaimUpdate(){
+  saveClaimUpdate() {
     this.claimData.claimId = this.claimData.id;
     this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
@@ -655,33 +656,33 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       complete: () => {
 
       }
-    }); 
+    });
   }
 
 
-  get getUrlPDF(){
+  get getUrlPDF() {
     let url = '';
 
-    if(this.claimId) {
-      url = 'https://APP0.chargebackoptimizer.com/api/v1/claim/'+ this.claimId +'/pdf/'
+    if (this.claimId) {
+      url = `${MAIN_URL}/api/v1/claim/${this.claimId}/pdf/`
     }
-    
+
     return url;
   }
 
-  goBack(){
+  goBack() {
     this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
   }
 
-  get getClaimData_merch_name_ips(): string{
-    if(this.claimData && this.claimData.merchant &&  this.claimData.merchant.name_ips )
+  get getClaimData_merch_name_ips(): string {
+    if (this.claimData && this.claimData.merchant && this.claimData.merchant.name_ips)
       return this.claimData.merchant.name_ips;
-    else 
+    else
       return '';
   }
- 
-  getDateFormat(date: any){
-    if(date)
+
+  getDateFormat(date: any) {
+    if (date)
       return this.datePipe.transform(new Date(date), 'dd/MM/yyyy');
     else
       return '';

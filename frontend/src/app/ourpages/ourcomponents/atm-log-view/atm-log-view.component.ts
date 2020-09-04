@@ -196,7 +196,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     this.atmLogViewSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
         this.atmTransactionsData = response.results;
-        
+        console.log(response.results);
         self.source = new LocalDataSource();
         self.source.load(self.atmTransactionsData);
       },

@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
+from cop.core.models import Claim
 from cop.core.utils.claim_reason_codes import ClaimReasonCodes as crc
 
 User = get_user_model()
@@ -32,6 +33,7 @@ class ClaimRoutingService:
         self.assign_rc_by_claim_rc(validated_data['claim_reason_code'])
         self.assign_bank_by_pan()
         self.claim.assign_transaction()
+        self.assign_support()
 
     def assign_by_merch_id(self, merch_id):
         from cop.users.models import Merchant
@@ -76,3 +78,11 @@ class ClaimRoutingService:
         from cop.core.models import ATM
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
 
+    def assign_support(self):
+        if self.claim.bank:
+            self.claim.support = Claim.Support.US_ON_US if self.claim_bank_is_term_bank() else Claim.Support.US_ON_THEM
+        else:
+            self.claim.support = Claim.Support.THEM_ON_US
+
+    def claim_bank_is_term_bank(self):
+        return self.claim.bank in self.claim.terminal.merchant.bank.all()

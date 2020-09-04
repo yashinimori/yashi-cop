@@ -147,7 +147,8 @@ class ReasonCodeGroup(BaseModel):
             (CARDHOLDER_DISPUTES, 'Cardholder Disputes'),
         )
 
-    group = models.CharField(max_length=128, choices=Group.CHOICES, null=True, blank=True)
+    group_visa = models.CharField(max_length=128, choices=Group.CHOICES, null=True, blank=True)
+    group_mastercard = models.CharField(max_length=128, choices=Group.CHOICES, null=True, blank=True)
     code = models.CharField(max_length=4)
     visa = models.CharField(max_length=128, blank=True, null=True)
     mastercard = models.CharField(max_length=128, blank=True, null=True)
