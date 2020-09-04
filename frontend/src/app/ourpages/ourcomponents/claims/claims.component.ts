@@ -143,7 +143,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії.',
+              title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
@@ -225,7 +225,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії.',
+              title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
@@ -314,7 +314,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії.',
+              title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
@@ -371,7 +371,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.term_id = el['term_id'];
           t.trans_amount = el['trans_amount'];
           t.trans_currency = el['trans_currency'];
-          t.auth_code = el['auth_code'];
+          t.auth_code = el['trans_approval_code'];
           t.claim_reason_code = el['reason_code'];
           t.status = el.status['stage'];
           t.action_needed = el['action_needed'];

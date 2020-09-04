@@ -135,7 +135,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії.',
+              title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
@@ -182,7 +182,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           t.term_id = el['term_id'];
           t.trans_amount = el['trans_amount'];
           t.trans_currency = el['trans_currency'];
-          t.auth_code = el['auth_code'];
+          t.auth_code = el['trans_approval_code'];
           t.claim_reason_code = el['reason_code'];
           t.status = el['status'];// status string
           t.action_needed = el['action_needed'];
@@ -191,7 +191,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           t.ch_comments = el['ch_comments'];
 
           let m = el['merchant'];
-          console.log(m);
+          //console.log(m);
           if(m) 
             t.merch_name_ips = m['name_ips'];
           
