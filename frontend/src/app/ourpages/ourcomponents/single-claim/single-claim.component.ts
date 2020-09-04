@@ -355,6 +355,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
     
+    console.log('saveClaim');
+    console.log(this.claimData);
+
     this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         this.uploadDoc(response);
