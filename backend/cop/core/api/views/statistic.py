@@ -7,14 +7,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cop.core.api.permissions.base import AllowBankEmployeesPermission, AllowCopManagerPermission
+from cop.core.api.permissions.base import AllowCopManagerPermission, \
+    AllowTopLevelPermission, AllowChargebackOfficerPermission
 from cop.core.models import Claim, Status, ReasonCodeGroup
 
 User = get_user_model()
 
 
 class BankStats(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
@@ -79,7 +81,8 @@ class BankStats(APIView):
 
 
 class BankUpdatedClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
@@ -101,7 +104,8 @@ class BankUpdatedClaimsStatistics(APIView):
 
 
 class ClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowCopManagerPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request):
         qs = Claim.objects.all()
@@ -116,7 +120,8 @@ class ClaimsStatistics(APIView):
 
 
 class UpdatedClaimsStatistics(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request, *args, **kwargs):
         start_date = request.query_params.get('start-date', None)
@@ -137,7 +142,8 @@ class UpdatedClaimsStatistics(APIView):
 
 
 class ClaimsStatisticsByStatusStage(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request):
         start_date = request.query_params.get('start-date', None)
@@ -182,7 +188,8 @@ class ClaimsStatisticsByStatusStage(APIView):
 
 
 class ClaimsStatisticsByRcGroup(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request):
         start_date = request.query_params.get('start-date', None)
@@ -211,7 +218,8 @@ class ClaimsStatisticsByRcGroup(APIView):
 
 
 class ClaimsStatisticsBySupportChoices(APIView):
-    permission_classes = (IsAuthenticated, AllowBankEmployeesPermission)
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission, AllowCopManagerPermission,
+                          AllowTopLevelPermission)
 
     def get(self, request):
         start_date = request.query_params.get('start-date', None)
