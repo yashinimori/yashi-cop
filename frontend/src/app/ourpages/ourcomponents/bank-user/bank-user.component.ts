@@ -8,7 +8,7 @@ import { TransferService } from '../../../share/services/transfer.service';
 @Component({
   selector: 'ngx-bank-user',
   templateUrl: './bank-user.component.html',
-  styleUrls: ['./bank-user.component.scss']
+  styleUrls: ['./bank-user.component.scss'],
 })
 
 export class BankUserComponent implements OnInit {
@@ -20,8 +20,8 @@ export class BankUserComponent implements OnInit {
 
   // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
-    private router: Router,
-    private transferService: TransferService,) {
+              private router: Router,
+              private transferService: TransferService) {
 
     this.bankID = '';
     this.role = '';
@@ -29,12 +29,12 @@ export class BankUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.data = new BankUser();
+    this.role = localStorage.getItem('role');
     this.getRoles();
 
     this.bankID = this.transferService.bankID.getValue();
 
-    this.role = localStorage.getItem('role');
-    this.getListBanks()
+    this.getListBanks();
   }
 
   private getListBanks() {
@@ -48,24 +48,24 @@ export class BankUserComponent implements OnInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-      }
+      },
     });
   }
 
   createBankUser() {
-    if(this.enter() == 0){
+    if (this.enter() == 0) {
 
-      let d = {
-        "email": this.data.email,
-        "password": this.data.password,
-        "first_name": this.data.first_name,
-        "last_name": this.data.last_name,
-        "phone": this.data.phone,
-        "role": this.data.role,
-        "bankemployee": {
-            "bank": this.bankID,
-            "unit": this.data.unit
-          }
+      const d = {
+        'email': this.data.email,
+        'password': this.data.password,
+        'first_name': this.data.first_name,
+        'last_name': this.data.last_name,
+        'phone': this.data.phone,
+        'role': this.data.role,
+        'bankemployee': {
+          'bank': this.bankID,
+          'unit': this.data.unit,
+        },
       };
 
       this.httpService.createNewUserBank(d).subscribe({
@@ -76,7 +76,7 @@ export class BankUserComponent implements OnInit {
         },
         complete: () => {
           this.goBack();
-        }
+        },
       });
 
     }
@@ -85,9 +85,9 @@ export class BankUserComponent implements OnInit {
 
   goBack(){
     this.transferService.bankID.next(this.bankID);
-    if(this.role == 'top_level'){
+    if (this.role == 'top_level') {
       this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
-    } else if(this.role == 'security_officer'){
+    } else if (this.role == 'security_officer') {
       this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
     } else {
       this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
@@ -119,15 +119,21 @@ export class BankUserComponent implements OnInit {
   }
 
 
-  getRoles(){
+  getRoles() {
     this.listRole = new Array<SelectorData>();
-    //this.listRole.push({id:1, caption:"cardholder"});
-    //this.listRole.push({id:2, caption:"merchant"});
-    //this.listRole.push({id:3, caption:"user"});
-    this.listRole.push({id:4, caption:"chargeback_officer"});
-    this.listRole.push({id:5, caption:"cop_manager"});
-    this.listRole.push({id:4, caption:"top_level"});
-
+    if (this.role === 'cop_manager') {
+      this.listRole.push({id: 3, caption: 'security_officer'});
+      this.listRole.push({id: 4, caption: 'chargeback_officer'});
+      this.listRole.push({id: 6, caption: 'сс_branch'});
+      this.listRole.push({id: 5, caption: 'cop_manager'});
+      this.listRole.push({id: 4, caption: 'top_level'});
+    } else if (this.role === 'top_level') {
+      this.listRole.push({id: 3, caption: 'security_officer'});
+    } else if (this.role === 'security_officer') {
+      this.listRole.push({id: 4, caption: 'top_level'});
+      this.listRole.push({id: 4, caption: 'chargeback_officer'});
+      this.listRole.push({id: 6, caption: 'сс_branch'});
+    }
   }
 
 }
