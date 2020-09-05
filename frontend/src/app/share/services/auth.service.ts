@@ -32,10 +32,7 @@ export class AuthService {
   }
 
   setPassword(data: any) {
-    return this.http.post(RESET_PASSWORD_CONFIRM, data, {
-        headers: this.getTokenHeader()
-      }
-    );
+    return this.http.post(RESET_PASSWORD_CONFIRM, data);
   }
 
   userActivated(data: any){

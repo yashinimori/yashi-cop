@@ -30,8 +30,7 @@ class CustomRegistrationView(DjoserUserViewSet):
 
         if self.is_create_serializer(serializer_class):
             return self.get_serializer_based_on_role(serializer_class)
-        else:
-            return serializer_class
+        return serializer_class
 
     def get_serializer_based_on_role(self, serializer_class):
         role = self.request.data.get('role')
