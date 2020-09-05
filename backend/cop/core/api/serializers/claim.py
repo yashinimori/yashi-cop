@@ -166,6 +166,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        pan = validated_data.pop('pan', None)
         claim_reason_code = validated_data.pop('claim_reason_code', None)
         instance = super().update(instance, validated_data)
         self.instance = instance
