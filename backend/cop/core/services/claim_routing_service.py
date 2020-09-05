@@ -37,6 +37,7 @@ class ClaimRoutingService:
 
     def assign_by_merch_id(self, merch_id):
         from cop.users.models import Merchant
+        # TODO: merchant can be set directly by id when submitting Claim form.
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
         if merchant:
             self.claim.merchant = merchant

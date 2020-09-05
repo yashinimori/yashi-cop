@@ -13,7 +13,8 @@ import { ClaimComment } from '../../../share/models/claim-comment.model';
 import { ClaimDocument } from '../../../share/models/claim-document.model';
 import { runInThisContext } from 'vm';
 import { TimelineView } from '../../../share/models/timeline-view.model'
-import { MerchUser } from '../../../share/models/merch-user.model';
+import {MerchUser} from '../../../share/models/merch-user.model';
+import {MAIN_URL} from '../../../share/urlConstants';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -21,19 +22,19 @@ import { MerchUser } from '../../../share/models/merch-user.model';
   styleUrls: ['./single-claim.component.scss']
 })
 export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
-  
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService, 
-    private httpService: HttpService,
-    private router: Router,
-    private cdr: ChangeDetectorRef) { 
 
-      this.claimData = new ClaimView();
-    }
+  constructor(private datePipe: DatePipe,
+              private transferService: TransferService,
+              private httpService: HttpService,
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
 
-  @ViewChild('one') one:TemplateRef<any>;
-  @ViewChild('two') two:TemplateRef<any>;
-  @ViewChild('three') three:TemplateRef<any>;
+    this.claimData = new ClaimView();
+  }
+
+  @ViewChild('one') one: TemplateRef<any>;
+  @ViewChild('two') two: TemplateRef<any>;
+  @ViewChild('three') three: TemplateRef<any>;
   @ViewChild('four') four:TemplateRef<any>;
   @ViewChild('five') five:TemplateRef<any>;
   @ViewChild('six') six:TemplateRef<any>;
@@ -51,7 +52,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
-  
+
   filesLogArr: Array<any> = new Array<any>();
   selectedFileLog: any;
 
@@ -70,8 +71,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   question: number;
   exampleForm: any;
   formGroups: any;
-  groupQuery1: any; 
-  groupQuery2: any; 
+  groupQuery1: any;
+  groupQuery2: any;
   groupQuery3: any;
   groupQuery4: any;
   groupQuery5: any;
@@ -83,22 +84,22 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   groupQuery11: any;
   groupQuery12: any;
   groupQuery13: any;
-  groupQuery14: any;  
+  groupQuery14: any;
   groupQuery15: any;
   groupQuery16: any;
   groupQuery17: any;
 
-  public radioGroupQueryValue1: number = 0; 
-  public radioGroupQueryValue2: number = 0; 
-  public radioGroupQueryValue3: number = 0; 
-  public radioGroupQueryValue5: number = 0; 
-  public radioGroupQueryValue6: number = 0; 
-  public radioGroupQueryValue7: number = 0; 
-  public radioGroupQueryValue8: number = 0; 
-  public radioGroupQueryValue10: number = 0; 
-  public radioGroupQueryValue11: number = 0; 
-  public radioGroupQueryValue13: number = 0; 
-  public radioGroupQueryValue15: number = 0; 
+  public radioGroupQueryValue1: number = 0;
+  public radioGroupQueryValue2: number = 0;
+  public radioGroupQueryValue3: number = 0;
+  public radioGroupQueryValue5: number = 0;
+  public radioGroupQueryValue6: number = 0;
+  public radioGroupQueryValue7: number = 0;
+  public radioGroupQueryValue8: number = 0;
+  public radioGroupQueryValue10: number = 0;
+  public radioGroupQueryValue11: number = 0;
+  public radioGroupQueryValue13: number = 0;
+  public radioGroupQueryValue15: number = 0;
 
   role: string;
   isLastStep: boolean = false;
@@ -130,10 +131,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   valPay2 = {val: 2, text: 'Іншою картою'};
   valBack = {val: 1, text: 'Так'};
   valBack2 = {val: 2, text: 'Ні'};
-  
+
   comments: Array<ClaimComment>;
   documents: Array<ClaimDocument>;
-  
+
   chargeback_date: Date;
   second_presentment_date: Date;
   pre_arbitration_date: Date;
@@ -156,9 +157,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.generateStatusFields();
 
     this.formGroups = new FormGroup({
-      
-      groupQuery1: new FormControl(), 
-      groupQuery2: new FormControl(), 
+
+      groupQuery1: new FormControl(),
+      groupQuery2: new FormControl(),
       groupQuery3: new FormControl(),
       groupQuery4: new FormControl(),
       groupQuery5: new FormControl(),
@@ -170,17 +171,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       groupQuery11: new FormControl(),
       groupQuery12: new FormControl(),
       groupQuery13: new FormControl(),
-      groupQuery14: new FormControl(),  
+      groupQuery14: new FormControl(),
       groupQuery15: new FormControl(),
       groupQuery16: new FormControl(),
       groupQuery17: new FormControl(),
 
     });
-    
+
     this.stepNewRecord = 1;
 
     //this.claimId = this.transferService.cOPClaimID.getValue();
-   
+
 
     this.isNewRecord = this.claimId.length == 0 ? true : false;
 
@@ -191,7 +192,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //   this.getListCurrency();
     //   this.getListQuestions();
     // }
- 
+
     this.getListMerchant();
     this.getListCurrency();
     this.getListQuestions();
@@ -199,7 +200,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getDates();
 
     //this.loadClaimDocumsnts();
-    
+
   }
 
   ngOnDestroy(): void {
@@ -221,7 +222,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-         
+
         }
       });
   }
@@ -242,7 +243,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-  
+
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
@@ -272,7 +273,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       d.forEach(el => {
         let item = new ClaimDocument();
         item.description = el['description'];
-        item.file = el['file'];       
+        item.file = el['file'];
         if(item.file)
           item.file_name = item.file.split('\\').pop().split('/').pop();
         else
@@ -293,7 +294,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+
       }
     });
   }
@@ -319,8 +320,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       let data = this.filesArr[0];
       claim.form_name = "claim_form";
 
-      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id, 
-      claim.user.id, '').subscribe({
+      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
+        claim.user.id, '').subscribe({
         next: (response: any) => {
           this.filesArr = [];
         },
@@ -345,16 +346,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
     });
-  }  
+  }
 
   saveClaim() {
     //this.claimData.form_name = 'claim_form';
-    
+
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
 
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
-    
+
     console.log('saveClaim');
     console.log(this.claimData);
 
@@ -364,7 +365,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.claimData.comment){
           this.commentClaim(response['id'], this.claimData.comment, '');
         }
-        
+
       },
       error: error => {
         console.error('There was an error!', error);
@@ -434,7 +435,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.value.groupQuery8.val == 1) {
           this.part = 'nine';
         } else {
-          this.lastStep('0001');      
+          this.lastStep('0001');
         }
         break;
       case 'nine':
@@ -498,7 +499,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         break;
     }
-    
+
     // if(par.part == 'one') {
     //   console.log(par.formGroups.value.groupQuery1);
     //   if(par.formGroups.value.groupQuery1 == 1) {
@@ -507,7 +508,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //     this.part = 'five';
     //   }
     // }
-    
+
 
     //this.part = par.part == 'two'? 'one':'two';
   }
@@ -524,22 +525,22 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   deleteAttachedFile(file:any) {
     this.filesArr.splice(this.filesArr.indexOf(this.filesArr.find(e=> e == file)), 1);
   }
-  
+
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
   }
-  
+
   public get getDateTrans(){
     if(this.claimData && this.claimData.trans_date){
       return this.datePipe.transform(new Date(this.claimData.trans_date), 'dd-MM-yyyy hh:mm:ss');
     } else {
       return '';
     }
-    
+
   }
 
-  
+
   onClickGoNextStep(){
     this.part = 'one';
     this.stepNewRecord = 2;
@@ -568,7 +569,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-         
+
         }
       });
   }
@@ -606,40 +607,40 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
   }
 
-  
+
   onClickEscalation(){
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "NewEscalation";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
   onClickFinish(){
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
   onClickClarifications(){
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "Clarifications";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
   onClickRequestDocs(){
     let val = new SingleClaimFormsTransfer();
-    val.claimId = this.claimId;  
+    val.claimId = this.claimId;
     val.typeOperation = "QueryForm";
     this.transferService.singleClaimFormsSettings.next(val);
-  
+
     this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
   }
 
@@ -658,17 +659,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       complete: () => {
 
       }
-    }); 
+    });
   }
 
 
-  get getUrlPDF(){
+  get getUrlPDF() {
     let url = '';
 
-    if(this.claimId) {
-      url = 'https://APP0.chargebackoptimizer.com/api/v1/claim/'+ this.claimId +'/pdf/'
+    if (this.claimId) {
+      url = `${MAIN_URL}/api/v1/claim/${this.claimId}/pdf/`;
     }
-    
+
     return url;
   }
 
@@ -679,10 +680,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   get getClaimData_merch_name_ips(): string{
     if(this.claimData && this.claimData.merchant &&  this.claimData.merchant.name_ips )
       return this.claimData.merchant.name_ips;
-    else 
+    else
       return '';
   }
- 
+
   getDateFormat(date: any){
     if(date)
       return this.datePipe.transform(new Date(date), 'dd/MM/yyyy');
