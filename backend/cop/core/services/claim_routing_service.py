@@ -53,9 +53,9 @@ class ClaimRoutingService:
     def assign_rc_by_claim_rc(self, claim_reason_code):
         self.claim.reason_code_group = claim_reason_code.description
 
-        if int(self.claim.pan[0]) in MASTERCARD_START_NUMBERS:
+        if int(self.claim.hidden_pan[0]) in MASTERCARD_START_NUMBERS:
             self.claim.reason_code = claim_reason_code.mastercard
-        elif int(self.claim.pan[0]) in VISA_START_NUMBERS:
+        elif int(self.claim.hidden_pan[0]) in VISA_START_NUMBERS:
             self.claim.reason_code = claim_reason_code.visa
 
         try:
@@ -68,7 +68,7 @@ class ClaimRoutingService:
     def assign_bank_by_pan(self):
         from cop.core.models import Bank
 
-        bank_bin = self.claim.pan[0:6]
+        bank_bin = self.claim.hidden_pan[0:6]
         try:
             self.claim.bank = Bank.objects.get(bin=bank_bin)
         except ObjectDoesNotExist:
@@ -77,6 +77,12 @@ class ClaimRoutingService:
     def assign_atm(self, merch_id):
         from cop.core.models import ATM
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
+
+    def assign_support(self):
+        if self.claim.bank:
+            self.claim.support = Claim.Support.US_ON_US if self.claim_bank_is_term_bank() else Claim.Support.US_ON_THEM
+        else:
+            self.claim.support = Claim.Support.THEM_ON_US
 
     def assign_support(self):
         if self.claim.bank:

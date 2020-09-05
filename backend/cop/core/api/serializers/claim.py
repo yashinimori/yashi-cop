@@ -118,6 +118,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
     merchant = MerchantSerializer(read_only=True)
+    pan = serializers.CharField(min_length=16, max_length=16, required=True)
 
     class Meta:
         model = Claim
@@ -156,6 +157,8 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data = self.update_initial_data(validated_data)
+        validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
+        validated_data['hidden_pan'] = validated_data['pan'][0:6] + '******' + validated_data['pan'][-4:]
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
@@ -208,10 +211,21 @@ class ClaimSerializer(serializers.ModelSerializer):
         return Status.objects.get(index=6)
 
 
+class ClaimRetrieveSerializer(ClaimSerializer):
+    pan = serializers.SerializerMethodField()
+
+    def get_pan(self, instance):
+        return instance.decoded_pan if self.is_chargeback_officer() else instance.hidden_pan
+
+    def is_chargeback_officer(self):
+        return self.context["request"].user.is_chargeback_officer
+
+
 class ClaimListSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     user = UserSerializer(read_only=True)
     status = StatusSerializer(read_only=True)
+    pan = serializers.SerializerMethodField()
 
     class Meta:
         model = Claim
@@ -234,3 +248,9 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "status",
             "create_date",
         )
+
+    def get_pan(self, instance):
+        return instance.decoded_pan if self.is_chargeback_officer() else instance.hidden_pan
+
+    def is_chargeback_officer(self):
+        return self.context["request"].user.is_chargeback_officer

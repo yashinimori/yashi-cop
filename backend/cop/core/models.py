@@ -1,3 +1,4 @@
+from cryptography.fernet import Fernet
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -260,7 +261,8 @@ class Claim(BaseModel):
     trans_date = models.DateTimeField(max_length=12)
     transaction = models.ForeignKey(Transaction, on_delete=models.SET_NULL, blank=True, null=True,
                                     related_name='transactions')
-    pan = models.CharField(max_length=16)
+    pan = models.CharField(max_length=256)
+    hidden_pan = models.CharField(max_length=16)
 
     claim_reason_code = models.ForeignKey(ReasonCodeGroup, on_delete=models.CASCADE)
     reason_code_group = models.CharField(max_length=999, blank=True, null=True, help_text='Code description')
@@ -269,7 +271,7 @@ class Claim(BaseModel):
     action_needed = models.BooleanField(default=False)
 
     status = models.ForeignKey('Status', on_delete=models.PROTECT)
-    result = models.CharField(choices=Result.CHOICES, max_length=999, blank=True, null=True)
+    result = models.CharField(max_length=999, blank=True, null=True)
     support = models.CharField(choices=Support.CHOICES, max_length=999, blank=True, null=True)
 
     answers = JSONField(max_length=999, blank=True, null=True)
@@ -312,9 +314,20 @@ class Claim(BaseModel):
     def officer_answer_refund(self):
         return self.officer_answer_reason == self.ACCEPTED_REFUND or self.officer_answer_reason == self.PARTLY_REFUND
 
+    @property
+    def decoded_pan(self):
+        f = Fernet(settings.ENCRYPT_KEY)
+        return f.decrypt(self.pan.encode('utf-8')).decode('utf-8')
+
+    @staticmethod
+    def encrypt_pan(value):
+        f = Fernet(settings.ENCRYPT_KEY)
+        value_bytes = str.encode(value)
+        return f.encrypt(value_bytes).decode()
+
     def assign_transaction(self):
         approval_code = self.trans_approval_code
-        qs = Transaction.objects.filter(pan__startswith=self.pan[0:6], pan__endswith=self.pan[-4:],
+        qs = Transaction.objects.filter(hidden_pan__startswith=self.pan[0:6], hidden_pan__endswith=self.pan[-4:],
                                         trans_amount=self.trans_amount, trans_date__date=self.trans_date)
         if approval_code:
             qs.filter(approval_code=approval_code)
