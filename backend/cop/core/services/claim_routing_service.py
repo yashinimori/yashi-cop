@@ -69,20 +69,11 @@ class ClaimRoutingService:
         from cop.core.models import Bank
 
         bank_bin = self.claim.hidden_pan[0:6]
-        try:
-            self.claim.bank = Bank.objects.get(bin=bank_bin)
-        except ObjectDoesNotExist:
-            pass
+        self.claim.bank = Bank.objects.filter(bin__startswith=bank_bin).first()
 
     def assign_atm(self, merch_id):
         from cop.core.models import ATM
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
-
-    def assign_support(self):
-        if self.claim.bank:
-            self.claim.support = Claim.Support.US_ON_US if self.claim_bank_is_term_bank() else Claim.Support.US_ON_THEM
-        else:
-            self.claim.support = Claim.Support.THEM_ON_US
 
     def assign_support(self):
         if self.claim.bank:
