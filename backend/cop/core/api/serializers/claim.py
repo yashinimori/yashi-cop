@@ -157,8 +157,8 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data = self.update_initial_data(validated_data)
-        validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
         validated_data['hidden_pan'] = validated_data['pan'][0:6] + '******' + validated_data['pan'][-4:]
+        validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
         instance = super().create(validated_data)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
         self.instance = cmr.claim
