@@ -327,7 +327,7 @@ class Claim(BaseModel):
 
     def assign_transaction(self):
         approval_code = self.trans_approval_code
-        qs = Transaction.objects.filter(hidden_pan__startswith=self.pan[0:6], hidden_pan__endswith=self.pan[-4:],
+        qs = Transaction.objects.filter(pan__startswith=self.hidden_pan[0:6], pan__endswith=self.hidden_pan[-4:],
                                         trans_amount=self.trans_amount, trans_date__date=self.trans_date)
         if approval_code:
             qs.filter(approval_code=approval_code)
