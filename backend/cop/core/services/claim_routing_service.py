@@ -76,7 +76,8 @@ class ClaimRoutingService:
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
 
     def assign_support(self):
-        if self.claim.bank:
+        # TODO: should be tested with the client
+        if self.claim.bank and self.claim.terminal:
             self.claim.support = Claim.Support.US_ON_US if self.claim_bank_is_term_bank() else Claim.Support.US_ON_THEM
         else:
             self.claim.support = Claim.Support.THEM_ON_US
