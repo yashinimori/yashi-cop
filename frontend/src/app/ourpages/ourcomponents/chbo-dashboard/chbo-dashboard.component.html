@@ -1,28 +1,28 @@
 <div class="row">
-    <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Нові претензії</nb-card-header>
+    <nb-card class="col-2">
+        <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Нові претензії</nb-card-header>
         <nb-card-body class="statistic_center" style="display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 50px;">
+        font-size: 40px;">
             {{ all_new_claims }}
         </nb-card-body>
     </nb-card>
-    <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Претензії оновлені</nb-card-header>
+    <nb-card class="col-2">
+        <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Претензії оновлені</nb-card-header>
         <nb-card-body class="statistic_center" style="display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 50px;">
+        font-size: 40px;">
         {{ all_updated_claims }}
         </nb-card-body>
     </nb-card>
-    <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Типи звернень</nb-card-header>
+    <nb-card class="col-4">
+        <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Типи звернень</nb-card-header>
         <app-horizontal-bar></app-horizontal-bar>
     </nb-card>
-    <nb-card class="col-6 col-sm-3">
-        <nb-card-header>Всі звернення</nb-card-header>
+    <nb-card class="col-4">
+        <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Всі звернення</nb-card-header>
         <!-- <app-chartss-pie></app-chartss-pie> -->
         <app-chart-donat></app-chart-donat>
         <!-- <ngx-charts> -->

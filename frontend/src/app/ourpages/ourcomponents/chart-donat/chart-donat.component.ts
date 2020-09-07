@@ -57,16 +57,16 @@ export class ChartDonatComponent implements OnInit {
           
           this.doughnutChartLabels = [
             // 'arbitration_claims',
-            'chargeback_claims',
-            'chargeback_escalation_claims',
+            'chb',
+            'escal',
             // 'closed_claims',
             // 'dispute_claims',
             // 'dispute_response_claims',
             // 'final_ruling_claims',
-            'mediation_claims',
+            'med',
             // 'pre_arbitration_claims',
             // 'pre_arbitration_response_claims',
-            'pre_mediation_claims'
+            'pre-med'
           ];
           
           this.doughnutChartData  = [{

@@ -94,10 +94,10 @@ export class HorizontalBarComponent implements OnInit {
             // ]
             // categoryPercentage: 0.1,
             data: [
-              1,
-              2,
-              3,
-              4,
+              response['authorization_claims'],
+              response['cardholder_disputes_claims'],
+              response['fraud_claims'],
+              response['point_of_interaction_error_claims'],
             ],
             backgroundColor: ["#efc6ce", "#f7e4a0", "#8cdbd5", "#90c5e5"],
             
