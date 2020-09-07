@@ -20,6 +20,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   role: string;
   pagerSize = 10;
   fieldsStatus: FieldsStatus;
+  routeParamsStatus: any;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -48,14 +49,14 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     
     this.activatedRoute.params.subscribe(routeParams => {
       // (routeParams.id);
-      let status = routeParams.status;
-      console.log('STATUS:   ' + routeParams.status);
+      this.routeParamsStatus = routeParams.status;
+      console.log('STATUS:   ' + this.routeParamsStatus);
       this.role = localStorage.getItem('role');
       console.log('ClaimsComponent role ' +this.role);
       this.generateStatusFields();
 
       this.setSettingsGrid(this.role);
-      this.getClaimsData(status);
+      this.getClaimsData(this.routeParamsStatus);
     });
     
 
@@ -65,6 +66,12 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     // this.getClaimsData();
     
   }
+
+
+  refresh_claim(){
+    this.getClaimsData(this.routeParamsStatus);
+  }
+
 
   setSettingsGrid(role:string){
     //console.log('setSettingsGrid(c:string)' + role);
@@ -167,7 +174,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
-          data = response;
+        data = response;
 
         data.forEach(el => {
           //Тут иф на проверку статуса

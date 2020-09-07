@@ -359,6 +359,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   }
 
+  refresh_claim(){
+    this.getClaimsData();
+  }
+
   getClaimsData() {
     this.claimsData = new Array<ClaimView>();
     let self = this;
@@ -372,6 +376,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
+
+        console.log(data);
 
         data.forEach(el => {
           let t = new ClaimView();

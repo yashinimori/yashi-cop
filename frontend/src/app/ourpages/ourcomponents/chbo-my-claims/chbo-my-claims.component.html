@@ -1,6 +1,11 @@
 <nb-card>
     <nb-card-header>
-      Список скарг
+      <div style="display: flex;">
+        Список скарг
+        <div class="button-enter" style="margin-left: 10px;">
+          <button  nbButton status="primary" (click)="refresh_claim()">Оновити</button>
+        </div>
+      </div> 
     </nb-card-header>
   
     <nb-card-body>
