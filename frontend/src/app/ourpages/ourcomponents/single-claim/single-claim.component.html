@@ -280,6 +280,11 @@
 
 <div *ngIf="isNewRecord && role !='merchant'" >
     <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; margin: auto;">
+
+
+
+
+
         <nb-card-header style="width: 100%; text-align: center;">
                 Нове звернення
         </nb-card-header>
@@ -701,18 +706,38 @@
 
             >
             <nb-datepicker #formpicker format="dd/MM/yyyy"></nb-datepicker>
-                </div>
+          </div>
 
-                <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
-                  <label class="label-caption">Торгова точка</label>
-                    <nb-select class="selector-list" [(selected)]="claimData.merch_id"
-                               [required]="fieldsStatus.merchantID.required"
-                               [disabled]="fieldsStatus.merchantID.readonly" >
-                      <nb-option *ngFor="let item of merchantsArr" [value]="item.merch_id">
-                        {{ item.name_ips }}
-                      </nb-option>
-                    </nb-select>
-                </div>
+          <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
+            <label class="label-caption">Торгова точка</label>
+              
+              <!-- <nb-select class="selector-list" [(selected)]="claimData.merch_id"
+                          [required]="fieldsStatus.merchantID.required"
+                          [disabled]="fieldsStatus.merchantID.readonly" >
+                <nb-option *ngFor="let item of merchantsArr" [value]="item.merch_id">
+                  {{ item.name_ips }}
+                </nb-option>
+              </nb-select> -->
+              
+              <!--  [handleDisplayFn]="viewHandle"
+              -->
+
+              <input style="width: 100%;"
+                [formControl]="inputFormControlMerchUser" nbInput type="text"
+                  placeholder="Введіть торгову точку"
+                  [nbAutocomplete]="auto" />
+          
+              <nb-autocomplete #auto (selectedChange)="onSelectionChangeMerch($event)">
+
+                <nb-option *ngFor="let item of filteredControlOptionsMerchUser$ | async" [value]="item">
+                  {{ item }}
+                </nb-option>
+
+              </nb-autocomplete>
+
+
+          </div>
+
 
           <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
             <label class="label-caption">Номер терміналу</label>

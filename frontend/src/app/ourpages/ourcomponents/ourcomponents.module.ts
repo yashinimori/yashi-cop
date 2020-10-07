@@ -14,6 +14,7 @@ import {
   NbSelectModule,
   NbRadioModule,
   NbInputModule,
+  NbAutocompleteModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -73,6 +74,7 @@ import { ATMComponent } from './atm/atm.component';
     ChartsModule,
     NbStepperModule,
     // ChartsModule,
+    NbAutocompleteModule,
   ],
   declarations: [
     OurComponentsComponent,
