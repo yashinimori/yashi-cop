@@ -305,7 +305,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     if(val){
       return val;
     } else {
-      return '--//--';
+      return '';
     }
   }
 
@@ -313,7 +313,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     if(val){
       return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
     } else {
-      return '--//--';
+      return '';
     }
   }
 
