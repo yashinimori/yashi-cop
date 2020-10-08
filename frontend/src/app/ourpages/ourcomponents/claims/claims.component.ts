@@ -378,7 +378,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         else
           data = response;
 
-        console.log(data);
+        //console.log(data);
 
         data.forEach(el => {
           let t = new ClaimView();

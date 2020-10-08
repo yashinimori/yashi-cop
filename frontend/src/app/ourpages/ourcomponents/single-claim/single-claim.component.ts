@@ -275,6 +275,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           this.setClaimComments();
           this.setClaimDocumsnts();
 
+          console.log('getSingleClaim(this.claimId)');
+          console.log(this.claimData);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -285,6 +287,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  public get getUserName(){
+    let userName = '';
+
+    if(this.claimData && this.claimData.user ){
+      if(this.claimData.user.first_name)
+        userName = this.claimData.user.first_name;
+      if(this.claimData.user.last_name)
+        userName += this.claimData.user.last_name;
+    }
+    return userName;
+  }
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();

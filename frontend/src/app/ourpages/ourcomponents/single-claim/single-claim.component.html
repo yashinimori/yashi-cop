@@ -31,7 +31,7 @@
 
               <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">
                 <label class="label-caption">П.І.Б.</label>
-                <label class="label-data">{{claimData.user.first_name}} {{claimData.user.last_name}}</label>
+                <label class="label-data">{{ getUserName }}</label>
               </div>
 
               <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
@@ -70,7 +70,7 @@
                 >
               </div>
 
-                <a href="{{getUrlPDF}}" target="_blank" >PDF</a>
+                <a href="{{getUrlPDF}}" target="_blank" >Заява кардхолдера</a>
 
             </nb-card-body>
 
@@ -171,7 +171,7 @@
 
               </nb-tab>
 
-              <nb-tab tabTitle="Назва полей">
+              <nb-tab tabTitle="Dispute details">
                 <nb-card >
                   <nb-card-body>
 
