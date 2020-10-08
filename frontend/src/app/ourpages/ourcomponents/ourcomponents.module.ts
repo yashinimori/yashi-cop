@@ -49,6 +49,7 @@ import { BankStatisticClaimsByRcGroupComponent } from './bank-statistic/bank-cha
 import { BankStatisticClaimsByStagesComponent } from './bank-statistic/bank-chart-statistic-claims-stages.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
+import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { ATMComponent } from './atm/atm.component';
     BankStatisticClaimsByRcGroupComponent,
     BankStatisticClaimsByStagesComponent,
     ATMComponent,
+    ShowcaseDialogComponent,
   ],
   // providers: [
     

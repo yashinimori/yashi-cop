@@ -3,6 +3,8 @@ import {Registration} from '../../share/models/registration.model';
 import {HttpService} from '../../share/services/http.service';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { NbDialogService } from '@nebular/theme';
+import { ShowcaseDialogComponent } from '../../ourpages/ourcomponents/showcase-dialog/showcase-dialog.component';
 
 @Component({
   selector: 'ngx-registration',
@@ -20,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private httpService: HttpService,
               private router: Router,
               //private formBuilder: FormBuilder
-              ) {
+              private dialogService: NbDialogService ) {
     this.data = new Registration();
     this.siteKey = '6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I';
   }
@@ -37,7 +39,6 @@ export class RegistrationComponent implements OnInit {
 
   }
 
-
   createUser() {
     //console.log(this.data);
     // this.data.email.length
@@ -45,6 +46,12 @@ export class RegistrationComponent implements OnInit {
       next: (response: any) => {
         //console.log('ok');
         //console.log(response);
+        this.dialogService.open(ShowcaseDialogComponent, {
+          context: {
+            title: 'Реєстрація',
+            content: 'Ви були успішно зареєстровані в системі. Для активації перейдіть, будь ласка, за посиланням з отриманого на ваш e-mail листа'
+          },
+        });
         this.router.navigate(['auth', 'login']);
       },
       error: error => {
@@ -55,7 +62,6 @@ export class RegistrationComponent implements OnInit {
       }
     });
   }
-
 
   enter() {
     if (!this.data.email)
