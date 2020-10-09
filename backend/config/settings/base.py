@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    'rest_framework_swagger',
     "django_filters",
     "djoser",
     "corsheaders",
@@ -161,6 +162,9 @@ MEDIA_URL = "/media/"
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
+ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+# cop/
+APPS_DIR = ROOT_DIR / "cop"
 TEMPLATES = [
     {
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
