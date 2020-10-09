@@ -40,15 +40,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   createUser() {
-
-    console.log('createUser()');
+    //console.log('createUser()');
 
     if(!this.enter())
       return;
-
-      console.log('valid');  
-    return;
-
 
     //console.log(this.data);
     // this.data.email.length
