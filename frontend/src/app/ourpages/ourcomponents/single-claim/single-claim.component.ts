@@ -596,9 +596,34 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   onClickGoNextStep(){
+
+    if(!this.checkData()){
+      console.log('return');
+      return;
+    }
+
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
+  }
+
+  private checkData(){
+    if(!this.claimData.pan)
+      return false;
+
+    if(!this.claimData.trans_date)
+      return false;
+
+    if(!this.claimData.term_id)
+      return false;
+
+    if(!this.claimData.trans_amount)
+      return false;
+      
+    if(!this.claimData.trans_currency)
+      return false;
+
+    return true;
   }
 
   onClickSend(){

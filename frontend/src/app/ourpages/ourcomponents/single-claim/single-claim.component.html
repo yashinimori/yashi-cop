@@ -279,11 +279,8 @@
 
 
 <div *ngIf="isNewRecord && role !='merchant'" >
+  <form #form="ngForm" ngNativeValidate>
     <nb-card *ngIf="stepNewRecord==1"  style="width: 49%; margin: auto;">
-
-
-
-
 
         <nb-card-header style="width: 100%; text-align: center;">
                 Нове звернення
@@ -680,32 +677,55 @@
                 Нове звернення
               </nb-card-header> -->
             <!-- <nb-card-body> -->
-                <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
-                  <label class="label-caption">Номер карти</label>
-                    <input class="input-data" nbInput placeholder="Номер карти"
-                           [required]="fieldsStatus.pan.required"
-                           [readonly]="fieldsStatus.pan.readonly"
-                           [(ngModel)]="claimData.pan"
-                           minlength="16"
-                           maxlength="16"
 
-                    >
+              
+
+                <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
+                  
+                  <label class="label-caption">Номер карти</label>
+                  <!-- <input class="input-data" nbInput placeholder="Номер карти"
+                    [required]="fieldsStatus.pan.required"
+                    [readonly]="fieldsStatus.pan.readonly"
+                    [(ngModel)]="claimData.pan"
+                    minlength="16"
+                    maxlength="16">
+                   -->
+
+                  <div style="width: 60%;">
+                    <input class="input-data-valid" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
+                      placeholder="Номер карти" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
+                      required maxlength="16" minlength="16">
+                    <ng-container *ngIf="pan.invalid && pan.touched">
+                      <p class="caption status-danger danger-warning" *ngIf="pan.errors?.required">
+                        Номер карти - обов'язкове поле для заповнення!
+                      </p>
+                    </ng-container>
+                  </div>
 
                 </div>
 
           <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
             <label class="label-caption">Дата транзакції</label>
-            <input class="input-date" nbInput
+            <!-- <input class="input-date" nbInput
                    placeholder="Дата транзакції"
                    [nbDatepicker]="formpicker"
                    [required]="fieldsStatus.transDate.required"
                    [readonly]="fieldsStatus.transDate.readonly"
                    [(ngModel)]="claimData.trans_date"
                    minlength="12"
-                   maxlength="12"
+                   maxlength="12"> -->
 
-            >
-            <nb-datepicker #formpicker format="dd/MM/yyyy"></nb-datepicker>
+            <div style="width: 60%;">
+              <input class="input-data-valid" nbInput [(ngModel)]="claimData.trans_date" #trans_date="ngModel" name="trans_date" id="input-trans_date"  
+                placeholder="Дата транзакції" autofocus [status]="trans_date.dirty ? (trans_date.invalid  ? 'danger' : 'success') : 'basic'"  
+                [nbDatepicker]="formpicker" required minlength="10" maxlength="10" >
+              <ng-container *ngIf="trans_date.invalid && trans_date.touched">
+                <p class="caption status-danger danger-warning" *ngIf="trans_date.errors?.required">
+                  Дата транзакції - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+              <nb-datepicker #formpicker format="dd/MM/yyyy"></nb-datepicker>
+            </div>
           </div>
 
           <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
@@ -722,10 +742,10 @@
               <!--  [handleDisplayFn]="viewHandle"
               -->
 
-              <input style="width: 100%;"
+              <input style="width: 100%;" name="merch_id" 
                 [formControl]="inputFormControlMerchUser" nbInput type="text"
-                  placeholder="Введіть торгову точку"
-                  [nbAutocomplete]="auto" />
+                placeholder="Введіть торгову точку"
+                [nbAutocomplete]="auto" />
           
               <nb-autocomplete #auto (selectedChange)="onSelectionChangeMerch($event)">
 
@@ -741,64 +761,107 @@
 
           <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
             <label class="label-caption">Номер терміналу</label>
-            <input class="input-data" nbInput placeholder="Terminal ID"
+            <!-- <input class="input-data" nbInput placeholder="Terminal ID"
                    [required]="fieldsStatus.terminalID.required"
                    [readonly]="fieldsStatus.terminalID.readonly"
                    [(ngModel)]="claimData.term_id"
                    minlength="8"
-                   maxlength="8"
-            >
+                   maxlength="8"> -->
+
+            <div style="width: 60%;">
+              <input class="input-data-valid" nbInput [(ngModel)]="claimData.term_id" #term_id="ngModel" name="term_id" id="input-term_id"  
+                placeholder="Номер терміналу" autofocus [status]="term_id.dirty ? (term_id.invalid  ? 'danger' : 'success') : 'basic'"  
+                required maxlength="8" minlength="8">
+              <ng-container *ngIf="term_id.invalid && term_id.touched">
+                <p class="caption status-danger danger-warning" *ngIf="term_id.errors?.required">
+                  Номер терміналу - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+            </div>
+
           </div>
 
           <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
             <label class="label-caption">Cума операції</label>
-            <input class="input-data" nbInput placeholder="Cума операції"
+            <!-- <input class="input-data" nbInput placeholder="Cума операції"
                    [required]="fieldsStatus.amount.required"
                    [readonly]="fieldsStatus.amount.readonly"
                    [(ngModel)]="claimData.trans_amount"
                    minlength="10"
-                   maxlength="10"
-            >
+                   maxlength="10"> -->
+
+            <div style="width: 60%;">
+              <input class="input-data-valid" nbInput [(ngModel)]="claimData.trans_amount" #trans_amount="ngModel" name="trans_amount" id="input-trans_amount"  
+                placeholder="Cума операції" autofocus [status]="trans_amount.dirty ? (trans_amount.invalid  ? 'danger' : 'success') : 'basic'"  
+                required maxlength="10" minlength="1">
+              <ng-container *ngIf="trans_amount.invalid && trans_amount.touched">
+                <p class="caption status-danger danger-warning" *ngIf="trans_amount.errors?.required">
+                  Cума операції - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+            </div>
+      
           </div>
 
-                <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
-                  <label class="label-caption">Валюта операції</label>
-                    <nb-select class="selector-list" [(selected)]="claimData.trans_currency"
-                               [required]="fieldsStatus.currency.required"
-                               [disabled]="fieldsStatus.currency.readonly">
-                        <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
-                            {{ item.caption }}
-                        </nb-option>
-                    </nb-select>
-                </div>
+          <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
+            <label class="label-caption">Валюта операції</label>
+            <!-- <nb-select class="selector-list" name="trans_currency"
+              [(selected)]="claimData.trans_currency"
+              [required]="fieldsStatus.currency.required"
+              [disabled]="fieldsStatus.currency.readonly">
+              <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
+                  {{ item.caption }}
+              </nb-option>
+            </nb-select> -->
+
+            <div style="width: 60%;">
+              <nb-select class="input-data-valid" [(selected)]="claimData.trans_currency" #trans_currency="ngModel" name="trans_currency" id="input-trans_currency"  
+                  [(ngModel)]="claimData.trans_currency"
+                  placeholder="Валюта операції" autofocus [status]="trans_currency.dirty ? (trans_currency.invalid  ? 'danger' : 'success') : 'basic'"  
+                  required >
+                  <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
+                    {{ item.caption }}
+                </nb-option>
+              </nb-select>
+                <ng-container *ngIf="trans_currency.invalid && trans_currency.touched">
+                  <p class="caption status-danger danger-warning" *ngIf="trans_currency.errors?.required">
+                    Валюта операції - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
+            </div>
+
+
+          </div>
 
           <div class="div-panel" *ngIf="!fieldsStatus.authCode.invisible">
             <label class="label-caption">Код операції</label>
-            <input class="input-data" nbInput placeholder="Код операції"
-                   [required]="fieldsStatus.authCode.required"
-                   [readonly]="fieldsStatus.authCode.readonly"
-                   [(ngModel)]="claimData.trans_approval_code"
-                   minlength="6"
-                   maxlength="6"
+            <input class="input-data" nbInput name="trans_approval_code"
+              placeholder="Код операції"
+              [required]="fieldsStatus.authCode.required"
+              [readonly]="fieldsStatus.authCode.readonly"
+              [(ngModel)]="claimData.trans_approval_code"
+              minlength="6"
+              maxlength="6"
             >
           </div>
 
           <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
             <label class="label-caption">Коментарі</label>
-            <input class="input-data" nbInput placeholder="Коментарі"
-                   [required]="fieldsStatus.comment.required"
-                   [readonly]="fieldsStatus.comment.readonly"
-                   [(ngModel)]="claimData.ch_comments">
+            <input class="input-data" nbInput placeholder="Коментарі" name="ch_comments" 
+              [required]="fieldsStatus.comment.required"
+              [readonly]="fieldsStatus.comment.readonly"
+              [(ngModel)]="claimData.ch_comments">
           </div>
 
                 <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
                   <label class="label-caption">Додати документи</label>
-                    <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
-                                type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
-                    <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                    <div *ngFor="let file of filesArr" class="fileAttached">
-                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
-                    </div>
+                  <input #fileInput  name="file_upload"
+                      [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                      type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                  <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+                  <div *ngFor="let file of filesArr" class="fileAttached">
+                      {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                  </div>
 
                 </div>
 
@@ -809,8 +872,8 @@
                   <button  nbButton status="primary" (click)="onClickGoNextStep()">До наступного кроку</button>
                 </div>
               </nb-card-footer>
-        </nb-card>
-
+    </nb-card>
+  </form> 
 
   <nb-card *ngIf="stepNewRecord==2" style="width: 49%; height: 450px;margin: auto;">
             <nb-card-header style="width: 100%; text-align: center;">

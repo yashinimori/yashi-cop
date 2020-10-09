@@ -27,6 +27,9 @@
 .center {
     text-align: center;
 }
+.input-data-valid {
+    width: 100%;
+}
 .input-data {
     width: 60%;
 }
@@ -65,3 +68,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.danger-warning{
+    margin: 0em!important;
+    padding: 0em!important;
+  }
