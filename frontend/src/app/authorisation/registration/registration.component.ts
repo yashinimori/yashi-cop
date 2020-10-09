@@ -40,6 +40,16 @@ export class RegistrationComponent implements OnInit {
   }
 
   createUser() {
+
+    console.log('createUser()');
+
+    if(!this.enter())
+      return;
+
+      console.log('valid');  
+    return;
+
+
     //console.log(this.data);
     // this.data.email.length
     this.httpService.createNewUser(this.data).subscribe({
@@ -52,7 +62,9 @@ export class RegistrationComponent implements OnInit {
             content: 'Ви були успішно зареєстровані в системі. Для активації перейдіть, будь ласка, за посиланням з отриманого на ваш e-mail листа'
           },
         });
-        this.router.navigate(['auth', 'login']);
+        setTimeout(()=>{
+          this.router.navigate(['auth', 'login']);
+        }, 2000);
       },
       error: error => {
         console.error('There was an error!', error);
@@ -64,21 +76,25 @@ export class RegistrationComponent implements OnInit {
   }
 
   enter() {
-    if (!this.data.email)
-      return;
-
     if (!this.data.first_name)
-      return;
+      return false;
 
     if (!this.data.last_name)
-      return;
+      return false;
+
+    if (!this.data.email)
+      return false;
+      
+    if (!this.data.phone)
+      return false;
 
     if (!this.data.login)
-      return;
+      return false;
 
-    if (!this.data.phone)
-      return;
+    if (!this.data.password)
+      return false;
 
+    return true;  
   }
 
 
