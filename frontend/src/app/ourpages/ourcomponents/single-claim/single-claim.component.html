@@ -1112,7 +1112,7 @@
 
         <nb-step [label]="labelThird">
 
-          <ng-template #labelThird>Коментарі</ng-template>
+          <ng-template #labelThird>Відправити</ng-template>
 
           <nb-card  style="width: 49%; height: 450px;margin: auto;">
             <nb-card-body>
@@ -1123,28 +1123,7 @@
                   [readonly]="fieldsStatus.comment.readonly"
                   [(ngModel)]="claimData.ch_comments">
               </div>
-            </nb-card-body>
 
-            <nb-card-footer>
-              <div class="center">
-                <button  nbButton nbStepperPrevious status="primary" >Повернутися</button>
-                  <button *ngIf="isLastStep" nbButton nbStepperNext status="primary" 
-                    [disabled]="!getCheckData"
-                    style="margin-left: 10px;">До наступного кроку</button>
-              </div>
-            </nb-card-footer>
-
-          </nb-card>
-
-
-        </nb-step>
-
-        <nb-step [label]="labelFour">
-          <ng-template #labelFour>Додати документи</ng-template>
-
-          <nb-card  style="width: 49%; height: 450px;margin: auto;">
-          
-            <nb-card-body>
               <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
                 <label class="label-caption">Додати документи</label>
                 <input #fileInput  name="file_upload"
@@ -1155,6 +1134,28 @@
                     {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
                 </div>
               </div>
+
+
+            </nb-card-body>
+
+            <nb-card-footer>
+              <div class="center">
+                <button  nbButton nbStepperPrevious status="primary" >Повернутися</button>
+                <button *ngIf="isLastStep && getCheckData" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+              </div>
+            </nb-card-footer>
+
+          </nb-card>
+
+
+        </nb-step>
+
+        <!-- <nb-step [label]="labelFour">
+          <ng-template #labelFour>Додати документи</ng-template>
+
+          <nb-card  style="width: 49%; height: 450px;margin: auto;">
+          
+            <nb-card-body>
             </nb-card-body>
 
             <nb-card-footer>
@@ -1183,13 +1184,13 @@
             <nb-card-footer>
               <div class="center">
                 <button  nbButton nbStepperPrevious status="primary" >Повернутися</button>
-                <button *ngIf="isLastStep && getCheckData" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+                
               </div>
             </nb-card-footer>
           
           </nb-card>
 
-        </nb-step>
+        </nb-step> -->
 
       </nb-stepper>
 
