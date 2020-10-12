@@ -607,7 +607,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private checkData(){
+
+  public get getCheckData(): boolean{
+    console.log('public get getCheckData(): boolean');
+    let d =this.checkData(); 
+    console.log(d);
+    return d;
+  }
+
+  public checkData(){
+
+    if(!this.claimData)
+      return false;
+    
     if(!this.claimData.pan)
       return false;
 
