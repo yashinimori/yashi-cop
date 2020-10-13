@@ -5,3 +5,18 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+.style-cell{
+  height: 23em;
+}
+  
+.style-text-block {
+  display: flex; 
+  flex-direction: column; 
+  text-align: center;
+}
+
+.style-text-block-value{
+  font-size: 40px; 
+  margin-top: 20px;
+}
