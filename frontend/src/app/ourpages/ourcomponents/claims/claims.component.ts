@@ -8,6 +8,7 @@ import { HttpService } from '../../../share/services/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'ngx-claims',
@@ -377,7 +378,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         else
           data = response;
 
-        console.log(data);
+        //console.log(data);
 
         data.forEach(el => {
           let t = new ClaimView();
@@ -451,6 +452,89 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   goToLink(url: string, id: string){
     this.transferService.cOPClaimID.next(id);
     window.open(url, "_blank");
-} 
+  } 
+
+  public createReport(){
+
+    if(this.claimsData){
+
+      let str = '';
+
+      str += 'ID;';
+      str += 'Номер карти;';
+      str += 'Дата транзакції;';
+      str += 'Назва торговця;';
+      str += "Ім'я терміналу;";
+      str += 'Cума;';
+      str += 'Валюта;';
+      str += 'Код авторизації;';
+      
+      if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+        str += 'Reason Code;';
+        str += 'Статус;';
+        str += 'Дії;';
+        str += 'flag;';
+      }
+      
+      str += 'Результат;';
+      str += 'Кінцевий термін претензії';
+      str += '\r\n';
+
+      this.claimsData.forEach(el=>{
+        str += `${this.getValueToReport(el['id'])};`;
+        str += `'${this.getValueToReport(el['pan'])};`;
+        str += `${this.getValueToReportDate(el['trans_date'])};`;
+        str += `${this.getValueToReport(el['merch_name_ips'])};`;
+        str += `${this.getValueToReport(el['term_id'])};`;
+        str += `${this.getValueToReport(el['trans_amount'])};`;
+        str += `${this.getValueToReport(el['trans_currency'])};`;
+        str += `${this.getValueToReport(el['auth_code'])};`;
+
+        if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+          str += `${this.getValueToReport(el['claim_reason_code'])};`;
+          str += `${this.getValueToReport(el['status'])};`;
+          str += `${this.getValueToReportBool(el['action_needed'])};`;
+          str += `${this.getValueToReport(el['flag'])};`;
+        }
+
+        str += `${this.getValueToReport(el['result'])};`;
+        str += `${this.getValueToReportDate(el['due_date'])}`;
+        str += '\r\n';
+      });
+    
+      //console.log(str);
+      var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
+      let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
+      FileSaver.saveAs(blob, filename);
+  
+    }
+
+  }
+
+
+  getValueToReport(val: any){
+    if(val){
+      return val;
+    } else {
+      return '';
+    }
+  }
+
+  getValueToReportDate(val: any){
+    if(val){
+      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+    } else {
+      return '';
+    }
+  }
+
+  getValueToReportBool(val: any){
+    if(val){
+      return 'Y';
+    } else {
+      return 'N';
+    }
+  }
+
 
 }

@@ -79,7 +79,8 @@
         </nb-card-header>
         <nb-card-body>
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_reason.invisible">
-                <label class="label-caption">Причина завершення реклямації</label> 
+                <label *ngIf="role=='chargeback_officer'" class="label-caption">Рішення</label> 
+                <label *ngIf="role!='chargeback_officer'" class="label-caption">Причина завершення реклямації</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.reasonClosingId"
                     [required]="fieldsStatus.scf_finish_reason.required" 
                     [disabled]="fieldsStatus.scf_finish_reason.readonly" >
@@ -90,7 +91,8 @@
             </div>
             
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_decision.invisible">
-                <label class="label-caption">Рішення</label> 
+                <label *ngIf="role=='chargeback_officer'" class="label-caption">Відповідь</label> 
+                <label *ngIf="role!='chargeback_officer'" class="label-caption">Рішення</label> 
                 <nb-select class="selector-list" [(selected)]="singleClaimFormsData.decisionId"
                     [required]="fieldsStatus.scf_finish_decision.required" 
                     [disabled]="fieldsStatus.scf_finish_decision.readonly" >
@@ -113,16 +115,16 @@
             </div>
 
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_comment.invisible">
-                <label class="label-caption">Коментари</label> 
-                <input class="input-data" nbInput placeholder="Коментари"
+                <label class="label-caption">Коментарі</label> 
+                <input class="input-data" nbInput placeholder="Коментарі"
                     [required]="fieldsStatus.scf_finish_comment.required" 
                     [readonly]="fieldsStatus.scf_finish_comment.readonly"
                     [(ngModel)]="singleClaimFormsData.comment">
             </div>
 
             <div class="div-panel" *ngIf="!fieldsStatus.scf_finish_amount.invisible">
-                <label class="label-caption">Сума для зарухування</label> 
-                <input class="input-data" nbInput placeholder="Сума для зарухування"
+                <label class="label-caption">Сума до зарахування</label> 
+                <input class="input-data" nbInput placeholder="Сума для зарахування"
                     [required]="fieldsStatus.scf_finish_amount.required" 
                     [readonly]="fieldsStatus.scf_finish_amount.readonly"
                     [(ngModel)]="singleClaimFormsData.amount_move">

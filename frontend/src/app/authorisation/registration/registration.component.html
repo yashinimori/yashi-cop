@@ -2,30 +2,79 @@
  <div class="row justify-content-center">
   
     <div class="center-screen">
-      <nb-card class="registration-card">
-        <nb-card-header>
-          <img src="assets/images/logo.png" alt="Logo" class="logo">
-        </nb-card-header>
-        <nb-card-body>
-          
-          <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
-          <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999">
-          <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
-          <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
-          <input nbInput placeholder="Login" [(ngModel)]="data.login" maxlength="200"> 
-          <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40"> 
-          <!-- <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div> -->
-          <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"></ngx-recaptcha2> -->
-          
-         
-        </nb-card-body>
-        <nb-card-footer>
-          <div class="button-enter">
-            <button nbButton status="primary" (click)="createUser()">Реєстрація</button>
-          </div>
-        </nb-card-footer>
-      </nb-card>
-      
+      <form #form="ngForm" ngNativeValidate>
+
+        <nb-card class="registration-card">
+          <nb-card-header>
+            <img src="assets/images/logo.png" alt="Logo" class="logo">
+          </nb-card-header>
+          <nb-card-body>
+
+            <input nbInput [(ngModel)]="data.first_name" #first_name="ngModel" name="first_name" id="input-first_name" placeholder="Ім'я" 
+              autofocus [status]="first_name.dirty ? (first_name.invalid  ? 'danger' : 'success') : 'basic'" required maxlength="999">
+            <ng-container *ngIf="first_name.invalid && first_name.touched">
+              <p class="caption status-danger danger-warning" *ngIf="first_name.errors?.required" >
+                Ім'я - обов'язкове поле для заповнення!
+              </p>
+            </ng-container>
+
+            <input nbInput [(ngModel)]="data.last_name" #last_name="ngModel" name="last_name" id="input-last_name"  
+              placeholder="Призвище" autofocus [status]="last_name.dirty ? (last_name.invalid  ? 'danger' : 'success') : 'basic'"  
+              required maxlength="999">
+              <ng-container *ngIf="last_name.invalid && last_name.touched">
+                <p class="caption status-danger danger-warning" *ngIf="last_name.errors?.required">
+                  Призвище - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+
+            <input nbInput [(ngModel)]="data.email" #email="ngModel" name="email" id="input-email"  
+              placeholder="Email" autofocus [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"  
+              required maxlength="999">
+              <ng-container *ngIf="email.invalid && email.touched">
+                <p class="caption status-danger danger-warning" *ngIf="email.errors?.required">
+                  Email - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+
+            <input nbInput [(ngModel)]="data.phone" #phone="ngModel" name="phone" id="input-phone"  
+              placeholder="Телефон" autofocus [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : 'basic'"  
+              required maxlength="13">
+              <ng-container *ngIf="phone.invalid && phone.touched">
+                <p class="caption status-danger danger-warning" *ngIf="phone.errors?.required">
+                  Телефон - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+
+            <input nbInput [(ngModel)]="data.login" #login="ngModel" name="login" id="input-login"  
+              placeholder="Login" autofocus [status]="login.dirty ? (login.invalid  ? 'danger' : 'success') : 'basic'"  
+              required maxlength="200">
+              <ng-container *ngIf="login.invalid && login.touched">
+                <p class="caption status-danger danger-warning" *ngIf="login.errors?.required">
+                  Login - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+
+            <input nbInput [(ngModel)]="data.password" #password="ngModel" name="password" id="input-password"  
+              placeholder="Password" autofocus [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"  
+              required maxlength="40">
+              <ng-container *ngIf="password.invalid && password.touched">
+                <p class="caption status-danger danger-warning" *ngIf="password.errors?.required">
+                  Password - обов'язкове поле для заповнення!
+                </p>
+              </ng-container>
+
+            <!-- <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div> -->
+            <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"></ngx-recaptcha2> -->
+          </nb-card-body>
+          <nb-card-footer>
+            <div class="button-enter">
+              <button nbButton status="primary" (click)="createUser()">Реєстрація</button>
+            </div>
+          </nb-card-footer>
+        </nb-card>
+
+      </form> 
+
     </div>
       
   </div>

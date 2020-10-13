@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, Ch
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
@@ -15,6 +15,7 @@ import { runInThisContext } from 'vm';
 import { TimelineView } from '../../../share/models/timeline-view.model'
 import {MerchUser} from '../../../share/models/merch-user.model';
 import {MAIN_URL} from '../../../share/urlConstants';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -22,6 +23,13 @@ import {MAIN_URL} from '../../../share/urlConstants';
   styleUrls: ['./single-claim.component.scss']
 })
 export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
+  
+  options: string[];
+  inputFormControlMerchUser: FormControl;
+  filteredControlOptionsMerchUser$: Observable<string[]>;
+
+
+
 
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
@@ -142,6 +150,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   arbitration_date: Date;
   arbitration_response_date : Date;
 
+  
+
   ngOnInit(): void {
     this.claimData = new ClaimView();
     this.Timeline = new TimelineView();
@@ -193,7 +203,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //   this.getListQuestions();
     // }
 
-    this.getListMerchant();
+    this.getListMerchant(()=>{
+
+      this.options = new Array<string>();
+      this.merchantsArr.forEach(el=>{
+        this.options.push(el.name_ips);
+      });
+
+      this.filteredControlOptionsMerchUser$ = of(this.options);
+      this.inputFormControlMerchUser = new FormControl();
+
+      this.filteredControlOptionsMerchUser$ = this.inputFormControlMerchUser.valueChanges
+        .pipe(
+          startWith(''),
+          map(filterString => this.filterMerch(filterString)),
+        );
+
+    });
+
     this.getListCurrency();
     this.getListQuestions();
 
@@ -203,6 +230,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  onSelectionChangeMerch($event){
+    let f = this.merchantsArr.find(i=>i.merch_id == $event || i.name_ips == $event);
+    if(f){
+      this.claimData.merch_id = f.merch_id;
+      console.log(this.claimData.merch_id);
+    }
+  }
+
+  private filterMerch(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(optionValue => optionValue.toLowerCase().includes(filterValue));
+  }
+
+  
   ngOnDestroy(): void {
     this.transferService.cOPClaimID.next('');
     this.getClaimSubscription.unsubscribe();
@@ -234,6 +275,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           this.setClaimComments();
           this.setClaimDocumsnts();
 
+          console.log('getSingleClaim(this.claimId)');
+          console.log(this.claimData);
         },
         error: error => {
           console.error('There was an error!', error);
@@ -244,6 +287,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  public get getUserName(){
+    let userName = '';
+
+    if(this.claimData && this.claimData.user ){
+      if(this.claimData.user.first_name)
+        userName = this.claimData.user.first_name;
+      if(this.claimData.user.last_name)
+        userName += this.claimData.user.last_name;
+    }
+    return userName;
+  }
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
@@ -542,9 +596,46 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   onClickGoNextStep(){
+
+    if(!this.checkData()){
+      console.log('return');
+      return;
+    }
+
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
+  }
+
+
+  public get getCheckData(): boolean{
+    console.log('public get getCheckData(): boolean');
+    let d =this.checkData(); 
+    console.log(d);
+    return d;
+  }
+
+  public checkData(){
+
+    if(!this.claimData)
+      return false;
+    
+    if(!this.claimData.pan)
+      return false;
+
+    if(!this.claimData.trans_date)
+      return false;
+
+    if(!this.claimData.term_id)
+      return false;
+
+    if(!this.claimData.trans_amount)
+      return false;
+      
+    if(!this.claimData.trans_currency)
+      return false;
+
+    return true;
   }
 
   onClickSend(){
@@ -558,7 +649,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.stepNewRecord = 1;
   }
 
-  getListMerchant(){
+  getListMerchant(callback){
     this.merchantsArr = new Array<MerchUser>();
 
     this.httpService.getMerchantsAll().subscribe({
@@ -569,7 +660,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-
+          callback();
         }
       });
   }

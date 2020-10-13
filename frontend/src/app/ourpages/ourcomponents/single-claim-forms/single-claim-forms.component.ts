@@ -50,6 +50,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.role = localStorage.getItem('role');
+    console.log(this.role);
+
 
     this.generateStatusFields();
 
