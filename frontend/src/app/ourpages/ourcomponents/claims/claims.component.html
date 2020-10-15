@@ -10,11 +10,13 @@
             <button  nbButton style="width: 100%;"
               status="primary" (click)="add_claim()">Додати скаргу</button>
           </div>
-          <div class="button-enter button-set">
+          <div *ngIf="role == 'chargeback_officer'"
+            class="button-enter button-set">
             <button  nbButton style="width: 100%;"
               status="primary" (click)="refresh_claim()">Оновити</button>
           </div>
-          <div class="button-enter button-set">
+          <div *ngIf="role == 'chargeback_officer'" 
+            class="button-enter button-set">
             <button  nbButton style="width: 100%;" 
               status="primary" (click)="createReport()">Звіт</button>
           </div>
