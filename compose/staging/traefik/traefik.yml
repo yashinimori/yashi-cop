@@ -26,7 +26,7 @@ certificatesResolvers:
 http:
   routers:
     api-router:
-      rule: "Host(`api0.chargebackoptimizer.com`)"
+      rule: "Host(`18.193.75.129/api`)"
       entryPoints:
         - web
       middlewares:
@@ -34,7 +34,7 @@ http:
       service: django
 
     api-secure-router:
-      rule: "Host(`api0.chargebackoptimizer.com`)"
+      rule: "Host(`18.193.75.129/api`)"
       entryPoints:
         - web-secure
       service: django
@@ -43,7 +43,7 @@ http:
         certResolver: letsencrypt
 
     frontend-router:
-      rule: "Host(`app0.chargebackoptimizer.com`)"
+      rule: "Host(`18.193.75.129`)"
       entryPoints:
         - web
       middlewares:
@@ -51,7 +51,7 @@ http:
       service: frontend
 
     frontend-secure-router:
-      rule: "Host(`app0.chargebackoptimizer.com`)"
+      rule: "Host(`18.193.75.129`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -62,7 +62,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`api0.chargebackoptimizer.com`)"
+      rule: "Host(`18.193.75.129/api`)"
       entryPoints:
         - flower
       service: flower
