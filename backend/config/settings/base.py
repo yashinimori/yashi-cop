@@ -292,6 +292,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     'DEFAULT_PAGINATION_CLASS': 'cop.core.api.serializers.pagination.Pagination',
     'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
