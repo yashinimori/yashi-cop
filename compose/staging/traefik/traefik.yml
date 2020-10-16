@@ -26,7 +26,7 @@ certificatesResolvers:
 http:
   routers:
     api-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`)"
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`)"
       entryPoints:
         - web
       middlewares:
@@ -34,7 +34,7 @@ http:
       service: django
 
     api-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`)"
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`)"
       entryPoints:
         - web-secure
       service: django
@@ -62,7 +62,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`)"
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`)"
       entryPoints:
         - flower
       service: flower
