@@ -9,5 +9,5 @@ from rest_framework import schemas
 @renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
 def api_schema_view(request):
     # навигатор по всем эндпоинтам генерируется автоматом, область видимости - все дочерние (по url) endPoint'ы 
-    generator = schemas.SchemaGenerator(title='SurveyQuestion swagger test API', url="http://localhost/")
+    generator = schemas.SchemaGenerator(title='SurveyQuestion swagger test API')
     return Response(generator.get_schema(request=request))

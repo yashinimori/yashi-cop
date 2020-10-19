@@ -74,13 +74,15 @@ http:
     redirect:
       # https://docs.traefik.io/master/middlewares/redirectscheme/
       redirectScheme:
-        scheme: https
+        # uncomment for redirect 80->443
+        #scheme: https
+        scheme: http
         permanent: true
-    csrf:
+    #csrf:
       # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
       # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-      headers:
-        hostsProxyHeaders: ["X-CSRFToken"]
+      #headers:
+        #hostsProxyHeaders: ["X-CSRFToken"]
 
   services:
     django:

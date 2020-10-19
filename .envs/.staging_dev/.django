@@ -8,12 +8,23 @@ DJANGO_ADMIN_URL=admin/
 DJANGO_ALLOWED_HOSTS=18.156.118.192
 
 DJANGO_SECRET_KEY=7rsN7aua=(vvf#e!lc8$sj&z0bd$&(nd6PzNFoX1OJzLI@a83%qv4wth!w9j@-hg
-DJANGO_ENCRYPT_KEY=x46oadcj#!0tx_zd165!sa=n-1x5h83czi4bzbzbt8h-4x@l8z
+# key from prod
+DJANGO_ENCRYPT_KEY=XXjyV3sl5R6PWeG_0NDwgwv1wLLer8EP34bI0VqIymk=
+# new one
+#DJANGO_ENCRYPT_KEY=x46oadcj#!0tx_zd165!sa=n-1x5h83czi4bzbzbt8h-4x@l8z
 
 # Security
 # ------------------------------------------------------------------------------
 # TIP: better off using DNS, however, redirect is OK too
 DJANGO_SECURE_SSL_REDIRECT=False
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+
+# Sentry
+# ------------------------------------------------------------------------------
+SENTRY_DSN=https://e47dea43f5724afbaf2aba61e5080fa1@o174233.ingest.sentry.io/5389457
 
 # Email
 # ------------------------------------------------------------------------------
