@@ -9,7 +9,7 @@ services:
   django: &django
     build:
       context: .
-      dockerfile: ./compose/staging_prod/django/Dockerfile
+      dockerfile: ./compose/staging_dev/django/Dockerfile
     image: cop_staging_django
     depends_on:
       - postgres
@@ -17,25 +17,25 @@ services:
     volumes:
       - ./backend/cop/media:/app/cop/media
     env_file:
-      - ./.envs/.staging_prod/.django
-      - ./.envs/.staging_prod/.postgres
+      - ./.envs/.staging_dev/.django
+      - ./.envs/.staging_dev/.postgres
     command: /start
 
   postgres:
     build:
       context: .
-      dockerfile: ./compose/staging_prod/postgres/Dockerfile
+      dockerfile: ./compose/staging_dev/postgres/Dockerfile
     image: cop_staging_postgres
     volumes:
       - staging_postgres_data:/var/lib/postgresql/data
       - staging_postgres_data_backups:/backups
     env_file:
-      - ./.envs/.staging_prod/.postgres
+      - ./.envs/.staging_dev/.postgres
 
   traefik:
     build:
       context: .
-      dockerfile: ./compose/staging_prod/traefik/Dockerfile
+      dockerfile: ./compose/staging_dev/traefik/Dockerfile
     image: cop_staging_traefik
     depends_on:
       - django
@@ -68,7 +68,7 @@ services:
   angular:
       build:
           context: .
-          dockerfile: compose/staging_prod/angular/Dockerfile
+          dockerfile: compose/staging_dev/angular/Dockerfile
       image: cop_staging_angular
 
 
