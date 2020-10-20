@@ -1,11 +1,16 @@
 [Unit]
 Description = COP
-After = docker.service
-Requires = docker.service
+After = docker-compose.service
+Requires = docker-compose.service
 
 [Service]
+WorkingDirectory=/var/www/COP
 TimeoutStartSec = 0
 Restart = always
-ExecStartPre = docker-compose -f /var/www/COP/staging.yml down
-ExecStart = docker-compose -f /var/www/COP/staging.yml up -d --build
-ExecStop = docker-compose -f /var/www/COP/staging.yml down
+ExecStartPre = /var/www/COP/scripts/stop-staging.sh
+ExecStart = /var/www/COP/scripts/update-staging.sh
+ExecStop = /var/www/COP/scripts/stop-staging.sh
+
+[Install]
+WantedBy=default.target
+Alias= cop
