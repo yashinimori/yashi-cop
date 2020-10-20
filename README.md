@@ -40,6 +40,7 @@ Backend is served via Docker for easier set up process.
             ```         
         4) Install it as service. (for details look at service\Readme.md )
     * For another builds - staging_prod.yml
+        0) disable debug mode (?)
         1) Copy project folder into /var/www/
         2) Create folder '.envs\.staging_prod', and copy all into it from .envs\.staging_dev
         3) Open file .envs\.staging_prod\.django, and change 

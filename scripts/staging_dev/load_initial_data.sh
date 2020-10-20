@@ -1,3 +1,4 @@
+#!/bin/bash
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/merchant.json
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/reason_code_groups.json
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/statuses.json
