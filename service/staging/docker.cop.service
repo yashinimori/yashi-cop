@@ -7,9 +7,9 @@ Requires = docker-compose.service
 WorkingDirectory=/var/www/COP
 TimeoutStartSec = 0
 Restart = always
-ExecStartPre = /var/www/COP/scripts/stop-staging.sh
-ExecStart = /var/www/COP/scripts/update-staging.sh
-ExecStop = /var/www/COP/scripts/stop-staging.sh
+ExecStartPre = /var/www/COP/scripts/staging/stop.sh
+ExecStart = /var/www/COP/scripts/staging/start_and_update.sh
+ExecStop = /var/www/COP/scripts/staging/stop.sh
 
 [Install]
 WantedBy=default.target
