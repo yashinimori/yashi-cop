@@ -26,8 +26,8 @@ certificatesResolvers:
 http:
   routers:
     api-router:
-      #TODO add alternative host for test server
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      #left host - DEV, right one - TEST
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - web
       middlewares:
@@ -35,7 +35,7 @@ http:
       service: django
 
     api-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - web-secure
       service: django
@@ -44,7 +44,7 @@ http:
         certResolver: letsencrypt
 
     frontend-router:
-      rule: "Host(`18.156.118.192`)"
+      rule: "Host(`18.156.118.192`) || Host(`18.192.198.88`)"
       entryPoints:
         - web
       middlewares:
@@ -52,7 +52,7 @@ http:
       service: frontend
 
     frontend-secure-router:
-      rule: "Host(`18.156.118.192`)"
+      rule: "Host(`18.156.118.192`) || Host(`18.192.198.88`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -63,7 +63,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - flower
       service: flower

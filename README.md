@@ -42,8 +42,8 @@ Backend is served via Docker for easier set up process.
     * For another builds - staging_prod.yml
         0) disable debug mode (?)
         1) Copy project folder into /var/www/
-        2) Create folder '.envs\.staging_prod', and copy all into it from .envs\.staging_dev
-        3) Open file .envs\.staging_prod\.django, and change 
+        2) Create folder '.envs/.staging_prod', and copy all into it from .envs/.staging_dev
+        3) Open file .envs/.staging_prod/.django, and change 
             * DJANGO_ALLOWED_HOSTS= {current instance ip}
             * DJANGO_SECRET_KEY= {have to generate new key}
             * <s>DJANGO_ENCRYPT_KEY= {have to generate new key}</s>
@@ -53,7 +53,7 @@ Backend is served via Docker for easier set up process.
                     ```
         4) Open file 'frontend\src\app\share\urlConstants.ts', change variable export const, where {instance_ip} - is current server external ip:
                     ```
-                    MAIN_URL = 'http://{instance_ip}/api';
+                    MAIN_URL = 'http://{instance_ip}';
                     ```
         5) Open file 'compose\staging_prod\traefik\traefik.yml', and replace all hosts '18.156.118.192' with current server external ip.
         6) Create and start containers.        
