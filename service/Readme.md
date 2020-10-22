@@ -7,8 +7,7 @@
     ```
     systemctl enable docker.cop
     ```
-After this all docker-compose conteiners will start automatically, after system start/reboot. Also you can stop/start service manually:
+After this all docker-compose conteiners will start automatically, after system start/reboot. Also you can start service manually:
     ```
-    sudo service docker.cop stop
     sudo service docker.cop start
     ```

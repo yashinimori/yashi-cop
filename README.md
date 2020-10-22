@@ -77,9 +77,9 @@ Backend is served via Docker for easier set up process.
     ```
 <h3>Rebuild containers images (after source code update) </h3>
     ```
-    docker-compose -f local.yml up -d --build
+    docker-compose -f staging_dev.yml up -d --build
     ### or run bash script
-    scripts\update-staging.sh
+    ./scripts/staging_dev/start_and_update.sh
     ```
 
 <h3>Database backups</h3>
