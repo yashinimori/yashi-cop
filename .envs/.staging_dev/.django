@@ -5,7 +5,7 @@ USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
 DJANGO_SETTINGS_MODULE=config.settings.staging
 DJANGO_ADMIN_URL=admin/
-DJANGO_ALLOWED_HOSTS=['18.156.118.192', '18.192.198.88']
+DJANGO_ALLOWED_HOSTS=18.156.118.192,18.192.198.88
 
 DJANGO_SECRET_KEY=7rsN7aua=(vvf#e!lc8$sj&z0bd$&(nd6PzNFoX1OJzLI@a83%qv4wth!w9j@-hg
 # key from prod
