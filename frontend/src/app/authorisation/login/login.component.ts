@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { Authorization } from '../../share/models/authorization.model';
 import { AuthService } from '../../share/services/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ngx-login',
@@ -14,11 +15,30 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService, private router: Router) {
     this.data = new Authorization();
+    this.reactiveForm = new FormGroup({
+      email: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
+      recaptchaReactive: new FormControl(null, Validators.required)
+    });
   }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onClickEnter(event) {
+    if(!this.reactiveForm.invalid) {
+      this.enter();
+    }
+  }
+
+
+  @ViewChild('email') buttonSubmit: any;
+  
   loginSubscription: Subscription = new Subscription();
   getTokenSubscription: Subscription = new Subscription();
 
+  isLoginDataError: boolean = false;
+  reactiveForm: FormGroup;
   ngOnInit(): void {
+    
   }
 
   handleKeyUp(e){
@@ -26,19 +46,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.enter();
   }
 
+  resolved(captchaResponse: string) {   
+    setTimeout(() => {this.buttonSubmit.nativeElement.focus()}, 1000)
+  }
+
   enter() {
-    //console.log("enter()");
-    //console.log(this.data);
-    // localStorage.setItem('token', 'erwer');
-    // localStorage.setItem('role', 'user');
-    // this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+    this.data.email = this.reactiveForm.value.email;
+    this.data.password = this.reactiveForm.value.password;
     this.getTokenSubscription = this.authService.getToken(this.data).subscribe({
       next: (response: any) => {
-        //console.log(response);
+        this.isLoginDataError = false;
         localStorage.setItem('token', response.access);
         localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());
       },
       error: error => {
+        this.isLoginDataError = true;
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -70,7 +92,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           localStorage.setItem('fio', response.first_name +' '+ response.last_name);
           localStorage.setItem('user_id', response['id']);
         }
-        //console.log(localStorage);
       },
       error: error => {
         console.error('There was an error!', error);
@@ -80,19 +101,19 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['auth', 'password']);
         } else {
           if(role == 'chargeback_officer')
-            this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+            this.router.navigate(['cop', 'cabinet', 'claims']);
           else if(role == 'security_officer')
-            this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+            this.router.navigate(['cop', 'cabinet', 'secur-officer']);
           else if(role == 'cop_manager')
-            this.router.navigate(['ourpages', 'ourcomponents', 'bank-list']);
+            this.router.navigate(['cop', 'cabinet', 'bank-list']);
           else if(role == 'merchant')
-            this.router.navigate(['ourpages', 'ourcomponents', 'claims','all']);
+            this.router.navigate(['cop', 'cabinet', 'claims','all']);
           else if(role == 'cardholder')
-            this.router.navigate(['ourpages', 'ourcomponents', 'claims','all']);
+            this.router.navigate(['cop', 'cabinet', 'claims','all']);
           else if(role == 'top_level')
-            this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
+            this.router.navigate(['cop', 'cabinet', 'top-officer']);
           else
-            this.router.navigate(['ourpages', 'ourcomponents']);
+            this.router.navigate(['cop', 'cabinet']);
         }
 
       }

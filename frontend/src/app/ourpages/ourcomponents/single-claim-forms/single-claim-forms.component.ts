@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {TransferService} from '../../../share/services/transfer.service';
 import {Router} from '@angular/router';
 import {HttpService} from '../../../share/services/http.service';
@@ -42,22 +42,19 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
-              private router: Router,
-              private cdr: ChangeDetectorRef) {
+              private router: Router) {
   }
 
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
+  subscription3: Subscription = new Subscription();
+  subscription4: Subscription = new Subscription();
 
   ngOnInit(): void {
-
     this.role = localStorage.getItem('role');
-    console.log(this.role);
-
-
     this.generateStatusFields();
-
     this.singleClaimFormsData = new SingleClaimForms();
     this.filesArr = [];
-
     const v = this.transferService.singleClaimFormsSettings.getValue();
     this.claimId = v.claimId;
     this.typeOperation = v.typeOperation;
@@ -66,18 +63,20 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.getDecision();
     this.getResponce();
     this.getReasonCode();
-
     this.loadClaim();
   }
 
   ngOnDestroy(): void {
     this.transferService.singleClaimFormsSettings.next(null);
     this.getEscalationSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
+    this.subscription4.unsubscribe();
   }
 
-
   loadClaim() {
-    this.httpService.getSingleClaim(this.claimId).subscribe({
+    this.subscription1 = this.httpService.getSingleClaim(this.claimId).subscribe({
       next: (response: any) => {
         this.claimData = response;
         const user = this.claimData['user'];
@@ -89,11 +88,9 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
-
       },
     });
   }
-
 
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
@@ -115,9 +112,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     } else {
       return '';
     }
-
   }
-
 
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
@@ -125,7 +120,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   }
 
   onClickApply() {
-
     const claim = new ClaimView();
     claim.claimId = this.claimId;
     claim.id = this.claimId;
@@ -196,7 +190,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.httpService.updateClaim(claim).subscribe({
+    this.subscription2 = this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
         this.uploadDoc(claim);
         this.commentClaim(claim.id, claim.comments, claim.form_name);
@@ -206,21 +200,19 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.transferService.cOPClaimID.next(this.claimId);
-
         if (this.typeOperation == 'FinishForm')
-          this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+          this.router.navigate(['cop', 'cabinet', 'claims']);
         else
-          this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+          this.router.navigate(['cop', 'cabinet', 'single-claim']);
       },
     });
-
   }
 
   uploadDoc(claim: any) {
     if (this.filesArr && this.filesArr.length > 0) {
       const data = this.filesArr[0];
 
-      this.httpService.uploadClaimDoc(data, 'substitute_draft', this.claimId,
+      this.subscription3 = this.httpService.uploadClaimDoc(data, 'substitute_draft', this.claimId,
         this.userId, claim.form_name).subscribe({
         next: (response: any) => {
           this.filesArr = [];
@@ -229,35 +221,30 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
           console.error('There was an error!', error);
         },
         complete: () => {
-
         },
       });
     }
   }
 
   commentClaim(claimId: any, comment: any, form_name: any) {
-    this.httpService.commentClaim(claimId, comment, form_name).subscribe({
+    this.subscription4 = this.httpService.commentClaim(claimId, comment, form_name).subscribe({
       next: (response: any) => {
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-
       },
     });
   }
 
   onClickBackClaim() {
     this.transferService.cOPClaimID.next(this.claimId);
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
-
   getReasonClosing() {
-
     this.reasonClosing = new Array<SelectorData>();
-
     if (this.role == 'cardholder' || this.role == 'cc_branch') {
       this.reasonClosing.push({id: 1, caption: 'я отримав необхідні документи та згоден завершити розгляд'});
       this.reasonClosing.push({id: 2, caption: 'я згоден з результатами розгляду'});
@@ -272,7 +259,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       this.reasonClosing.push({id: 2, caption: 'претензію відхилено, неправомірна заява'});
       this.reasonClosing.push({id: 3, caption: 'претензію відхилено, некоректні дані'});
     }
-
   }
 
   getDecision() {
@@ -286,13 +272,10 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       this.decision.push({id: 3, caption: 'в поверненні відмовлено, документи додаються'});
       this.decision.push({id: 4, caption: 'в поверненні відмовлено, коментарі додаються'});
     }
-
   }
 
   getResponce() {
-
     this.responce = new Array<SelectorData>();
-
     if (this.role == 'merchant') {
       this.responce.push({id: 1, caption: 'документи в наявності, надаємо чек'});
       this.responce.push({id: 2, caption: 'документи в наявності, доказ участі клієнта у транзакції'});
@@ -302,13 +285,10 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       this.responce.push({id: 6, caption: 'переказ був помилковим, кошти будуть повернені'});
       this.responce.push({id: 7, caption: 'претензію прийнято, кошти будуть повернені'});
     }
-
   }
 
   getReasonCode() {
-
     this.reasonCode = new Array<SelectorDataStr>();
-
     this.reasonCode.push({id: '0001', caption: '(139/4834) - ATM CASH NOT RECEIVED'});
     this.reasonCode.push({id: '0001', caption: '(139/4834) - ATM CASH NOT RECEIVED'});
     this.reasonCode.push({id: '0002', caption: '(138/4853) - Original Credit Transaction Not Accepted'});
@@ -340,8 +320,6 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.reasonCode.push({id: '0100', caption: '() - Запит документів'});
     this.reasonCode.push({id: '0101', caption: '() - запитна проаналізований лог'});
     this.reasonCode.push({id: '0500', caption: '() - шнша причина запит на CHB OFF'});
-
   }
-
 
 }

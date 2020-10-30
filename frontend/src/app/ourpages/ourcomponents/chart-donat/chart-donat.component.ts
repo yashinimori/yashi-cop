@@ -1,13 +1,6 @@
-import {Component, OnInit} from '@angular/core'
-import { ChartType } from 'chart.js';
-import { MultiDataSet, Label } from 'ng2-charts';
-import { ClaimView } from '../../../share/models/claim-view.model';
+import {Component, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
-import { LocalDataSource } from 'ng2-smart-table';
-import { DatePipe } from '@angular/common';
-import { TransferService } from '../../../share/services/transfer.service';
-import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
 import { ChartOptions } from 'chart.js';
 
 @Component({
@@ -21,8 +14,9 @@ export class ChartDonatComponent implements OnInit {
     doughnutChartData: any;
     is_data_ready = false;
 
-    constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+    subscription1: Subscription = new Subscription();
+
+    constructor(private httpServise: HttpService) {
     }
 
     ngOnInit(): void {
@@ -32,29 +26,18 @@ export class ChartDonatComponent implements OnInit {
           position: "right", // "center" , "right"
           align: "start",  // "top" , "bottom"
         },
-        
       };
       
       this.role = localStorage.getItem('role');
 
-      //   console.log('transferService.claimsByStages.getValue()');
-      //   let data = this.transferService.claimsByStages.getValue();
-      //   console.log(data);
-
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
-      this.loadCountClaimsByStages();
-      
+      this.loadCountClaimsByStages();  
     }
 
-
     loadCountClaimsByStages(){
-      //console.log('getCountClaimsByStages()');
-      this.httpServise.getCountClaimsByStages().subscribe({
+      this.subscription1 = this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
-          //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-          //console.log(response);
-          
           this.doughnutChartLabels = [
             // 'arbitration_claims',
             'chb',
@@ -84,18 +67,17 @@ export class ChartDonatComponent implements OnInit {
               response['pre_mediation_claims']
             ] 
           }];
-
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-      
         }
       });
-  
     }
   
-    
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
   }
+}
   

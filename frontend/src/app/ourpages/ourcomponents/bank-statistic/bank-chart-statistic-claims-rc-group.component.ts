@@ -1,19 +1,13 @@
-import {Component, OnInit} from '@angular/core'
-import { ChartType } from 'chart.js';
-import { MultiDataSet, Label } from 'ng2-charts';
-import { ClaimView } from '../../../share/models/claim-view.model';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
-import { LocalDataSource } from 'ng2-smart-table';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
-import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
 
 @Component({
     selector: 'app-bank-chart-statistic-claims-rc-group',
     templateUrl: './bank-chart-statistic-claims-rc-group.component.html',
 })
-export class BankStatisticClaimsByRcGroupComponent implements OnInit {
+export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy {
    
     role: string;
     doughnutChartLabels: any;
@@ -24,22 +18,19 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit {
     constructor(private transferService: TransferService,
       private httpServise: HttpService) {
     }
+    subscription1: Subscription = new Subscription();
 
     ngOnInit(): void {
-      
       this.role = localStorage.getItem('role');
       this.bankId = this.transferService.bankID.getValue();
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
       this.loadCountClaimsByRcGroup();
-      
     }
 
-
     loadCountClaimsByRcGroup(){
-      this.httpServise.getCountClaimsByRcGroup().subscribe({
+      this.subscription1 = this.httpServise.getCountClaimsByRcGroup().subscribe({
         next: (response: any) => {
-  
           this.doughnutChartLabels = [
             'fraud_claims',
             'authorization_claims',
@@ -55,18 +46,17 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit {
               response['cardholder_disputes_claims'],
             ]
           }];
-
-          
         },
         error: error => {
           console.error('There was an error!', error);
         },
-        complete: () => {
-         
+        complete: () => { 
         }
       });
-  
     }  
     
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
   }
+}
   

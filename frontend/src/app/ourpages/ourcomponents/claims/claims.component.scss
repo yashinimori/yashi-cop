@@ -10,3 +10,16 @@
   margin-left: 10px; 
   width: 150px;
 }
+
+:host /deep/ ng2-smart-table thead > tr > th  { 
+  font-size: 12px;
+  padding: 1em!important;
+}
+
+:host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+  font-size: 12px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td  { 
+  font-size: 12px;
+}

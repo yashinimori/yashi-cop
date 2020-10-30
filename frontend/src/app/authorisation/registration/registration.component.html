@@ -9,68 +9,100 @@
             <img src="assets/images/logo.png" alt="Logo" class="logo">
           </nb-card-header>
           <nb-card-body>
+            <form [formGroup]="reactiveForm" #userForm="ngForm" style="display: flex; flex-direction: column;
+              align-items: center; text-align: left;">
 
-            <input nbInput [(ngModel)]="data.first_name" #first_name="ngModel" name="first_name" id="input-first_name" placeholder="Ім'я" 
-              autofocus [status]="first_name.dirty ? (first_name.invalid  ? 'danger' : 'success') : 'basic'" required maxlength="999">
-            <ng-container *ngIf="first_name.invalid && first_name.touched">
-              <p class="caption status-danger danger-warning" *ngIf="first_name.errors?.required" >
-                Ім'я - обов'язкове поле для заповнення!
-              </p>
-            </ng-container>
-
-            <input nbInput [(ngModel)]="data.last_name" #last_name="ngModel" name="last_name" id="input-last_name"  
-              placeholder="Призвище" autofocus [status]="last_name.dirty ? (last_name.invalid  ? 'danger' : 'success') : 'basic'"  
-              required maxlength="999">
-              <ng-container *ngIf="last_name.invalid && last_name.touched">
-                <p class="caption status-danger danger-warning" *ngIf="last_name.errors?.required">
-                  Призвище - обов'язкове поле для заповнення!
+              <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Ім'я</label>
+              <input nbInput formControlName="first_name" #first_name name="first_name" id="input-first_name" placeholder="Ім'я" 
+                autofocus [status]="this.reactiveForm.controls.first_name.touched ? (this.reactiveForm.controls.first_name.status == 'INVALID'  ? 'danger' : 'success') : 'basic'" required maxlength="999">
+              <ng-container *ngIf="this.reactiveForm.controls.first_name.touched && this.reactiveForm.controls.first_name.status == 'INVALID'">
+                <p class="caption status-danger danger-warning">
+                  Ім'я - обов'язкове поле для заповнення!
                 </p>
               </ng-container>
 
-            <input nbInput [(ngModel)]="data.email" #email="ngModel" name="email" id="input-email"  
-              placeholder="Email" autofocus [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"  
-              required maxlength="999">
-              <ng-container *ngIf="email.invalid && email.touched">
-                <p class="caption status-danger danger-warning" *ngIf="email.errors?.required">
-                  Email - обов'язкове поле для заповнення!
-                </p>
-              </ng-container>
+              <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Прізвище</label>
+              <input nbInput formControlName="last_name" #last_name name="last_name" id="input-last_name"  
+                placeholder="Прізвище" autofocus [status]="this.reactiveForm.controls.last_name.touched ? (this.reactiveForm.controls.last_name.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="999">
+                <ng-container *ngIf="this.reactiveForm.controls.last_name.touched && this.reactiveForm.controls.last_name.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Прізвище - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
 
-            <input nbInput [(ngModel)]="data.phone" #phone="ngModel" name="phone" id="input-phone"  
-              placeholder="Телефон" autofocus [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : 'basic'"  
-              required maxlength="13">
-              <ng-container *ngIf="phone.invalid && phone.touched">
-                <p class="caption status-danger danger-warning" *ngIf="phone.errors?.required">
-                  Телефон - обов'язкове поле для заповнення!
-                </p>
-              </ng-container>
+                <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Email</label>
+              <input nbInput formControlName="email" type="email" #email name="email" id="input-email"  
+                placeholder="Email" autofocus [status]="this.reactiveForm.controls.email.touched ? (this.reactiveForm.controls.email.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="999">
+                <ng-container *ngIf="this.reactiveForm.controls.email.touched && this.reactiveForm.controls.email.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Email - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
 
-            <input nbInput [(ngModel)]="data.login" #login="ngModel" name="login" id="input-login"  
-              placeholder="Login" autofocus [status]="login.dirty ? (login.invalid  ? 'danger' : 'success') : 'basic'"  
-              required maxlength="200">
-              <ng-container *ngIf="login.invalid && login.touched">
-                <p class="caption status-danger danger-warning" *ngIf="login.errors?.required">
-                  Login - обов'язкове поле для заповнення!
-                </p>
-              </ng-container>
+                <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Телефон</label>
+              <input nbInput formControlName="phone" #phone name="phone" id="input-phone"  
+                placeholder="Телефон" autofocus [status]="this.reactiveForm.controls.phone.touched ? (this.reactiveForm.controls.phone.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="13">
+                <ng-container *ngIf="this.reactiveForm.controls.phone.touched && this.reactiveForm.controls.phone.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Телефон - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
 
-            <input nbInput [(ngModel)]="data.password" #password="ngModel" name="password" id="input-password"  
-              placeholder="Password" autofocus [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"  
-              required maxlength="40">
-              <ng-container *ngIf="password.invalid && password.touched">
-                <p class="caption status-danger danger-warning" *ngIf="password.errors?.required">
-                  Password - обов'язкове поле для заповнення!
-                </p>
-              </ng-container>
+                <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Логін</label>
+              <input nbInput formControlName="login" #login name="login" id="input-login"  
+                placeholder="Логін" autofocus [status]="this.reactiveForm.controls.login.touched ? (this.reactiveForm.controls.login.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="200">
+                <ng-container *ngIf="this.reactiveForm.controls.login.touched && this.reactiveForm.controls.login.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Логін - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
 
+              <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Пароль</label>
+              <input nbInput #password2 formControlName="password" type="password" #password name="password" id="input-password"  
+                placeholder="Пароль" autofocus [status]="this.reactiveForm.controls.password.touched ? (this.reactiveForm.controls.password.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="40">
+                <ng-container *ngIf="this.reactiveForm.controls.password.touched && this.reactiveForm.controls.password.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Пароль - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
+                <div style="font-size: 10px; width: 100%; max-width: 20rem;">
+                  Пароль повинен включати в себе мінімум 10 символів та складатися з:<br>
+                   малих літер (a, b, c ...) та великих літер (A, B, C ...),<br>
+                   спеціальних символів (*, # ...) та чисел (1, 2, 3 ...).
+                </div>
+
+                <label for="input-password2" style="width: 100%; max-width: 20rem; font-size: 12px; margin-bottom: 0;">Повторіть пароль</label>
+                <input nbInput formControlName="password2" type="password" #password2 name="password2" id="input-password2"  
+                placeholder="Повторіть пароль" autofocus [status]="this.reactiveForm.controls.password2.touched ? (this.reactiveForm.controls.password2.status == 'INVALID' ? 'danger' : 'success') : 'basic'"  
+                required maxlength="40">
+                <ng-container *ngIf="this.reactiveForm.controls.password2.touched && this.reactiveForm.controls.password2.status == 'INVALID'">
+                  <p class="caption status-danger danger-warning">
+                    Пароль - обов'язкове поле для заповнення!
+                  </p>
+                </ng-container>
+
+                <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></re-captcha>
+                
+                <nb-alert style="margin-top: 0.5em; margin-bottom: 0;" status="danger" *ngIf="isPasswordDifferent">Паролі не співпадають!</nb-alert> 
+
+                <nb-alert style="margin-top: 0.5em; margin-bottom: 0;" status="danger" *ngIf="isError">Саталася помилка!</nb-alert> 
+
+                <button style="margin-top: 0.5em; width: 10em;" [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="createUser()">Реєстрація</button>
+
+            </form>
             <!-- <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div> -->
             <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"></ngx-recaptcha2> -->
           </nb-card-body>
-          <nb-card-footer>
+          <!-- <nb-card-footer>
             <div class="button-enter">
               <button nbButton status="primary" (click)="createUser()">Реєстрація</button>
             </div>
-          </nb-card-footer>
+          </nb-card-footer> -->
         </nb-card>
 
       </form> 

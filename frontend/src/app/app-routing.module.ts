@@ -29,7 +29,7 @@ const routes: Routes = [
     // { path: '**', redirectTo: 'pages' },
 
     {
-      path: 'ourpages',
+      path: 'cop',
       loadChildren: () => import('./ourpages/ourpages.module')
         .then(m => m.OurPagesModule),
         canActivate: [AuthGuard]
@@ -67,8 +67,8 @@ const routes: Routes = [
     //   loadChildren: () => import('./authorisation/authorisation.module')
     //     .then(m => m.AuthorisationModule),
     // },
-    { path: '', redirectTo: 'ourpages', pathMatch: 'full' },
-    { path: '**', redirectTo: 'ourpages' },
+    { path: '', redirectTo: 'cop', pathMatch: 'full' },
+    { path: '**', redirectTo: 'cop' },
 
 ];
 

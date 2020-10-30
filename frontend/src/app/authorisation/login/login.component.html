@@ -1,33 +1,27 @@
-  <div style="display:block;" class="row" >
-
-    <div class="center-screen">
-      <nb-card style="margin-left: auto;
-      margin-right: auto;" class="registration-card">
-        <nb-card-header>
-          <img src="assets/images/logo.png" alt="Logo" class="logo">
-        </nb-card-header>
-        <nb-card-body>
-          <input nbInput placeholder="Email" required [(ngModel)]="data.email">
-          <input nbInput type="password" required placeholder="Password" [(ngModel)]="data.password" (keyup)="handleKeyUp($event)">
-          <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div>
-          <a href="#" target="_blank" >Forgot password?</a>
-        </nb-card-body>
-        <nb-card-footer>
-          <div class="button-enter">
-            <button  nbButton status="primary" (click)="enter()">Логін</button>
-          </div>
-          <div class="button-enter mt-20">
-            <a nbButton status="primary" href="auth/registration">Реєстрація</a>
-          </div>
-        </nb-card-footer>
-        
-      </nb-card>
-    </div>
-    <script type="text/javascript">
-      var onloadCallback = function() {
-        alert("grecaptcha is ready!");
-      };
-    </script>
-
+<div style="display:block;" class="row" >
+  <div class="center-screen">
+    <nb-card style="margin-left: auto; margin-right: auto;" class="registration-card">
+      <nb-card-header>
+        <img src="assets/images/logo.png" alt="Logo" class="logo">
+      </nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="reactiveForm" #userForm style="display: flex; flex-direction: column;
+        align-items: center;">
+          <input nbInput placeholder="Email"
+          #email formControlName="email" required id="email" name="email">
+          <input nbInput type="password" #password formControlName="password" required placeholder="Password">
+          <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></re-captcha>
+          <nb-alert style="margin-top: 0.5em; margin-bottom: 0;" status="danger" *ngIf="isLoginDataError">Невірний логін або пароль</nb-alert> 
+          <button style="margin-top: 0.5em; width: 10em;" #submit [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="enter()">Логін</button> 
+        </form>
+      </nb-card-body> 
+      <nb-card-footer style="padding: 0.5em 1.5em;">          
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+          <a style="text-decoration: none; color: black; cursor: pointer;" href="auth/registration">Реєстрація</a>
+          <div>Забули пароль?</div>
+        </div>
+      </nb-card-footer>
+    </nb-card>
   </div>
+</div>
 

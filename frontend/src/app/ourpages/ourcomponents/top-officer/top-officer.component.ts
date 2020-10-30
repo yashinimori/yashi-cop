@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
@@ -31,8 +28,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   sourceMerch: LocalDataSource;
   userId: any;
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+  constructor(private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService) {
     this.bank = new Bank();
@@ -41,45 +37,40 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   }
 
   bankUsersSubscription: Subscription = new Subscription();
+  merchListSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
     this.userId = localStorage.getItem('user_id');
     this.bankID = this.transferService.bankID.getValue();
-
     this.generateStatusFields();
-
     this.setSettingsGridBankUser(this.role);
     this.setSettingsGridMerch(this.role);
 
-    this.httpServise.getBankEmployees(Number(this.userId)).subscribe({
+    this.subscription1 = this.httpServise.getBankEmployees(Number(this.userId)).subscribe({
       next: (response: any) => {
-
         if(response && response['length'] ){
           let data = response[0];
           this.bankID = data.bank.id;
           this.bank = new Bank();
-          // this.getBankData(this.bankID);
-          
+          // this.getBankData(this.bankID);  
           this.getBankUserData(this.bankID);
           this.getMerchantData(this.bankID);
-
         }
-
       }
     });
-
   }
   
   createBankUser(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-user']);
+    this.router.navigate(['cop', 'cabinet', 'bank-user']);
   }
 
   createMerch(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'merch-user']);
+    this.router.navigate(['cop', 'cabinet', 'merch-user']);
   }
 
   generateStatusFields() {
@@ -89,11 +80,10 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   
   getBankData(id: any) {
     this.bank = new Bank();
-
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.httpServise.getBank(id).subscribe({
+    this.subscription2 = this.httpServise.getBank(id).subscribe({
       next: (response: any) => {
         this.bank.id = response['id'];
         this.bank.bin = response['bin'];
@@ -105,22 +95,22 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
         this.bank.contact_person = response['contact_person'];
         this.bank.contact_telephone = response['contact_telephone'];
         this.bank.contact_email = response['contact_email'];
-      
       },
       error: error => {
         console.error('There was an error!', error);
       },
-      complete: () => {
-       
+      complete: () => {  
       }
     });
   }
 
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
+    this.merchListSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
     //this.transferService.bankID.next('');
   }
-
 
   setSettingsGridBankUser(role:string){
     switch(role){
@@ -186,7 +176,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
       }
     }
 
-
     // if(role != 'top_level'){
     //   this.settingsBankUser = {
     //       actions:{
@@ -246,21 +235,17 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     //     },
     //   };
 
-    // }
-
-        
+    // } 
   }
 
   getBankUserData(id: any) {
     this.bankUserData = new Array<BankUser>();
-
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
@@ -268,7 +253,6 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
         data.forEach(el => {
           let t = new BankUser();
-          
           let user = el['user'];
           
           t.id = user['id'];
@@ -282,25 +266,20 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           t.registration_date = user['registration_date'];
 
           self.bankUserData.push(t);
-
         });
         
         self.sourceBankUser = new LocalDataSource();
         self.sourceBankUser.load(self.bankUserData);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
-      complete: () => {
-       
+      complete: () => { 
       }
     });
   }
 
-
   setSettingsGridMerch(role:string){
-
     switch(role){
       case 'top_level': {
         this.settingsMerch = {
@@ -378,22 +357,17 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
- 
-
   }
 
   getMerchantData(id: any) {
     this.bankMerchData = new Array<MerchUser>();
-
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.bankUsersSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
+    this.merchListSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
@@ -418,25 +392,20 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           t.contact_person = el['contact_person'];
 
           self.bankMerchData.push(t);
-
         });
-        
         self.sourceMerch = new LocalDataSource();
         self.sourceMerch.load(self.bankMerchData);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
 
   goStatistic(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-statistic']);
+    this.router.navigate(['cop', 'cabinet', 'bank-statistic']);
   }
-
 }

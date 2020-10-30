@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
-import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
-    selector: 'app-chart-statistic-claims-stages',
-    templateUrl: './chart-statistic-claims-stages.component.html',
+    selector: 'app-chart-statistic-claims-time',
+    templateUrl: './chart-statistic-claims-time.component.html',
 })
-export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
+export class StatisticClaimsByTimeComponent implements OnInit, OnDestroy {
+   
     role: string;
     doughnutChartLabels: any;
     doughnutChartData: any;
@@ -16,8 +16,7 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
     chartOptions:any;
     subscription1: Subscription = new Subscription();
 
-    constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+    constructor(private httpServise: HttpService) {
     }
 
     ngOnInit(): void {
@@ -26,7 +25,7 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
         aspectRatio: 1.2,
         maintainAspectRatio: false,
         legend: {
-          position: 'bottom',
+          position: 'top',
           labels: {
             fontSize: 10,
             usePointStyle: true
@@ -34,14 +33,14 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
         },
       };
       this.role = localStorage.getItem('role');
-
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
       this.loadCountClaimsByStages();
     }
 
+
     loadCountClaimsByStages(){
-      this.subscription1 = this.httpServise.getCountClaimsByStages().subscribe({
+      this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
           this.doughnutChartLabels = [
             // 'arbitration_claims',
@@ -56,22 +55,13 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
             // 'pre_arbitration_response_claims',
              'pre_mediation_claims'
           ];
-          
-          this.doughnutChartData  = [{
-            data: [
-              // response['arbitration_claims'],
-               response['chargeback_claims'],
-               response['chargeback_escalation_claims'],
-              // response['closed_claims'],
-              // response['dispute_claims'],
-              // response['dispute_response_claims'],
-              // response['final_ruling_claims'],
-               response['mediation_claims'],
-              // response['pre_arbitration_claims'],
-              // response['pre_arbitration_response_claims'],
-               response['pre_mediation_claims']
-            ] 
-          }];
+
+            this.doughnutChartData  = [
+                {data: [response['chargeback_claims']] , label: 'chargeback_claims'},
+                {data: [response['chargeback_escalation_claims']], label: 'chargeback_claims'},
+                {data: [response['mediation_claims']] , label: 'chargeback_claims'},
+                {data: [response['pre_mediation_claims']] , label: 'chargeback_claims'}
+            ];
 
         },
         error: error => {

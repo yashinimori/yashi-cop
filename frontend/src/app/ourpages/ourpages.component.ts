@@ -20,7 +20,6 @@ export class OurPagesComponent {
   menu: any;
   
   constructor(private compiler: Compiler){
-    console.log('export class OurPagesComponent');
     this.compiler.clearCache();
     this.menu = this.getMenu();
   }
@@ -28,188 +27,119 @@ export class OurPagesComponent {
   getMenu(){
     let m: NbMenuItem[] = [
       {
-        title: 'Мої зверненя',
+        title: 'Список скарг',
         icon: 'layout-outline',
+        link: '/cop/cabinet/claims/all',
         hidden: this.setHiddenUser(),
-        children: [
-          {
-            title: 'список скарг',
-            link: '/ourpages/ourcomponents/claims/all',
-          },
-          {
-             title: 'завершені',
-             link: '/ourpages/ourcomponents/claims/archive',
-           },
-        ],
       },
       {
-        title: 'Наші компоненти (am)',
+        title: 'Завершені',
+        icon: 'inbox-outline',
+        link: '/cop/cabinet/claims/archive',
+        hidden: this.setHiddenUser(),
+      },
+      {
+        title: 'Список скарг',
         icon: 'layout-outline',
+        link: '/cop/cabinet/claims',
         hidden: this.setHiddenAdmin(),
-        children: [
-          {
-            title: 'список скарг',
-            link: '/ourpages/ourcomponents/claims',
-          },
-          // {
-          //   title: 'скарга',
-          //   link: '/ourpages/ourcomponents/single-claim',
-          // },
-        ],
       },
       {
         title: 'Dashboard',
         icon: 'layout-outline',
         hidden: this.setHiddenChargebackOfficer(),
-        link: '/ourpages/ourcomponents/chbo-dashboard'
+        link: '/cop/cabinet/chbo-dashboard'
       },
       {
         title: 'Disputes',
         icon: 'layout-outline',
         hidden: this.setHiddenChargebackOfficer(),
-        link: '/ourpages/ourcomponents/claims'
+        link: '/cop/cabinet/claims'
       },
       {
-        title: 'ATM manage (cbo)',
-        icon: 'layout-outline',
+        title: 'ATM лог - новий',
+        icon: 'file-add-outline',
+        link: '/cop/cabinet/atm-log-upload',
         hidden: this.setHiddenChargebackOfficer(),
-        children: [
-          {
-            title: 'ATM лог - новий',
-            link: '/ourpages/ourcomponents/atm-log-upload',
-          },
-          {
-            title: 'ATM лог - перегляд',
-            link: '/ourpages/ourcomponents/atm-log-view',
-          },
-          {
-            title: 'ATM лог - детальний',
-            link: '/ourpages/ourcomponents/atm-log-view-detail',
-          },
-        ],
       },
       {
-        title: 'My Claims',
-        icon: 'person-outline',
+        title: 'ATM лог - перегляд',
+        icon: 'file-outline',
+        link: '/cop/cabinet/atm-log-view',
         hidden: this.setHiddenChargebackOfficer(),
-        children: [
-          {
-            title: 'pre-mediation',
-            icon: 'radio-button-off-outline',
-            link: '/ourpages/ourcomponents/chbo-my-claims/pre_mediation',
-          },
-          {
-            title: 'mediation',
-            icon: 'radio-button-off-outline',
-            link: '/ourpages/ourcomponents/chbo-my-claims/mediation',
-          },
-          {
-            title: 'chargebacks',
-            icon: 'radio-button-off-outline',
-            link: '/ourpages/ourcomponents/chbo-my-claims/chargeback',
-          },
-          {
-            title: 'archive',
-            icon: 'radio-button-off-outline',
-            link: '/ourpages/ourcomponents/chbo-my-claims/closed',
-          },
-        ],
       },
       {
-        title: 'Претензії',
+        title: 'ATM лог - детальний',
+        icon: 'file-text-outline',
+        link: '/cop/cabinet/atm-log-view-detail',
+        hidden: this.setHiddenChargebackOfficer(),
+      },
+      {
+        title: 'pre-mediation claims',
+        icon: 'book-open-outline',
+        link: '/cop/cabinet/chbo-my-claims/pre_mediation',
+        hidden: this.setHiddenChargebackOfficer(),
+      },
+      {
+        title: 'mediation claims',
+        icon: 'book-outline',
+        link: '/cop/cabinet/chbo-my-claims/mediation',
+        hidden: this.setHiddenChargebackOfficer(),
+      },
+      {
+        title: 'chargebacks claims',
+        icon: 'archive-outline',
+        link: '/cop/cabinet/chbo-my-claims/chargeback',
+        hidden: this.setHiddenChargebackOfficer(),
+      },
+      {
+        title: 'archive claims',
+        icon: 'inbox-outline',
+        link: '/cop/cabinet/chbo-my-claims/closed',
+        hidden: this.setHiddenChargebackOfficer(),
+      },
+      {
+        title: 'Звернення',
         icon: 'layout-outline',
         hidden: this.setHiddenMerchant(),
-        children: [
-          {
-            title: 'зверненя',
-            link: '/ourpages/ourcomponents/claims/all',
-          },
-          {
-            title: 'завершені',
-            link: '/ourpages/ourcomponents/claims/archive',
-         },
-        ],
+        link: '/cop/cabinet/claims/all',
       },
       {
-        title: 'БАНК',
+        title: 'Завершені',
+        icon: 'inbox-outline',
+        hidden: this.setHiddenMerchant(),
+        link: '/cop/cabinet/claims/archive',
+      },
+      {
+        title: 'Список банків',
         icon: 'layout-outline',
+        link: '/cop/cabinet/bank-list',
         hidden: this.setHiddenBank(),
-        children: [
-          {
-            title: 'Список банків',
-            link: '/ourpages/ourcomponents/bank-list',
-          },
-          {
-            title: 'Новий банк',
-            link: '/ourpages/ourcomponents/bank',
-          },
-          // {
-          //   title: 'Новий користувач',
-          //   link: '/ourpages/ourcomponents/bank-user',
-          // },
-        ],
       },
-      // {
-      //   title: 'МЕРЧАНТ',
-      //   icon: 'layout-outline',
-      //   hidden: setHiddenCOPManager(),
-      //   children: [
-      //     {
-      //       title: 'Новий мерчант',
-      //       link: '/ourpages/ourcomponents/merch-user',
-      //     },
-      //   ],
-      // },
       {
-        title: 'Користувачи',
-        icon: 'layout-outline',
+        title: 'Новий банк',
+        icon: 'plus-outline',
+        link: '/cop/cabinet/bank',
+        hidden: this.setHiddenBank(),
+      },
+      {
+        title: 'Користувачі',
+        icon: 'person-outline',
+        link: '/cop/cabinet/top-officer',
         hidden: this.setHiddenTopOfficer(),
-        children: [
-          {
-            title: 'Користувачи',
-            link: '/ourpages/ourcomponents/top-officer',
-          },
-          // {
-          //   title: 'Новий bank',
-          //   link: '/ourpages/ourcomponents/bank',
-          // },
-          // {
-          //   title: 'Новий користувач',
-          //   link: '/ourpages/ourcomponents/bank-user',
-          // },
-        ],
       },
       {
-        title: 'Користувачи',
-        icon: 'layout-outline',
+        title: 'Користувачі',
+        icon: 'person-outline',
+        link: '/cop/cabinet/secur-officer',
         hidden: this.setHiddenSecurOfficer(),
-        children: [
-          {
-            title: 'Користувачи',
-            link: '/ourpages/ourcomponents/secur-officer',
-          },
-          // {
-          //   title: 'Новий bank',
-          //   link: '/ourpages/ourcomponents/bank',
-          // },
-          // {
-          //   title: 'Новий користувач',
-          //   link: '/ourpages/ourcomponents/bank-user',
-          // },
-        ],
       },
       {
         title: 'Статистика',
-        icon: 'layout-outline',
+        icon: 'bar-chart-outline',
+        link: '/cop/cabinet/statistic',
         hidden: this.setHiddenStatistic(),
-        children: [
-          {
-            title: 'Статистика',
-            link: '/ourpages/ourcomponents/statistic',
-          },
-        ],
       },  
-    
       {
         title: 'Messages',
         icon: 'email-outline',
@@ -221,13 +151,10 @@ export class OurPagesComponent {
       },
       
     ];
-
     return m;
   }
    
-  setHiddenUser(){
-    console.log('function setHiddenUser()');
-    
+  setHiddenUser(){    
     let role= localStorage.getItem('role');
     if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
       return false;
@@ -316,3 +243,213 @@ export class OurPagesComponent {
   }
 
 }
+
+// let m: NbMenuItem[] = [
+//   {
+//     title: 'Мої зверненя',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenUser(),
+//     children: [
+//       {
+//         title: 'список скарг',
+//         link: '/cop/cabinet/claims/all',
+//       },
+//       {
+//          title: 'завершені',
+//          link: '/cop/cabinet/claims/archive',
+//        },
+//     ],
+//   },
+//   {
+//     title: 'Наші компоненти (am)',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenAdmin(),
+//     children: [
+//       {
+//         title: 'список скарг',
+//         link: '/cop/cabinet/claims',
+//       },
+//       // {
+//       //   title: 'скарга',
+//       //   link: '/ourpages/ourcomponents/single-claim',
+//       // },
+//     ],
+//   },
+//   {
+//     title: 'Dashboard',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenChargebackOfficer(),
+//     link: '/cop/cabinet/chbo-dashboard'
+//   },
+//   {
+//     title: 'Disputes',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenChargebackOfficer(),
+//     link: '/cop/cabinet/claims'
+//   },
+//   {
+//     title: 'ATM manage (cbo)',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenChargebackOfficer(),
+//     children: [
+//       {
+//         title: 'ATM лог - новий',
+//         link: '/cop/cabinet/atm-log-upload',
+//       },
+//       {
+//         title: 'ATM лог - перегляд',
+//         link: '/cop/cabinet/atm-log-view',
+//       },
+//       {
+//         title: 'ATM лог - детальний',
+//         link: '/cop/cabinet/atm-log-view-detail',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'My Claims',
+//     icon: 'person-outline',
+//     hidden: this.setHiddenChargebackOfficer(),
+//     children: [
+//       {
+//         title: 'pre-mediation',
+//         icon: 'radio-button-off-outline',
+//         link: '/cop/cabinet/chbo-my-claims/pre_mediation',
+//       },
+//       {
+//         title: 'mediation',
+//         icon: 'radio-button-off-outline',
+//         link: '/cop/cabinet/chbo-my-claims/mediation',
+//       },
+//       {
+//         title: 'chargebacks',
+//         icon: 'radio-button-off-outline',
+//         link: '/cop/cabinet/chbo-my-claims/chargeback',
+//       },
+//       {
+//         title: 'archive',
+//         icon: 'radio-button-off-outline',
+//         link: '/cop/cabinet/chbo-my-claims/closed',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Претензії',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenMerchant(),
+//     children: [
+//       {
+//         title: 'зверненя',
+//         link: '/cop/cabinet/claims/all',
+//       },
+//       {
+//         title: 'завершені',
+//         link: '/cop/cabinet/claims/archive',
+//      },
+//     ],
+//   },
+//   {
+//     title: 'Список банків',
+//     icon: 'layout-outline',
+//     link: '/cop/cabinet/bank-list',
+//     hidden: this.setHiddenBank(),
+//   },
+//   {
+//     title: 'Новий банк',
+//     icon: 'layout-outline',
+//     link: '/cop/cabinet/bank',
+//     hidden: this.setHiddenBank(),
+//   },
+  
+//   // {
+//   //   title: 'БАНК',
+//   //   icon: 'layout-outline',
+//   //   hidden: this.setHiddenBank(),
+//   //   children: [
+//   //     {
+//   //       title: 'Список банків',
+//   //       link: '/cop/cabinet/bank-list',
+//   //     },
+//   //     {
+//   //       title: 'Новий банк',
+//   //       link: '/cop/cabinet/bank',
+//   //     },
+//   //     // {
+//   //     //   title: 'Новий користувач',
+//   //     //   link: '/ourpages/ourcomponents/bank-user',
+//   //     // },
+//   //   ],
+//   // },
+
+//   // {
+//   //   title: 'МЕРЧАНТ',
+//   //   icon: 'layout-outline',
+//   //   hidden: setHiddenCOPManager(),
+//   //   children: [
+//   //     {
+//   //       title: 'Новий мерчант',
+//   //       link: '/ourpages/ourcomponents/merch-user',
+//   //     },
+//   //   ],
+//   // },
+//   {
+//     title: 'Користувачі',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenTopOfficer(),
+//     children: [
+//       {
+//         title: 'Користувачі',
+//         link: '/cop/cabinet/top-officer',
+//       },
+//       // {
+//       //   title: 'Новий bank',
+//       //   link: '/ourpages/ourcomponents/bank',
+//       // },
+//       // {
+//       //   title: 'Новий користувач',
+//       //   link: '/ourpages/ourcomponents/bank-user',
+//       // },
+//     ],
+//   },
+//   {
+//     title: 'Користувачі',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenSecurOfficer(),
+//     children: [
+//       {
+//         title: 'Користувачі',
+//         link: '/cop/cabinet/secur-officer',
+//       },
+//       // {
+//       //   title: 'Новий bank',
+//       //   link: '/ourpages/ourcomponents/bank',
+//       // },
+//       // {
+//       //   title: 'Новий користувач',
+//       //   link: '/ourpages/ourcomponents/bank-user',
+//       // },
+//     ],
+//   },
+//   {
+//     title: 'Статистика',
+//     icon: 'layout-outline',
+//     hidden: this.setHiddenStatistic(),
+//     children: [
+//       {
+//         title: 'Статистика',
+//         link: '/cop/cabinet/statistic',
+//       },
+//     ],
+//   },  
+
+//   {
+//     title: 'Messages',
+//     icon: 'email-outline',
+//     hidden: this.setHiddenMessages(),
+//   },
+//   {
+//     title: 'Settings',
+//     hidden: this.setHiddenSettings(),
+//   },
+  
+// ];

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
@@ -32,6 +31,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   claimsSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
   
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -43,40 +43,29 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
 
   onUserRowSelect(event): void {
     this.transferService.cOPClaimID.next(event.data.id);
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
-    
-    this.activatedRoute.params.subscribe(routeParams => {
+    this.subscription1 = this.activatedRoute.params.subscribe(routeParams => {
       // (routeParams.id);
       this.routeParamsStatus = routeParams.status;
-      console.log('STATUS:   ' + this.routeParamsStatus);
       this.role = localStorage.getItem('role');
-      console.log('ClaimsComponent role ' +this.role);
       this.generateStatusFields();
 
       this.setSettingsGrid(this.role);
       this.getClaimsData(this.routeParamsStatus);
     });
-    
-
     // this.generateStatusFields();
-
     // this.setSettingsGrid(this.role);
     // this.getClaimsData();
-    
   }
-
 
   refresh_claim(){
     this.getClaimsData(this.routeParamsStatus);
   }
 
-
   setSettingsGrid(role:string){
-    //console.log('setSettingsGrid(c:string)' + role);
-
     switch(role){
       case 'admin':
       case 'chargeback_officer':  {
@@ -159,24 +148,17 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData(s) {
-    console.log('loadClaims()');
     this.claimsData = new Array<ClaimView>();
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    // let search = 'status.stage=';
     this.claimsSubscription = this.httpServise.getClaimList(pageSize, pageNumber).subscribe({
       next: (response: any) => {
-        //console.log('loaded Claims '); 
-        //console.log(response);
-
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
         data = response;
-
         data.forEach(el => {
           //Тут иф на проверку статуса
           // console.log('INLOOP STATUS  '+ s)
@@ -206,27 +188,22 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
             //до сюда
           }
         });
-
-        //self.source = new LocalDataSource(self.claimsData);
         self.source = new LocalDataSource();
         //self.source.setPaging(1, 5);
         self.source.load(self.claimsData);
         //self.source .refresh();
-
-        //console.log(self.source);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
 
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 
   generateStatusFields() {
@@ -235,11 +212,8 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   public createReport(){
-
     if(this.claimsData){
-
       let str = '';
-
       str += 'ID;';
       str += 'Номер карти;';
       str += 'Дата транзакції;';
@@ -254,7 +228,6 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
       str += 'Результат;';
       str += 'Кінцевий термін претензії';
       str += '\r\n';
-
       this.claimsData.forEach(el=>{
 
         // str += `${el['id']};`;
@@ -271,8 +244,6 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
         // str += `${el['result']};`;
         // str += `${el['due_date']}`;
 
-        console.log(el['status']);
-
         str += `${this.getValueToReport(el['id'])};`;
         str += `'${this.getValueToReport(el['pan'])};`;
         str += `${this.getValueToReportDate(el['trans_date'])};`;
@@ -288,18 +259,12 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
         str += `${this.getValueToReportDate(el['due_date'])}`;
 
         str += '\r\n';
-
-      });
-    
-      //console.log(str);
+      }); 
       var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}_${this.routeParamsStatus}.txt`;
       FileSaver.saveAs(blob, filename);
-  
     }
-
   }
-
 
   getValueToReport(val: any){
     if(val){
@@ -316,7 +281,5 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
       return '';
     }
   }
-
-  
 
 }

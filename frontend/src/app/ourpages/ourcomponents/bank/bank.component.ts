@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpService} from '../../../share/services/http.service';
 import {Router} from '@angular/router';
 import {Bank} from '../../../share/models/bank.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ngx-bank',
@@ -9,25 +10,22 @@ import {Bank} from '../../../share/models/bank.model';
   styleUrls: ['./bank.component.scss']
 })
 
-export class BankComponent implements OnInit {
+export class BankComponent implements OnInit, OnDestroy {
   public data: Bank;
 
-
-  // RegistrationData: RegistrationView;
   constructor(private httpService: HttpService,
-              private router: Router,) {
-
+              private router: Router) {
   }
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
 
   ngOnInit(): void {
     this.data = new Bank();
   }
 
   createBank() {
-
     if(this.enter() == 0){
-
-      this.httpService.createNewBank(this.data).subscribe({
+      this.subscription1 = this.httpService.createNewBank(this.data).subscribe({
         next: (response: any) => {
 
           const bank_id = response['id'];
@@ -42,7 +40,7 @@ export class BankComponent implements OnInit {
             },
           };
 
-          this.httpService.createNewUser(user_data).subscribe({
+          this.subscription2 = this.httpService.createNewUser(user_data).subscribe({
               next: (response: any) => {
               },
               error: error => {
@@ -52,25 +50,19 @@ export class BankComponent implements OnInit {
               }
           })
 
-          this.router.navigate(['ourpages', 'ourcomponents','bank-list']);
+          this.router.navigate(['cop', 'cabinet','bank-list']);
 
         },
         error: error => {
           console.error('There was an error!', error);
         },
         complete: () => {
-
         }
       });
-
     }
-
   }
 
-
-
   enter() {
-
     if (!this.data.bin)
       return 1;
 
@@ -89,5 +81,8 @@ export class BankComponent implements OnInit {
     return 0;
   }
 
-
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
+  }
 }

@@ -1,13 +1,6 @@
-import {Component, OnInit, OnDestroy, NgModule } from '@angular/core'
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { LocalDataSource } from 'ng2-smart-table';
-import { HttpService } from '../../../share/services/http.service';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ClaimComment } from '../../../share/models/claim-comment.model';
-import { DatePipe } from '@angular/common';
-// import { ChartjsPieComponent } from '../../../pages/charts/chartjs/chartjs-pie.component';
-import { NbThemeService } from '@nebular/theme';
-
+import { HttpService } from '../../../share/services/http.service';
 
 @Component({
     selector: 'app-chbo-dashboard', 
@@ -15,54 +8,50 @@ import { NbThemeService } from '@nebular/theme';
     
 })
 export class ChboDashboardComponent implements OnInit, OnDestroy{
-    all_new_claims: any;
-    all_updated_claims: any;
-    
-    constructor(private httpServise: HttpService, private datePipe: DatePipe, private theme: NbThemeService){
-        
-    }
-    ngOnInit(): void {
-      this.all_new_claims = 0;
-      this.all_updated_claims = 0;
-      this.loadCountUpdatedClaims();
-      this.loadCountNewClaims();
-         }
+  all_new_claims: any;
+  all_updated_claims: any;
+  
+  constructor(private httpServise: HttpService){
+  }
 
-    loadCountUpdatedClaims(){
-          //console.log('loadCountUpdatedClaims()');
-          this.httpServise.getCountUpdatedClaims().subscribe({
-            next: (response: any) => {
-              console.log(response);
-              this.all_updated_claims = response['updated_claims'];
-            },
-            error: error => {
-              console.error('There was an error!', error);
-            },
-            complete: () => {
-             
-            }
-          });
-      
-        }
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
 
-    loadCountNewClaims(){
-          console.log('getCountClaimsByStages()');
-          this.httpServise.getCountNewClaims().subscribe({
-            next: (response: any) => {
-              console.log(response);
-              console.log('FEEEEEEEEEEEEEE');
-              this.all_new_claims = response['new_claims'];
-            },
-            error: error => {
-              console.error('There was an error!', error);
-            },
-            complete: () => {
-          
-            }
-          });
-      
-        }
-      ngOnDestroy(): void {
-    
-    }
+  ngOnInit(): void {
+    this.all_new_claims = 0;
+    this.all_updated_claims = 0;
+    this.loadCountUpdatedClaims();
+    this.loadCountNewClaims();
+  }
+
+  loadCountUpdatedClaims(){
+    this.subscription1 = this.httpServise.getCountUpdatedClaims().subscribe({
+      next: (response: any) => {
+        this.all_updated_claims = response['updated_claims'];
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  loadCountNewClaims(){
+    this.subscription2 = this.httpServise.getCountNewClaims().subscribe({
+      next: (response: any) => {
+        this.all_new_claims = response['new_claims'];
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
+  }
 }

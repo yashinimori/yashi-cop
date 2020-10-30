@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
@@ -34,9 +31,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   settingsATM: any;
   sourceATM: LocalDataSource;
 
-
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+  constructor(private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService) {
     this.bank = new Bank();
@@ -45,6 +40,9 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   }
 
   bankUsersSubscription: Subscription = new Subscription();
+  atmSubscription: Subscription = new Subscription();
+  merchantSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
 
   ngOnInit(): void {
     
@@ -64,23 +62,21 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     
     this.setSettingsGridATM(this.role);
     this.getAtmData(this.bankID);
-
-    
   }
   
   createBankUser(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-user']);
+    this.router.navigate(['cop', 'cabinet', 'bank-user']);
   }
 
   createMerch(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'merch-user']);
+    this.router.navigate(['cop', 'cabinet', 'merch-user']);
   }
 
   createATM(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'atm']);
+    this.router.navigate(['cop', 'cabinet', 'atm']);
   }
 
   generateStatusFields() {
@@ -94,7 +90,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.httpServise.getBank(id).subscribe({
+    this.subscription1 = this.httpServise.getBank(id).subscribe({
       next: (response: any) => {
 
         this.bank.id = response['id'];
@@ -107,19 +103,20 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         this.bank.contact_person = response['contact_person'];
         this.bank.contact_telephone = response['contact_telephone'];
         this.bank.contact_email = response['contact_email'];
-      
       },
       error: error => {
         console.error('There was an error!', error);
       },
-      complete: () => {
-       
+      complete: () => {   
       }
     });
   }
 
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
+    this.atmSubscription.unsubscribe();
+    this.merchantSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
     //this.transferService.bankID.next('');
   }
 
@@ -234,8 +231,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       error: error => {
         console.error('There was an error!', error);
       },
-      complete: () => {
-       
+      complete: () => { 
       }
     });
   }
@@ -323,8 +319,6 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       }
 
     }
- 
-
   }
 
   getMerchantData(id: any) {
@@ -333,7 +327,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.bankUsersSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
+    this.merchantSubscription = this.httpServise.getMerchList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         let data: any;
 
@@ -359,29 +353,24 @@ export class BankSingleComponent implements OnInit, OnDestroy {
           t.address = el['address'];
           t.term_id = el['term_id'];
           t.contact_person = el['contact_person'];
-
           self.bankMerchData.push(t);
-
         });
         
         self.sourceMerch = new LocalDataSource();
         self.sourceMerch.load(self.bankMerchData);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
   
   goStatistic(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-statistic']);
+    this.router.navigate(['cop', 'cabinet', 'bank-statistic']);
   }
-
 
   setSettingsGridATM(role:string){
     switch(role){
@@ -451,10 +440,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
- 
-
   }
 
   getAtmData(id: any) {
@@ -463,11 +449,10 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
-    this.bankUsersSubscription = this.httpServise.getAtmList(id,pageSize, pageNumber).subscribe({
+    this.atmSubscription = this.httpServise.getAtmList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
 
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
@@ -497,10 +482,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
-  
-
 }

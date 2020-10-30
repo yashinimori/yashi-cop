@@ -1,46 +1,46 @@
-import {Component, OnInit} from '@angular/core'
-import { ChartType } from 'chart.js';
-import { MultiDataSet, Label } from 'ng2-charts';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { HttpService } from '../../../share/services/http.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LocalDataSource } from 'ng2-smart-table';
-import { DatePipe } from '@angular/common';
-import { TransferService } from '../../../share/services/transfer.service';
-import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
+import { HttpService } from '../../../share/services/http.service';
 
 @Component({
     selector: 'app-chart-statistic-claims-rc-group',
     templateUrl: './chart-statistic-claims-rc-group.component.html',
 })
-export class StatisticClaimsByRcGroupComponent implements OnInit {
-   
+export class StatisticClaimsByRcGroupComponent implements OnInit, OnDestroy {  
     role: string;
-
     doughnutChartLabels: any;
     doughnutChartData: any;
     is_data_ready = false;
 
-    constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+    chartOptions: any;
+    subscription1: Subscription = new Subscription();
+
+    constructor(private httpServise: HttpService) {
     }
 
     ngOnInit(): void {
-      
+      this.chartOptions = {
+        responsive: true,
+        aspectRatio: 1.2,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom',
+          labels: {
+            fontSize: 10,
+            usePointStyle: true
+          }
+        },
+      };
+  
       this.role = localStorage.getItem('role');
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
       this.loadCountClaimsByRcGroup();
-      
     }
 
-
     loadCountClaimsByRcGroup(){
-      //console.log('getCountClaimsByRcGroup()');
-      this.httpServise.getCountClaimsByRcGroup().subscribe({
+      this.subscription1 = this.httpServise.getCountClaimsByRcGroup().subscribe({
         next: (response: any) => {
-          //console.log(response);
-  
           this.doughnutChartLabels = [
             'fraud_claims',
             'authorization_claims',
@@ -55,19 +55,19 @@ export class StatisticClaimsByRcGroupComponent implements OnInit {
               response['point_of_interaction_error_claims'],
               response['cardholder_disputes_claims'],
             ]
-          }];
-
-          
+          }];  
         },
         error: error => {
           console.error('There was an error!', error);
         },
-        complete: () => {
-         
+        complete: () => {  
         }
       });
-  
     }  
+
+    ngOnDestroy() {
+      this.subscription1.unsubscribe();
+    }
     
   }
   

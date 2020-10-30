@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
@@ -43,13 +42,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   onUserRowSelect(event): void {
     this.transferService.cOPClaimID.next(event.data.id);
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-  
     this.generateStatusFields();
     
     this.stageParam = '';
@@ -59,10 +56,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.setSettingsGrid(this.role);
     this.getClaimsData();
     this.hideColumnForUser(this.role);
-    
-
   }
-
 
   hideColumnForUser(role:string){
     if(role && (role == 'cardholder' || role == 'user')){
@@ -158,7 +152,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                   return '';
               }
             },
-      
           },
         };
       }
@@ -181,6 +174,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             pan: {
               title: 'Номер карти',
               type: 'string',
+              width: '100px'
             },
             trans_date: {
               title: 'Дата транзакції',
@@ -246,7 +240,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                   return '';
               }
             },
-      
           },
         };
       }
@@ -342,6 +335,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
           },
+          attr: {
+            class: 'customTable'
+          }
         };
       }
       break;
@@ -354,10 +350,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
-    
-
   }
 
   refresh_claim(){
@@ -377,8 +370,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
-
-        //console.log(data);
 
         data.forEach(el => {
           let t = new ClaimView();
@@ -410,7 +401,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
-
         });
 
         if(this.role =='cardholder' && this.stageParam == 'all'){
@@ -425,13 +415,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
         self.source = new LocalDataSource();
         self.source.load(self.claimsData);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
@@ -446,7 +434,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   add_claim(){
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
   
   goToLink(url: string, id: string){
@@ -455,9 +443,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   } 
 
   public createReport(){
-
     if(this.claimsData){
-
       let str = '';
 
       str += 'ID;';
@@ -502,15 +488,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         str += '\r\n';
       });
     
-      //console.log(str);
       var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
       FileSaver.saveAs(blob, filename);
-  
     }
-
   }
-
 
   getValueToReport(val: any){
     if(val){
@@ -535,6 +517,5 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       return 'N';
     }
   }
-
 
 }
