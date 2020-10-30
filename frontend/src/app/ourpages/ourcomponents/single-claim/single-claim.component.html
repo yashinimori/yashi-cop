@@ -281,7 +281,7 @@
 
   <nb-card style="width: 69%; margin: auto;">
     <nb-card-body>
-      <nb-stepper orientation="horizontal">
+      <nb-stepper orientation="horizontal" disableStepNavigation>
         <nb-step [label]="labelOne">
           <ng-template #labelOne>Нове звернення</ng-template>
 
@@ -699,7 +699,7 @@
                       -->
   
                     <div style="width: 60%;">
-                      <input class="input-data-valid" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
+                      <input class="input-data-valid" autocomplete="off" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
                         placeholder="Номер карти" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
                         required maxlength="16" minlength="16">
                       <ng-container *ngIf="pan.invalid && pan.touched">
@@ -723,9 +723,9 @@
                            maxlength="12"> -->
         
                     <div style="width: 60%;">
-                      <input class="input-data-valid" nbInput [(ngModel)]="claimData.trans_date" #trans_date="ngModel" name="trans_date" id="input-trans_date"  
-                        placeholder="Дата транзакції" autofocus [status]="trans_date.dirty ? (trans_date.invalid  ? 'danger' : 'success') : 'basic'"  
-                        [nbDatepicker]="formpicker" required minlength="10" maxlength="10" >
+                      <input class="input-data-valid" style="cursor: pointer;" nbInput [(ngModel)]="claimData.trans_date" #trans_date="ngModel" name="trans_date" id="input-trans_date"  
+                        placeholder="Дата транзакції" autofocus [status]="trans_date.dirty ? (claimData.trans_date == null ? 'danger' : 'success') : 'basic'"  
+                        [nbDatepicker]="formpicker" required minlength="10" maxlength="10" readonly>
                       <ng-container *ngIf="trans_date.invalid && trans_date.touched">
                         <p class="caption status-danger danger-warning" *ngIf="trans_date.errors?.required">
                           Дата транзакції - обов'язкове поле для заповнення!
@@ -749,7 +749,7 @@
                       <!--  [handleDisplayFn]="viewHandle"
                       -->
         
-                      <input style="width: 100%;" name="merch_id" 
+                      <input style="width: 60%;" name="merch_id" 
                         [formControl]="inputFormControlMerchUser" nbInput type="text"
                         placeholder="Введіть торгову точку"
                         [nbAutocomplete]="auto" />
@@ -877,7 +877,7 @@
             </nb-card-header> -->
       
             <nb-card-body>
-              <form [formGroup]="formGroups">
+              <form [formGroup]="formGroups" style="height: 90%;">
                 <ng-container [ngTemplateOutlet]="this[part]"></ng-container>
       
                 <ng-template #one>
@@ -1093,6 +1093,9 @@
                 </ng-template>
       
               </form>
+              <div *ngIf="isGoToNextStep">
+                Дайте відповідь на запитання.
+              </div>
       
             </nb-card-body>
       

@@ -1,8 +1,9 @@
-<div style="display: block;  width: 34em; height: 16em;" >    
-    <canvas baseChart
+<div  >    
+    <canvas baseChart  style="max-height: 100%;"
         [datasets]="doughnutChartData"
         [labels]="doughnutChartLabels"
-        [chartType]="'doughnut'" 
+        [chartType]="'doughnut'"
+        [options]="chartOptions" 
         id="canvas">
     </canvas>
 </div>

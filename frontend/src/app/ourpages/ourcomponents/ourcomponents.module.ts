@@ -50,6 +50,8 @@ import { BankStatisticClaimsByStagesComponent } from './bank-statistic/bank-char
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
 import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
+import { StatisticClaimsByTimeComponent } from './statistic/chart-statistic-claims-time.component';
+import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-claims-reason.component';
 
 
 @NgModule({
@@ -101,6 +103,8 @@ import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.compo
     StatisticComponent,
     StatisticClaimsByStagesComponent,
     StatisticClaimsByRcGroupComponent,
+    StatisticClaimsByTimeComponent,
+    StatisticClaimsByReasonComponent,
     BankStatisticComponent,
     BankStatisticClaimsByRcGroupComponent,
     BankStatisticClaimsByStagesComponent,

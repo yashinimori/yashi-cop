@@ -1,30 +1,31 @@
 <div *ngIf="!fieldsStatus.list_claims.invisible">
-  <nb-card style="height: 55em;">
+  <nb-card style="height: calc(100vh - 8rem);
+  margin-bottom: 0;">
     
-      <nb-card-header>
+      <nb-card-header style="padding: 0.5em;">
         <div style="display: flex;">
           Список скарг
           <!-- "!fieldsStatus.button_add_claim.invisible && stageParam=='all'"  -->
           <div *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all'" 
             class="button-enter button-set">
-            <button  nbButton style="width: 100%;"
+            <button  nbButton style="width: 100%; height: 2em;"
               status="primary" (click)="add_claim()">Додати скаргу</button>
           </div>
           <div *ngIf="role == 'chargeback_officer'"
             class="button-enter button-set">
-            <button  nbButton style="width: 100%;"
+            <button  nbButton style="width: 100%; height: 2em;"
               status="primary" (click)="refresh_claim()">Оновити</button>
           </div>
           <div *ngIf="role == 'chargeback_officer'" 
             class="button-enter button-set">
-            <button  nbButton style="width: 100%;" 
+            <button  nbButton style="width: 100%; height: 2em;" 
               status="primary" (click)="createReport()">Звіт</button>
           </div>
         </div>
               
       </nb-card-header>
     
-      <nb-card-body>
+      <nb-card-body style="padding: 0.5em;">
         <ng2-smart-table [settings]="settings" [source]="source" 
         (userRowSelect)="onUserRowSelect($event)"
         (deleteConfirm)="onDeleteConfirm($event)">

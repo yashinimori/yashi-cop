@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
@@ -21,8 +18,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   role: string;
   pagerSize = 10;
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+  constructor(private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService) {
     this.banksData = new Array<Bank>();
@@ -40,7 +36,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   onUserRowSelect(event): void {
     this.transferService.bankID.next(event.data.id);
     this.transferService.bankBIN.next(event.data.bin);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    this.router.navigate(['cop', 'cabinet', 'bank-single']);
   }
 
   // hideColumnForUser(role:string){
@@ -50,7 +46,6 @@ export class BankListComponent implements OnInit, OnDestroy {
   // }
   
   setSettingsGrid(role:string){
-
     switch(role){
       case 'admin':
       case 'cop_manager':
@@ -104,7 +99,6 @@ export class BankListComponent implements OnInit, OnDestroy {
               title: 'Контактна пошта',
               type: 'string',
             },
-      
           },
         };
       }
@@ -118,10 +112,7 @@ export class BankListComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
-    
-
   }
 
   getBanksData() {
@@ -159,13 +150,11 @@ export class BankListComponent implements OnInit, OnDestroy {
 
         self.source = new LocalDataSource();
         self.source.load(self.banksData);
-        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }

@@ -8,13 +8,13 @@ const routes: Routes = [{
   component: OurPagesComponent,
   children: [
     {
-       path: 'ourcomponents',
+       path: 'cabinet',
        loadChildren: () => import('./ourcomponents/ourcomponents.module')
          .then(m => m.OurComponentsModule),
     },
     {
       path: '',
-      redirectTo: 'OurComponents',
+      redirectTo: 'cabinet',
       pathMatch: 'full',
     },
     // {

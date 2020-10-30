@@ -12,22 +12,23 @@
 
         <div class="row" >
           
-          <nb-card class="col-3 col-sm-2 style-cell">
-              <nb-card-header>блок 1</nb-card-header>
-              <nb-card-body>
-                <div class="style-text-block">
-                  <div>
-                    Нові скарги
-                  </div>
-                  <div class="style-text-block-value">
-                    {{b1_new_claims}}
-                  </div>
+          <nb-card style="max-width: 10em;
+          font-size: 12px;">
+              <nb-card-header style="font-size:13px;">Звіт про кількість</nb-card-header>
+              <nb-card-body style="padding: 0.5em;">
+                <div style="display: flex;
+                flex-direction: column;
+                text-align: center;">
+                  <div style="width:100%; display: flex; justify-content: space-between;"><div>Всього:</div><div>100</div></div>
+                  <div style="width:100%; display: flex; justify-content: space-between;"><div>В роботі:</div><div>63</div></div>
+                  <div style="width:100%; display: flex; justify-content: space-between;"><div>Нових:</div><div>{{b1_new_claims}}</div></div>
+                  <div style="width:100%; display: flex; justify-content: space-between;"><div>Опрацьованих:</div><div>{{b4_attend_to_claims}}</div></div>
                 </div>
               </nb-card-body>
           </nb-card>
 
           <nb-card class="col-3 col-sm-5 style-cell" >
-              <nb-card-header>блок 2</nb-card-header>
+              <nb-card-header>Розподіл по типам</nb-card-header>
               <nb-card-body style="width: 100%;" >
                 <div style="text-align: center;">
                   <app-chart-statistic-claims-stages></app-chart-statistic-claims-stages>
@@ -36,7 +37,7 @@
           </nb-card>
 
           <nb-card class="col-3 col-sm-5 style-cell">
-              <nb-card-header>блок 3</nb-card-header>
+              <nb-card-header>Виконані KPI</nb-card-header>
               <nb-card-body style="width: 100%;" >
               <div style="text-align: center; ">
                 <app-chart-statistic-claims-rc-group></app-chart-statistic-claims-rc-group>
@@ -47,35 +48,20 @@
         </div>
 
         <div class="row" >
-          
-          <nb-card class="col-3 col-sm-2 style-cell">
-              <nb-card-header>блок 4</nb-card-header>
-              <nb-card-body>
-                  <div class="style-text-block">
-                    <div>
-                      Стежити
-                    </div>
-                    <div class="style-text-block-value">
-                      {{b4_attend_to_claims}}
-                    </div>
-                  </div>
-              </nb-card-body>
-          </nb-card>
-
-          <nb-card class="col-3 col-sm-5 style-cell">
-              <nb-card-header>блок 5</nb-card-header>
+          <nb-card class="col-6 col-sm-6 style-cell">
+              <nb-card-header>Розподіл по причинам</nb-card-header>
                 <nb-card-body style="width: 100%;" >
                   <div style="text-align: center; ">
-                    <app-chart-statistic-claims-stages></app-chart-statistic-claims-stages>
+                    <app-chart-statistic-claims-reason></app-chart-statistic-claims-reason>
                   </div>    
               </nb-card-body>
           </nb-card>
 
-          <nb-card class="col-3 col-sm-5 style-cell">
-              <nb-card-header>блок 6</nb-card-header>
-              <nb-card-body style="width: 100%;" >
-                <div style="text-align: center; ">
-                  <app-chart-statistic-claims-rc-group></app-chart-statistic-claims-rc-group>
+          <nb-card class="col-6 col-sm-6 style-cell">
+              <nb-card-header>Середній час</nb-card-header>
+              <nb-card-body style="width: 100%;">
+                <div style="text-align: center;">
+                  <app-chart-statistic-claims-time></app-chart-statistic-claims-time>
                 </div>    
               </nb-card-body>
           </nb-card>
@@ -88,3 +74,76 @@
   </nb-card>
 
 </div>
+
+<!-- 
+<div class="row" >
+          
+  <nb-card class="col-3 col-sm-2 style-cell">
+      <nb-card-header>блок 1</nb-card-header>
+      <nb-card-body>
+        <div class="style-text-block">
+          <div>
+            Нові скарги
+          </div>
+          <div class="style-text-block-value">
+            {{b1_new_claims}}
+          </div>
+        </div>
+      </nb-card-body>
+  </nb-card>
+
+  <nb-card class="col-3 col-sm-5 style-cell" >
+      <nb-card-header>блок 2</nb-card-header>
+      <nb-card-body style="width: 100%;" >
+        <div style="text-align: center;">
+          <app-chart-statistic-claims-stages></app-chart-statistic-claims-stages>
+        </div>
+      </nb-card-body>
+  </nb-card>
+
+  <nb-card class="col-3 col-sm-5 style-cell">
+      <nb-card-header>блок 3</nb-card-header>
+      <nb-card-body style="width: 100%;" >
+      <div style="text-align: center; ">
+        <app-chart-statistic-claims-rc-group></app-chart-statistic-claims-rc-group>
+      </div>    
+    </nb-card-body>
+  </nb-card>
+  
+</div>
+
+<div class="row" >
+  
+  <nb-card class="col-3 col-sm-2 style-cell">
+      <nb-card-header>блок 4</nb-card-header>
+      <nb-card-body>
+          <div class="style-text-block">
+            <div>
+              Стежити
+            </div>
+            <div class="style-text-block-value">
+              {{b4_attend_to_claims}}
+            </div>
+          </div>
+      </nb-card-body>
+  </nb-card>
+
+  <nb-card class="col-3 col-sm-5 style-cell">
+      <nb-card-header>блок 5</nb-card-header>
+        <nb-card-body style="width: 100%;" >
+          <div style="text-align: center; ">
+            <app-chart-statistic-claims-stages></app-chart-statistic-claims-stages>
+          </div>    
+      </nb-card-body>
+  </nb-card>
+
+  <nb-card class="col-3 col-sm-5 style-cell">
+      <nb-card-header>блок 6</nb-card-header>
+      <nb-card-body style="width: 100%;" >
+        <div style="text-align: center; ">
+          <app-chart-statistic-claims-rc-group></app-chart-statistic-claims-rc-group>
+        </div>    
+      </nb-card-body>
+  </nb-card>
+  
+</div> -->
