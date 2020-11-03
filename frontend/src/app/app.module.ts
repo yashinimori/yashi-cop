@@ -26,6 +26,7 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 // import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +42,7 @@ import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
     NbAlertModule,
+    TableModule,
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),

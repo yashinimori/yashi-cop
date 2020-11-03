@@ -57,47 +57,108 @@ export class OurPagesComponent {
         link: '/cop/cabinet/claims'
       },
       {
-        title: 'ATM лог - новий',
-        icon: 'file-add-outline',
-        link: '/cop/cabinet/atm-log-upload',
+        title: 'ATM Management',
+        icon: 'layout-outline',
         hidden: this.setHiddenChargebackOfficer(),
+        children: [
+          {
+            title: 'ATM лог - новий',
+            link: '/cop/cabinet/atm-log-upload',
+            icon: 'file-add-outline'
+          },
+          {
+            title: 'ATM лог - перегляд',
+            link: '/cop/cabinet/atm-log-view',
+            icon: 'file-outline'
+          },
+          {
+            title: 'ATM лог - детальний',
+            link: '/cop/cabinet/atm-log-view-detail',
+            icon: 'file-text-outline'
+          },
+        ],
       },
       {
-        title: 'ATM лог - перегляд',
-        icon: 'file-outline',
-        link: '/cop/cabinet/atm-log-view',
+        title: 'My Cases',
+        icon: 'person-outline',
         hidden: this.setHiddenChargebackOfficer(),
+        children: [
+          {
+            title: 'pre-mediation',
+            icon: 'book-open-outline',
+            link: '/cop/cabinet/chbo-my-claims/pre_mediation',
+          },
+          {
+            title: 'mediation',
+            icon: 'book-outline',
+            link: '/cop/cabinet/chbo-my-claims/mediation',
+          },
+          {
+            title: 'chargebacks',
+            icon: 'archive-outline',
+            link: '/cop/cabinet/chbo-my-claims/chargeback',
+          },
+          {
+            title: 'archive',
+            icon: 'inbox-outline',
+            link: '/cop/cabinet/chbo-my-claims/closed',
+          },
+        ],
       },
-      {
-        title: 'ATM лог - детальний',
-        icon: 'file-text-outline',
-        link: '/cop/cabinet/atm-log-view-detail',
-        hidden: this.setHiddenChargebackOfficer(),
-      },
-      {
-        title: 'pre-mediation claims',
-        icon: 'book-open-outline',
-        link: '/cop/cabinet/chbo-my-claims/pre_mediation',
-        hidden: this.setHiddenChargebackOfficer(),
-      },
-      {
-        title: 'mediation claims',
-        icon: 'book-outline',
-        link: '/cop/cabinet/chbo-my-claims/mediation',
-        hidden: this.setHiddenChargebackOfficer(),
-      },
-      {
-        title: 'chargebacks claims',
-        icon: 'archive-outline',
-        link: '/cop/cabinet/chbo-my-claims/chargeback',
-        hidden: this.setHiddenChargebackOfficer(),
-      },
-      {
-        title: 'archive claims',
-        icon: 'inbox-outline',
-        link: '/cop/cabinet/chbo-my-claims/closed',
-        hidden: this.setHiddenChargebackOfficer(),
-      },
+      // {
+      //   title: 'Dashboard',
+      //   icon: 'layout-outline',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      //   link: '/cop/cabinet/chbo-dashboard'
+      // },
+      // {
+      //   title: 'Disputes',
+      //   icon: 'layout-outline',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      //   link: '/cop/cabinet/claims'
+      // },
+      // {
+      //   title: 'ATM лог - новий',
+      //   icon: 'file-add-outline',
+      //   link: '/cop/cabinet/atm-log-upload',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'ATM лог - перегляд',
+      //   icon: 'file-outline',
+      //   link: '/cop/cabinet/atm-log-view',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'ATM лог - детальний',
+      //   icon: 'file-text-outline',
+      //   link: '/cop/cabinet/atm-log-view-detail',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'pre-mediation claims',
+      //   icon: 'book-open-outline',
+      //   link: '/cop/cabinet/chbo-my-claims/pre_mediation',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'mediation claims',
+      //   icon: 'book-outline',
+      //   link: '/cop/cabinet/chbo-my-claims/mediation',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'chargebacks claims',
+      //   icon: 'archive-outline',
+      //   link: '/cop/cabinet/chbo-my-claims/chargeback',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
+      // {
+      //   title: 'archive claims',
+      //   icon: 'inbox-outline',
+      //   link: '/cop/cabinet/chbo-my-claims/closed',
+      //   hidden: this.setHiddenChargebackOfficer(),
+      // },
       {
         title: 'Звернення',
         icon: 'layout-outline',
@@ -155,9 +216,14 @@ export class OurPagesComponent {
   }
    
   setHiddenUser(){    
-    let role= localStorage.getItem('role');
-    if(role && (role=='user' || role =='cc_branch' || role=='cardholder'))
+    let role = localStorage.getItem('role');
+    console.log(role);
+    console.log(role.toString() == 'сс_branch');
+    if(role && (role=='user' || role.toString() == 'сс_branch' || role=='cardholder')) {
+      console.log('false');
       return false;
+    }
+    console.log('true');
   
     return true;
   }

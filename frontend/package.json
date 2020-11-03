@@ -68,6 +68,7 @@
     "ng2-ckeditor": "^1.2.2",
     "ng2-smart-table": "^1.6.0",
     "ngx-captcha": "^8.0.1",
+    "ngx-easy-table": "^13.0.3",
     "ngx-echarts": "^4.2.2",
     "node-sass": "^4.12.0",
     "normalize.css": "6.0.0",
@@ -80,6 +81,7 @@
     "tinymce": "4.5.7",
     "tslib": "^1.10.0",
     "typeface-exo": "0.0.22",
+    "typeface-montserrat": "^1.1.13",
     "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.2"
   },

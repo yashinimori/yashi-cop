@@ -17,3 +17,21 @@
 :host /deep/ ng2-smart-table tbody > tr > td  { 
   font-size: 12px;
 }
+
+:host ::ng-deep table > thead > tr > th  { 
+  font-size: 11px;
+}
+
+:host ::ng-deep table > tbody > tr > td  { 
+  font-size: 11px;
+}
+
+.form-checkbox {
+  font-size: 10px;
+  margin-right: 1em;
+  margin-bottom: 0;
+
+  input {
+    margin-right: 0.3em;
+  }
+}

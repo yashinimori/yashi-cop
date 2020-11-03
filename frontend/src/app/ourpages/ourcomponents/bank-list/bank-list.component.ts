@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Bank } from '../../../share/models/bank.model';
+import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 
 @Component({
   selector: 'ngx-bank-list',
@@ -24,13 +25,64 @@ export class BankListComponent implements OnInit, OnDestroy {
     this.banksData = new Array<Bank>();
   }
 
+  @ViewChild('table', { static: true }) table: APIDefinition;
+
   banksSubscription: Subscription = new Subscription();
+  isUiLoad:boolean = false;
+
+  public configuration: Config;
+  public columns: Columns[];
+  public data = new Array();
+  checked = new Set(['bin', 'type', 'name_eng', 'name_uk', 'name_rus',
+   'operator_name', 'contact_person', 'contact_telephone', 'contact_email']);
+  columnsCopy: Columns[] = [];
 
   ngOnInit(): void {
+    this.setSettingsForTable();
+    // ... etc.
+    // this.columns = [
+    //   { key: 'phone', title: 'Phone' },
+    //   { key: 'age', title: 'Age' },
+    //   { key: 'company', title: 'Company' },
+    //   { key: 'name', title: 'Name' },
+    //   { key: 'isActive', title: 'STATUS' },
+    // ];
+    this.columns = [
+      {key: 'bin', title: 'BIN'},
+      {key: 'type', title: 'Тип'},
+      {key: 'name_eng', title: 'Назва банку англійською'},
+      {key: 'name_uk', title: 'Назва банку українською'},
+      {key: 'name_rus', title: 'Назва банку російською'},
+      {key: 'operator_name', title: 'Операційне ім’я'},
+      {key: 'contact_person', title: 'Контактна особа'},
+      {key: 'contact_telephone', title: 'Контактний телефон'},
+      {key: 'contact_email', title: 'Контактна пошта'},
+    ];
+    this.columnsCopy = this.columns;
+    
     this.role = localStorage.getItem('role');
     this.setSettingsGrid(this.role);
     this.getBanksData();
     //this.hideColumnForUser(this.role);
+  }
+
+  setSettingsForTable() {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.columnReorder = true;
+    this.configuration.orderEnabled = true;
+    this.configuration.threeWaySort = true;
+    this.configuration.selectRow = true;
+    this.configuration.searchEnabled = true;
+    this.configuration.persistState = true;
+  }
+
+  clickSettings() {
+    console.log(this.configuration);
+  }
+
+  toggle(name: string): void {
+    this.checked.has(name) ? this.checked.delete(name) : this.checked.add(name);
+    this.columns = this.columnsCopy.filter((column) => this.checked.has(column.key));
   }
 
   onUserRowSelect(event): void {
@@ -44,6 +96,26 @@ export class BankListComponent implements OnInit, OnDestroy {
   //       delete this.settings.columns.id;
   //   }
   // }
+
+  onChange(name: string): void {
+    console.log(name);
+    this.table.apiEvent({
+      type: API.onGlobalSearch,
+      value: name,
+    });
+  }
+
+  eventEmitted($event: { event: string; value: any }): void {
+    console.log('$event', $event);
+    switch($event.event) {
+      case 'onClick':
+        console.log($event.value.row.id);
+        this.transferService.bankID.next($event.value.row.id);
+        this.transferService.bankBIN.next($event.value.row.bin);
+        this.router.navigate(['cop', 'cabinet', 'bank-single']);
+        break;
+    }
+  }
   
   setSettingsGrid(role:string){
     switch(role){
@@ -129,7 +201,7 @@ export class BankListComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
-
+        this.data = new Array();
         data.forEach(el => {
           let t = new Bank();
     
@@ -144,17 +216,22 @@ export class BankListComponent implements OnInit, OnDestroy {
           t.contact_telephone = el['contact_telephone'];
           t.contact_email = el['contact_email'];
 
+          this.data.push(t);
           self.banksData.push(t);
 
         });
 
         self.source = new LocalDataSource();
         self.source.load(self.banksData);
+
+        
       },
       error: error => {
         console.error('There was an error!', error);
       },
       complete: () => {
+        console.log(this.data);
+        this.isUiLoad = true;
       }
     });
   }
