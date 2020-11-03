@@ -49,7 +49,7 @@ margin-bottom: 0;">
   
     <nb-card-body style="padding: 0.5em;">
       
-    <ngx-table #table  [configuration]="configuration" (event)="eventEmitted($event)" [data]="data" [columns]="columns">
+    <ngx-table #table  [configuration]="configuration" (event)="eventEmitted($event)" [pagination]="pagination" [data]="data" [columns]="columns">
     </ngx-table>
       <!-- <ng2-smart-table [settings]="settings" [source]="source"
         (userRowSelect)="onUserRowSelect($event)">

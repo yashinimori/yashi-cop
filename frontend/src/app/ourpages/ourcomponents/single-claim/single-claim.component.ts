@@ -396,7 +396,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.router.navigate(['cop', 'cabinet', 'claims']);
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
       }
     });
   }

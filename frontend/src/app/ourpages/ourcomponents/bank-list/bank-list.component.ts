@@ -36,6 +36,11 @@ export class BankListComponent implements OnInit, OnDestroy {
   checked = new Set(['bin', 'type', 'name_eng', 'name_uk', 'name_rus',
    'operator_name', 'contact_person', 'contact_telephone', 'contact_email']);
   columnsCopy: Columns[] = [];
+  public pagination = {
+    limit: 10,
+    offset: 0,
+    count: -1,
+  };
 
   ngOnInit(): void {
     this.setSettingsForTable();
@@ -74,6 +79,7 @@ export class BankListComponent implements OnInit, OnDestroy {
     this.configuration.selectRow = true;
     this.configuration.searchEnabled = true;
     this.configuration.persistState = true;
+    this.configuration.isLoading = true;
   }
 
   clickSettings() {
@@ -113,6 +119,9 @@ export class BankListComponent implements OnInit, OnDestroy {
         this.transferService.bankID.next($event.value.row.id);
         this.transferService.bankBIN.next($event.value.row.bin);
         this.router.navigate(['cop', 'cabinet', 'bank-single']);
+        break;
+      case 'onPagination':
+        console.log($event.value);
         break;
     }
   }
@@ -231,6 +240,7 @@ export class BankListComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         console.log(this.data);
+        this.configuration.isLoading = false;
         this.isUiLoad = true;
       }
     });
