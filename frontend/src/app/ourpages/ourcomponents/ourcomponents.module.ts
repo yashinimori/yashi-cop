@@ -52,11 +52,12 @@ import { ATMComponent } from './atm/atm.component';
 import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
 import { StatisticClaimsByTimeComponent } from './statistic/chart-statistic-claims-time.component';
 import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-claims-reason.component';
-
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   imports: [
     FormsModule,
+    TableModule,
     ReactiveFormsModule,
     ThemeModule,
     NbTabsetModule,

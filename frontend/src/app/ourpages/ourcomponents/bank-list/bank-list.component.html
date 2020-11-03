@@ -5,13 +5,55 @@
 margin-bottom: 0;">
   
     <nb-card-header style="padding: 0.5em;">
-      Список банків
+      Список банків 
+      <!-- <button nbButton (click)="clickSettings()">ClickSettings</button> -->
+      <div style="display: flex; flex-wrap: wrap;">
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('bin')" />
+          <em class="form-icon"></em> bin
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('type')" />
+          <em class="form-icon"></em> type
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('name_eng')" />
+          <em class="form-icon"></em> name_eng
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('name_uk')" />
+          <em class="form-icon"></em> name_uk
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('name_rus')" />
+          <em class="form-icon"></em> name_rus
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('operator_name')" />
+          <em class="form-icon"></em> operator_name
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('contact_person')" />
+          <em class="form-icon"></em> contact_person
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('contact_telephone')" />
+          <em class="form-icon"></em> contact_telephone
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('contact_email')" />
+          <em class="form-icon"></em> contact_email
+        </label>
+      </div>
     </nb-card-header>
   
     <nb-card-body style="padding: 0.5em;">
-      <ng2-smart-table [settings]="settings" [source]="source"
+      
+    <ngx-table #table  [configuration]="configuration" (event)="eventEmitted($event)" [data]="data" [columns]="columns">
+    </ngx-table>
+      <!-- <ng2-smart-table [settings]="settings" [source]="source"
         (userRowSelect)="onUserRowSelect($event)">
-      </ng2-smart-table>
+      </ng2-smart-table> -->
     </nb-card-body>
 
 </nb-card>

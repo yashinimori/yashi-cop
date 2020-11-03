@@ -100,6 +100,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         if(password_change_required) {
           this.router.navigate(['auth', 'password']);
         } else {
+          console.log(role);
+          console.log(role.toString() == 'сс_branch');
           if(role == 'chargeback_officer')
             this.router.navigate(['cop', 'cabinet', 'claims']);
           else if(role == 'security_officer')
@@ -108,12 +110,19 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['cop', 'cabinet', 'bank-list']);
           else if(role == 'merchant')
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
-          else if(role == 'cardholder')
+          else if(role == 'cardholder') 
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
+          else if(role.toString() == 'сс_branch') {
+            console.log('cc_branch');
+            this.router.navigate(['cop', 'cabinet', 'claims','all']);
+          } 
           else if(role == 'top_level')
             this.router.navigate(['cop', 'cabinet', 'top-officer']);
-          else
+          else {
+            console.log('else');
             this.router.navigate(['cop', 'cabinet']);
+          }
+            
         }
 
       }
