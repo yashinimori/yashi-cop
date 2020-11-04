@@ -67,7 +67,9 @@ Backend is served via Docker for easier set up process.
         8) Install it as service. (for details look at service/Readme.md )
 3. Load initial data. Run bash script:
     ```
-    scripts\load_initial_data-staging.sh
+    scripts/staging_dev/load_initial_data.sh
+	# or
+    scripts/staging_prod/load_initial_data.sh
     ```
 
    
