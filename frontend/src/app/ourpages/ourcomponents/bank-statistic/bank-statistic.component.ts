@@ -3,6 +3,7 @@ import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-bank-statistic',
@@ -57,7 +58,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
 
   constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     
   }
   subscription1: Subscription = new Subscription();
@@ -92,6 +93,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => { 
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -105,6 +107,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
         this.b4_active_bank_users = response['active_bank_users'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -117,6 +120,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -131,6 +135,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
         this.b1_attend_to_claims = response['attend_to_claims'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -257,6 +262,7 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {  

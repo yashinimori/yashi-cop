@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-statistic',
@@ -54,7 +55,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
   subscription4: Subscription = new Subscription();
   subscription5: Subscription = new Subscription();
 
-  constructor(private httpServise: HttpService) { 
+  constructor(private httpServise: HttpService, private errorService: ErrorService) { 
   }
 
   ngOnInit(): void {
@@ -81,6 +82,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -93,6 +95,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -105,6 +108,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -120,6 +124,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
         this.b4_attend_to_claims = response['attend_to_claims'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -252,6 +257,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

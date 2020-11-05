@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { ChartOptions } from 'chart.js';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-chart-donat',
@@ -16,7 +17,7 @@ export class ChartDonatComponent implements OnInit {
 
     subscription1: Subscription = new Subscription();
 
-    constructor(private httpServise: HttpService) {
+    constructor(private httpServise: HttpService, private errorService: ErrorService) {
     }
 
     ngOnInit(): void {
@@ -69,6 +70,7 @@ export class ChartDonatComponent implements OnInit {
           }];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {

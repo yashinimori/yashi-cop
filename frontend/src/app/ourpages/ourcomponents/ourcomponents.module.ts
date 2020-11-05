@@ -14,6 +14,7 @@ import {
   NbSelectModule,
   NbRadioModule,
   NbInputModule,
+  NbAlertModule,
   NbAutocompleteModule,
 } from '@nebular/theme';
 
@@ -73,6 +74,7 @@ import { TableModule } from 'ngx-easy-table';
     NbDatepickerModule, 
     NbIconModule,
     NbSelectModule,
+    NbAlertModule,
     NbRadioModule,
     NbInputModule,
     ChartsModule,

@@ -3,6 +3,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   acceptFiles = 'application/txt/*';
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -54,6 +55,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
         this.filesArr = [];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

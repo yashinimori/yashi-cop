@@ -9,6 +9,7 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 import { ATM } from '../../../share/models/atm.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-bank-single',
@@ -33,7 +34,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
 
   constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.bank = new Bank();
     this.bankUserData = new Array<BankUser>();
     this.bankMerchData = new Array<MerchUser>();
@@ -105,6 +106,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         this.bank.contact_email = response['contact_email'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {   
@@ -185,10 +187,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
- 
-
   }
 
   getBankUserData(id: any) {
@@ -229,6 +228,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => { 
@@ -360,6 +360,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         self.sourceMerch.load(self.bankMerchData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -479,6 +480,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
         
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

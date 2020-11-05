@@ -8,6 +8,7 @@ import { Bank } from '../../../share/models/bank.model';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-top-officer',
@@ -30,7 +31,8 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
 
   constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService,
+    private errorService: ErrorService) {
     this.bank = new Bank();
     this.bankUserData = new Array<BankUser>();
     this.bankMerchData = new Array<MerchUser>();
@@ -59,6 +61,9 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           this.getBankUserData(this.bankID);
           this.getMerchantData(this.bankID);
         }
+      },
+      error: (error: any) => {
+        this.errorService.handleError(error);
       }
     });
   }
@@ -97,6 +102,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
         this.bank.contact_email = response['contact_email'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {  
@@ -272,6 +278,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
         self.sourceBankUser.load(self.bankUserData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => { 
@@ -397,6 +404,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
         self.sourceMerch.load(self.bankMerchData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

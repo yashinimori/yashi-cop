@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-chbo-my-claims',
@@ -26,7 +27,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService,
-    private activatedRoute: ActivatedRoute,) {
+    private activatedRoute: ActivatedRoute, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -194,6 +195,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
         //self.source .refresh();
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import * as CanvasJS from '../../../../assets/canvasjs.min';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-chart-statistic-claims-reason',
@@ -16,7 +17,7 @@ export class StatisticClaimsByReasonComponent implements OnInit, OnDestroy {
     subscription1: Subscription = new Subscription();
     chartOptions:any;
 
-    constructor(private httpServise: HttpService) {
+    constructor(private httpServise: HttpService, private errorService: ErrorService) {
     }
 
     ngOnInit(): void {
@@ -168,6 +169,7 @@ export class StatisticClaimsByReasonComponent implements OnInit, OnDestroy {
           }];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {

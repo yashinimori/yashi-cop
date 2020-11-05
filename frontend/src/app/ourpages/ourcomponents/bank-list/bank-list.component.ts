@@ -6,6 +6,17 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Bank } from '../../../share/models/bank.model';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ErrorService } from '../../../share/services/error.service';
+
+interface EventObject {
+  event: string;
+  value: {
+    limit: number;
+    page: number;
+    key: string;
+    order: string;
+  };
+}
 
 @Component({
   selector: 'ngx-bank-list',
@@ -21,7 +32,7 @@ export class BankListComponent implements OnInit, OnDestroy {
 
   constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.banksData = new Array<Bank>();
   }
 
@@ -40,6 +51,8 @@ export class BankListComponent implements OnInit, OnDestroy {
     limit: 10,
     offset: 0,
     count: -1,
+    sort: '',
+    order: '',
   };
 
   ngOnInit(): void {
@@ -64,6 +77,7 @@ export class BankListComponent implements OnInit, OnDestroy {
       {key: 'contact_email', title: 'Контактна пошта'},
     ];
     this.columnsCopy = this.columns;
+    this.parsePagination();
     
     this.role = localStorage.getItem('role');
     this.setSettingsGrid(this.role);
@@ -124,6 +138,24 @@ export class BankListComponent implements OnInit, OnDestroy {
         console.log($event.value);
         break;
     }
+  }
+
+  parsePagination(): void {
+    let onOrder = localStorage.getItem('onOrder');
+    if(onOrder) {
+      let parsedOnOrder = JSON.parse(onOrder);
+      this.pagination.sort = parsedOnOrder.key ? parsedOnOrder.key : this.pagination.sort;
+      this.pagination.order = parsedOnOrder.order ? parsedOnOrder.order : this.pagination.order;
+      console.log('onOrder');
+    }
+    // this.pagination.limit = obj.value.limit ? obj.value.limit : this.pagination.limit;
+    // this.pagination.offset = obj.value.page ? obj.value.page : this.pagination.offset;
+    // this.pagination.sort = !!obj.value.key ? obj.value.key : this.pagination.sort;
+    // this.pagination.order = !!obj.value.order ? obj.value.order : this.pagination.order;
+    // this.pagination = { ...this.pagination };
+    // const pagination = `_limit=${this.pagination.limit}&_page=${this.pagination.offset}`;
+    // const sort = `&_sort=${this.pagination.sort}&_order=${this.pagination.order}`;
+    
   }
   
   setSettingsGrid(role:string){
@@ -227,19 +259,17 @@ export class BankListComponent implements OnInit, OnDestroy {
 
           this.data.push(t);
           self.banksData.push(t);
-
         });
-
         self.source = new LocalDataSource();
-        self.source.load(self.banksData);
-
-        
+        self.source.load(self.banksData);  
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
         console.log(this.data);
+        //this.parsePagination();
         this.configuration.isLoading = false;
         this.isUiLoad = true;
       }

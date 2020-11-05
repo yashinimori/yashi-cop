@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { TransferService } from '../../../share/services/transfer.service';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-chart-statistic-claims-stages',
@@ -17,7 +18,7 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
     subscription1: Subscription = new Subscription();
 
     constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+      private httpServise: HttpService, private errorService: ErrorService) {
     }
 
     ngOnInit(): void {
@@ -75,6 +76,7 @@ export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
 
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {

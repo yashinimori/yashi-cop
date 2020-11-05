@@ -15,6 +15,7 @@ import { TimelineView } from '../../../share/models/timeline-view.model'
 import {MerchUser} from '../../../share/models/merch-user.model';
 import {MAIN_URL} from '../../../share/urlConstants';
 import { map, startWith } from 'rxjs/operators';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -30,7 +31,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
               private transferService: TransferService,
               private httpService: HttpService,
               private router: Router,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef, private errorService: ErrorService) {
     this.claimData = new ClaimView();
   }
 
@@ -71,8 +72,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription5: Subscription = new Subscription();
   subscription6: Subscription = new Subscription();
   subscription7: Subscription = new Subscription();
+  subscription8: Subscription = new Subscription();
   claimData: ClaimView;
-  Timeline: TimelineView;
+  Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
   listCurrency: Array<SelectorData>;
   listQuestions: Array<SelectorData>;
@@ -154,7 +156,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.claimData = new ClaimView();
-    this.Timeline = new TimelineView();
+    this.Timeline = new Array<TimelineView>();
     this.claimData.user = {};
 
     this.role = localStorage.getItem('role');
@@ -241,6 +243,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription5.unsubscribe();
     this.subscription6.unsubscribe();
     this.subscription7.unsubscribe();
+    this.subscription8.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -249,11 +252,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   timeline(){
-    this.httpService.getTimeLine(this.claimId).subscribe({
+    this.subscription8 = this.httpService.getTimeLine(this.claimId).subscribe({
         next: (response: any) => {
+          console.log(response)
           this.Timeline = response;
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -269,6 +274,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           this.setClaimDocumsnts();
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -304,6 +310,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         this.comments.push(item);
       });
     }
+    console.log(this.comments);
   }
 
   setClaimDocumsnts(){
@@ -328,6 +335,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -338,7 +346,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
     this.claimData.comment = this.claimData.ch_comments;
-    this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
+    // this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     this.isLastStep = true;
     this.claimData.answers = {};
     for(let i = 0; i < this.editedAnswers.length; i++) {
@@ -359,6 +367,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           this.filesArr = [];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -372,6 +381,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -380,6 +390,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaim() {
+    this.claimData.comment = this.claimData.ch_comments;
+    //this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
+    console.log(this.claimData);
     //this.claimData.form_name = 'claim_form';
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
@@ -393,6 +406,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -704,6 +718,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           this.merchantsArr = response;
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -789,6 +804,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

@@ -5,6 +5,7 @@ import { BankUser } from '../../../share/models/bank-user.model';
 import { SelectorData } from '../../../share/models/selector-data.model';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-bank-user',
@@ -24,7 +25,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private router: Router,
-              private transferService: TransferService) {
+              private transferService: TransferService, private errorService: ErrorService) {
     this.bankID = '';
     this.role = '';
   }
@@ -44,6 +45,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
         this.banksList = response;
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -70,6 +72,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
