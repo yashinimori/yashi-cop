@@ -8,6 +8,7 @@ RUN apk add --no-cache --virtual .gyp \
         make \
         g++ \
         && npm ci --no-optional \
+		&& npm i -g @angular/cli \
         && npm i \
         && npm cache clean --force \
         && mkdir -p /app/ && mv ./node_modules ./app/ \
