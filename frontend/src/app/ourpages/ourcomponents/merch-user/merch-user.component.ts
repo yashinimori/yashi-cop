@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
-import { SelectorData } from '../../../share/models/selector-data.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 import { TransferService } from '../../../share/services/transfer.service';
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-merch-user',
@@ -11,7 +12,7 @@ import { TransferService } from '../../../share/services/transfer.service';
   styleUrls: ['./merch-user.component.scss']
 })
 
-export class MerchUserComponent implements OnInit {
+export class MerchUserComponent implements OnInit, OnDestroy {
   public data: MerchUser;
   bankID: string;
   bankBin: string;
@@ -19,41 +20,35 @@ export class MerchUserComponent implements OnInit {
 
   constructor(private httpService: HttpService,
     private router: Router,
-    private transferService: TransferService,) {
-
+    private transferService: TransferService, private errorService: ErrorService) {
       this.bankID = '';
       this.role = '';
   }
 
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
   banksList: any;
 
   ngOnInit(): void {
     this.data = new MerchUser();
-
     this.bankID = this.transferService.bankID.getValue();
     this.bankBin = this.transferService.bankBIN.getValue();
     this.role = localStorage.getItem('role');
-
     this.getListBanks()
-
   }
 
   goBack(){
     this.transferService.bankID.next(this.bankID);
     if(this.role == 'top_level'){
-      this.router.navigate(['ourpages', 'ourcomponents', 'top-officer']);
+      this.router.navigate(['cop', 'cabinet', 'top-officer']);
     } else{
-      this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+      this.router.navigate(['cop', 'cabinet', 'bank-single']);
     }
-
   }
 
   createMerchUser() {
     this.data.role = 'merchant';
-
-
     if(this.enter() == 0){
-
       let d = {
         "email": this.data.email,
         "password": this.data.password,
@@ -74,26 +69,21 @@ export class MerchUserComponent implements OnInit {
           }
       };
 
-
-      this.httpService.createNewUserMerch(d).subscribe({
+      this.subscription1 = this.httpService.createNewUserMerch(d).subscribe({
         next: (response: any) => {
-
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
           this.goBack();
         }
       });
-
     }
   }
 
-
-
   enter() {
-
     // if (!this.data.name_legal)
     //   return 1;
     // if (!this.data.mcc)
@@ -115,22 +105,26 @@ export class MerchUserComponent implements OnInit {
 
     // if (!this.data.role)
     //   return 1;
-
     return 0;
   }
-
 
   private getListBanks() {
     this.banksList = new Array<any>();
 
-    this.httpService.getAllBank().subscribe({
+    this.subscription2 = this.httpService.getAllBank().subscribe({
       next: (response: any) => {
         this.banksList = response;
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {}
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

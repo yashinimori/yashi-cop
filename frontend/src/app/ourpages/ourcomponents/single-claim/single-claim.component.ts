@@ -2,33 +2,36 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, Ch
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { SingleClaimFormsTransfer } from '../../../share/models/single-claim-forms-transfer.model';
 import { ClaimComment } from '../../../share/models/claim-comment.model';
 import { ClaimDocument } from '../../../share/models/claim-document.model';
-import { runInThisContext } from 'vm';
 import { TimelineView } from '../../../share/models/timeline-view.model'
 import {MerchUser} from '../../../share/models/merch-user.model';
 import {MAIN_URL} from '../../../share/urlConstants';
+import { map, startWith } from 'rxjs/operators';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-single-claim',
   templateUrl: './single-claim.component.html',
   styleUrls: ['./single-claim.component.scss']
 })
-export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit { 
+  options: string[];
+  inputFormControlMerchUser: FormControl;
+  filteredControlOptionsMerchUser$: Observable<string[]>;
 
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
               private router: Router,
-              private cdr: ChangeDetectorRef) {
-
+              private cdr: ChangeDetectorRef, private errorService: ErrorService) {
     this.claimData = new ClaimView();
   }
 
@@ -62,8 +65,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   isNewRecord: boolean = true;
   isUIloaded: boolean = false;
   getClaimSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
+  subscription3: Subscription = new Subscription();
+  subscription4: Subscription = new Subscription();
+  subscription5: Subscription = new Subscription();
+  subscription6: Subscription = new Subscription();
+  subscription7: Subscription = new Subscription();
+  subscription8: Subscription = new Subscription();
   claimData: ClaimView;
-  Timeline: TimelineView;
+  Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
   listCurrency: Array<SelectorData>;
   listQuestions: Array<SelectorData>;
@@ -102,6 +113,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   public radioGroupQueryValue15: number = 0;
 
   role: string;
+  isGoToNextStep: boolean = false;
   isLastStep: boolean = false;
   merchantsArr: Array<MerchUser> = new Array<MerchUser>();
   claimId: any;
@@ -144,7 +156,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.claimData = new ClaimView();
-    this.Timeline = new TimelineView();
+    this.Timeline = new Array<TimelineView>();
     this.claimData.user = {};
 
     this.role = localStorage.getItem('role');
@@ -157,7 +169,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.generateStatusFields();
 
     this.formGroups = new FormGroup({
-
       groupQuery1: new FormControl(),
       groupQuery2: new FormControl(),
       groupQuery3: new FormControl(),
@@ -179,10 +190,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.stepNewRecord = 1;
-
-    //this.claimId = this.transferService.cOPClaimID.getValue();
-
-
     this.isNewRecord = this.claimId.length == 0 ? true : false;
 
     // if(!this.isNewRecord){
@@ -193,19 +200,50 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //   this.getListQuestions();
     // }
 
-    this.getListMerchant();
+    this.getListMerchant(()=>{
+      this.options = new Array<string>();
+      this.merchantsArr.forEach(el=>{
+        this.options.push(el.name_ips);
+      });
+      this.filteredControlOptionsMerchUser$ = of(this.options);
+      this.inputFormControlMerchUser = new FormControl();
+
+      this.filteredControlOptionsMerchUser$ = this.inputFormControlMerchUser.valueChanges
+        .pipe(
+          startWith(''),
+          map(filterString => this.filterMerch(filterString)),
+        );
+    });
+
     this.getListCurrency();
     this.getListQuestions();
-
     this.getDates();
-
     //this.loadClaimDocumsnts();
+  }
 
+  onSelectionChangeMerch($event){
+    let f = this.merchantsArr.find(i=>i.merch_id == $event || i.name_ips == $event);
+    if(f){
+      this.claimData.merch_id = f.merch_id;
+    }
+  }
+
+  private filterMerch(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(optionValue => optionValue.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {
     this.transferService.cOPClaimID.next('');
     this.getClaimSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
+    this.subscription4.unsubscribe();
+    this.subscription5.unsubscribe();
+    this.subscription6.unsubscribe();
+    this.subscription7.unsubscribe();
+    this.subscription8.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -214,28 +252,29 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   timeline(){
-    this.httpService.getTimeLine(this.claimId).subscribe({
+    this.subscription8 = this.httpService.getTimeLine(this.claimId).subscribe({
         next: (response: any) => {
+          console.log(response)
           this.Timeline = response;
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
-
         }
       });
   }
 
   loadClaim() {
-    this.httpService.getSingleClaim(this.claimId).subscribe({
+    this.subscription1 = this.httpService.getSingleClaim(this.claimId).subscribe({
         next: (response: any) => {
           this.claimData = response;
           this.setClaimComments();
           this.setClaimDocumsnts();
-
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -244,6 +283,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  public get getUserName(){
+    let userName = '';
+    if(this.claimData && this.claimData.user ){
+      if(this.claimData.user.first_name)
+        userName = this.claimData.user.first_name;
+      if(this.claimData.user.last_name)
+        userName += this.claimData.user.last_name;
+    }
+    return userName;
+  }
 
   setClaimComments(){
     this.comments = new Array<ClaimComment>();
@@ -258,15 +307,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           item.create_date_str = '';
 
         item.user = el.user.first_name + ' ' + el.user.last_name;
-
         this.comments.push(item);
       });
     }
+    console.log(this.comments);
   }
 
-
   setClaimDocumsnts(){
-
     this.documents = new Array<ClaimDocument>();
     let d = this.claimData['documents'];
     if(d){
@@ -278,33 +325,28 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           item.file_name = item.file.split('\\').pop().split('/').pop();
         else
         item.file_name = 'Документ';
-
         this.documents.push(item);
       });
-
     }
   }
 
-
   loadClaimDocumsnts(){
-    this.httpService.getClaimDocs(this.claimId).subscribe({
+    this.subscription2 = this.httpService.getClaimDocs(this.claimId).subscribe({
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-
       }
     });
   }
 
-
-
   lastStep(code:string) {
     this.claimData.claim_reason_code = code;
     this.claimData.comment = this.claimData.ch_comments;
-    this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
+    // this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     this.isLastStep = true;
     this.claimData.answers = {};
     for(let i = 0; i < this.editedAnswers.length; i++) {
@@ -314,64 +356,61 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
 
-
   uploadDoc(claim: any) {
     if(this.filesArr && this.filesArr.length > 0){
       let data = this.filesArr[0];
       claim.form_name = "claim_form";
 
-      this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
+      this.subscription3 = this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
         claim.user.id, '').subscribe({
         next: (response: any) => {
           this.filesArr = [];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
-
         }
       });
     }
   }
 
   commentClaim(claimId: any, comment: any, form_name: any) {
-    this.httpService.commentClaim(claimId, comment, form_name).subscribe({
+    this.subscription4 = this.httpService.commentClaim(claimId, comment, form_name).subscribe({
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-
       }
     });
   }
 
   saveClaim() {
+    this.claimData.comment = this.claimData.ch_comments;
+    //this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
+    console.log(this.claimData);
     //this.claimData.form_name = 'claim_form';
-
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
-
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
 
-    console.log('saveClaim');
-    console.log(this.claimData);
-
-    this.httpService.createNewClaim(this.claimData).subscribe({
+    this.subscription5 = this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         this.uploadDoc(response);
         if(this.claimData.comment){
           this.commentClaim(response['id'], this.claimData.comment, '');
         }
-
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
       }
     });
   }
@@ -379,124 +418,209 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   change(par: any) {
     switch(par.part) {
       case 'one':
-        this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
-        if(par.formGroups.value.groupQuery1.val == 1) {
-          this.part = 'two';
+        if(par.formGroups.controls.groupQuery1.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
+          if(par.formGroups.value.groupQuery1.val == 1) {
+            this.part = 'two';
+          } else {
+            this.part = 'five';
+          }
         } else {
-          this.part = 'five';
-        }
+          this.isGoToNextStep = true;
+        } 
         break;
       case 'two':
-        this.editedAnswers.push({"2": par.formGroups.value.groupQuery2.text});
-        if(par.formGroups.value.groupQuery2.val == 3) {
-          this.part = 'five';
+        if(par.formGroups.controls.groupQuery2.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"2": par.formGroups.value.groupQuery2.text});
+          if(par.formGroups.value.groupQuery2.val == 3) {
+            this.part = 'five';
+          } else {
+            this.part = 'three';
+          }
         } else {
-          this.part = 'three';
+          this.isGoToNextStep = true;
         }
         break;
       case 'three':
-        this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
+        if(par.formGroups.controls.groupQuery3.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
           if(par.formGroups.value.groupQuery3.val == 1) {
             this.lastStep('0500');
           } else {
             this.part = 'four';
           }
-          break;
-      case 'four':
-        this.editedAnswers.push({"4": par.formGroups.value.groupQuery4});
-        this.lastStep('0021');
-          break;
-      case 'five':
-        this.editedAnswers.push({"5": par.formGroups.value.groupQuery5.text});
-        if(par.formGroups.value.groupQuery5.val == 1) {
-          this.lastStep('0100');
         } else {
-          this.part = 'six';
+          this.isGoToNextStep = true;
+        }
+        break;
+      case 'four':
+        if(par.formGroups.controls.groupQuery4.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"4": par.formGroups.value.groupQuery4});
+          this.lastStep('0021');
+        } else {
+          this.isGoToNextStep = true;
+        }
+        break;
+      case 'five':
+        if(par.formGroups.controls.groupQuery5.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"5": par.formGroups.value.groupQuery5.text});
+          if(par.formGroups.value.groupQuery5.val == 1) {
+            this.lastStep('0100');
+          } else {
+            this.part = 'six';
+          }
+        } else {
+          this.isGoToNextStep = true;
         }
         break;
       case 'six':
-        this.editedAnswers.push({"6": par.formGroups.value.groupQuery6.text});
-        if(par.formGroups.value.groupQuery6.val == 1) {
-          this.part = 'seven';
+        if(par.formGroups.controls.groupQuery6.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"6": par.formGroups.value.groupQuery6.text});
+          if(par.formGroups.value.groupQuery6.val == 1) {
+            this.part = 'seven';
+          } else {
+            this.part = 'ten';
+          }
         } else {
-          this.part = 'ten';
+          this.isGoToNextStep = true;
         }
         break;
       case 'seven':
-        this.editedAnswers.push({"7": par.formGroups.value.groupQuery7.text});
-        if(par.formGroups.value.groupQuery7.val == 1) {
-          this.lastStep('0500');
+        if(par.formGroups.controls.groupQuery7.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"7": par.formGroups.value.groupQuery7.text});
+          if(par.formGroups.value.groupQuery7.val == 1) {
+            this.lastStep('0500');
+          } else {
+            this.part = 'eight';
+          }
         } else {
-          this.part = 'eight';
+          this.isGoToNextStep = true;
         }
         break;
       case 'eight':
-        this.editedAnswers.push({"8": par.formGroups.value.groupQuery8.text});
-        if(par.formGroups.value.groupQuery8.val == 1) {
-          this.part = 'nine';
+        if(par.formGroups.controls.groupQuery8.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"8": par.formGroups.value.groupQuery8.text});
+          if(par.formGroups.value.groupQuery8.val == 1) {
+            this.part = 'nine';
+          } else {
+            this.lastStep('0001');
+          }
         } else {
-          this.lastStep('0001');
+          this.isGoToNextStep = true;
         }
         break;
       case 'nine':
-        this.editedAnswers.push({"9": par.formGroups.value.groupQuery9});
-        this.lastStep('0001');
+        if(par.formGroups.controls.groupQuery9.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"9": par.formGroups.value.groupQuery9});
+          this.lastStep('0001');
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
       case 'ten':
-        this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1? true:false});
-        this.part = 'eleven';
+        if(par.formGroups.controls.groupQuery10.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1? true:false});
+          this.part = 'eleven';
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
       case 'eleven':
-        this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1? false:true});
-        if(par.formGroups.value.groupQuery11.val == 1) {
-          this.lastStep('0009');
+        if(par.formGroups.controls.groupQuery11.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1? false:true});
+          if(par.formGroups.value.groupQuery11.val == 1) {
+            this.lastStep('0009');
+          } else {
+            this.part = 'twelve';
+          }
         } else {
-          this.part = 'twelve';
+          this.isGoToNextStep = true;
         }
         break;
       case 'twelve':
-        this.editedAnswers.push({"12": par.formGroups.value.groupQuery12.caption});
-        if(par.formGroups.value.groupQuery12.id == 1) {
-          this.lastStep('0011');
-        } else if(par.formGroups.value.groupQuery12.id == 2) {
-          this.part = 'thirteen';
-        } else if(par.formGroups.value.groupQuery12.id == 3) {
-          this.part = 'fourteen';
-        } else if(par.formGroups.value.groupQuery12.id == 4) {
-          this.lastStep('0003');
-        } else if(par.formGroups.value.groupQuery12.id == 5) {
-          this.part = 'seventeen';
-        } else if(par.formGroups.value.groupQuery12.id == 6) {
-          this.part = 'sixteen';
-        } else if(par.formGroups.value.groupQuery12.id == 7) {
-          this.lastStep('0500');
+        if(par.formGroups.controls.groupQuery12.touched) {
+          this.isGoToNextStep = false;
+          this.editedAnswers.push({"12": par.formGroups.value.groupQuery12.caption});
+          if(par.formGroups.value.groupQuery12.id == 1) {
+            this.lastStep('0011');
+          } else if(par.formGroups.value.groupQuery12.id == 2) {
+            this.part = 'thirteen';
+          } else if(par.formGroups.value.groupQuery12.id == 3) {
+            this.part = 'fourteen';
+          } else if(par.formGroups.value.groupQuery12.id == 4) {
+            this.lastStep('0003');
+          } else if(par.formGroups.value.groupQuery12.id == 5) {
+            this.part = 'seventeen';
+          } else if(par.formGroups.value.groupQuery12.id == 6) {
+            this.part = 'sixteen';
+          } else if(par.formGroups.value.groupQuery12.id == 7) {
+            this.lastStep('0500');
+          } else {
+            console.log('stop');
+          }
         } else {
-          console.log('stop');
+          this.isGoToNextStep = true;
         }
         break;
-        case 'thirteen':
+      case 'thirteen':
+        if(par.formGroups.controls.groupQuery13.touched) {
+          this.isGoToNextStep = false;
           this.editedAnswers.push({"13": par.formGroups.value.groupQuery13.text});
           this.lastStep('0027');
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
-        case 'fourteen':
+      case 'fourteen':
+        if(par.formGroups.controls.groupQuery14.touched) {
+          this.isGoToNextStep = false;
           this.editedAnswers.push({"14": this.claimData.trans_date});
           this.lastStep('0004');
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
-        case 'fiveteen':
+      case 'fiveteen':
+        if(par.formGroups.controls.groupQuery15.touched) {
+          this.isGoToNextStep = false;
           this.editedAnswers.push({"15": par.formGroups.value.groupQuery15.val == 1? true:false});
           this.lastStep('0009');
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
-        case 'sixteen':
+      case 'sixteen':
+        if(par.formGroups.controls.groupQuery16.touched) {
+          this.isGoToNextStep = false;
           this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
           this.lastStep('0012');
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
-        case 'seventeen':
+      case 'seventeen':
+        if(par.formGroups.controls.groupQuery17.touched) {
+          this.isGoToNextStep = false;
           this.editedAnswers.push({"17": par.formGroups.value.groupQuery17});
           if(par.formGroups.value.groupQuery17.val == 1) {
             this.part = 'fiveteen';
           } else {
             this.lastStep('0009');
           }
+        } else {
+          this.isGoToNextStep = true;
+        }
         break;
     }
 
@@ -537,14 +661,42 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return '';
     }
-
   }
 
-
   onClickGoNextStep(){
+    if(!this.checkData()){
+      return;
+    }
     this.part = 'one';
     this.stepNewRecord = 2;
     this.cdr.detectChanges();
+  }
+
+  public get getCheckData(): boolean{
+    let d =this.checkData(); 
+    return d;
+  }
+
+  public checkData(){
+    if(!this.claimData)
+      return false;
+    
+    if(!this.claimData.pan)
+      return false;
+
+    if(!this.claimData.trans_date)
+      return false;
+
+    if(!this.claimData.term_id)
+      return false;
+
+    if(!this.claimData.trans_amount)
+      return false;
+      
+    if(!this.claimData.trans_currency)
+      return false;
+
+    return true;
   }
 
   onClickSend(){
@@ -558,18 +710,19 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.stepNewRecord = 1;
   }
 
-  getListMerchant(){
+  getListMerchant(callback){
     this.merchantsArr = new Array<MerchUser>();
 
-    this.httpService.getMerchantsAll().subscribe({
+    this.subscription6 = this.httpService.getMerchantsAll().subscribe({
         next: (response: any) => {
           this.merchantsArr = response;
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
-
+          callback();
         }
       });
   }
@@ -592,8 +745,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listQuestions.push({id:7, caption:"Інша причина"});
   }
 
-
-
   fileLogChanged(e) {
     this.selectedFileLog = e.target.files[0];
     if(this.selectedFileLog.size > 50000000) {
@@ -607,14 +758,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesLogArr.splice(this.filesLogArr.indexOf(this.filesLogArr.find(e=> e == file)), 1);
   }
 
-
   onClickEscalation(){
     let val = new SingleClaimFormsTransfer();
     val.claimId = this.claimId;
     val.typeOperation = "NewEscalation";
     this.transferService.singleClaimFormsSettings.next(val);
 
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
   onClickFinish(){
@@ -623,7 +773,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
 
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
   onClickClarifications(){
@@ -632,7 +782,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.typeOperation = "Clarifications";
     this.transferService.singleClaimFormsSettings.next(val);
 
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
   onClickRequestDocs(){
@@ -641,7 +791,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.typeOperation = "QueryForm";
     this.transferService.singleClaimFormsSettings.next(val);
 
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim-forms']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
   getDates(){
@@ -650,22 +800,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   saveClaimUpdate(){
     this.claimData.claimId = this.claimData.id;
-    this.httpService.updateClaim(this.claimData).subscribe({
+    this.subscription7 = this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-
       }
     });
   }
 
-
   get getUrlPDF() {
     let url = '';
-
     if (this.claimId) {
       url = `${MAIN_URL}/api/v1/claim/${this.claimId}/pdf/`;
     }
@@ -674,7 +822,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goBack(){
-    this.router.navigate(['ourpages', 'ourcomponents', 'claims']);
+    this.router.navigate(['cop', 'cabinet', 'claims']);
   }
 
   get getClaimData_merch_name_ips(): string{

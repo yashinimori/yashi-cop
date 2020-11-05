@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
-import { SelectorData } from '../../../share/models/selector-data.model';
-import { MerchUser } from '../../../share/models/merch-user.model';
 import { TransferService } from '../../../share/services/transfer.service';
 import { ATM } from '../../../share/models/atm.model'
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-atm',
@@ -12,7 +12,7 @@ import { ATM } from '../../../share/models/atm.model'
   styleUrls: ['./atm.component.scss']
 })
 
-export class ATMComponent implements OnInit {
+export class ATMComponent implements OnInit, OnDestroy {
   public data: ATM;
   bankID: string;
   bankBin: string;
@@ -20,11 +20,12 @@ export class ATMComponent implements OnInit {
 
   constructor(private httpService: HttpService,
     private router: Router,
-    private transferService: TransferService,) {
-    
+    private transferService: TransferService, private errorService: ErrorService) {
       this.bankID = '';
       this.role = '';
   }
+
+  subscription1: Subscription = new Subscription();
 
   ngOnInit(): void {
     this.data = new ATM();
@@ -37,19 +38,15 @@ export class ATMComponent implements OnInit {
   goBack(){
     this.transferService.bankID.next(this.bankID);
     if(this.role == 'cop_manager'){
-      this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+      this.router.navigate(['cop', 'cabinet', 'bank-single']);
     } else {
-      this.router.navigate(['ourpages', 'ourcomponents']);
+      this.router.navigate(['cop', 'cabinet']);
     }
-
   }
 
   createATM() {
-
     if(this.enter() == 0){
-    
       let d = {
-        
         "merch_id": this.data.merch_id,
         "name_ips": this.data.name_ips,
         "bank": Number(this.bankID),
@@ -58,14 +55,14 @@ export class ATMComponent implements OnInit {
         "mcc": this.data.mcc,
         "description": this.data.description,
         "address": this.data.address,
-        "contact_person": this.data.contact_person
-          
+        "contact_person": this.data.contact_person   
       };
 
-      this.httpService.createNewATM(d).subscribe({
+      this.subscription1 = this.httpService.createNewATM(d).subscribe({
         next: (response: any) => {
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -75,8 +72,6 @@ export class ATMComponent implements OnInit {
       
     }
   }
-
-  
 
   enter() {
 
@@ -105,6 +100,7 @@ export class ATMComponent implements OnInit {
     return 0;
   }
 
-  
-  
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
+  }
 }

@@ -1,13 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Bank } from '../../../share/models/bank.model';
+import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ErrorService } from '../../../share/services/error.service';
+
+interface EventObject {
+  event: string;
+  value: {
+    limit: number;
+    page: number;
+    key: string;
+    order: string;
+  };
+}
 
 @Component({
   selector: 'ngx-bank-list',
@@ -21,26 +30,85 @@ export class BankListComponent implements OnInit, OnDestroy {
   role: string;
   pagerSize = 10;
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+  constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.banksData = new Array<Bank>();
   }
 
+  @ViewChild('table', { static: true }) table: APIDefinition;
+
   banksSubscription: Subscription = new Subscription();
+  isUiLoad:boolean = false;
+
+  public configuration: Config;
+  public columns: Columns[];
+  public data = new Array();
+  checked = new Set(['bin', 'type', 'name_eng', 'name_uk', 'name_rus',
+   'operator_name', 'contact_person', 'contact_telephone', 'contact_email']);
+  columnsCopy: Columns[] = [];
+  public pagination = {
+    limit: 10,
+    offset: 0,
+    count: -1,
+    sort: '',
+    order: '',
+  };
 
   ngOnInit(): void {
+    this.setSettingsForTable();
+    // ... etc.
+    // this.columns = [
+    //   { key: 'phone', title: 'Phone' },
+    //   { key: 'age', title: 'Age' },
+    //   { key: 'company', title: 'Company' },
+    //   { key: 'name', title: 'Name' },
+    //   { key: 'isActive', title: 'STATUS' },
+    // ];
+    this.columns = [
+      {key: 'bin', title: 'BIN'},
+      {key: 'type', title: 'Тип'},
+      {key: 'name_eng', title: 'Назва банку англійською'},
+      {key: 'name_uk', title: 'Назва банку українською'},
+      {key: 'name_rus', title: 'Назва банку російською'},
+      {key: 'operator_name', title: 'Операційне ім’я'},
+      {key: 'contact_person', title: 'Контактна особа'},
+      {key: 'contact_telephone', title: 'Контактний телефон'},
+      {key: 'contact_email', title: 'Контактна пошта'},
+    ];
+    this.columnsCopy = this.columns;
+    this.parsePagination();
+    
     this.role = localStorage.getItem('role');
     this.setSettingsGrid(this.role);
     this.getBanksData();
     //this.hideColumnForUser(this.role);
   }
 
+  setSettingsForTable() {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.columnReorder = true;
+    this.configuration.orderEnabled = true;
+    this.configuration.threeWaySort = true;
+    this.configuration.selectRow = true;
+    this.configuration.searchEnabled = true;
+    this.configuration.persistState = true;
+    this.configuration.isLoading = true;
+  }
+
+  clickSettings() {
+    console.log(this.configuration);
+  }
+
+  toggle(name: string): void {
+    this.checked.has(name) ? this.checked.delete(name) : this.checked.add(name);
+    this.columns = this.columnsCopy.filter((column) => this.checked.has(column.key));
+  }
+
   onUserRowSelect(event): void {
     this.transferService.bankID.next(event.data.id);
     this.transferService.bankBIN.next(event.data.bin);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-single']);
+    this.router.navigate(['cop', 'cabinet', 'bank-single']);
   }
 
   // hideColumnForUser(role:string){
@@ -48,9 +116,49 @@ export class BankListComponent implements OnInit, OnDestroy {
   //       delete this.settings.columns.id;
   //   }
   // }
+
+  onChange(name: string): void {
+    console.log(name);
+    this.table.apiEvent({
+      type: API.onGlobalSearch,
+      value: name,
+    });
+  }
+
+  eventEmitted($event: { event: string; value: any }): void {
+    console.log('$event', $event);
+    switch($event.event) {
+      case 'onClick':
+        console.log($event.value.row.id);
+        this.transferService.bankID.next($event.value.row.id);
+        this.transferService.bankBIN.next($event.value.row.bin);
+        this.router.navigate(['cop', 'cabinet', 'bank-single']);
+        break;
+      case 'onPagination':
+        console.log($event.value);
+        break;
+    }
+  }
+
+  parsePagination(): void {
+    let onOrder = localStorage.getItem('onOrder');
+    if(onOrder) {
+      let parsedOnOrder = JSON.parse(onOrder);
+      this.pagination.sort = parsedOnOrder.key ? parsedOnOrder.key : this.pagination.sort;
+      this.pagination.order = parsedOnOrder.order ? parsedOnOrder.order : this.pagination.order;
+      console.log('onOrder');
+    }
+    // this.pagination.limit = obj.value.limit ? obj.value.limit : this.pagination.limit;
+    // this.pagination.offset = obj.value.page ? obj.value.page : this.pagination.offset;
+    // this.pagination.sort = !!obj.value.key ? obj.value.key : this.pagination.sort;
+    // this.pagination.order = !!obj.value.order ? obj.value.order : this.pagination.order;
+    // this.pagination = { ...this.pagination };
+    // const pagination = `_limit=${this.pagination.limit}&_page=${this.pagination.offset}`;
+    // const sort = `&_sort=${this.pagination.sort}&_order=${this.pagination.order}`;
+    
+  }
   
   setSettingsGrid(role:string){
-
     switch(role){
       case 'admin':
       case 'cop_manager':
@@ -104,7 +212,6 @@ export class BankListComponent implements OnInit, OnDestroy {
               title: 'Контактна пошта',
               type: 'string',
             },
-      
           },
         };
       }
@@ -118,10 +225,7 @@ export class BankListComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
-    
-
   }
 
   getBanksData() {
@@ -138,7 +242,7 @@ export class BankListComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
-
+        this.data = new Array();
         data.forEach(el => {
           let t = new Bank();
     
@@ -153,19 +257,21 @@ export class BankListComponent implements OnInit, OnDestroy {
           t.contact_telephone = el['contact_telephone'];
           t.contact_email = el['contact_email'];
 
+          this.data.push(t);
           self.banksData.push(t);
-
         });
-
         self.source = new LocalDataSource();
-        self.source.load(self.banksData);
-        
+        self.source.load(self.banksData);  
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+        console.log(this.data);
+        //this.parsePagination();
+        this.configuration.isLoading = false;
+        this.isUiLoad = true;
       }
     });
   }

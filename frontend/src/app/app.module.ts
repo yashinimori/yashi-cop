@@ -12,6 +12,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
+  NbAlertModule,
   NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
@@ -24,12 +25,10 @@ import {
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 // import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { NgxCaptchaModule } from 'ngx-captcha';
-
-
-
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
-  
   declarations: [AppComponent],
   imports: [
     BrowserModule,
@@ -42,14 +41,16 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
+    NbAlertModule,
+    TableModule,
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     VerticalTimelineModule,
-    // RecaptchaModule,  //this is the recaptcha main module
-    // RecaptchaFormsModule, //this is the module for form incase form validation
+    RecaptchaModule,  //this is the recaptcha main module
+    RecaptchaFormsModule, //this is the module for form incase form validation
     NgxCaptchaModule,
   ],
   bootstrap: [AppComponent],

@@ -1,12 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
-import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 
 @Component({
@@ -24,10 +21,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   acceptFiles = 'application/txt/*';
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
-    private router: Router,
-    private httpService: HttpService) {
+  constructor(private httpService: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -56,12 +50,12 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
 
   onClickUploadLogs() {
     let data = this.filesArr[0];
-
-    this.httpService.uploadATMlog(data).subscribe({
+    this.atmlogUploadSubscription = this.httpService.uploadATMlog(data).subscribe({
       next: (response: any) => {
         this.filesArr = [];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -69,7 +63,4 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  
-
 }

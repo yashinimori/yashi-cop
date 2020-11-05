@@ -1,0 +1,107 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+    # http
+    address: ":80"
+
+  web-secure:
+    # https
+    address: ":443"
+
+  flower:
+    address: ":5555"
+
+certificatesResolvers:
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: "o.gavrina@chargebackoptimizer.com"
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
+
+http:
+  routers:
+    api-router:
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: django
+
+    api-secure-router:
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      entryPoints:
+        - web-secure
+      service: django
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    frontend-router:
+      rule: "Host(`18.156.118.192`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: frontend
+
+    frontend-secure-router:
+      rule: "Host(`18.156.118.192`)"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - redirect
+      service: frontend
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    flower-secure-router:
+      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      entryPoints:
+        - flower
+      service: flower
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+  middlewares:
+    redirect:
+      # https://docs.traefik.io/master/middlewares/redirectscheme/
+      redirectScheme:
+        # uncomment for redirect 80->443
+        #scheme: https
+        scheme: http
+        permanent: true
+    #csrf:
+      # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
+      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+      #headers:
+        #hostsProxyHeaders: ["X-CSRFToken"]
+
+  services:
+    django:
+      loadBalancer:
+        servers:
+          - url: http://django:5000
+
+    frontend:
+      loadBalancer:
+        servers:
+          - url: http://angular:4000
+
+    flower:
+      loadBalancer:
+        servers:
+          - url: http://flower:5555
+
+providers:
+  # https://docs.traefik.io/master/providers/file/
+  file:
+    filename: /etc/traefik/traefik.yml
+    watch: true

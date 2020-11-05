@@ -32,9 +32,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  resolved(captchaResponse: string, res) {
-    console.log(`Resolved response token: ${captchaResponse}`);
-   
+  resolved(captchaResponse: string, res) {   
   }
 
   onContecxtItemSelection(title) {

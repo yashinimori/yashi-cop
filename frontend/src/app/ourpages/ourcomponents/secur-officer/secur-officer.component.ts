@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
@@ -11,6 +8,7 @@ import { Bank } from '../../../share/models/bank.model';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-secur-officer',
@@ -31,48 +29,44 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   sourceMerch: LocalDataSource;
   userId: any;
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+  constructor(private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.bank = new Bank();
     this.bankUserData = new Array<BankUser>();
     this.bankMerchData = new Array<MerchUser>();
   }
 
   bankUsersSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
     this.userId = localStorage.getItem('user_id');
     this.bankID = this.transferService.bankID.getValue();
-
     this.generateStatusFields();
-    this.setSettingsGridBankUser(this.role);
-    
+    this.setSettingsGridBankUser(this.role); 
     this.getBankEmployees(this.userId);
-
   }
   
   getBankEmployees(userId: any){
-    this.httpServise.getBankEmployees(Number(userId)).subscribe({
+    this.subscription1 = this.httpServise.getBankEmployees(Number(userId)).subscribe({
       next: (response: any) => {
-
         if(response && response['length'] ){
-
           let data = response[0];
           this.bankID = data.bank.id;
-          
           this.getBankUserData(this.bankID);
         }
+      }, 
+      error: error => {
+        this.errorService.handleError(error);
       }
     });
   }
  
   createBankUser(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'bank-user']);
+    this.router.navigate(['cop', 'cabinet', 'bank-user']);
   }
 
   generateStatusFields() {
@@ -80,12 +74,11 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
     this.fieldsStatus.setStatusByRole(this.role);
   }
   
-  
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
     //this.transferService.bankID.next('');
   }
-
 
   setSettingsGridBankUser(role:string){
     switch(role){
@@ -134,7 +127,6 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
             registration_date:{
               title: 'Регістрація',
               type: 'string',
-  
             }
           },
         };
@@ -149,13 +141,11 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
           },
         };
       }
-    }
-        
+    }   
   }
 
   getBankUserData(id: any) {
     this.bankUserData = new Array<BankUser>();
-
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
@@ -170,9 +160,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
         data.forEach(el => {
           let t = new BankUser();
-          
           let user = el['user'];
-          
           t.id = user['id'];
           t.first_name = user['first_name'];
           t.last_name = user['last_name'];
@@ -182,28 +170,22 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
           t.userId = user['userId'];
           t.unit = el['unit'];
           t.registration_date = user['registration_date'];
-
           self.bankUserData.push(t);
-          
         });
-        
         self.sourceBankUser = new LocalDataSource();
         self.sourceBankUser.load(self.bankUserData);
-       
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
 
   onUserRowSelect(event): void {
     this.transferService.userID.next(event.data.id);
-    this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer-user']);
+    this.router.navigate(['cop', 'cabinet', 'secur-officer-user']);
   }
-
-
 }

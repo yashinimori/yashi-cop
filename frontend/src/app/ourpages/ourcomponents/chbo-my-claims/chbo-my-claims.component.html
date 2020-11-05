@@ -1,9 +1,14 @@
-<nb-card>
+<nb-card style="height: 55em;">
     <nb-card-header>
       <div style="display: flex;">
         Список скарг
-        <div class="button-enter" style="margin-left: 10px;">
-          <button  nbButton status="primary" (click)="refresh_claim()">Оновити</button>
+        <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
+          <button  nbButton style="width: 100%;"
+            status="primary" (click)="refresh_claim()">Оновити</button>
+        </div>
+        <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
+          <button  nbButton style="width: 100%;" 
+            status="primary" (click)="createReport()">Звіт</button>
         </div>
       </div> 
     </nb-card-header>

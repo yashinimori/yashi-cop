@@ -15,7 +15,7 @@ ENCRYPT_KEY = env(
     default="ZRjyV3sl5R6PWeG_0NDwgwv5wLLer8EP34bI5VqIymk="
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "18.156.118.192"]
 
 # DRF allow session authentication
 # ------------------------------------------------------------------------------

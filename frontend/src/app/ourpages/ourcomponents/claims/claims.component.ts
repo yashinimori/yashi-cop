@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
@@ -8,6 +7,8 @@ import { HttpService } from '../../../share/services/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
+import * as FileSaver from 'file-saver';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-claims',
@@ -26,7 +27,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -42,13 +43,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   onUserRowSelect(event): void {
     this.transferService.cOPClaimID.next(event.data.id);
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-  
     this.generateStatusFields();
     
     this.stageParam = '';
@@ -58,10 +57,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.setSettingsGrid(this.role);
     this.getClaimsData();
     this.hideColumnForUser(this.role);
-    
-
   }
-
 
   hideColumnForUser(role:string){
     if(role && (role == 'cardholder' || role == 'user')){
@@ -157,7 +153,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                   return '';
               }
             },
-      
           },
         };
       }
@@ -180,6 +175,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             pan: {
               title: 'Номер карти',
               type: 'string',
+              width: '100px'
             },
             trans_date: {
               title: 'Дата транзакції',
@@ -245,7 +241,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                   return '';
               }
             },
-      
           },
         };
       }
@@ -341,6 +336,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
           },
+          attr: {
+            class: 'customTable'
+          }
         };
       }
       break;
@@ -353,10 +351,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
-    
-
   }
 
   refresh_claim(){
@@ -376,8 +371,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
-
-        console.log(data);
 
         data.forEach(el => {
           let t = new ClaimView();
@@ -409,7 +402,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             t.merch_name_ips = m['name_ips'];
           
           self.claimsData.push(t);
-
         });
 
         if(this.role =='cardholder' && this.stageParam == 'all'){
@@ -424,13 +416,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
         self.source = new LocalDataSource();
         self.source.load(self.claimsData);
-        
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
@@ -445,12 +436,88 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   add_claim(){
-    this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
   
   goToLink(url: string, id: string){
     this.transferService.cOPClaimID.next(id);
     window.open(url, "_blank");
-} 
+  } 
+
+  public createReport(){
+    if(this.claimsData){
+      let str = '';
+
+      str += 'ID;';
+      str += 'Номер карти;';
+      str += 'Дата транзакції;';
+      str += 'Назва торговця;';
+      str += "Ім'я терміналу;";
+      str += 'Cума;';
+      str += 'Валюта;';
+      str += 'Код авторизації;';
+      
+      if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+        str += 'Reason Code;';
+        str += 'Статус;';
+        str += 'Дії;';
+        str += 'flag;';
+      }
+      
+      str += 'Результат;';
+      str += 'Кінцевий термін претензії';
+      str += '\r\n';
+
+      this.claimsData.forEach(el=>{
+        str += `${this.getValueToReport(el['id'])};`;
+        str += `'${this.getValueToReport(el['pan'])};`;
+        str += `${this.getValueToReportDate(el['trans_date'])};`;
+        str += `${this.getValueToReport(el['merch_name_ips'])};`;
+        str += `${this.getValueToReport(el['term_id'])};`;
+        str += `${this.getValueToReport(el['trans_amount'])};`;
+        str += `${this.getValueToReport(el['trans_currency'])};`;
+        str += `${this.getValueToReport(el['auth_code'])};`;
+
+        if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+          str += `${this.getValueToReport(el['claim_reason_code'])};`;
+          str += `${this.getValueToReport(el['status'])};`;
+          str += `${this.getValueToReportBool(el['action_needed'])};`;
+          str += `${this.getValueToReport(el['flag'])};`;
+        }
+
+        str += `${this.getValueToReport(el['result'])};`;
+        str += `${this.getValueToReportDate(el['due_date'])}`;
+        str += '\r\n';
+      });
+    
+      var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
+      let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
+      FileSaver.saveAs(blob, filename);
+    }
+  }
+
+  getValueToReport(val: any){
+    if(val){
+      return val;
+    } else {
+      return '';
+    }
+  }
+
+  getValueToReportDate(val: any){
+    if(val){
+      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+    } else {
+      return '';
+    }
+  }
+
+  getValueToReportBool(val: any){
+    if(val){
+      return 'Y';
+    } else {
+      return 'N';
+    }
+  }
 
 }

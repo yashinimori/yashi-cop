@@ -3,14 +3,17 @@
   
 .div-panel{
     display: flex;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 7px;
 }
 
 .label-caption {
+    font-size: 14px;
     width: 38%;
     // text-transform: uppercase;
 }
 .label-data {
+    font-size: 14px;
     width: 60%;
     font-weight: bold;
     text-transform: uppercase;
@@ -26,6 +29,9 @@
 }
 .center {
     text-align: center;
+}
+.input-data-valid {
+    width: 100%;
 }
 .input-data {
     width: 60%;
@@ -64,4 +70,28 @@
     margin-top: 15px;
     flex-direction: column;
     align-items: center;
+}
+
+.danger-warning{
+    margin: 0em!important;
+    padding: 0em!important;
+  }
+
+:host /deep/ .radioItem {
+    text-align: left;
+}
+
+:host /deep/ nb-stepper .step-content {
+    padding: 0.5em!important;
+}
+
+:host /deep/ .customStepper .label-index {
+    margin-bottom: 0!important;
+}
+
+:host /deep/ .customStepper .label {
+    font-size: 10px!important;
+}
+:host /deep/ .customStepper .header {
+    margin-bottom: 0!important;
 }

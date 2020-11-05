@@ -1,55 +1,49 @@
-import {Component, OnInit} from '@angular/core'
-import { ChartType } from 'chart.js';
-import { MultiDataSet, Label } from 'ng2-charts';
-import { ClaimView } from '../../../share/models/claim-view.model';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
-import { LocalDataSource } from 'ng2-smart-table';
-import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
-import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-chart-statistic-claims-stages',
     templateUrl: './chart-statistic-claims-stages.component.html',
 })
-export class StatisticClaimsByStagesComponent implements OnInit {
-   
+export class StatisticClaimsByStagesComponent implements OnInit, OnDestroy {
     role: string;
     doughnutChartLabels: any;
     doughnutChartData: any;
     is_data_ready = false;
 
-    
+    chartOptions:any;
+    subscription1: Subscription = new Subscription();
 
     constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+      private httpServise: HttpService, private errorService: ErrorService) {
     }
 
     ngOnInit(): void {
-      
+      this.chartOptions = {
+        responsive: true,
+        aspectRatio: 1.2,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom',
+          labels: {
+            fontSize: 10,
+            usePointStyle: true
+          }
+        },
+      };
       this.role = localStorage.getItem('role');
-
-      //   console.log('transferService.claimsByStages.getValue()');
-      //   let data = this.transferService.claimsByStages.getValue();
-      //   console.log(data);
 
       this.doughnutChartData = [ { data: [] } ];
       this.doughnutChartLabels = [];
       this.loadCountClaimsByStages();
-      
-      
-      
     }
 
-
     loadCountClaimsByStages(){
-      console.log('getCountClaimsByStages()');
-      this.httpServise.getCountClaimsByStages().subscribe({
+      this.subscription1 = this.httpServise.getCountClaimsByStages().subscribe({
         next: (response: any) => {
-          //console.log('getCountClaimsByStages()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-          //console.log(response);
-          
           this.doughnutChartLabels = [
             // 'arbitration_claims',
              'chargeback_claims',
@@ -82,15 +76,16 @@ export class StatisticClaimsByStagesComponent implements OnInit {
 
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
-      
         }
       });
-  
     }
   
-    
+    ngOnDestroy() {
+      this.subscription1.unsubscribe();
+    }
   }
   

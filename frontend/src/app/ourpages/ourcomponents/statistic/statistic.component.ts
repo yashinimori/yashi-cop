@@ -1,14 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { ClaimView } from '../../../share/models/claim-view.model';
-import { DatePipe } from '@angular/common';
-import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Bank } from '../../../share/models/bank.model';
-import { DoughnutTransfer } from '../../../share/models/doughnut.transfer.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-statistic',
@@ -56,104 +49,89 @@ export class StatisticComponent implements OnInit, OnDestroy {
   b6_point_of_interaction_error_claims: any;
   b6_cardholder_disputes_claims: any;
 
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
+  subscription3: Subscription = new Subscription();
+  subscription4: Subscription = new Subscription();
+  subscription5: Subscription = new Subscription();
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
-    private router: Router,
-    private httpServise: HttpService) {
-    
+  constructor(private httpServise: HttpService, private errorService: ErrorService) { 
   }
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-    //console.log('StatisticComponent role ' +this.role);
-
     this.loadCountNewClaims();
     //this.loadCountClaimsByStages();
     // this.loadCountClaimsByRcGroup();
-
-
     // this.loadBankCountUpdatedClaims("1");
     // this.loadBankCountNewClaims("1");
     // this.loadCountUpdatedClaims();
-       
-     
     // this.loadCountClaimsBySupport();
-
   }
 
-  ngOnDestroy(): void{ }
+  ngOnDestroy(): void{ 
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
+    this.subscription4.unsubscribe();
+    this.subscription5.unsubscribe();
+  }
 
   loadBankCountUpdatedClaims(bankId: string){
-    //console.log('loadCountUpdatedClaims(bankId: string)');
-    this.httpServise.getBankCountUpdatedClaims(bankId).subscribe({
+    this.subscription1 = this.httpServise.getBankCountUpdatedClaims(bankId).subscribe({
       next: (response: any) => {
-        
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
-
   }
 
   loadBankCountNewClaims(bankId: string){
-    //console.log('loadCountNewClaims(bankId: string)');
-    this.httpServise.getBankCountNewClaims(bankId).subscribe({
+    this.subscription2 = this.httpServise.getBankCountNewClaims(bankId).subscribe({
       next: (response: any) => {
-        //console.log(response);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
-
   }
 
-
   loadCountUpdatedClaims(){
-    //console.log('loadCountUpdatedClaims()');
-    this.httpServise.getCountUpdatedClaims().subscribe({
+    this.subscription3 = this.httpServise.getCountUpdatedClaims().subscribe({
       next: (response: any) => {
-        //console.log(response);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
 
   }
 
   loadCountNewClaims(){
-    //console.log('loadCountNewClaims()');
-    this.httpServise.getCountNewClaims().subscribe({
+    this.subscription4 = this.httpServise.getCountNewClaims().subscribe({
       next: (response: any) => {
-        //console.log('loadCountNewClaims() !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        //console.log(response);
         this.b1_new_claims = response['new_claims'];
         this.b4_attend_to_claims = response['attend_to_claims'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
-
   }
 
-  
   // loadCountClaimsByStages(){
   //   console.log('getCountClaimsByStages()');
   //   this.httpServise.getCountClaimsByStages().subscribe({
@@ -275,21 +253,15 @@ export class StatisticComponent implements OnInit, OnDestroy {
   // }
 
   loadCountClaimsBySupport(){
-    //console.log('getCountClaimsBySupport()');
-    this.httpServise.getCountClaimsBySupport().subscribe({
+    this.subscription5 = this.httpServise.getCountClaimsBySupport().subscribe({
       next: (response: any) => {
-        //console.log(response);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
-
   }
-
-
-
 }

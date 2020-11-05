@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { AtmTransactionView } from '../../../share/models/atm-transaction.model';
 import { DatePipe } from '@angular/common';
-import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-atm-log-view',
@@ -26,25 +23,19 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   isShowGrid = true;
   atmTransactionsDataItem: AtmTransactionView;
 
-  constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
-    private router: Router,
-    private httpService: HttpService) {
-    
+  constructor(private datePipe: DatePipe,
+    private httpService: HttpService, private errorService: ErrorService) {
       this.atmTransactionsDataItem = new AtmTransactionView();
   }
 
   atmLogViewSubscription: Subscription = new Subscription();
-  
   
   onUserRowSelect(event): void {
     //this.transferService.cOPClaimID.next(event.data.id);
     //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
     this.isShowGrid = false;
     this.atmTransactionsDataItem = new AtmTransactionView();
-
     this.atmTransactionsDataItem = this.atmTransactionsData.find(i=>i.id == event.data.id);
-
   }
 
   ngOnInit(): void {
@@ -66,7 +57,6 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   }
 
   setSettingsGrid(role:string){
-
     switch(role){
       case 'admin':
       case 'chargeback_officer':  {
@@ -184,10 +174,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
           },
         };
       }
-
     }
-    
-
   }
 
   getTransactionsData() {
@@ -196,15 +183,14 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
     this.atmLogViewSubscription = this.httpService.getTransactionsList(10, 1).subscribe({
       next: (response: any) => {
         this.atmTransactionsData = response.results;
-        console.log(response.results);
         self.source = new LocalDataSource();
         self.source.load(self.atmTransactionsData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }

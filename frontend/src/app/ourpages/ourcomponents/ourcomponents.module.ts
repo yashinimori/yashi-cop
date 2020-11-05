@@ -14,6 +14,8 @@ import {
   NbSelectModule,
   NbRadioModule,
   NbInputModule,
+  NbAlertModule,
+  NbAutocompleteModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -48,11 +50,15 @@ import { BankStatisticClaimsByRcGroupComponent } from './bank-statistic/bank-cha
 import { BankStatisticClaimsByStagesComponent } from './bank-statistic/bank-chart-statistic-claims-stages.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
-
+import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
+import { StatisticClaimsByTimeComponent } from './statistic/chart-statistic-claims-time.component';
+import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-claims-reason.component';
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   imports: [
     FormsModule,
+    TableModule,
     ReactiveFormsModule,
     ThemeModule,
     NbTabsetModule,
@@ -68,11 +74,13 @@ import { ATMComponent } from './atm/atm.component';
     NbDatepickerModule, 
     NbIconModule,
     NbSelectModule,
+    NbAlertModule,
     NbRadioModule,
     NbInputModule,
     ChartsModule,
     NbStepperModule,
     // ChartsModule,
+    NbAutocompleteModule,
   ],
   declarations: [
     OurComponentsComponent,
@@ -98,10 +106,13 @@ import { ATMComponent } from './atm/atm.component';
     StatisticComponent,
     StatisticClaimsByStagesComponent,
     StatisticClaimsByRcGroupComponent,
+    StatisticClaimsByTimeComponent,
+    StatisticClaimsByReasonComponent,
     BankStatisticComponent,
     BankStatisticClaimsByRcGroupComponent,
     BankStatisticClaimsByStagesComponent,
     ATMComponent,
+    ShowcaseDialogComponent,
   ],
   // providers: [
     

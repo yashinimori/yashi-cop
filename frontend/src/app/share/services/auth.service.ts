@@ -11,6 +11,8 @@ export class AuthService {
   }
 
   getToken(user: any) {
+    console.log('in token request: ');
+    console.log(user);
     return this.http.post(URL_CREATE_TOKEN, user);
   }
 

@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Bank } from '../../../share/models/bank.model';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-secur-officer-user',
@@ -29,28 +28,23 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
-    
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.logsData = new Array<BankUser>();
     this.userData = new BankUser();
-
   }
 
   bankUsersSubscription: Subscription = new Subscription();
+  subscription1: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
     this.userId = this.transferService.userID.getValue();
     this.bankID = this.transferService.bankID.getValue();
-
     this.generateStatusFields();
-
     this.setSettingsGridLogs(this.role);
     this.getLogsData(this.userId);
-
-    this.getUserData(this.userId);
-    
+    this.getUserData(this.userId); 
   }
   
   generateStatusFields() {
@@ -60,6 +54,8 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
     //this.transferService.bankID.next('');
   }
 
@@ -109,20 +105,17 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
           },
         };
       }
-    }
-        
+    }     
   }
 
   getLogsData(id: any) {
     this.logsData = new Array<BankUser>();
-
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
     this.bankUsersSubscription = this.httpServise.getLoggerList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
@@ -132,23 +125,20 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         
         self.sourceLogs = new LocalDataSource();
         self.sourceLogs.load(self.logsData);
-        
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
       }
     });
   }
 
   getUserData(userId: any) {
-    
     this.userData = new BankUser();
-
     let self = this;
-    this.httpServise.getBankEmployees(userId).subscribe({
+    this.subscription1 = this.httpServise.getBankEmployees(userId).subscribe({
       next: (response: any) => {
         this.userData.id = response[0].user.id;
         this.userData.first_name = response[0].user.first_name;
@@ -160,35 +150,32 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         this.userData.email = response[0].user.email;
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-    
       }
     });
   }
 
-
   goBack(){
     this.transferService.bankID.next(this.bankID);
-    this.router.navigate(['ourpages', 'ourcomponents', 'secur-officer']);
+    this.router.navigate(['cop', 'cabinet', 'secur-officer']);
   }
 
   sendMail(){
     let d = {
       "email": this.userData.email
     };
-    this.httpServise.sendEmailResetPass(d).subscribe({
+    this.subscription2 = this.httpServise.sendEmailResetPass(d).subscribe({
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-    
       }
     });
-
   }
-
 }
