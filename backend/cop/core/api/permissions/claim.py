@@ -5,15 +5,21 @@ from cop.core.models import Claim, Status
 
 class AllowCurrentUsersPermission(BasePermission):
     def has_permission(self, request, view):
-        current_claim = Claim.objects.get(id=view.kwargs['pk'])
-        return request.user == current_claim.user
+        if 'pk' in view.kwargs:
+            current_claim = Claim.objects.get(id=view.kwargs['pk'])
+            return request.user == current_claim.user
+        else:
+            return False
 
 
 class AllowClaimMerchantPermission(BasePermission):
     def has_permission(self, request, view):
-        current_claim = Claim.objects.get(id=view.kwargs['pk'])
-        if current_claim.merchant:
-            return request.user == current_claim.merchant.user
+        if 'pk' in view.kwargs:
+            current_claim = Claim.objects.get(id=view.kwargs['pk'])
+            if current_claim.merchant:
+                return request.user == current_claim.merchant.user
+            else:
+                return False
         else:
             return False
 

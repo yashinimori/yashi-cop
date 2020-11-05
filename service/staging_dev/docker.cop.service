@@ -1,0 +1,14 @@
+[Unit]
+Description = COP
+After = docker-compose.service
+Requires = docker-compose.service
+
+[Service]
+WorkingDirectory=/var/www/COP
+TimeoutStartSec = 0
+ExecStartPre = /var/www/COP/scripts/staging_dev/stop.sh
+ExecStart = /var/www/COP/scripts/staging_dev/start_and_update.sh
+
+[Install]
+WantedBy=default.target
+Alias= cop

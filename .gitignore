@@ -331,3 +331,4 @@ cop/media/
 .env
 .envs/*
 !.envs/.local/
+!.envs/.staging_dev/

@@ -7,6 +7,8 @@ from django.views import defaults as default_views
 
 from cop.users.api.views.token import CustomTokenObtainPairView
 
+from .views import api_schema_view
+
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
@@ -19,6 +21,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
+    path("api/v1/", api_schema_view),
     path("api/v1/", include("config.api_router")),
     # DRF auth token
     path('api/v1/auth/jwt/create/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

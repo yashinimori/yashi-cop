@@ -217,14 +217,10 @@ export class OurPagesComponent {
    
   setHiddenUser(){    
     let role = localStorage.getItem('role');
-    console.log(role);
-    console.log(role.toString() == 'сс_branch');
     if(role && (role=='user' || role.toString() == 'сс_branch' || role=='cardholder')) {
       console.log('false');
       return false;
-    }
-    console.log('true');
-  
+    }  
     return true;
   }
   

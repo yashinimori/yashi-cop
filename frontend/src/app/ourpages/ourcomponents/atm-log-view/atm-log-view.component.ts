@@ -4,6 +4,7 @@ import { AtmTransactionView } from '../../../share/models/atm-transaction.model'
 import { DatePipe } from '@angular/common';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-atm-log-view',
@@ -23,7 +24,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
   atmTransactionsDataItem: AtmTransactionView;
 
   constructor(private datePipe: DatePipe,
-    private httpService: HttpService) {
+    private httpService: HttpService, private errorService: ErrorService) {
       this.atmTransactionsDataItem = new AtmTransactionView();
   }
 
@@ -186,6 +187,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
         self.source.load(self.atmTransactionsData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

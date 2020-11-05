@@ -76,7 +76,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         if current_user.is_chargeback_officer:
             employee_bank = current_user.bankemployee.bank
             qs = qs.filter(bank=employee_bank)
-        elif current_user.is_cardholder:
+        elif current_user.is_cardholder or current_user.is_cc_branch:
             qs = qs.filter(user=current_user)
         elif current_user.is_merchant:
             qs = qs.filter(merchant=current_user.merchant) \
@@ -86,7 +86,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         return qs
 
     def user_has_access(self):
-        return self.request.user.role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CHARGEBACK_OFFICER)
+        return self.request.user.role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CHARGEBACK_OFFICER, User.Roles.CC_BRANCH)
 
     def get_serializer_class(self):
         if self.action == 'list':

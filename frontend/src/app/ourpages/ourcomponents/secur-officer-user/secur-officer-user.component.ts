@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-secur-officer-user',
@@ -27,7 +28,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.logsData = new Array<BankUser>();
     this.userData = new BankUser();
   }
@@ -126,6 +127,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         self.sourceLogs.load(self.logsData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -148,6 +150,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
         this.userData.email = response[0].user.email;
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -168,6 +171,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

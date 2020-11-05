@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-horizontal-bar',
@@ -13,7 +14,7 @@ export class HorizontalBarComponent implements OnInit, OnDestroy {
   is_data_ready = false;
 
   public barChartLegend = false;
-  constructor(private httpServise: HttpService) {
+  constructor(private httpServise: HttpService, private errorService: ErrorService) {
   }
   subscription1: Subscription = new Subscription();
 
@@ -81,6 +82,7 @@ export class HorizontalBarComponent implements OnInit, OnDestroy {
         }];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

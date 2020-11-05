@@ -1,0 +1,59 @@
+# General
+# ------------------------------------------------------------------------------
+# DJANGO_READ_DOT_ENV_FILE=True
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+DJANGO_SETTINGS_MODULE=config.settings.staging
+DJANGO_ADMIN_URL=admin/
+DJANGO_ALLOWED_HOSTS=18.156.118.192,18.192.198.88
+
+DJANGO_SECRET_KEY=7rsN7aua=(vvf#e!lc8$sj&z0bd$&(nd6PzNFoX1OJzLI@a83%qv4wth!w9j@-hg
+# key from prod
+DJANGO_ENCRYPT_KEY=XXjyV3sl5R6PWeG_0NDwgwv1wLLer8EP34bI0VqIymk=
+# new one
+#DJANGO_ENCRYPT_KEY=x46oadcj#!0tx_zd165!sa=n-1x5h83czi4bzbzbt8h-4x@l8z
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT=False
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+
+# Sentry
+# ------------------------------------------------------------------------------
+SENTRY_DSN=https://e47dea43f5724afbaf2aba61e5080fa1@o174233.ingest.sentry.io/5389457
+
+# Email
+# ------------------------------------------------------------------------------
+DJANGO_DEFAULT_FROM_EMAIL=disputes@chargebackoptimizer.com
+DJANGO_SERVER_EMAIL=disputes@chargebackoptimizer.com
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+#CELERY_BROKER_URL=redis://redis:6379/0
+
+# Flower
+CELERY_FLOWER_USER=debug
+CELERY_FLOWER_PASSWORD=debug
+
+# Mastercard Credentials
+MASTERCOM_CONSUMER_KEY=V_Rifu2NxUIMqSYzuV4tHsvs2uYmz6g3uFYqdF-xb341002e!0a140d6ab45046089494456300ea818b0000000000000000
+MASTERCOM_KEY_ALIAS=bankparser
+MASTERCOM_KEY_PASSWORD=bankparser123
+
+# AWS
+DJANGO_AWS_ACCESS_KEY_ID=
+DJANGO_AWS_SECRET_ACCESS_KEY=
+DJANGO_AWS_STORAGE_BUCKET_NAME=
+DJANGO_AWS_S3_REGION_NAME=
+DJANGO_AWS_S3_CUSTOM_DOMAIN=
+
+DJANGO_DEFAULT_FROM_EMAIL=
+DJANGO_SERVER_EMAIL=
