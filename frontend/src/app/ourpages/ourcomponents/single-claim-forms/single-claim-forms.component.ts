@@ -9,6 +9,7 @@ import {FieldsStatus} from '../../../share/models/fieldsStatus.model';
 import {ClaimView} from '../../../share/models/claim-view.model';
 import {SingleClaimForms} from '../../../share/models/single-claim-forms.model';
 import {SelectorDataStr} from '../../../share/models/selector-data-str.model';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-single-claim-forms',
@@ -42,7 +43,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
-              private router: Router) {
+              private router: Router, private errorService: ErrorService) {
   }
 
   subscription1: Subscription = new Subscription();
@@ -85,6 +86,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         }
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -196,6 +198,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -218,6 +221,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
           this.filesArr = [];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
@@ -231,6 +235,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

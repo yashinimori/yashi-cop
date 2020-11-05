@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { TransferService } from '../../../share/services/transfer.service';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
     selector: 'app-bank-chart-statistic-claims-rc-group',
@@ -16,7 +17,7 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy 
     bankId: string;
 
     constructor(private transferService: TransferService,
-      private httpServise: HttpService) {
+      private httpServise: HttpService, private errorService: ErrorService) {
     }
     subscription1: Subscription = new Subscription();
 
@@ -48,6 +49,7 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy 
           }];
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => { 

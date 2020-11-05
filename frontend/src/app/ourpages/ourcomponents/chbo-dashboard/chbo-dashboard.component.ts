@@ -1,5 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 import { HttpService } from '../../../share/services/http.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class ChboDashboardComponent implements OnInit, OnDestroy{
   all_new_claims: any;
   all_updated_claims: any;
   
-  constructor(private httpServise: HttpService){
+  constructor(private httpServise: HttpService, private errorService: ErrorService){
   }
 
   subscription1: Subscription = new Subscription();
@@ -30,6 +31,7 @@ export class ChboDashboardComponent implements OnInit, OnDestroy{
         this.all_updated_claims = response['updated_claims'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -43,6 +45,7 @@ export class ChboDashboardComponent implements OnInit, OnDestroy{
         this.all_new_claims = response['new_claims'];
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

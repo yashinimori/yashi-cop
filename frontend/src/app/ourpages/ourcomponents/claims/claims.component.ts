@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-claims',
@@ -26,7 +27,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
-    private httpServise: HttpService) {
+    private httpServise: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -417,6 +418,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
       },
       error: error => {
+        this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {

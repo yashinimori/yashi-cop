@@ -3,6 +3,7 @@ import {HttpService} from '../../../share/services/http.service';
 import {Router} from '@angular/router';
 import {Bank} from '../../../share/models/bank.model';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-bank',
@@ -14,7 +15,7 @@ export class BankComponent implements OnInit, OnDestroy {
   public data: Bank;
 
   constructor(private httpService: HttpService,
-              private router: Router) {
+              private router: Router, private errorService: ErrorService) {
   }
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
@@ -44,6 +45,7 @@ export class BankComponent implements OnInit, OnDestroy {
               next: (response: any) => {
               },
               error: error => {
+                this.errorService.handleError(error);
                 console.error('There was an error!', error);
               },
               complete: () => {
@@ -54,6 +56,7 @@ export class BankComponent implements OnInit, OnDestroy {
 
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {

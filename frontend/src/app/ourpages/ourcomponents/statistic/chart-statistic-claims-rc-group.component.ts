@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 import { HttpService } from '../../../share/services/http.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class StatisticClaimsByRcGroupComponent implements OnInit, OnDestroy {
     chartOptions: any;
     subscription1: Subscription = new Subscription();
 
-    constructor(private httpServise: HttpService) {
+    constructor(private httpServise: HttpService, private errorService: ErrorService) {
     }
 
     ngOnInit(): void {
@@ -58,6 +59,7 @@ export class StatisticClaimsByRcGroupComponent implements OnInit, OnDestroy {
           }];  
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {  

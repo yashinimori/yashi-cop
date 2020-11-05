@@ -29,12 +29,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-
   @ViewChild('email') buttonSubmit: any;
   
   loginSubscription: Subscription = new Subscription();
   getTokenSubscription: Subscription = new Subscription();
-
   isLoginDataError: boolean = false;
   reactiveForm: FormGroup;
   ngOnInit(): void {
@@ -69,7 +67,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-
   getUserInfo() {
     let password_change_required = false;
     let role = '';
@@ -100,8 +97,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         if(password_change_required) {
           this.router.navigate(['auth', 'password']);
         } else {
-          console.log(role);
-          console.log(role.toString() == 'сс_branch');
           if(role == 'chargeback_officer')
             this.router.navigate(['cop', 'cabinet', 'claims']);
           else if(role == 'security_officer')
@@ -122,9 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             console.log('else');
             this.router.navigate(['cop', 'cabinet']);
           }
-            
         }
-
       }
     });
   }

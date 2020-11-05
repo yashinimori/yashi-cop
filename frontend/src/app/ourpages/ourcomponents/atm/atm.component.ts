@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TransferService } from '../../../share/services/transfer.service';
 import { ATM } from '../../../share/models/atm.model'
 import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../share/services/error.service';
 
 @Component({
   selector: 'ngx-atm',
@@ -19,7 +20,7 @@ export class ATMComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
     private router: Router,
-    private transferService: TransferService,) {
+    private transferService: TransferService, private errorService: ErrorService) {
       this.bankID = '';
       this.role = '';
   }
@@ -61,6 +62,7 @@ export class ATMComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
