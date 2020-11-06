@@ -32,3 +32,8 @@
 :host /deep/ ng2-smart-table tbody > tr > td  { 
   font-size: 12px;
 }
+
+:host /deep/ .tabsSingleBank > ul > li> a {
+  font-size: 13px!important;
+  padding: 0.7em;
+}

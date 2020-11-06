@@ -93,6 +93,10 @@ export class BankListComponent implements OnInit, OnDestroy {
     this.configuration.selectRow = true;
     this.configuration.searchEnabled = true;
     this.configuration.persistState = true;
+    this.configuration.resizeColumn = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.tableLayout.striped = true;
+    this.configuration.tableLayout.style = 'tiny';
     this.configuration.isLoading = true;
   }
 

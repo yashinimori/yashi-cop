@@ -1,18 +1,19 @@
-<nb-card style="height: 40em; ">
+<nb-card style="height: calc(100vh - 120px); margin-bottom: 0;">
   
-    <nb-card-header>
+    <nb-card-header style="padding: 0.5em 1em;">
       Банк 
-      <button  nbButton status="primary" (click)="goStatistic()">Cтатистика</button>
+      <button  nbButton size="small" status="primary" (click)="goStatistic()">Cтатистика</button>
     </nb-card-header>
   
-    <nb-card-body style="overflow-y: hidden;">
+    <nb-card-body style="padding: 0.5em;
+    overflow-y: auto;">
       <div class="col-12">
         <nb-card size="small" style="height: 33em;" >
-          <nb-tabset fullWidth>
+          <nb-tabset fullWidth class="tabsSingleBank">
             <nb-tab tabTitle="Інфо">
 
               <nb-card style="height: 28em;">
-                <nb-card-body>
+                <nb-card-body style="font-size: 12px;">
 
                   <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
                     <label class="label-caption">BIN</label> 
@@ -65,7 +66,7 @@
             </nb-tab>
 
             <nb-tab tabTitle="Користувачі">
-              <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
+              <button nbButton size="small" status="primary" (click)="createBankUser()">Зареєструвати</button>
               <nb-card style="height: 25em;">
                 <nb-card-body>
 
@@ -78,7 +79,7 @@
             </nb-tab>
             
             <nb-tab tabTitle="Мерчанти">
-              <button nbButton status="primary" (click)="createMerch()">Зарегистрировать</button>
+              <button nbButton size="small" status="primary" (click)="createMerch()">Зареєструвати</button>
               <nb-card style="height: 25em;">
                 <nb-card-body>
 
@@ -90,7 +91,7 @@
             </nb-tab>
 
             <nb-tab tabTitle="ATM">
-              <button nbButton status="primary" (click)="createATM()">Зарегистрировать</button>
+              <button nbButton size="small" status="primary" (click)="createATM()">Зареєструвати</button>
               <nb-card style="height: 25em;">
                 <nb-card-body>
 

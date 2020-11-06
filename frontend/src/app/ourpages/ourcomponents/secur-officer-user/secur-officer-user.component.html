@@ -2,7 +2,7 @@
   
     <nb-card-header>
       Данні
-      <button nbButton status="primary" (click)="goBack()">Повернутись</button>
+      <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
     </nb-card-header>
   
     <nb-card-body style="overflow-y: hidden;">
@@ -68,7 +68,7 @@
                   
                   <input nbInput style="width: 25em;"
                     placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"> 
-                  <button nbButton status="primary" style="margin-left: 10px;"
+                  <button nbButton size="small" status="primary" style="margin-left: 10px;"
                     (click)="sendMail()">Надіслати</button>
 
                 </nb-card-body>

@@ -54,6 +54,7 @@ import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.compo
 import { StatisticClaimsByTimeComponent } from './statistic/chart-statistic-claims-time.component';
 import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-claims-reason.component';
 import { TableModule } from 'ngx-easy-table';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
 
 @NgModule({
   imports: [
@@ -70,6 +71,10 @@ import { TableModule } from 'ngx-easy-table';
     NbAccordionModule,
     NbUserModule,
     OurComponentsRoutingModule,
+    NbDateFnsDateModule.forRoot({
+      parseOptions: { useAdditionalWeekYearTokens: true, useAdditionalDayOfYearTokens: true },
+      formatOptions: { useAdditionalWeekYearTokens: true, useAdditionalDayOfYearTokens: true },
+    }),
     Ng2SmartTableModule,
     NbDatepickerModule, 
     NbIconModule,

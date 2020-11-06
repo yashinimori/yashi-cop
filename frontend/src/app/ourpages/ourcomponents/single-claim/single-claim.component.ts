@@ -16,6 +16,7 @@ import {MerchUser} from '../../../share/models/merch-user.model';
 import {MAIN_URL} from '../../../share/urlConstants';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorService } from '../../../share/services/error.service';
+import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -30,7 +31,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
-              private router: Router,
+              private router: Router, private toastrService: NbToastrService,
               private cdr: ChangeDetectorRef, private errorService: ErrorService) {
     this.claimData = new ClaimView();
   }
@@ -59,6 +60,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   filesLogArr: Array<any> = new Array<any>();
   selectedFileLog: any;
 
+  previousPart = 'one';
   part = 'one';
 
   cOPClaimID: string;
@@ -113,6 +115,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   public radioGroupQueryValue15: number = 0;
 
   role: string;
+  isVisibleBackStepButton: boolean = false;
   isGoToNextStep: boolean = false;
   isLastStep: boolean = false;
   merchantsArr: Array<MerchUser> = new Array<MerchUser>();
@@ -155,6 +158,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   arbitration_response_date : Date;
 
   ngOnInit(): void {
+    this.inputFormControlMerchUser = new FormControl();
     this.claimData = new ClaimView();
     this.Timeline = new Array<TimelineView>();
     this.claimData.user = {};
@@ -221,8 +225,16 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.loadClaimDocumsnts();
   }
 
+  showToast() {
+    this.toastrService.show(
+      'Завантажуйте лише фото або pdf файли',
+      `Такий тип файлу не підтримується.`,
+      { position: NbGlobalPhysicalPosition.TOP_RIGHT, status: 'warning', duration: 5000 });
+  }
+
   onSelectionChangeMerch($event){
     let f = this.merchantsArr.find(i=>i.merch_id == $event || i.name_ips == $event);
+    console.log(f);
     if(f){
       this.claimData.merch_id = f.merch_id;
     }
@@ -415,12 +427,26 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  onClickBackStep() {
+    console.log(this.editedAnswers);
+    if(!this.isLastStep) {
+      this.editedAnswers.pop();
+    }
+    this.part = this.previousPart;
+    this.isGoToNextStep = false;
+    this.isLastStep = false;
+    this.isVisibleBackStepButton = false;
+    console.log(this.editedAnswers);
+  }
+
   change(par: any) {
+    console.log(par);
     switch(par.part) {
       case 'one':
         if(par.formGroups.controls.groupQuery1.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"1": par.formGroups.value.groupQuery1.val == 1? false:true});
+          this.previousPart = 'one';
           if(par.formGroups.value.groupQuery1.val == 1) {
             this.part = 'two';
           } else {
@@ -434,6 +460,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery2.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"2": par.formGroups.value.groupQuery2.text});
+          this.previousPart = 'two';
           if(par.formGroups.value.groupQuery2.val == 3) {
             this.part = 'five';
           } else {
@@ -447,6 +474,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery3.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"3": par.formGroups.value.groupQuery3.text});
+          this.previousPart = 'three';
           if(par.formGroups.value.groupQuery3.val == 1) {
             this.lastStep('0500');
           } else {
@@ -460,6 +488,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery4.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"4": par.formGroups.value.groupQuery4});
+          this.previousPart = 'four';
           this.lastStep('0021');
         } else {
           this.isGoToNextStep = true;
@@ -469,6 +498,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery5.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"5": par.formGroups.value.groupQuery5.text});
+          this.previousPart = 'five';
           if(par.formGroups.value.groupQuery5.val == 1) {
             this.lastStep('0100');
           } else {
@@ -482,6 +512,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery6.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"6": par.formGroups.value.groupQuery6.text});
+          this.previousPart = 'six';
           if(par.formGroups.value.groupQuery6.val == 1) {
             this.part = 'seven';
           } else {
@@ -495,6 +526,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery7.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"7": par.formGroups.value.groupQuery7.text});
+          this.previousPart = 'seven';
           if(par.formGroups.value.groupQuery7.val == 1) {
             this.lastStep('0500');
           } else {
@@ -508,6 +540,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery8.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"8": par.formGroups.value.groupQuery8.text});
+          this.previousPart = 'eight';
           if(par.formGroups.value.groupQuery8.val == 1) {
             this.part = 'nine';
           } else {
@@ -521,6 +554,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery9.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"9": par.formGroups.value.groupQuery9});
+          this.previousPart = 'nine';
           this.lastStep('0001');
         } else {
           this.isGoToNextStep = true;
@@ -530,6 +564,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery10.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"10": par.formGroups.value.groupQuery10.val == 1? true:false});
+          this.previousPart = 'ten';
           this.part = 'eleven';
         } else {
           this.isGoToNextStep = true;
@@ -539,6 +574,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery11.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"11": par.formGroups.value.groupQuery11.val == 1? false:true});
+          this.previousPart = 'eleven';
           if(par.formGroups.value.groupQuery11.val == 1) {
             this.lastStep('0009');
           } else {
@@ -552,6 +588,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery12.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"12": par.formGroups.value.groupQuery12.caption});
+          this.previousPart = 'twelve';
           if(par.formGroups.value.groupQuery12.id == 1) {
             this.lastStep('0011');
           } else if(par.formGroups.value.groupQuery12.id == 2) {
@@ -577,6 +614,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery13.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"13": par.formGroups.value.groupQuery13.text});
+          this.previousPart = 'thirteen';
           this.lastStep('0027');
         } else {
           this.isGoToNextStep = true;
@@ -586,6 +624,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery14.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"14": this.claimData.trans_date});
+          this.previousPart = 'fourteen';
           this.lastStep('0004');
         } else {
           this.isGoToNextStep = true;
@@ -595,6 +634,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery15.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"15": par.formGroups.value.groupQuery15.val == 1? true:false});
+          this.previousPart = 'fiveteen';
           this.lastStep('0009');
         } else {
           this.isGoToNextStep = true;
@@ -604,6 +644,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery16.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"16": par.formGroups.value.groupQuery16});
+          this.previousPart = 'sixteen';
           this.lastStep('0012');
         } else {
           this.isGoToNextStep = true;
@@ -613,6 +654,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         if(par.formGroups.controls.groupQuery17.touched) {
           this.isGoToNextStep = false;
           this.editedAnswers.push({"17": par.formGroups.value.groupQuery17});
+          this.previousPart = 'seventeen';
           if(par.formGroups.value.groupQuery17.val == 1) {
             this.part = 'fiveteen';
           } else {
@@ -623,6 +665,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
     }
+    this.isVisibleBackStepButton = true;
 
     // if(par.part == 'one') {
     //   console.log(par.formGroups.value.groupQuery1);
@@ -639,7 +682,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
-    if(this.selectedFile.size > 50000000) {
+    console.log(this.selectedFile);
+    if(this.selectedFile.type != 'application/pdf' && this.selectedFile.type != 'image/png' && this.selectedFile.type != 'image/jpeg') {
+      this.showToast();
+    } else if(this.selectedFile.size > 50000000) {
       alert('Файл занадто великий!');
     } else {
       this.filesArr.push(this.selectedFile);
