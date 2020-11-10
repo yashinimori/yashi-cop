@@ -23,6 +23,7 @@ import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-us
 import { StatisticComponent } from './statistic/statistic.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
+import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 
 const routes: Routes = [{
   path: '',
@@ -124,7 +125,10 @@ const routes: Routes = [{
       path: 'atm',
       component: ATMComponent,
     },
-
+    {
+      path: 'tutorials',
+      component: TutorialPageComponent
+    }
 
   ],
 }];

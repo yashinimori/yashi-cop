@@ -202,14 +202,20 @@ export class OurPagesComponent {
         hidden: this.setHiddenStatistic(),
       },  
       {
-        title: 'Messages',
-        icon: 'email-outline',
-        hidden: this.setHiddenMessages(),
+        title: 'Tutorials',
+        icon: 'book-outline',
+        link: '/cop/cabinet/tutorials',
+        hidden: this.setHiddenTutorial(),
       },
-      {
-        title: 'Settings',
-        hidden: this.setHiddenSettings(),
-      },
+      // {
+      //   title: 'Messages',
+      //   icon: 'email-outline',
+      //   hidden: this.setHiddenMessages(),
+      // },
+      // {
+      //   title: 'Settings',
+      //   hidden: this.setHiddenSettings(),
+      // },
       
     ];
     return m;
@@ -283,6 +289,14 @@ export class OurPagesComponent {
   setHiddenMessages(){
     let role= localStorage.getItem('role');
     if(role && (role=='cop_manager'))
+      return false;
+  
+    return true;
+  }
+
+  setHiddenTutorial() {
+    let role= localStorage.getItem('role');
+    if(role && (role=='chargeback_officer'))
       return false;
   
     return true;

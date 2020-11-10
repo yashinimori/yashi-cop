@@ -55,6 +55,7 @@ import { StatisticClaimsByTimeComponent } from './statistic/chart-statistic-clai
 import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-claims-reason.component';
 import { TableModule } from 'ngx-easy-table';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 
 @NgModule({
   imports: [
@@ -118,6 +119,7 @@ import { NbDateFnsDateModule } from '@nebular/date-fns';
     BankStatisticClaimsByStagesComponent,
     ATMComponent,
     ShowcaseDialogComponent,
+    TutorialPageComponent,
   ],
   // providers: [
     
