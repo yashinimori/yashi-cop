@@ -89,7 +89,8 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/chbo-my-claims/chargeback' ||
          url == '/cop/cabinet/chbo-my-claims/closed' ||
          url == '/cop/cabinet/single-claim' ||
-         url == '/cop/cabinet/single-claim-forms') {
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/tutorials') {
           return true;
         } else {
           return false;

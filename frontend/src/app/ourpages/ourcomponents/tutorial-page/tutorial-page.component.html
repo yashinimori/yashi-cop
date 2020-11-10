@@ -1,1 +1,111 @@
-<p>tutorial-page works!</p>
+<nb-card style="height: calc(100vh - 150px);">
+    <nb-card-body>
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="Mastercard">
+          <nb-tabset fullWidth *ngIf="isUiLoad">
+            <nb-tab tabTitle="Authorization">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[0].groups[0].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}} 
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Cardholder disputes">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[0].groups[1].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Fraud">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[0].groups[2].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Point-of-Interaction Error">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[0].groups[3].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                  </div>
+              </div>
+            </nb-tab>
+          </nb-tabset>
+        </nb-tab>
+        <nb-tab tabTitle="Visa">
+          <nb-tabset fullWidth *ngIf="isUiLoad">
+            <nb-tab tabTitle="Authorization">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[1].groups[0].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Cardholder disputes">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[1].groups[1].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Fraud">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[1].groups[2].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+            </nb-tab>
+            <nb-tab tabTitle="Point-of-Interaction Error">
+              <div style="display: flex;
+              flex-wrap: wrap;">
+                <div *ngFor="let card of tutorialsArr[1].groups[3].reasons">
+                  <nb-card class="cardTutorial" (click)="openDialog(card.title, card.chargeback, card.second_presentment)">
+                    <nb-card-body>
+                      {{card.title}}
+                    </nb-card-body>
+                  </nb-card>
+                  </div>
+              </div>
+            </nb-tab>
+          </nb-tabset>
+        </nb-tab>
+      </nb-tabset>
+  
+    </nb-card-body>
+  </nb-card>

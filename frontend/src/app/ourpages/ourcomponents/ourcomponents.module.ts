@@ -56,6 +56,7 @@ import { StatisticClaimsByReasonComponent } from './statistic/chart-statistic-cl
 import { TableModule } from 'ngx-easy-table';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
+import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutorials-dialog.component';
 
 @NgModule({
   imports: [
@@ -120,6 +121,7 @@ import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
     ATMComponent,
     ShowcaseDialogComponent,
     TutorialPageComponent,
+    TutorialsDialogComponent,
   ],
   // providers: [
     

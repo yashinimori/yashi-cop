@@ -3,11 +3,33 @@
         "card_type": "Mastercard",
         "groups": [
             {
+                "title": "Authorization",
+                "reasons": [
+                    {
+                        "title": "title1",
+                        "chargeback": {
+                           "general": "text",
+                           "time_frame": "text.",
+                           "reason_code": "test",
+                           "supp_documents": "re",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "werw ",
+                            "time_frame": "xcbdfbbd",
+                            "reason_code": "sdfsd fsd fsdf",
+                            "supp_documents": "ssdfsdf ",
+                            "data_record": ""
+                        }
+                    }
+                ]
+            },
+            {
                 "title": "Cardholder disputes",
                 "reasons": [
                     {
                         "title": "Goods or Services Not Provided",
-                        "Chargeback ": {
+                        "chargeback": {
                            "general": "One of the following: • The cardholder contacted the issuer claiming both of the following: The cardholder engaged in the transaction. The purchased goods or services were not received. • Travel services arranged through an online travel agency or tour operator were not received and the travel agency or tour operator is no longer in business.",
                            "time_frame": "• In cases involving delayed delivery of goods or services and the delivery or performance date was not specified by the merchant: the issuer must wait 30 calendar days from the transaction date before submitting a chargeback and not to exceed 120 calendar days from the transaction settlement date. However, the issuer may charge back the transaction immediately (and not wait the 30 calendar days) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving delayed delivery of goods or services and the delivery or performance date was specified by the merchant and the latest anticipated delivery or performance date was specified by the merchant has passed: within 120 calendar days of the latest anticipated delivery or performance date specified by the merchant. However, the issuer may charge back the transaction immediately (and not wait until the latest anticipated delivery or performance date has passed) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving interruption of ongoing services, within 120 calendar days of the date the cardholder becomes aware that the service ceased. A chargeback must not be processed after 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card without an expiration date printed on the card and that merchant subsequently goes out of business, within 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card with an expiration date printed on the card and that merchant subsequently goes out of business, within 120 calendar days from the expiration date printed on the card. • In all other cases: within 120 calendar days from the transaction settlement date.",
                            "reason_code": "One of the following: • 4853 (Cardholder Dispute) for Dual Message System transactions • 53 (Cardholder Dispute—Defective/Not as Described) for Debit Mastercard transactions processed on the Single Message System The following message reason codes may continue to be used; however, they will eventually be eliminated: • 4855 (Goods or Services Not Provided) for Dual Message System transactions • 55 (Non-receipt of Merchandise) for Debit Mastercard transactions processed on the Single Message System",
@@ -24,7 +46,7 @@
                     },
                     {
                         "title": "Goods or Services Not Provided",
-                        "Chargeback ": {
+                        "chargeback": {
                            "general": "One of the following: • The cardholder contacted the issuer claiming both of the following: The cardholder engaged in the transaction. The purchased goods or services were not received. • Travel services arranged through an online travel agency or tour operator were not received and the travel agency or tour operator is no longer in business.",
                            "time_frame": "• In cases involving delayed delivery of goods or services and the delivery or performance date was not specified by the merchant: the issuer must wait 30 calendar days from the transaction date before submitting a chargeback and not to exceed 120 calendar days from the transaction settlement date. However, the issuer may charge back the transaction immediately (and not wait the 30 calendar days) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving delayed delivery of goods or services and the delivery or performance date was specified by the merchant and the latest anticipated delivery or performance date was specified by the merchant has passed: within 120 calendar days of the latest anticipated delivery or performance date specified by the merchant. However, the issuer may charge back the transaction immediately (and not wait until the latest anticipated delivery or performance date has passed) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving interruption of ongoing services, within 120 calendar days of the date the cardholder becomes aware that the service ceased. A chargeback must not be processed after 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card without an expiration date printed on the card and that merchant subsequently goes out of business, within 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card with an expiration date printed on the card and that merchant subsequently goes out of business, within 120 calendar days from the expiration date printed on the card. • In all other cases: within 120 calendar days from the transaction settlement date.",
                            "reason_code": "One of the following: • 4853 (Cardholder Dispute) for Dual Message System transactions • 53 (Cardholder Dispute—Defective/Not as Described) for Debit Mastercard transactions processed on the Single Message System The following message reason codes may continue to be used; however, they will eventually be eliminated: • 4855 (Goods or Services Not Provided) for Dual Message System transactions • 55 (Non-receipt of Merchandise) for Debit Mastercard transactions processed on the Single Message System",
@@ -42,34 +64,11 @@
                 ]
             },
             {
-                "title": "Authorization",
-                "reasons": [
-                    {
-                        "title": "title1",
-                        "Chargeback ": {
-                           "general": "text",
-                           "time_frame": "text.",
-                           "reason_code": "test",
-                           "supp_documents": "re",
-                           "data_record": ""
-                        },
-                        "second_presentment": {
-                            "general": "werw ",
-                            "time_frame": "xcbdfbbd",
-                            "reason_code": "sdfsd fsd fsdf",
-                            "supp_documents": "ssdfsdf ",
-                            "data_record": ""
-                        }
-                    }
-                ]
-            }
-            ,
-            {
                 "title": "Fraud",
                 "reasons": [
                     {
                         "title": "title1",
-                        "Chargeback ": {
+                        "chargeback": {
                            "general": "text",
                            "time_frame": "text.",
                            "reason_code": "test",
@@ -92,7 +91,119 @@
                 "reasons": [
                     {
                         "title": "title1",
-                        "Chargeback ": {
+                        "chargeback": {
+                           "general": "text",
+                           "time_frame": "text.",
+                           "reason_code": "test",
+                           "supp_documents": "re",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "werw ",
+                            "time_frame": "xcbdfbbd",
+                            "reason_code": "sdfsd fsd fsdf",
+                            "supp_documents": "ssdfsdf ",
+                            "data_record": ""
+                        }
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "card_type": "Visa",
+        "groups": [
+            {
+                "title": "Authorization",
+                "reasons": [
+                    {
+                        "title": "title1",
+                        "chargeback": {
+                           "general": "text",
+                           "time_frame": "text.",
+                           "reason_code": "test",
+                           "supp_documents": "re",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "werw ",
+                            "time_frame": "xcbdfbbd",
+                            "reason_code": "sdfsd fsd fsdf",
+                            "supp_documents": "ssdfsdf ",
+                            "data_record": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Cardholder disputes",
+                "reasons": [
+                    {
+                        "title": "Goods or Services Not Provided",
+                        "chargeback": {
+                           "general": "One of the following: • The cardholder contacted the issuer claiming both of the following: The cardholder engaged in the transaction. The purchased goods or services were not received. • Travel services arranged through an online travel agency or tour operator were not received and the travel agency or tour operator is no longer in business.",
+                           "time_frame": "• In cases involving delayed delivery of goods or services and the delivery or performance date was not specified by the merchant: the issuer must wait 30 calendar days from the transaction date before submitting a chargeback and not to exceed 120 calendar days from the transaction settlement date. However, the issuer may charge back the transaction immediately (and not wait the 30 calendar days) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving delayed delivery of goods or services and the delivery or performance date was specified by the merchant and the latest anticipated delivery or performance date was specified by the merchant has passed: within 120 calendar days of the latest anticipated delivery or performance date specified by the merchant. However, the issuer may charge back the transaction immediately (and not wait until the latest anticipated delivery or performance date has passed) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving interruption of ongoing services, within 120 calendar days of the date the cardholder becomes aware that the service ceased. A chargeback must not be processed after 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card without an expiration date printed on the card and that merchant subsequently goes out of business, within 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card with an expiration date printed on the card and that merchant subsequently goes out of business, within 120 calendar days from the expiration date printed on the card. • In all other cases: within 120 calendar days from the transaction settlement date.",
+                           "reason_code": "One of the following: • 4853 (Cardholder Dispute) for Dual Message System transactions • 53 (Cardholder Dispute—Defective/Not as Described) for Debit Mastercard transactions processed on the Single Message System The following message reason codes may continue to be used; however, they will eventually be eliminated: • 4855 (Goods or Services Not Provided) for Dual Message System transactions • 55 (Non-receipt of Merchandise) for Debit Mastercard transactions processed on the Single Message System",
+                           "supp_documents": "Cardholder email, letter, message or completed Dispute Resolution Form                           — Cardholder Dispute Chargeback (Form 1221) must include both of the following: • A description of the cardholder’s complaint in sufficient detail to enable all parties to understand the dispute. This means that the cardholder email, letter, message or completed Dispute Resolution Form—Cardholder Dispute Chargeback (Form 1221) must document how each of the Chargeback Conditions was met. • A reasonably specific description of the goods/services purchased. For disputes involving a transaction performed by an online travel agency or tour operator that is no longer in business at the time of the chargeback: an email, letter, or completed Dispute Resolution Form —Cardholder Dispute Chargeback (Form 1221) provided by the individual or corporate entity requesting the travel arrangements from the online travel agency or tour operator that includes all of the following: • A description of the complaint in sufficient detail to enable all parties to understand the dispute. This means that the cardholder email, letter, message or completed Dispute Resolution Form — Cardholder Dispute Chargeback (Form 1221) must document how each of the Chargeback Conditions was met. • A reasonably specific description of the goods/services purchased.",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "The acquirer can provide evidence in response to the cardholder’s claims. ",
+                            "time_frame": "Within 45 calendar days of the chargeback settlement date. ",
+                            "reason_code": "One of the following: • 2700 (See Corresponding Documentation/Chargeback Remedied) for Dual Message System transactions • 13 (Representment) for Debit Mastercard transactions processed on the Single Message System ",
+                            "supp_documents": "The merchant’s explanation and documentation. When the Second Presentment is in response to a First Chargeback for an Addendum Dispute the acquirer must provide proof the transaction was completed as described in the Transaction Processing Rules, section 3.12 Charges for Loss, Theft, or Damage—Mastercard POS Transactions Only. When the Second Presentment is in response to a First Chargeback for Credit Not Processed, the acquirer must provide documentation that proper disclosure was made in accordance with the Transaction Processing Rules, section 3.11 Specific Terms of a Transaction.  Mastercard will not consider in its ruling decision second presentment supporting documentation received on or after a pre-arbitration or an arbitration case filing submission.",
+                            "data_record": ""
+                        }
+                    },
+                    {
+                        "title": "Goods or Services Not Provided",
+                        "chargeback": {
+                           "general": "One of the following: • The cardholder contacted the issuer claiming both of the following: The cardholder engaged in the transaction. The purchased goods or services were not received. • Travel services arranged through an online travel agency or tour operator were not received and the travel agency or tour operator is no longer in business.",
+                           "time_frame": "• In cases involving delayed delivery of goods or services and the delivery or performance date was not specified by the merchant: the issuer must wait 30 calendar days from the transaction date before submitting a chargeback and not to exceed 120 calendar days from the transaction settlement date. However, the issuer may charge back the transaction immediately (and not wait the 30 calendar days) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving delayed delivery of goods or services and the delivery or performance date was specified by the merchant and the latest anticipated delivery or performance date was specified by the merchant has passed: within 120 calendar days of the latest anticipated delivery or performance date specified by the merchant. However, the issuer may charge back the transaction immediately (and not wait until the latest anticipated delivery or performance date has passed) upon learning the merchant will not provide the goods or services because, for example, for the merchant is no longer in business. • In cases involving interruption of ongoing services, within 120 calendar days of the date the cardholder becomes aware that the service ceased. A chargeback must not be processed after 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card without an expiration date printed on the card and that merchant subsequently goes out of business, within 540 calendar days from the Central Site Business Date of the first presentment. • In cases involving the purchase of a merchant-branded prepaid gift card with an expiration date printed on the card and that merchant subsequently goes out of business, within 120 calendar days from the expiration date printed on the card. • In all other cases: within 120 calendar days from the transaction settlement date.",
+                           "reason_code": "One of the following: • 4853 (Cardholder Dispute) for Dual Message System transactions • 53 (Cardholder Dispute—Defective/Not as Described) for Debit Mastercard transactions processed on the Single Message System The following message reason codes may continue to be used; however, they will eventually be eliminated: • 4855 (Goods or Services Not Provided) for Dual Message System transactions • 55 (Non-receipt of Merchandise) for Debit Mastercard transactions processed on the Single Message System",
+                           "supp_documents": "Cardholder email, letter, message or completed Dispute Resolution Form                           — Cardholder Dispute Chargeback (Form 1221) must include both of the following: • A description of the cardholder’s complaint in sufficient detail to enable all parties to understand the dispute. This means that the cardholder email, letter, message or completed Dispute Resolution Form—Cardholder Dispute Chargeback (Form 1221) must document how each of the Chargeback Conditions was met. • A reasonably specific description of the goods/services purchased. For disputes involving a transaction performed by an online travel agency or tour operator that is no longer in business at the time of the chargeback: an email, letter, or completed Dispute Resolution Form —Cardholder Dispute Chargeback (Form 1221) provided by the individual or corporate entity requesting the travel arrangements from the online travel agency or tour operator that includes all of the following: • A description of the complaint in sufficient detail to enable all parties to understand the dispute. This means that the cardholder email, letter, message or completed Dispute Resolution Form — Cardholder Dispute Chargeback (Form 1221) must document how each of the Chargeback Conditions was met. • A reasonably specific description of the goods/services purchased.",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "The acquirer can provide evidence in response to the cardholder’s claims. ",
+                            "time_frame": "Within 45 calendar days of the chargeback settlement date. ",
+                            "reason_code": "One of the following: • 2700 (See Corresponding Documentation/Chargeback Remedied) for Dual Message System transactions • 13 (Representment) for Debit Mastercard transactions processed on the Single Message System ",
+                            "supp_documents": "The merchant’s explanation and documentation. When the Second Presentment is in response to a First Chargeback for an Addendum Dispute the acquirer must provide proof the transaction was completed as described in the Transaction Processing Rules, section 3.12 Charges for Loss, Theft, or Damage—Mastercard POS Transactions Only. When the Second Presentment is in response to a First Chargeback for Credit Not Processed, the acquirer must provide documentation that proper disclosure was made in accordance with the Transaction Processing Rules, section 3.11 Specific Terms of a Transaction.  Mastercard will not consider in its ruling decision second presentment supporting documentation received on or after a pre-arbitration or an arbitration case filing submission.",
+                            "data_record": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Fraud",
+                "reasons": [
+                    {
+                        "title": "title1",
+                        "chargeback": {
+                           "general": "text",
+                           "time_frame": "text.",
+                           "reason_code": "test",
+                           "supp_documents": "re",
+                           "data_record": ""
+                        },
+                        "second_presentment": {
+                            "general": "werw ",
+                            "time_frame": "xcbdfbbd",
+                            "reason_code": "sdfsd fsd fsdf",
+                            "supp_documents": "ssdfsdf ",
+                            "data_record": ""
+                        }
+                    }
+                ]
+            }
+            ,
+            {
+                "title": "Point-of-Interaction Error",
+                "reasons": [
+                    {
+                        "title": "title1",
+                        "chargeback": {
                            "general": "text",
                            "time_frame": "text.",
                            "reason_code": "test",
