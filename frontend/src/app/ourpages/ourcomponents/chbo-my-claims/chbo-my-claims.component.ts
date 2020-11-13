@@ -89,6 +89,8 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');

@@ -77,6 +77,43 @@
     padding: 0em!important;
   }
 
+.timlineItem {
+    // margin-bottom: 2em;
+    // margin-top: 1em;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    /* border: 2px solid lavender; */
+    border-radius: 30px;
+    background-color: lavender;
+    margin-bottom: 1em;
+}
+
+.timlineItemTitle {
+    display: flex;
+    color:#00145a;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.timlineItemText {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: justify;
+    padding: 0.5em;
+    font-size: 14px;
+}
+
+.commentType {
+    
+}
+
+.documentType {
+}
+
 :host /deep/ .radioItem {
     text-align: left;
 }

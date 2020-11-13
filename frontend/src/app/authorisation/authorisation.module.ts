@@ -17,6 +17,7 @@ import {
   NbInputModule,
   NbRadioModule,
   NbSelectModule,
+  NbSpinnerModule,
   NbUserModule,
 } from '@nebular/theme';
 
@@ -83,6 +84,7 @@ import { BrowserModule } from '@angular/platform-browser';
     NbRadioModule,
     NbDatepickerModule,
     NbSelectModule,
+    NbSpinnerModule,
     NbIconModule,
     NbAlertModule,
     CommonModule,

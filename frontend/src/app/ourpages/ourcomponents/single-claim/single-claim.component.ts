@@ -880,7 +880,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getDateFormat(date: any){
     if(date)
-      return this.datePipe.transform(new Date(date), 'dd/MM/yyyy');
+      return this.datePipe.transform(new Date(date), 'dd/MM/yyyy HH:mm');
     else
       return '';
   }

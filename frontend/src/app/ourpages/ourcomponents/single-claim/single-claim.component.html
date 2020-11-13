@@ -81,41 +81,43 @@
         <nb-card style="width: 100%; height: 400px;">
 
             <nb-card-body>
-                <div >
-                    <label style="font-size: 12px;">Результат</label>
-                    <br>
-                    <label style="font-weight: bold;">{{claimData.result}}</label>
-                </div>
+                <div style="height: 100%; overflow: auto;">
+                  <div >
+                      <label style="font-size: 12px;">Результат</label>
+                      <br>
+                      <label style="font-weight: bold;">{{claimData.result}}</label>
+                  </div>
 
-                <div >
-                    <label style="font-size: 12px;">Коментар</label>
-                    <br>
-                  <nb-list *ngIf="comments.length != 0">
-                    <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
-                      <div style="display: flex; flex-direction: column;">
-                        <div style="font-size: 12px;">{{item.user}} {{ item.create_date_str}}</div>
-                        <div>{{ item.text }}</div>
-                      </div>                       
-                    </nb-list-item>
-                  </nb-list>
-                </div>
+                  <div >
+                      <label style="font-size: 12px;">Коментар</label>
+                      <br>
+                    <nb-list *ngIf="comments.length != 0">
+                      <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
+                        <div style="display: flex; flex-direction: column;">
+                          <div style="font-size: 12px;">{{item.user}} {{ item.create_date_str}}</div>
+                          <div>{{ item.text }}</div>
+                        </div>                       
+                      </nb-list-item>
+                    </nb-list>
+                  </div>
 
-                <div>
-                    <label style="font-size: 12px;">Документи</label>
-                        <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
-                        <br>
-                        <nb-list *ngIf="documents.length != 0">
-                            <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
-                                <div style="display: flex; flex-direction: column;">
-                                    <!-- <div>
-                                        Описание: {{ item.description }}
-                                    </div> -->
-                                    <div>
-                                        <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
-                                    </div>
-                                </div>
-                            </nb-list-item>
-                        </nb-list>
+                  <div>
+                      <label style="font-size: 12px;">Документи</label>
+                          <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
+                          <br>
+                          <nb-list *ngIf="documents.length != 0">
+                              <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
+                                  <div style="display: flex; flex-direction: column;">
+                                      <!-- <div>
+                                          Описание: {{ item.description }}
+                                      </div> -->
+                                      <div>
+                                          <a href="{{ item.file }}" target="_blank" >{{ item.file_name }}</a>
+                                      </div>
+                                  </div>
+                              </nb-list-item>
+                          </nb-list>
+                  </div>
                 </div>
 
             </nb-card-body>
@@ -248,23 +250,28 @@
 
 </div>
 
-<div class="row" *ngIf="!isNewRecord">
+<div class="row" *ngIf="!isNewRecord" style="height: 500px;">
     <nb-card class="col-12">
         <nb-card-header>Процес розгляду</nb-card-header>
         <nb-card-body>
-            <div style="display: flex; flex-direction: column; width: 100%;">
-                <div style="margin-bottom: 1em;" *ngIf="Timeline.length != 0">
+            <div style="display: flex; flex-direction: column; width: 100%; height: 100%;
+            overflow: auto;">
+                <div style="width: 100%; height: 100%;" *ngIf="Timeline.length != 0">
                     <!-- <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
                         {{ item.create_date_str }}
                     </nb-list-item> -->
-                    <div *ngFor="let item of Timeline" style="margin-bottom: 2em; margin-top: 1em;">
-                      <div *ngIf="item.item_type === 'comment'">
-                        {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}
-                        повідомив:  {{ item.data.text }}
+                    <div *ngFor="let item of Timeline" class="timlineItem">
+                      <div class="timlineItemTitle">
+                        <div>{{ item.data.user.first_name}} {{ item.data.user.last_name}}  {{item.item_type === 'comment'?'повідомив:':'додав файли:'}}</div>
+                        <div>{{getDateFormat(item.data.create_date)}}</div>
                       </div>
-                      <div *ngIf="item.item_type === 'claimdocument'">
-                        {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}}
-                        файл: <a href="{{ item.data.file }}" target="_blank">{{ item.data.file.split('/').pop() }}</a>
+                      <div *ngIf="item.item_type === 'comment'" class="timlineItemText commentType">
+                        <!-- {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}} -->
+                        {{ item.data.text }}
+                      </div>
+                      <div *ngIf="item.item_type === 'claimdocument'" class="timlineItemText documentType">
+                        <!-- {{getDateFormat(item.data.create_date)}} {{ item.data.user.first_name}} {{ item.data.user.last_name}} -->
+                         <a href="{{ item.data.file }}" target="_blank">{{ item.data.file.split('/').pop() }}</a>
                       </div>
                     </div>
                   <!-- <span>Файл: {{item.file}} </span> -->

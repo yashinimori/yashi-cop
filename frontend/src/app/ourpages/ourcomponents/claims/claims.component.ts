@@ -91,6 +91,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
@@ -179,6 +181,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
@@ -273,6 +277,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
@@ -347,6 +353,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           actions:{
             add: false,
             edit: false,
+            sort: true,
             delete: false,
           },
         };
