@@ -70,7 +70,6 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
     this.bankID = this.transferService.bankID.getValue();
-    console.log(this.bankID);
     this.loadCountNewClaims();
     this.loadBankCountNewClaims(this.bankID);
 

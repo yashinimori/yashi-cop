@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {TransferService} from '../../../share/services/transfer.service';
 import {Router} from '@angular/router';
 import {HttpService} from '../../../share/services/http.service';
-import {Subscription} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {DatePipe} from '@angular/common';
 import {SelectorData} from '../../../share/models/selector-data.model';
 import {FieldsStatus} from '../../../share/models/fieldsStatus.model';
@@ -50,6 +50,9 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   subscription2: Subscription = new Subscription();
   subscription3: Subscription = new Subscription();
   subscription4: Subscription = new Subscription();
+
+  isUploadedDoc: boolean = false;
+  isUploadedComment: boolean = false;
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
@@ -191,11 +194,12 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         });
       }
     }
-
+    this.uploadDoc(claim);
+    this.commentClaim(claim.id, claim.comments, claim.form_name);
     this.subscription2 = this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
-        this.uploadDoc(claim);
-        this.commentClaim(claim.id, claim.comments, claim.form_name);
+        // this.uploadDoc(claim);
+        // this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
         this.errorService.handleError(error);
@@ -225,6 +229,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.isUploadedDoc = true;
         },
       });
     }
@@ -239,6 +244,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.isUploadedComment = true;
       },
     });
   }

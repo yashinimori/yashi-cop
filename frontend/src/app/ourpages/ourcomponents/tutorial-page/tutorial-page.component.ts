@@ -19,7 +19,6 @@ export class TutorialPageComponent implements OnInit {
     this.http.get('assets/tutorials.json').subscribe((data: Array<any>) => {
       this.tutorialsArr = data;
       this.isUiLoad = true;
-      console.log(data);
    });
   }
 

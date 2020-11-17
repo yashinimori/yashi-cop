@@ -101,7 +101,6 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   clickSettings() {
-    console.log(this.configuration);
   }
 
   toggle(name: string): void {
@@ -122,7 +121,6 @@ export class BankListComponent implements OnInit, OnDestroy {
   // }
 
   onChange(name: string): void {
-    console.log(name);
     this.table.apiEvent({
       type: API.onGlobalSearch,
       value: name,
@@ -130,16 +128,13 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   eventEmitted($event: { event: string; value: any }): void {
-    console.log('$event', $event);
     switch($event.event) {
       case 'onClick':
-        console.log($event.value.row.id);
         this.transferService.bankID.next($event.value.row.id);
         this.transferService.bankBIN.next($event.value.row.bin);
         this.router.navigate(['cop', 'cabinet', 'bank-single']);
         break;
       case 'onPagination':
-        console.log($event.value);
         break;
     }
   }
@@ -150,7 +145,6 @@ export class BankListComponent implements OnInit, OnDestroy {
       let parsedOnOrder = JSON.parse(onOrder);
       this.pagination.sort = parsedOnOrder.key ? parsedOnOrder.key : this.pagination.sort;
       this.pagination.order = parsedOnOrder.order ? parsedOnOrder.order : this.pagination.order;
-      console.log('onOrder');
     }
     // this.pagination.limit = obj.value.limit ? obj.value.limit : this.pagination.limit;
     // this.pagination.offset = obj.value.page ? obj.value.page : this.pagination.offset;
@@ -272,7 +266,6 @@ export class BankListComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
-        console.log(this.data);
         //this.parsePagination();
         this.configuration.isLoading = false;
         this.isUiLoad = true;

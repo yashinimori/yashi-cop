@@ -18,7 +18,6 @@ export class TutorialsDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.content);
   }
 
 }

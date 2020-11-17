@@ -114,13 +114,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           else if(role == 'cardholder') 
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
           else if(role.toString() == 'сс_branch') {
-            console.log('cc_branch');
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
           } 
           else if(role == 'top_level')
             this.router.navigate(['cop', 'cabinet', 'top-officer']);
           else {
-            console.log('else');
             this.router.navigate(['cop', 'cabinet']);
           }
         }

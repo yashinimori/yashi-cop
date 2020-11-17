@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
@@ -53,6 +53,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fiveteen') fiveteen:TemplateRef<any>;
   @ViewChild('sixteen') sixteen:TemplateRef<any>;
   @ViewChild('seventeen') seventeen:TemplateRef<any>;
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.claimId && this.claimId != 0) {
+      localStorage.setItem('claimId', this.claimId);
+    }
+  }
+
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;
@@ -115,6 +123,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   public radioGroupQueryValue15: number = 0;
 
   role: string;
+  isSaveClaimId: boolean = false;
   isVisibleBackStepButton: boolean = false;
   isGoToNextStep: boolean = false;
   isLastStep: boolean = false;
@@ -164,9 +173,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.claimData.user = {};
 
     this.role = localStorage.getItem('role');
-    this.claimId = this.transferService.cOPClaimID.getValue();
+    if(localStorage.getItem('claimId')) {
+      this.claimId = localStorage.getItem('claimId');
+    } else {
+      this.claimId = this.transferService.cOPClaimID.getValue();
+    }
+    console.log(this.claimId);
+    if(this.claimId.length == 0) {
+      this.isSaveClaimId = false;
+      this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
+      return;
+    }
+    console.log(this.claimId);
 
-    if (this.claimId.length != 0) {
+    if (this.claimId != '0') {
       this.loadClaim();
       this.timeline();
     }
@@ -194,7 +214,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.stepNewRecord = 1;
-    this.isNewRecord = this.claimId.length == 0 ? true : false;
+    this.isNewRecord = this.claimId == '0' ? true : false;
+    // this.isNewRecord = this.claimId.length == 0 ? true : false;
 
     // if(!this.isNewRecord){
     //   this.loadClaim();
@@ -234,7 +255,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSelectionChangeMerch($event){
     let f = this.merchantsArr.find(i=>i.merch_id == $event || i.name_ips == $event);
-    console.log(f);
     if(f){
       this.claimData.merch_id = f.merch_id;
     }
@@ -246,6 +266,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    if(this.isSaveClaimId) {
+      localStorage.setItem('claimId', this.claimId);
+    } else if(localStorage.getItem('claimId')) {
+      localStorage.removeItem('claimId');
+    }
     this.transferService.cOPClaimID.next('');
     this.getClaimSubscription.unsubscribe();
     this.subscription1.unsubscribe();
@@ -266,7 +291,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   timeline(){
     this.subscription8 = this.httpService.getTimeLine(this.claimId).subscribe({
         next: (response: any) => {
-          console.log(response)
           this.Timeline = response;
         },
         error: error => {
@@ -322,7 +346,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         this.comments.push(item);
       });
     }
-    console.log(this.comments);
   }
 
   setClaimDocumsnts(){
@@ -404,7 +427,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   saveClaim() {
     this.claimData.comment = this.claimData.ch_comments;
     //this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
-    console.log(this.claimData);
     //this.claimData.form_name = 'claim_form';
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
@@ -422,13 +444,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       }
     });
   }
 
   onClickBackStep() {
-    console.log(this.editedAnswers);
     if(!this.isLastStep) {
       this.editedAnswers.pop();
     }
@@ -436,11 +458,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isGoToNextStep = false;
     this.isLastStep = false;
     this.isVisibleBackStepButton = false;
-    console.log(this.editedAnswers);
   }
 
   change(par: any) {
-    console.log(par);
     switch(par.part) {
       case 'one':
         if(par.formGroups.controls.groupQuery1.touched) {
@@ -682,7 +702,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
-    console.log(this.selectedFile);
     if(this.selectedFile.type != 'application/pdf' && this.selectedFile.type != 'image/png' && this.selectedFile.type != 'image/jpeg') {
       this.showToast();
     } else if(this.selectedFile.size > 50000000) {
@@ -809,7 +828,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.claimId = this.claimId;
     val.typeOperation = "NewEscalation";
     this.transferService.singleClaimFormsSettings.next(val);
-
+    this.isSaveClaimId = true;
     this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
@@ -818,7 +837,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.claimId = this.claimId;
     val.typeOperation = "FinishForm";
     this.transferService.singleClaimFormsSettings.next(val);
-
+    this.isSaveClaimId = true;
     this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
@@ -827,7 +846,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.claimId = this.claimId;
     val.typeOperation = "Clarifications";
     this.transferService.singleClaimFormsSettings.next(val);
-
+    this.isSaveClaimId = true;
     this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
@@ -836,7 +855,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     val.claimId = this.claimId;
     val.typeOperation = "QueryForm";
     this.transferService.singleClaimFormsSettings.next(val);
-
+    this.isSaveClaimId = true;
     this.router.navigate(['cop', 'cabinet', 'single-claim-forms']);
   }
 
@@ -868,6 +887,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goBack(){
+    this.isSaveClaimId = false;
     this.router.navigate(['cop', 'cabinet', 'claims']);
   }
 

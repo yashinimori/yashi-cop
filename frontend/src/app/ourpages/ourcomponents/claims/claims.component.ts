@@ -443,6 +443,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   add_claim(){
+    this.transferService.cOPClaimID.next('0');
     this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
   
