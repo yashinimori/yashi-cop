@@ -4,9 +4,13 @@
         <div>Скарга № {{claimData.id}}</div> 
         <div style="display: flex; ">
           <div *ngIf="!isNewRecord" >
-              <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
+              <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible" 
+                  nbTooltip="В разі незгоди з отриманим результатом Ви маєте можливість повторного розгляду вашої претензії" nbTooltipStatus="primary"
+                  nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
                   nbButton size="small" status="primary" (click)="onClickEscalation()" >Ескалація</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
+                  nbTooltip="Надайте додаткову інформацію по вашій претензії" nbTooltipStatus="primary"
+                  nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
                   nbButton size="small" status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу'
                       || claimData.status == 'Chargeback опротестование сформировано') "
@@ -21,8 +25,11 @@
                   style="margin-left: 10px;"
                   nbButton size="small" status="success" (click)="saveClaimUpdate()">Зберегти</button>
             <button  style="margin-left: 10px;"
+                nbTooltip="Повернутися до списку претензій" nbTooltipStatus="primary" nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
                 nbButton size="small" status="primary" (click)="goBack()">До списку</button>
             <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible" style="margin-left: 10px;"
+                nbTooltip="Натисніть для завершення розгляду вашої претензії" nbTooltipStatus="primary"
+                nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
                 nbButton size="small" status="warning" (click)="onClickFinish()" >Завершити</button>
           </div>
         </div>

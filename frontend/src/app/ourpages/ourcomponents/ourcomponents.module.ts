@@ -16,6 +16,7 @@ import {
   NbInputModule,
   NbAlertModule,
   NbAutocompleteModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -68,6 +69,7 @@ import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutor
     NbRouteTabsetModule,
     NbStepperModule,
     NbCardModule,
+    NbTooltipModule,
     NbButtonModule,
     NbListModule,
     NbAccordionModule,
