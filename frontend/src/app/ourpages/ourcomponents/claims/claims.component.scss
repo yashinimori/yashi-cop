@@ -12,14 +12,25 @@
 }
 
 :host /deep/ ng2-smart-table thead > tr > th  { 
-  font-size: 12px;
-  padding: 1em!important;
+  font-size: 11px;
+  padding: 0.7em 0.5em!important
 }
 
 :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 :host /deep/ ng2-smart-table tbody > tr > td  { 
   font-size: 12px;
+}
+
+@media (min-width: 1800px) {
+  :host /deep/ ng2-smart-table thead > tr > th  { 
+    font-size: 12px;
+    padding: 0.7em 0.5em!important
+  }
+  
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 12px;
+  }
 }

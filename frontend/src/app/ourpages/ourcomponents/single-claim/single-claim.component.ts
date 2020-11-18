@@ -178,13 +178,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.claimId = this.transferService.cOPClaimID.getValue();
     }
-    console.log(this.claimId);
     if(this.claimId.length == 0) {
       this.isSaveClaimId = false;
       this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       return;
     }
-    console.log(this.claimId);
 
     if (this.claimId != '0') {
       this.loadClaim();
@@ -431,7 +429,6 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
-
     this.subscription5 = this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         this.uploadDoc(response);

@@ -4,28 +4,28 @@
 .div-panel{
     display: flex;
     align-items: center;
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 
 .label-caption {
-    font-size: 14px;
+    font-size: 13px;
     width: 38%;
     // text-transform: uppercase;
 }
 .label-data {
-    font-size: 14px;
+    font-size: 13px;
     width: 60%;
     font-weight: bold;
     text-transform: uppercase;
 }
 .left-panel {
-    width: 49%;
-    height: 400px;
+    width: 50%;
+    height: 300px;
 }
 .right-panel {
-    width: 49%;
-    height: 400px;
-    margin-left: 2%;
+    width: 50%;
+    height: 300px;
+    margin-left: 0.5em;
 }
 .center {
     text-align: center;
@@ -84,11 +84,11 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 0.7em;
     /* border: 2px solid lavender; */
-    border-radius: 30px;
+    border-radius: 25px;
     background-color: lavender;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 .timlineItemTitle {
@@ -96,14 +96,14 @@
     color:#00145a;
     justify-content: space-between;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .timlineItemText {
     display: flex;
     flex-wrap: wrap;
     text-align: justify;
-    padding: 0.5em;
+    padding: 0.2em;
     font-size: 14px;
 }
 

@@ -52,7 +52,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -116,7 +115,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -164,7 +162,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -194,7 +191,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -214,7 +210,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -238,35 +233,30 @@ export class HttpService {
   getBankCountUpdatedClaims(bankId: string) {
     let req = '';
     req = `${URL_BANK_COUNT_UPDATED_CLAIMS}${bankId}/stats/updated-claims/`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getBankCountNewClaims(bankId: string) {
     let req = '';
     req = `${URL_BANK_COUNT_NEW_CLAIMS}${bankId}/stats/`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getCountUpdatedClaims() {
     let req = '';
     req = `${URL_COUNT_UPDATED_CLAIMS}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getCountNewClaims() {
     let req = '';
     req = `${URL_COUNT_NEW_CLAIMS}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getCountClaimsByStages() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_STAGES}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -274,7 +264,6 @@ export class HttpService {
   getCountClaimsByRcGroup() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_RC_GROUP}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -282,7 +271,6 @@ export class HttpService {
   getCountClaimsBySupport() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_SUPPORT}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -306,7 +294,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -326,7 +313,6 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 

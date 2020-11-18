@@ -60,6 +60,10 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.singleClaimFormsData = new SingleClaimForms();
     this.filesArr = [];
     const v = this.transferService.singleClaimFormsSettings.getValue();
+    if(!v) {
+      this.router.navigate(['cop', 'cabinet', 'single-claim']);
+      return;
+    }
     this.claimId = v.claimId;
     this.typeOperation = v.typeOperation;
 

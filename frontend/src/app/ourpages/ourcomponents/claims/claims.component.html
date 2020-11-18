@@ -1,9 +1,9 @@
 <div *ngIf="!fieldsStatus.list_claims.invisible">
-  <nb-card style="height: calc(100vh - 8rem);
+  <nb-card style="height: calc(100vh - 5rem);
   margin-bottom: 0;">
     
       <nb-card-header style="padding: 0.5em;">
-        <div style="display: flex;">
+        <div style="display: flex; align-items: center;">
           Список скарг
           <!-- "!fieldsStatus.button_add_claim.invisible && stageParam=='all'"  -->
           <div *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all'" 

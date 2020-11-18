@@ -95,7 +95,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -150,7 +151,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -185,7 +187,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -240,7 +243,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -281,7 +285,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -336,7 +341,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -514,7 +520,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   getValueToReportDate(val: any){
     if(val){
-      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+      //return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy');
     } else {
       return '';
     }

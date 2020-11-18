@@ -1,6 +1,6 @@
 <nb-card style="margin-bottom: 0.5em;" *ngIf="!isNewRecord">
-    <nb-card-header>
-      <div style="display: flex; justify-content: space-between;">
+    <nb-card-header style="padding: 0.5em 1em;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>Скарга № {{claimData.id}}</div> 
         <div style="display: flex; ">
           <div *ngIf="!isNewRecord" >
@@ -52,11 +52,11 @@
 <div *ngIf="!isNewRecord && isUIloaded" class="div-panel" >
     <div class="left-panel">
 
-        <nb-card style="width: 100%; height: 400px;">
-            <nb-card-header style="width: 100%; text-align: center;">
+        <nb-card style="width: 100%; height: 300px;  margin-bottom: 0.5em;">
+            <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">
                 Деталізація cкарги
               </nb-card-header>
-            <nb-card-body>
+            <nb-card-body style="padding: 0.5em 2em;">
 
                 <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
                   <label class="label-caption">Номер карти</label>
@@ -112,9 +112,9 @@
     </div>
 
     <div class="right-panel" *ngIf="role!='chargeback_officer'" >
-        <nb-card style="width: 100%; height: 400px; padding-bottom: 1em;">
+        <nb-card style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
 
-            <nb-card-body>
+            <nb-card-body style="padding: 0.5em 1em;">
                 <div>
                   <div >
                       <label style="font-size: 12px;">Результат</label>
@@ -161,7 +161,7 @@
     </div>
 
     <div class="right-panel" *ngIf="role=='chargeback_officer'">
-        <nb-card style="width: 100%; height: 400px;">
+        <nb-card style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
             <nb-tabset fullWidth>
 
               <nb-tab tabTitle="Результат">
@@ -285,9 +285,9 @@
 </div> -->
 
 <div  *ngIf="!isNewRecord" >
-    <nb-card class="col-12" style="height: 400px; padding-bottom: 1em;">
-        <nb-card-header>Процес розгляду</nb-card-header>
-        <nb-card-body>
+    <nb-card class="col-12" style="min-height: 325px; max-height: calc(100vh - 460px); padding-bottom: 1em; margin-bottom: 0;">
+        <nb-card-header style="padding: 0.5em 1em;">Процес розгляду</nb-card-header>
+        <nb-card-body style="padding: 0.5em 1em;">
             <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
                 <div style="width: 100%; height: 100%;" *ngIf="Timeline.length != 0">
                     <!-- <nb-list-item *ngFor="let item of comments" style="font-weight: bold;">
@@ -322,7 +322,7 @@
 
 <div *ngIf="isNewRecord && role !='merchant'" >
 
-  <nb-card style="width: 100%; margin: auto;">
+  <nb-card style="width: 100%; margin: auto; height: calc(100vh - 5rem);">
     <nb-card-body style="padding: 0.4em 2em">
       <nb-stepper class="customStepper" orientation="horizontal" disableStepNavigation>
         <nb-step [label]="labelOne">
@@ -330,7 +330,7 @@
 
           <!--  *ngIf="stepNewRecord==1" -->
           
-            <nb-card   style="width: 95%; margin: auto;">
+            <nb-card   style="width: 95%; margin: auto; height: calc(100vh - 190px);">
         
                 <!-- <nb-card-header style="width: 100%; text-align: center;">
                         Нове звернення
@@ -523,7 +523,7 @@
           <ng-template #labelTwo>Додаткова інформація</ng-template>
 
             <!-- *ngIf="stepNewRecord==2" -->
-          <nb-card  style="width: 75%; height: calc(100vh - 220px); margin: auto;">
+          <nb-card  style="width: 75%; height: calc(100vh - 190px); margin: auto;">
 
             <!-- <nb-card-header style="width: 100%; text-align: center;">
               Додаткова інформація
@@ -773,7 +773,7 @@
 
           <ng-template #labelThird>Відправити</ng-template>
 
-          <nb-card  style="width: 70%; height: calc(100vh - 220px); margin: auto;">
+          <nb-card  style="width: 70%; height: calc(100vh - 190px); margin: auto;">
             <nb-card-header>Додайте Ваші коментарі та документи, що стосуються операції</nb-card-header>
             <nb-card-body>
               <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
