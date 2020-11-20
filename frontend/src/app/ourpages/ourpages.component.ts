@@ -186,7 +186,19 @@ export class OurPagesComponent {
       {
         title: 'Користувачі',
         icon: 'person-outline',
-        link: '/cop/cabinet/top-officer',
+        link: '/cop/cabinet/top-officer/users',
+        hidden: this.setHiddenTopOfficer(),
+      },
+      {
+        title: 'Мерчанти',
+        icon: 'people-outline',
+        link: '/cop/cabinet/top-officer/merchants',
+        hidden: this.setHiddenTopOfficer(),
+      },
+      {
+        title: 'Статистика',
+        icon: 'bar-chart-outline',
+        link: '/cop/cabinet/bank-statistic',
         hidden: this.setHiddenTopOfficer(),
       },
       {

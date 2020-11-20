@@ -10,12 +10,12 @@
 .label-caption {
     font-size: 13px;
     width: 38%;
+    font-weight: bold;
     // text-transform: uppercase;
 }
 .label-data {
     font-size: 13px;
     width: 60%;
-    font-weight: bold;
     text-transform: uppercase;
 }
 .left-panel {
@@ -131,4 +131,9 @@
 }
 :host /deep/ .customStepper .header {
     margin-bottom: 0!important;
+}
+
+:host /deep/ .chargeTabset > ul > li > a {
+    font-size: 12px;
+    padding: 10px;
 }

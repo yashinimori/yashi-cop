@@ -85,7 +85,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
   goBack(){
     this.transferService.bankID.next(this.bankID);
     if (this.role == 'top_level') {
-      this.router.navigate(['cop', 'cabinet', 'top-officer']);
+      this.router.navigate(['cop', 'cabinet', 'top-officer', 'users']);
     } else if (this.role == 'security_officer') {
       this.router.navigate(['cop', 'cabinet', 'secur-officer']);
     } else {

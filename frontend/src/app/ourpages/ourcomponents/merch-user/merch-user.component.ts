@@ -40,7 +40,7 @@ export class MerchUserComponent implements OnInit, OnDestroy {
   goBack(){
     this.transferService.bankID.next(this.bankID);
     if(this.role == 'top_level'){
-      this.router.navigate(['cop', 'cabinet', 'top-officer']);
+      this.router.navigate(['cop', 'cabinet', 'top-officer', 'merchants']);
     } else{
       this.router.navigate(['cop', 'cabinet', 'bank-single']);
     }

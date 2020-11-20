@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
@@ -9,12 +9,15 @@ import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
 import { ErrorService } from '../../../share/services/error.service';
+import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+
 
 @Component({
     selector: 'app-chbo-my-claims',
-    templateUrl: './chbo-my-claims.component.html'
+    templateUrl: './chbo-my-claims.component.html',
+    styleUrls: ['./chbo-my-claims.component.scss']
 })
-export class ChboMyClaimsComponent implements OnInit, OnDestroy {
+export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
   claimsData: Array<ClaimView>;
   settings: any;
   source: LocalDataSource;
@@ -30,6 +33,52 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
+ 
+  @ViewChild('table', { static: true }) table: APIDefinition;
+  isUiLoad:boolean = false;
+
+  public configuration: Config;
+  public columns: Columns[] = [
+    {key: 'id', title: 'ID'},
+    {key: 'pan', title: 'Номер карти'},
+    {key: 'trans_date', title: 'Дата транзакції'},
+    {key: 'merch_name_ips', title: 'Назва торговця'},
+    {key: 'term_id', title: "Ім'я терміналу"},
+    {key: 'trans_amount', title: 'Cума'},
+    {key: 'trans_currency', title: 'Валюта'},
+    {key: 'auth_code', title: 'Код авторизації'},
+    {key: 'claim_reason_code', title: 'Reason Code'},
+    {key: 'status', title: 'Статус'},
+    {key: 'action_needed', title: 'Індикатор'},
+    {key: 'result', title: 'Результат'},
+    {key: 'due_date', title: 'Кінцевий термін претензії'}
+  ];
+  public dataTable = new Array();
+  dataTest = new Array();
+  // dataTest = [{action_needed: false,
+  //   auth_code: "112322",
+  //   ch_comments: undefined,
+  //   claim_reason_code: "139",
+  //   due_date: null,
+  //   id: 26,
+  //   pan: "4000002222222222",
+  //   result: null,
+  //   status: "Медиация ответ торговца",
+  //   term_id: "12321323",
+  //   trans_amount: "624.00",
+  //   trans_currency: "usd",
+  //   trans_date: "2020-11-18T00:00:02Z"}]
+  checked = new Set(['id', 'pan', 'trans_date', 'merch_name_ips', 'term_id',
+   'trans_amount', 'trans_currency', 'auth_code', 'claim_reason_code',
+    'status', 'action_needed', 'result', 'due_date']);
+  columnsCopy: Columns[] = [];
+  public pagination = {
+    limit: 10,
+    offset: 0,
+    count: -1,
+    sort: '',
+    order: '',
+  };
 
   claimsSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
@@ -48,8 +97,28 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isUiLoad = false
+    this.columns = [
+      {key: 'id', title: 'ID'},
+      {key: 'pan', title: 'Номер карти'},
+      {key: 'trans_date', title: 'Дата транзакції'},
+      {key: 'merch_name_ips', title: 'Назва торговця'},
+      {key: 'term_id', title: "Ім'я терміналу"},
+      {key: 'trans_amount', title: 'Cума'},
+      {key: 'trans_currency', title: 'Валюта'},
+      {key: 'auth_code', title: 'Код авторизації'},
+      {key: 'claim_reason_code', title: 'Reason Code'},
+      {key: 'status', title: 'Статус'},
+      {key: 'action_needed', title: 'Індикатор'},
+      {key: 'result', title: 'Результат'},
+      {key: 'due_date', title: 'Кінцевий термін претензії'}
+    ];
     this.subscription1 = this.activatedRoute.params.subscribe(routeParams => {
       // (routeParams.id);
+      this.setSettingsForTable();
+     
+      this.columnsCopy = this.columns;
+      this.parsePagination();
       this.routeParamsStatus = routeParams.status;
       this.role = localStorage.getItem('role');
       this.generateStatusFields();
@@ -57,9 +126,62 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
       this.setSettingsGrid(this.role);
       this.getClaimsData(this.routeParamsStatus);
     });
+
     // this.generateStatusFields();
     // this.setSettingsGrid(this.role);
     // this.getClaimsData();
+  }
+
+  ngAfterViewInit(): void {
+
+  }
+
+  toggle(name: string): void {
+    this.checked.has(name) ? this.checked.delete(name) : this.checked.add(name);
+    this.columns = this.columnsCopy.filter((column) => this.checked.has(column.key));
+  }
+
+  eventEmitted($event: { event: string; value: any }): void {
+    switch($event.event) {
+      case 'onClick':
+        this.transferService.cOPClaimID.next($event.value.row.id);
+        this.router.navigate(['cop', 'cabinet', 'single-claim']);
+        break;
+      case 'onPagination':
+        break;
+    }
+  }
+
+  parsePagination(): void {
+    let onOrder = localStorage.getItem('onOrder');
+    if(onOrder) {
+      let parsedOnOrder = JSON.parse(onOrder);
+      this.pagination.sort = parsedOnOrder.key ? parsedOnOrder.key : this.pagination.sort;
+      this.pagination.order = parsedOnOrder.order ? parsedOnOrder.order : this.pagination.order;
+    }
+    // this.pagination.limit = obj.value.limit ? obj.value.limit : this.pagination.limit;
+    // this.pagination.offset = obj.value.page ? obj.value.page : this.pagination.offset;
+    // this.pagination.sort = !!obj.value.key ? obj.value.key : this.pagination.sort;
+    // this.pagination.order = !!obj.value.order ? obj.value.order : this.pagination.order;
+    // this.pagination = { ...this.pagination };
+    // const pagination = `_limit=${this.pagination.limit}&_page=${this.pagination.offset}`;
+    // const sort = `&_sort=${this.pagination.sort}&_order=${this.pagination.order}`;
+    
+  }
+
+  setSettingsForTable() {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.columnReorder = true;
+    this.configuration.orderEnabled = true;
+    this.configuration.threeWaySort = true;
+    this.configuration.selectRow = true;
+    this.configuration.searchEnabled = true;
+    this.configuration.persistState = true;
+    this.configuration.resizeColumn = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.tableLayout.striped = true;
+    this.configuration.tableLayout.style = 'tiny';
+    // this.configuration.isLoading = true;
   }
 
   refresh_claim(){
@@ -151,7 +273,9 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
   }
 
   getClaimsData(s) {
+    this.configuration.isLoading = true;
     this.claimsData = new Array<ClaimView>();
+    this.dataTable = new Array();
     let self = this;
     let pageSize = 0;
     let pageNumber = 0;
@@ -162,10 +286,9 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
           data = response.results;
         else
         data = response;
+
         data.forEach(el => {
           //Тут иф на проверку статуса
-          // console.log('INLOOP STATUS  '+ s)
-          // console.log('INLOOP STAGE  '+ el['status']['stage'])
           if(el['status']['stage'] === s){
             let t = new ClaimView();
             
@@ -186,11 +309,13 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
             let m = el['merchant'];
             if(m) 
               t.merch_name_ips = m['name_ips'];
+
             self.claimsData.push(t);
-            
             //до сюда
           }
         });
+        this.dataTable = this.claimsData;
+        
         self.source = new LocalDataSource();
         //self.source.setPaging(1, 5);
         self.source.load(self.claimsData);
@@ -201,6 +326,8 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.configuration.isLoading = false;
+        this.isUiLoad = true;
       }
     });
   }

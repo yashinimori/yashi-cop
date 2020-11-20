@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
@@ -61,6 +61,14 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
     private httpServise: HttpService, private errorService: ErrorService) {
     
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID) {
+      localStorage.setItem('bankID', this.bankID);
+    }
+  }
+  
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   subscription3: Subscription = new Subscription();
@@ -69,7 +77,12 @@ export class BankStatisticComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
-    this.bankID = this.transferService.bankID.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = localStorage.getItem('bankID');
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+
     this.loadCountNewClaims();
     this.loadBankCountNewClaims(this.bankID);
 

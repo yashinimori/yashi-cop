@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
           } 
           else if(role == 'top_level')
-            this.router.navigate(['cop', 'cabinet', 'top-officer']);
+            this.router.navigate(['cop', 'cabinet', 'top-officer', 'users']);
           else {
             this.router.navigate(['cop', 'cabinet']);
           }

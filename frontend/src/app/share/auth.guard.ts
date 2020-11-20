@@ -102,7 +102,7 @@ export class AuthGuard implements CanActivate {
           return false;
         }
       case 'top_level': //all +
-        if(url == '/cop/cabinet/top-officer' ||
+        if(url == '/cop/cabinet/top-officer/users' || url == '/cop/cabinet/top-officer/merchants' ||
          url == '/cop/cabinet/bank-statistic' || 
          url == '/cop/cabinet/bank-user' ||
          url == '/cop/cabinet/merch-user') {

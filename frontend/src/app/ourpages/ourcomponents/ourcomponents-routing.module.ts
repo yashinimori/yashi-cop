@@ -102,7 +102,7 @@ const routes: Routes = [{
       component: BankSingleComponent,
     },
     {
-      path: 'top-officer',
+      path: 'top-officer/:status',
       component: TopOfficerComponent,
     },
     {

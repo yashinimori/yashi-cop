@@ -1,35 +1,34 @@
 <div class="center-screen">
 
-  <nb-card style="width: 39%; margin: auto;">
-    <nb-card-header style="width: 100%; ">
+  <nb-card style="width: 70%; margin: auto; height: calc(100vh - 5rem); overflow: auto; max-width: 500px;">
+    <nb-card-header style="width: 100%; padding: 0.5em 1em;">
       Реєстрація користувача банку
     </nb-card-header>
 
-    <nb-card-body>
+    <nb-card-body style="padding-bottom: 0; overflow-y: auto; padding-top: 1em; display: flex; flex-direction: column; align-items: center;">
 
-      <input nbInput placeholder="Користувач" [(ngModel)]="data.userId" maxlength="200">
-      <nb-select placeholder="Роль" class="selector-list" [(selected)]="data.role">
+      <input class="marginBankUser" nbInput placeholder="Користувач" [(ngModel)]="data.userId" maxlength="200">
+      <nb-select placeholder="Роль" class="selector-list marginBankUser" [(selected)]="data.role">
         <nb-option *ngFor="let item of listRole" [value]="item.caption">
           {{ item.caption }}
         </nb-option>
       </nb-select>
-      <div class="div-panel">
+      <!-- <div class="div-panel" style="margin-top: 0;"> -->
         <nb-select
-          class="selector-list"
+          class="selector-list marginBankUser"
           [(ngModel)]="bankID"
-          placeholder="Банк"
-        >
+          placeholder="Банк">
           <nb-option *ngFor="let item of banksList" [value]="item.id">
             {{ item.name_eng }}
           </nb-option>
         </nb-select>
-      </div>
-      <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
-      <input nbInput placeholder="Прізвище" [(ngModel)]="data.last_name" maxlength="999">
-      <input nbInput placeholder="Підрозділ" [(ngModel)]="data.unit" maxlength="200">
-      <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
-      <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
-      <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
+      <!-- </div> -->
+      <input class="marginBankUser" nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="Прізвище" [(ngModel)]="data.last_name" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="Підрозділ" [(ngModel)]="data.unit" maxlength="200">
+      <input class="marginBankUser" nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
+      <input class="marginBankUser" nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
 
     </nb-card-body>
 

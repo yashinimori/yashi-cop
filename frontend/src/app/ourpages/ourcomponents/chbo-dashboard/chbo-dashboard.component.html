@@ -1,5 +1,25 @@
-<div class="row">
-    <nb-card class="col-2">
+<div class="displayWrap">
+    <div class="col-2" style="display: flex; flex-direction: column; margin-bottom: 1.875rem; padding: 0 0.5em;">
+        <nb-card style="height: 50%; margin-bottom: 1em;">
+            <nb-card-header class="dashboard_title" style="font-size: 12px; text-align: center; padding: 10px 0px;">Нові претензії</nb-card-header>
+            <nb-card-body class="statistic_center" style="display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;">
+                {{ all_new_claims }}
+            </nb-card-body>
+        </nb-card>
+        <nb-card style="margin-bottom: 0; height: 50%;">
+            <nb-card-header class="dashboard_title" style="font-size: 12px; text-align: center; padding: 10px 0px;">Претензії оновлені</nb-card-header>
+            <nb-card-body class="statistic_center" style="display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;">
+            {{ all_updated_claims }}
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <!-- <nb-card class="col-1" style="margin-right: 1em; margin-left: 1em;">
         <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Нові претензії</nb-card-header>
         <nb-card-body class="statistic_center" style="display: flex;
         justify-content: center;
@@ -8,7 +28,7 @@
             {{ all_new_claims }}
         </nb-card-body>
     </nb-card>
-    <nb-card class="col-2">
+    <nb-card class="col-1" style="margin-right: 1em;">
         <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Претензії оновлені</nb-card-header>
         <nb-card-body class="statistic_center" style="display: flex;
         justify-content: center;
@@ -16,12 +36,12 @@
         font-size: 40px;">
         {{ all_updated_claims }}
         </nb-card-body>
-    </nb-card>
-    <nb-card class="col-4">
+    </nb-card> -->
+    <nb-card class="col-5">
         <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Типи звернень</nb-card-header>
         <app-horizontal-bar></app-horizontal-bar>
     </nb-card>
-    <nb-card class="col-4">
+    <nb-card class="col-5">
         <nb-card-header class="dashboard_title" style="font-size: 12px; padding: 10px 0px;">Всі звернення</nb-card-header>
         <!-- <app-chartss-pie></app-chartss-pie> -->
         <app-chart-donat></app-chart-donat>
@@ -35,7 +55,7 @@
     </nb-card>
 </div>
 
-<div class="row">
+<div class="displayWrap">
     <nb-card class="col-6">
         <nb-card-header>Останні дії</nb-card-header>
         <nb-card-body>

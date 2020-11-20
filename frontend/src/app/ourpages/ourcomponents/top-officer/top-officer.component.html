@@ -1,12 +1,45 @@
-<nb-card style="height: 40em; ">
+<nb-card style="height: calc(100vh - 5rem);
+margin-bottom: 0;">
   
-    <nb-card-header>
-      Данні
-      <button  nbButton size="small" status="primary" (click)="goStatistic()">Cтатистика</button>
+    <nb-card-header style="padding: 0.5em 1em;">
+      <div *ngIf="routeParamsStatus == 'users'">
+        Користувачі
+        <button nbButton size="small" status="primary" style="margin-left: 2em;" (click)="createBankUser()">Зареєструвати</button>
+      </div>
+
+      <div *ngIf="routeParamsStatus != 'users'">
+        Мерчанти
+        <button nbButton size="small" status="primary" style="margin-left: 2em;" (click)="createMerch()">Зареєструвати</button>
+      </div>
+
     </nb-card-header>
   
     <nb-card-body style="overflow-y: hidden;">
-      <div class="col-12">
+
+      <div *ngIf="routeParamsStatus == 'users'">
+        <ngx-table #table  [data]="dataTable1" [columns]="columns1" [noResultsTemplate]="noResultsTemplate1"
+        [configuration]="configuration1" [pagination]="pagination1">
+        </ngx-table>
+      </div> 
+      <div *ngIf="routeParamsStatus != 'users'">
+        <ngx-table #table2  [data]="dataTable2" [columns]="columns2" [noResultsTemplate]="noResultsTemplate2"
+        [configuration]="configuration2" [pagination]="pagination2">
+        </ngx-table>
+      </div> 
+
+      <ng-template #noResultsTemplate1>
+        <td style="text-align: center;" *ngIf="!this.configuration1.isLoading" [attr.colspan]="columns1.length" class="no-results">
+          No results
+        </td>
+      </ng-template>
+      <ng-template #noResultsTemplate2>
+        <td style="text-align: center;" *ngIf="!this.configuration2.isLoading" [attr.colspan]="columns2.length" class="no-results">
+          No results
+        </td>
+      </ng-template>
+  
+     
+      <!-- <div class="col-12">
         <nb-card size="small" style="height: 33em;">
           <nb-tabset fullWidth>
 
@@ -37,7 +70,7 @@
 
           </nb-tabset>
         </nb-card>
-      </div>
+      </div> -->
     
     </nb-card-body>
 
