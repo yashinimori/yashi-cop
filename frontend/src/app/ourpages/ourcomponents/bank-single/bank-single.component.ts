@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
@@ -40,6 +40,13 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.bankMerchData = new Array<MerchUser>();
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != 0) {
+      localStorage.setItem('bankID', this.bankID);
+    }
+  }
+
   bankUsersSubscription: Subscription = new Subscription();
   atmSubscription: Subscription = new Subscription();
   merchantSubscription: Subscription = new Subscription();
@@ -48,7 +55,12 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     
     this.role = localStorage.getItem('role');
-    this.bankID = this.transferService.bankID.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = localStorage.getItem('bankID');
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+    //this.bankID = this.transferService.bankID.getValue();
 
     this.bank = new Bank();
     this.getBankData(this.bankID);
@@ -115,6 +127,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    localStorage.removeItem('bankID');
     this.bankUsersSubscription.unsubscribe();
     this.atmSubscription.unsubscribe();
     this.merchantSubscription.unsubscribe();

@@ -20,3 +20,7 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+
+:host ::ng-deep ngx-table > div > table {
+  border: 1px solid #e7e9ed;
+}

@@ -52,7 +52,7 @@
 <div *ngIf="!isNewRecord && isUIloaded" class="div-panel" >
     <div class="left-panel">
 
-        <nb-card style="width: 100%; height: 300px;  margin-bottom: 0.5em;">
+        <nb-card style="width: 100%; height: 300px;  margin-bottom: 0.5em;" accent="info">
             <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">
                 Деталізація cкарги
               </nb-card-header>
@@ -112,8 +112,10 @@
     </div>
 
     <div class="right-panel" *ngIf="role!='chargeback_officer'" >
-        <nb-card style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
-
+        <nb-card accent="info" style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
+            <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">
+              Процес розгляду
+            </nb-card-header>
             <nb-card-body style="padding: 0.5em 1em;">
                 <div>
                   <div >
@@ -162,7 +164,7 @@
     </div>
 
     <div class="right-panel" *ngIf="role=='chargeback_officer'">
-        <nb-card style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
+        <nb-card accent="info" style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
             <nb-tabset fullWidth class="chargeTabset">
 
               <nb-tab tabTitle="Результат">
@@ -297,8 +299,8 @@
 </div> -->
 
 <div  *ngIf="!isNewRecord" >
-    <nb-card class="col-12" style="min-height: 325px; max-height: calc(100vh - 460px); padding-bottom: 1em; margin-bottom: 0;">
-        <nb-card-header style="padding: 0.5em 1em;">Процес розгляду</nb-card-header>
+    <nb-card accent="info" class="col-12" style="min-height: 325px; max-height: calc(100vh - 460px); padding-bottom: 1em; margin-bottom: 0;">
+        <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">Останні дії</nb-card-header>
         <nb-card-body style="padding: 0.5em 1em;">
             <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
                 <div style="width: 100%; height: 100%;" *ngIf="Timeline.length != 0">

@@ -35,5 +35,8 @@
 :host /deep/ ng2-smart-table tbody > tr > td  { 
   font-size: 12px;
 }
+:host ::ng-deep ngx-table > div > table {
+  border: 1px solid #e7e9ed;
+}
 
 
