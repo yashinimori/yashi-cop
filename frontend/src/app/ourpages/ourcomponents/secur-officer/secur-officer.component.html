@@ -1,11 +1,15 @@
-<nb-card style="height: 40em; ">
+<nb-card style="height: calc(100vh - 5rem);
+margin-bottom: 0;">
   
-    <nb-card-header>
-      Данні
+    <nb-card-header style="padding: 0.5em;">
+      <button nbButton size="small" status="primary" (click)="createBankUser()">Зареєструвати</button>
     </nb-card-header>
   
-    <nb-card-body style="overflow-y: hidden;">
-      <div class="col-12">
+    <nb-card-body style="padding: 0.5em;">
+      <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser"
+        (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+      <!-- <div class="col-12">
         <nb-card size="small" style="height: 33em;">
           <nb-tabset fullWidth>
 
@@ -25,7 +29,7 @@
 
           </nb-tabset>
         </nb-card>
-      </div>
+      </div> -->
     
     </nb-card-body>
 

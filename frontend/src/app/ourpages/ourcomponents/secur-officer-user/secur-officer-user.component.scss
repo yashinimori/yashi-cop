@@ -5,18 +5,46 @@
     transform: translate3d(0, 0, 0);
   }
 }
+.secOfficerUser {
+  .div-panel{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
 
-.div-panel{
-  display: flex;
-  margin-bottom: 10px;
+  .label-caption {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 0;
+  }
+  .label-data {
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
 }
 
-.label-caption {
-  width: 38%;
-  text-transform: uppercase;
+:host /deep/ .secOfficerUserTable thead > tr > th  { 
+  font-size: 11px;
+  padding: 0.7em 0.5em!important
 }
-.label-data {
-  width: 60%;
-  font-weight: bold;
-  text-transform: uppercase;
+
+:host /deep/ .secOfficerUserTable thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+  font-size: 11px;
+}
+
+:host /deep/ .secOfficerUserTable tbody > tr > td  { 
+  font-size: 12px;
+}
+
+@media (min-width: 1800px) {
+  :host /deep/ .secOfficerUserTable thead > tr > th  { 
+    font-size: 12px;
+    padding: 0.7em 0.5em!important
+  }
+  
+  :host /deep/ .secOfficerUserTable thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 12px;
+  }
 }

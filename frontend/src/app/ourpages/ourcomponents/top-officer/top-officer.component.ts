@@ -228,7 +228,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             first_name: {
-              title: 'Імя',
+              title: "Ім'я",
               type: 'string',
             },
             last_name: {
@@ -248,7 +248,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             registration_date:{
-              title: 'Регістрація',
+              title: 'Реєстрація',
               type: 'string',
   
             }

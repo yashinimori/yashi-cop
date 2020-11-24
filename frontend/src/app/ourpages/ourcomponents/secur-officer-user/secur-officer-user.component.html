@@ -1,85 +1,60 @@
-<nb-card style="height: 40em; ">
-  
-    <nb-card-header>
-      Данні
+<nb-card style="height: calc(100vh - 5rem);
+margin-bottom: 0;" class="secOfficerUser">
+    <nb-card-header style="padding: 0.5em;">
       <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
     </nb-card-header>
-  
-    <nb-card-body style="overflow-y: hidden;">
-      
-      <div class="col-12">
-        <nb-card size="small" style="height: 33em;">
-          <nb-tabset fullWidth>
-
-            <nb-tab tabTitle="Користувач">
-              <nb-card style="height: 28em;">
-                <nb-card-body>
-
-                  <div class="div-panel" >
-                    <label class="label-caption">Ім'я</label> 
-                    <label class="label-data">{{ userData.first_name }}</label>
-                  </div>
-                  
-                  <div class="div-panel" >
-                    <label class="label-caption">Прізвище</label> 
-                    <label class="label-data">{{ userData.last_name }}</label>
-                  </div>
-                  
-                  <div class="div-panel" >
-                    <label class="label-caption">Підрозділ</label> 
-                    <label class="label-data">{{ userData.unit }}</label>
-                  </div>
-                  
-                  <div class="div-panel" >
-                    <label class="label-caption">Телефон</label> 
-                    <label class="label-data">{{ userData.phone }}</label>
-                  </div>
-                  
-                  <div class="div-panel" >
-                    <label class="label-caption">Email</label> 
-                    <label class="label-data">{{ userData.email }}</label>
-                  </div>
-
-                  <div class="div-panel" >
-                    <label class="label-caption">Роль</label> 
-                    <label class="label-data">{{ userData.role }}</label>
-                  </div>
-
-                </nb-card-body>
-              </nb-card>
-            </nb-tab>
-
-            <nb-tab tabTitle="Логи">
+    <nb-card-body style="padding: 0.5em;">
+      <div style="display: flex; height: 100%;">
+          <nb-card style="height: 100%;">
+            <nb-card-body style="padding: 1em;">
+              <div class="div-panel" >
+                <label class="label-caption">Ім'я</label> 
+                <label class="label-data">{{ userData.first_name }}</label>
+              </div>
               
-              <nb-card style="height: 28em;">
-                <nb-card-body>
+              <div class="div-panel" >
+                <label class="label-caption">Прізвище</label> 
+                <label class="label-data">{{ userData.last_name }}</label>
+              </div>
+              
+              <div class="div-panel" >
+                <label class="label-caption">Підрозділ</label> 
+                <label class="label-data">{{ userData.unit }}</label>
+              </div>
+              
+              <div class="div-panel" >
+                <label class="label-caption">Телефон</label> 
+                <label class="label-data">{{ userData.phone }}</label>
+              </div>
+              
+              <div class="div-panel" >
+                <label class="label-caption">Email</label> 
+                <label class="label-data">{{ userData.email }}</label>
+              </div>
 
-                  <ng2-smart-table [settings]="settingsLogs" [source]="sourceLogs">
-                  </ng2-smart-table>
+              <div class="div-panel" >
+                <label class="label-caption">Роль</label> 
+                <label class="label-data">{{ userData.role }}</label>
+              </div>
+              <div class="div-panel" style="border-top: 2px solid #cacaca;">
+                <label class="label-caption">Email для зміни паролю</label> 
+                <label class="label-data"><input nbInput fieldSize="small"
+                  placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"></label>
+              </div>     
+              <button nbButton size="small" status="primary"
+                (click)="sendMail()">Надіслати</button>
+            </nb-card-body>
+          </nb-card>
+        <nb-card style="height: 100%; width: 100%;">
+          <nb-card-header style="padding: 0.3em; text-align: center;">
+            Логи
+          </nb-card-header>
+          <nb-card-body style="padding: 0.3em;">
+            <ng2-smart-table class="secOfficerUserTable" [settings]="settingsLogs" [source]="sourceLogs">
+            </ng2-smart-table>
 
-                </nb-card-body>
-              </nb-card>
-      
-            </nb-tab>
-
-            <nb-tab tabTitle="Пароль">
-              <nb-card style="height: 28em;">
-                <nb-card-body>
-                  
-                  <input nbInput style="width: 25em;"
-                    placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"> 
-                  <button nbButton size="small" status="primary" style="margin-left: 10px;"
-                    (click)="sendMail()">Надіслати</button>
-
-                </nb-card-body>
-              </nb-card>
-            </nb-tab>
-
-
-          </nb-tabset>
+          </nb-card-body>
         </nb-card>
       </div>
-    
     </nb-card-body>
-
 </nb-card>
