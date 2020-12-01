@@ -27,6 +27,8 @@ import { URL_GET_CLAIM_LIST,
   URL_CREATE_NEW_ATM,
   URL_GET_ATMS,
   URL_GET_LOGGER,
+  URL_USER_INFO,
+  URL_SET_PASS,
 
 } from '../urlConstants';
 
@@ -36,6 +38,20 @@ import { URL_GET_CLAIM_LIST,
 export class HttpService {
 
   constructor(private http: HttpClient) {
+  }
+
+  getUserInfo() {
+    return this.http.get(URL_USER_INFO, this.getHeaders());
+  }
+  updateUserInfo(data: any) {
+    return this.http.put(`${URL_USER_INFO}/`, data, this.getHeaders());
+  }
+  updateUserPassword(newPassword: string, currentPassword: string) {
+    const data = {
+      new_password: newPassword,
+      current_password: currentPassword
+    }
+    return this.http.post(`${URL_SET_PASS}`, data, this.getHeaders());
   }
 
   getClaimList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
@@ -104,7 +120,7 @@ export class HttpService {
   }
 
   createNewUserMerch(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(`${URL_GET_MERCHANTS}/`, user, this.getHeaders());
   }
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {

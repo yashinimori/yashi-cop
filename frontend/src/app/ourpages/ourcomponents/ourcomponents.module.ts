@@ -17,6 +17,7 @@ import {
   NbAlertModule,
   NbAutocompleteModule,
   NbTooltipModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -58,6 +59,8 @@ import { TableModule } from 'ngx-easy-table';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutorials-dialog.component';
+import { ChangeUserInfoComponent } from './change-user-info/change-user-info.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 @NgModule({
   imports: [
@@ -71,6 +74,7 @@ import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutor
     NbCardModule,
     NbTooltipModule,
     NbButtonModule,
+    NbSpinnerModule,
     NbListModule,
     NbAccordionModule,
     NbUserModule,
@@ -124,6 +128,8 @@ import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutor
     ShowcaseDialogComponent,
     TutorialPageComponent,
     TutorialsDialogComponent,
+    ChangeUserInfoComponent,
+    RegisterUserComponent,
   ],
   // providers: [
     

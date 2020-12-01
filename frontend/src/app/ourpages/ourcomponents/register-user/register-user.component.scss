@@ -1,0 +1,22 @@
+.tableItem {
+    display: flex;
+    justify-content: space-between;
+}
+.tableItem:hover {
+    background-color: ghostwhite;
+}
+
+.tableColumn {
+    display: flex;
+    flex-direction: column;
+    padding: 0.2em 1em;
+}
+
+.tableColumnTitle {
+    font-size: 11px;
+    color:#808184;
+}
+
+.tableColumnBody {
+    font-size: 13px;
+}

@@ -1,4 +1,4 @@
-<nb-card style="margin-bottom: 0.5em;" *ngIf="!isNewRecord">
+<nb-card style="margin-bottom: 0.5em; border: unset;" *ngIf="!isNewRecord" status="info">
     <nb-card-header style="padding: 0.5em 1em;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>Скарга № {{claimData.id}}</div> 
@@ -7,26 +7,26 @@
               <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible" 
                   nbTooltip="В разі незгоди з отриманим результатом Ви маєте можливість повторного розгляду вашої претензії" nbTooltipStatus="primary"
                   nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                  nbButton size="small" status="primary" (click)="onClickEscalation()" >Ескалація</button>
+                  nbButton size="small" status="basic" (click)="onClickEscalation()" >Ескалація</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
                   nbTooltip="Надайте додаткову інформацію по вашій претензії" nbTooltipStatus="primary"
                   nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                  nbButton size="small" status="primary" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+                  nbButton size="small" status="basic" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу'
                       || claimData.status == 'Chargeback опротестование сформировано') "
-                      nbButton size="small" status="primary" (click)="onClickRequestDocs()" style="margin-left: 10px;">Запит документів
+                      nbButton size="small" status="basic" (click)="onClickRequestDocs()" style="margin-left: 10px;">Запит документів
               </button>
           </div>
           <div *ngIf="!isNewRecord" style='padding-left: 2em;'>
             
             <button size="small" *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
-                nbButton status="primary" (click)="onClickFinish()" >Додати Коментар</button>
+                nbButton status="basic" (click)="onClickFinish()" >Додати Коментар</button>
             <button *ngIf="!isNewRecord && !fieldsStatus.save_edit_claim.invisible"
                   style="margin-left: 10px;"
                   nbButton size="small" status="success" (click)="saveClaimUpdate()">Зберегти</button>
             <button  style="margin-left: 10px;"
                 nbTooltip="Повернутися до списку претензій" nbTooltipStatus="primary" nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                nbButton size="small" status="primary" (click)="goBack()">До списку</button>
+                nbButton size="small" status="basic" (click)="goBack()">До списку</button>
             <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible" style="margin-left: 10px;"
                 nbTooltip="Натисніть для завершення розгляду вашої претензії" nbTooltipStatus="primary"
                 nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
@@ -336,7 +336,7 @@
 
 <div *ngIf="isNewRecord && role !='merchant'" >
 
-  <nb-card style="width: 100%; margin: auto; height: calc(100vh - 5rem);">
+  <nb-card class="customCardHeight" style="width: 100%; margin: auto;">
     <nb-card-body style="padding: 0.4em 2em">
       <nb-stepper class="customStepper" orientation="horizontal" disableStepNavigation>
         <nb-step [label]="labelOne">

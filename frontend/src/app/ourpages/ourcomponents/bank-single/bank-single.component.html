@@ -1,19 +1,19 @@
-<nb-card style="height: calc(100vh - 5rem); margin-bottom: 0;">
+<nb-card class="customCardHeight">
   
-    <nb-card-header style="padding: 0.5em 1em;">
+    <!-- <nb-card-header style="padding: 0.5em 1em;">
       Банк 
       <button  nbButton size="small" status="primary" (click)="goStatistic()">Cтатистика</button>
-    </nb-card-header>
+    </nb-card-header> -->
   
     <nb-card-body style="padding: 0.5em;
     overflow-y: hidden;">
       <div style="height: 100%;">
         <nb-card size="small" style="height: 100%;" >
           <nb-tabset fullWidth class="tabsSingleBank" style="height: 100%;">
-            <nb-tab tabTitle="Інфо" style="height: 100%; padding: 0.3em;">
+            <nb-tab tabTitle="Інфо" style="height: 100%; font-size: 12px; padding: 2em;">
 
-              <nb-card style="height: 93%;">
-                <nb-card-body style="font-size: 12px;">
+              <!-- <nb-card style="height: 93%;">
+                <nb-card-body style="font-size: 12px;"> -->
 
                   <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
                     <label class="label-caption">BIN</label> 
@@ -59,47 +59,48 @@
                     <label class="label-caption">Контактна пошта </label> 
                     <label class="label-data">{{bank.contact_email}}</label>
                   </div>
-
-                </nb-card-body>
-              </nb-card>
+                  <button  nbButton size="small" status="primary" (click)="goStatistic()">Cтатистика</button>
+                <!-- </nb-card-body>
+              </nb-card> -->
 
             </nb-tab>
 
             <nb-tab tabTitle="Користувачі" style="height: 93%; padding: 0.3em; overflow-y: hidden;">
-              <button nbButton size="tiny" status="primary" (click)="createBankUser()">Зареєструвати</button>
-              <nb-card style="height: 92%;">
-                <nb-card-body style="padding: 0.5em;">
+              <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createBankUser()">Зареєструвати</button>
+              <!-- <nb-card style="height: 92%;">
+                <nb-card-body style="padding: 0.5em;"> -->
 
                   <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
                   </ng2-smart-table>
 
-                </nb-card-body>
-              </nb-card>
+                <!-- </nb-card-body>
+              </nb-card> -->
       
             </nb-tab>
             
             <nb-tab tabTitle="Мерчанти" style="height: 93%; padding: 0.3em; overflow-y: hidden;">
-              <button nbButton size="tiny" status="primary" (click)="createMerch()">Зареєструвати</button>
-              <nb-card style="height: 92%;">
-                <nb-card-body style="padding: 0.5em;">
+              <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerch()">Зареєструвати</button>
+              <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerchFromCsv()">Зареєструвати з файлу</button>
+              <!-- <nb-card style="height: 92%;">
+                <nb-card-body style="padding: 0.5em;"> -->
 
                   <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
                   </ng2-smart-table>
 
-                </nb-card-body>
-              </nb-card>
+                <!-- </nb-card-body>
+              </nb-card> -->
             </nb-tab>
 
             <nb-tab tabTitle="ATM" style="height: 93%; padding: 0.3em; overflow-y: hidden;">
-              <button nbButton size="tiny" status="primary" (click)="createATM()">Зареєструвати</button>
-              <nb-card style="height: 92%;">
-                <nb-card-body style="padding: 0.5em;">
+              <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createATM()">Зареєструвати</button>
+              <!-- <nb-card style="height: 92%;">
+                <nb-card-body style="padding: 0.5em;"> -->
 
                   <ng2-smart-table [settings]="settingsATM" [source]="sourceATM">
                   </ng2-smart-table>
 
-                </nb-card-body>
-              </nb-card>
+                <!-- </nb-card-body>
+              </nb-card> -->
             </nb-tab>
 
 

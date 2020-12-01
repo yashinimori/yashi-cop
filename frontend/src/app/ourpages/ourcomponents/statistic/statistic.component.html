@@ -2,19 +2,22 @@
 
 <div *ngIf="role ==='top-level' || role ==='cop_manager'" >
 
-  <nb-card style="height:55em;">
+  <nb-card style="    height: calc(100vh - 5em);
+  margin-bottom: 0;">
     
-      <nb-card-header>
+      <nb-card-header style="padding: 0.3em;
+      text-align: center;">
         Статистика
       </nb-card-header>
     
-      <nb-card-body style="overflow-y: hidden;" >
+      <nb-card-body style="padding: 0.2em 1.1em;" >
 
         <div class="row" >
           
           <nb-card style="max-width: 10em;
-          font-size: 12px;">
-              <nb-card-header style="font-size:13px;">Звіт про кількість</nb-card-header>
+          font-size: 12px;" class="statCardInside">
+              <nb-card-header style="font-size:13px; padding: 0.3em;
+              text-align: center;">Звіт про кількість</nb-card-header>
               <nb-card-body style="padding: 0.5em;">
                 <div style="display: flex;
                 flex-direction: column;
@@ -27,18 +30,20 @@
               </nb-card-body>
           </nb-card>
 
-          <nb-card class="col-3 col-sm-5 style-cell" >
-              <nb-card-header>Розподіл по типам</nb-card-header>
-              <nb-card-body style="width: 100%;" >
+          <nb-card class="col-3 col-sm-5 style-cell statCardInside" >
+              <nb-card-header style="padding: 0.3em;
+              text-align: center;">Розподіл по типам</nb-card-header>
+              <nb-card-body style="width: 100%; padding: 0.5em;" >
                 <div style="text-align: center;">
                   <app-chart-statistic-claims-stages></app-chart-statistic-claims-stages>
                 </div>
               </nb-card-body>
           </nb-card>
 
-          <nb-card class="col-3 col-sm-5 style-cell">
-              <nb-card-header>Виконані KPI</nb-card-header>
-              <nb-card-body style="width: 100%;" >
+          <nb-card class="col-3 col-sm-5 style-cell statCardInside">
+              <nb-card-header style="padding: 0.3em;
+              text-align: center;">Виконані KPI</nb-card-header>
+              <nb-card-body style="width: 100%; padding: 0.5em;" >
               <div style="text-align: center; ">
                 <app-chart-statistic-claims-rc-group></app-chart-statistic-claims-rc-group>
               </div>    
@@ -48,18 +53,20 @@
         </div>
 
         <div class="row" >
-          <nb-card class="col-6 col-sm-6 style-cell">
-              <nb-card-header>Розподіл по причинам</nb-card-header>
-                <nb-card-body style="width: 100%;" >
+          <nb-card class="col-6 col-sm-6 style-cell statCardInside">
+              <nb-card-header style="padding: 0.3em;
+              text-align: center;">Розподіл по причинам</nb-card-header>
+                <nb-card-body style="width: 100%; padding: 0.5em;" >
                   <div style="text-align: center; ">
                     <app-chart-statistic-claims-reason></app-chart-statistic-claims-reason>
                   </div>    
               </nb-card-body>
           </nb-card>
 
-          <nb-card class="col-6 col-sm-6 style-cell">
-              <nb-card-header>Середній час</nb-card-header>
-              <nb-card-body style="width: 100%;">
+          <nb-card class="col-6 col-sm-6 style-cell statCardInside">
+              <nb-card-header style="padding: 0.3em;
+              text-align: center;">Середній час</nb-card-header>
+              <nb-card-body style="width: 100%; padding: 0.5em;">
                 <div style="text-align: center;">
                   <app-chart-statistic-claims-time></app-chart-statistic-claims-time>
                 </div>    

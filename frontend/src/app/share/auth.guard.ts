@@ -27,6 +27,7 @@ export class AuthGuard implements CanActivate {
         //return true;
       }
     }
+    
     this.router.navigate(['auth', 'login'], { queryParams: { returnUrl: state.url }});
     return false;
   }
@@ -37,7 +38,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/claims/archive' || 
          url == '/cop/cabinet/single-claim' ||
-         url == '/cop/cabinet/single-claim-forms') {
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -46,7 +48,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/claims/archive' || 
          url == '/cop/cabinet/single-claim' ||
-         url == '/cop/cabinet/single-claim-forms') {
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -55,7 +58,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/claims/archive' || 
          url == '/cop/cabinet/single-claim' ||
-         url == '/cop/cabinet/single-claim-forms') {
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -70,7 +74,9 @@ export class AuthGuard implements CanActivate {
         url == '/cop/cabinet/bank-statistic' || 
         url == '/cop/cabinet/bank-user'||
         url == '/cop/cabinet/merch-user' || 
-        url == '/cop/cabinet/atm') {
+        url == '/cop/cabinet/atm' ||
+        url == '/cop/cabinet/change-user-info' ||
+        url == '/cop/cabinet/register/merchant') {
           return true;
         } else {
           return false;
@@ -87,7 +93,8 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/chbo-my-claims/closed' ||
          url == '/cop/cabinet/single-claim' ||
          url == '/cop/cabinet/single-claim-forms' ||
-         url == '/cop/cabinet/tutorials') {
+         url == '/cop/cabinet/tutorials' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -96,7 +103,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/claims/archive' || 
          url == '/cop/cabinet/single-claim' ||
-         url == '/cop/cabinet/single-claim-forms') {
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -105,7 +113,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/top-officer/users' || url == '/cop/cabinet/top-officer/merchants' ||
          url == '/cop/cabinet/bank-statistic' || 
          url == '/cop/cabinet/bank-user' ||
-         url == '/cop/cabinet/merch-user') {
+         url == '/cop/cabinet/merch-user' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;
@@ -113,7 +122,8 @@ export class AuthGuard implements CanActivate {
       case 'security_officer': //all +
         if(url == '/cop/cabinet/secur-officer' ||
          url == '/cop/cabinet/claims/bank-user' || 
-         url == '/cop/cabinet/secur-officer-user') {
+         url == '/cop/cabinet/secur-officer-user' ||
+         url == '/cop/cabinet/change-user-info') {
           return true;
         } else {
           return false;

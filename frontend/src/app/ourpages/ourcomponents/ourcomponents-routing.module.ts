@@ -24,11 +24,21 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
 import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
+import { ChangeUserInfoComponent } from './change-user-info/change-user-info.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 const routes: Routes = [{
   path: '',
   component: OurComponentsComponent,
   children: [
+    {
+      path: 'change-user-info',
+      component: ChangeUserInfoComponent,
+    },
+    {
+      path: 'register/:status',
+      component: RegisterUserComponent,
+    },
     {
       path: 'claims',
       component: ClaimsComponent,

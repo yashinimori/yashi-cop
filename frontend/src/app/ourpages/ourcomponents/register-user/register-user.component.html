@@ -1,0 +1,104 @@
+<nb-card class="customCardHeight" style="border: unset;" status="info">
+    <nb-card-header style="width: 100%; text-align: center;">
+        Реєстрація мерчантів
+    </nb-card-header>  
+    <nb-card-body >
+        <div style="display: flex; flex-direction: column;">
+            <div style="display: flex;">
+                Завантажити файл &nbsp;&nbsp;
+                <input #fileInput  name="file_upload"
+                [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+                type='file'  (change)="fileChanged($event)">
+                <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>
+            </div>
+            <div *ngIf="this.merchantsArr.length != 0" style="display: flex; flex-direction: column;">
+                <div class="tableItem" *ngFor="let merch of merchantsArr; let i = index;">
+                    <div class="tableColumn">
+                       <div class="tableColumnTitle">
+                            Контактна персона
+                       </div> 
+                       <div class="tableColumnBody">
+                            {{merch.contact_person}}
+                       </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            Юридична назва
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{merch.name_legal}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            Назва торговця в МПС
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{merch.name_ips}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            МСС
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{merch.mcc}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle"></div> 
+                        <div class="tableColumnBody">
+                            <button nbButton ghost status="danger" (click)="removeMerchant(i)"><nb-icon icon="close-outline"></nb-icon></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="this.atmsArr.length != 0" style="display: flex; flex-direction: column;">
+                <div class="tableItem" *ngFor="let atm of atmsArr; let i = index;">
+                    <div class="tableColumn">
+                       <div class="tableColumnTitle">
+                            Контактна персона
+                       </div> 
+                       <div class="tableColumnBody">
+                            {{atm.contact_person}}
+                       </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            Юридична назва
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{atm.name_legal}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            Назва торговця в МПС
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{atm.name_ips}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle">
+                            МСС
+                        </div> 
+                        <div class="tableColumnBody">
+                            {{atm.mcc}}
+                        </div>
+                    </div>
+                    <div class="tableColumn">
+                        <div class="tableColumnTitle"></div> 
+                        <div class="tableColumnBody">
+                            <button nbButton ghost status="danger" (click)="removeAtm(i)"><nb-icon icon="close-outline"></nb-icon></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button *ngIf="this.merchantsArr.length != 0" nbButton size="small" status="primary" (click)="createNewMerchants()">Зареєструвати</button>
+        <button *ngIf="this.atmsArr.length != 0" nbButton size="small" status="primary" (click)="createNewAtm()">Зареєструвати</button>
+    </nb-card-footer>
+</nb-card>

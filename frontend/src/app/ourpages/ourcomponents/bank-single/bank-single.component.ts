@@ -82,14 +82,29 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.router.navigate(['cop', 'cabinet', 'bank-user']);
   }
 
+  createBankUserFromCsv() {
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['cop', 'cabinet', 'register', 'user']);
+  }
+
   createMerch(){
     this.transferService.bankID.next(this.bankID);
     this.router.navigate(['cop', 'cabinet', 'merch-user']);
   }
 
+  createMerchFromCsv() {
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['cop', 'cabinet', 'register', 'merchant']);
+  }
+ 
   createATM(){
     this.transferService.bankID.next(this.bankID);
     this.router.navigate(['cop', 'cabinet', 'atm']);
+  }
+  
+  createATMFromCsv() {
+    this.transferService.bankID.next(this.bankID);
+    this.router.navigate(['cop', 'cabinet', 'register', 'atm']);
   }
 
   generateStatusFields() {
