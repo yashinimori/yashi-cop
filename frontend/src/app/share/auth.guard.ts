@@ -76,7 +76,9 @@ export class AuthGuard implements CanActivate {
         url == '/cop/cabinet/merch-user' || 
         url == '/cop/cabinet/atm' ||
         url == '/cop/cabinet/change-user-info' ||
-        url == '/cop/cabinet/register/merchant') {
+        url == '/cop/cabinet/register/merchant' ||
+        url == '/cop/cabinet/register/atm' ||
+        url == '/cop/cabinet/register/user') {
           return true;
         } else {
           return false;

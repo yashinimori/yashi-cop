@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { TransferService } from '../../../share/services/transfer.service';
@@ -14,7 +14,7 @@ import { ErrorService } from '../../../share/services/error.service';
 
 export class ATMComponent implements OnInit, OnDestroy {
   public data: ATM;
-  bankID: string;
+  bankID: any;
   bankBin: string;
   role: any;
 
@@ -25,13 +25,31 @@ export class ATMComponent implements OnInit, OnDestroy {
       this.role = '';
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != '0') {
+      localStorage.setItem('bankID', this.bankID);
+    }
+    if (this.bankBin && this.bankBin != '0') {
+      localStorage.setItem('bankBIN', this.bankBin);
+    }
+  }
+
   subscription1: Subscription = new Subscription();
 
   ngOnInit(): void {
     this.data = new ATM();
 
-    this.bankID = this.transferService.bankID.getValue();
-    this.bankBin = this.transferService.bankBIN.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = Number(localStorage.getItem('bankID'));
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+    if(localStorage.getItem('bankBIN')) {
+      this.bankBin = localStorage.getItem('bankBIN');
+    } else {
+      this.bankBin = this.transferService.bankBIN.getValue();
+    }
     this.role = localStorage.getItem('role');
   }
 
@@ -101,6 +119,8 @@ export class ATMComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('bankID');
+    localStorage.removeItem('bankBIN');
     this.subscription1.unsubscribe();
   }
 }

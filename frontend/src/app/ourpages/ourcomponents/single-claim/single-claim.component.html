@@ -769,7 +769,7 @@
             </nb-card-body>
       
             <nb-card-footer>
-              <div class="center" style="display: flex;">
+              <div class="center" style="display: flex; justify-content: center;">
                   <button  nbButton nbStepperPrevious status="primary" size="small" (click)="onClickBack()">Повернутися</button>
                   <button *ngIf="isVisibleBackStepButton" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="onClickBackStep()">Назад</button>
                   <button *ngIf="!isLastStep" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="change(this)">Далі</button>
@@ -788,7 +788,7 @@
           <ng-template #labelThird>Відправити</ng-template>
 
           <nb-card  style="width: 70%; height: calc(100vh - 190px); margin: auto;">
-            <nb-card-header>Додайте Ваші коментарі та документи, що стосуються операції</nb-card-header>
+            <nb-card-header style="text-align: center;">Додайте Ваші коментарі та документи, що стосуються операції</nb-card-header>
             <nb-card-body>
               <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
                 <label class="label-caption">Коментарі</label>

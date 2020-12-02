@@ -130,6 +130,9 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   removeMerchant(index) {
     this.merchantsArr.splice(index, 1);
     this.observableArrMerchants.splice(index, 1);
+    if(this.merchantsArr.length == 0) {
+      this.selectedFile = undefined;
+    }
   }
 
   createNewMerchants() {
@@ -171,12 +174,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   removeAtm(index) {
     this.atmsArr.splice(index, 1);
     this.observableArrAtms.splice(index, 1);
+    if(this.atmsArr.length == 0) {
+      this.selectedFile = undefined;
+    }
   }
 
   createNewAtm() {
     this.subscriptionAtms = forkJoin(this.observableArrAtms).subscribe({
       next: (response: any) => {},
       error: error => {
+        this.showToast('danger', 'bottom-end', 'Сталася помилка при реєстрації');
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -192,15 +199,15 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   parseUser(user) {
     return {
-      'email': user.email,
-      'password': user.password,
-      'first_name': user.first_name,
-      'last_name': user.last_name,
-      'phone': user.phone,
-      'role': user.role,
+      'email': user.Email,
+      'password': user.Password,
+      'first_name': user.First_Name,
+      'last_name': user.Last_Name,
+      'phone': user.Telephone,
+      'role': user.Role,
       'bankemployee': {
         'bank': this.bankID,
-        'unit': user.unit,
+        'unit': user.Unit,
       } 
     }
   }
@@ -212,12 +219,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   removeUser(index) {
     this.usersArr.splice(index, 1);
     this.observableArrUsers.splice(index, 1);
+    if(this.usersArr.length == 0) {
+      this.selectedFile = undefined;
+    }
   }
 
   createNewUser() {
     this.subscriptionUsers = forkJoin(this.observableArrUsers).subscribe({
       next: (response: any) => {},
       error: error => {
+        this.showToast('danger', 'bottom-end', 'Сталася помилка при реєстрації');
         console.error('There was an error!', error);
       },
       complete: () => {

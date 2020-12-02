@@ -114,8 +114,8 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    //return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
+    //return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
 
   }
 

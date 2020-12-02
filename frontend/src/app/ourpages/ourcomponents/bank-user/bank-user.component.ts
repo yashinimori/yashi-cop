@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { BankUser } from '../../../share/models/bank-user.model';
@@ -16,7 +16,7 @@ import { ErrorService } from '../../../share/services/error.service';
 export class BankUserComponent implements OnInit, OnDestroy {
   public data: BankUser;
   public listRole: Array<SelectorData>;
-  bankID: string;
+  bankID: any;
   role: any;
   banksList: any;
 
@@ -30,11 +30,23 @@ export class BankUserComponent implements OnInit, OnDestroy {
     this.role = '';
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != '0') {
+      localStorage.setItem('bankID', this.bankID);
+    }
+  }
+
   ngOnInit(): void {
     this.data = new BankUser();
     this.role = localStorage.getItem('role');
     this.getRoles();
-    this.bankID = this.transferService.bankID.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = Number(localStorage.getItem('bankID'));
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+    //this.bankID = this.transferService.bankID.getValue();
     this.getListBanks();
   }
 
@@ -133,6 +145,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('bankID');
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();
   }
