@@ -1,0 +1,20 @@
+.div-panel{
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 13px;
+    align-items: baseline;
+}
+
+.div-panel > input {
+    width: 100%;
+}
+
+.label-caption {
+    width: 30%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.label-data {
+    width: 60%;
+    text-transform: uppercase;
+}

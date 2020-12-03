@@ -1,0 +1,54 @@
+<nb-card class="customCardHeight" style="margin-bottom: 0.5em; border: unset;" status="info">
+    <nb-card-header style="padding: 0.3em; text-align: center;">
+        {{isEdit?'Редагування користувача банку':'Перегляд користувача банку'}}
+    </nb-card-header>
+    <nb-card-body>
+        <div *ngIf="isUiLoad">
+            <div class="div-panel">
+                <label class="label-caption">Користувач</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.userId}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Користувач" [(ngModel)]="editedBankUser.userId" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Роль</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.role}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Роль" [(ngModel)]="editedBankUser.role" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Ім'я</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.first_name}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Ім'я" [(ngModel)]="editedBankUser.first_name" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Прізвище</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.last_name}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Прізвище" [(ngModel)]="editedBankUser.last_name" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Підрозділ</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.unit}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Підрозділ" [(ngModel)]="editedBankUser.unit" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Телефон</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.phone}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Телефон" [(ngModel)]="editedBankUser.phone" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Пошта</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentBankUser.email}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Пошта" [(ngModel)]="editedBankUser.email" maxlength="999">
+            </div>
+            <div *ngIf="!isEdit" class="div-panel">
+                <label class="label-caption">Реєстрація</label> 
+                <label class="label-data">{{currentBankUser.registration_date}}</label>                
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button *ngIf="!isEdit" nbButton size="small" status="primary" (click)="goBack()">Повернутися до списку</button>
+        <button *ngIf="!isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="editBankUser()">Редагувати</button>
+        <button *ngIf="isEdit" nbButton size="small" status="primary" (click)="closeEditBankUser()">Відмінити</button>
+        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="updateBankUser()">Зберегти зміни</button>
+    </nb-card-footer>
+</nb-card>

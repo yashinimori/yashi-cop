@@ -87,6 +87,10 @@ export class HttpService {
     return this.http.get(URL_GET_MERCHANTS, this.getHeaders());
   }
 
+  getMerchantById(id:number) {
+    return this.http.get(`${URL_GET_MERCHANTS}/${id}`, this.getHeaders());
+  }
+
   createMerchant(data: any) {
     return this.http.post(URL_GET_MERCHANTS+'/', data, this.getHeaders());
   }
@@ -190,6 +194,9 @@ export class HttpService {
     return this.http.get(URL_BANK + '?all', this.getHeaders());
   }
 
+  getBankUserById(id:number) {
+    return this.http.get(`${URL_BANK_USERS}/${id}`, this.getHeaders());
+  }
 
   getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
@@ -311,6 +318,10 @@ export class HttpService {
       req = req + `&ordering=${ordering}`;
     }
     return this.http.get(req, this.getHeaders());
+  }
+
+  getAtm(id:number) {
+    return this.http.get(`${URL_GET_ATMS}${id}`, this.getHeaders());
   }
 
   getLoggerList(userId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {

@@ -9,8 +9,8 @@
     overflow-y: hidden;">
       <div style="height: 100%;">
         <nb-card size="small" style="height: 100%;" >
-          <nb-tabset fullWidth class="tabsSingleBank" style="height: 100%;">
-            <nb-tab tabTitle="Інфо" style="height: 100%; font-size: 12px; padding: 2em;">
+          <nb-tabset fullWidth class="tabsSingleBank" style="height: 100%;" #tabset (changeTab)="tabChangeEvent($event)">
+            <nb-tab [tabTitle]="tabTitle1" style="height: 100%; font-size: 12px; padding: 2em;" [active]="tabInfo">
 
               <!-- <nb-card style="height: 93%;">
                 <nb-card-body style="font-size: 12px;"> -->
@@ -65,13 +65,13 @@
 
             </nb-tab>
 
-            <nb-tab tabTitle="Користувачі" style="height: 93%; padding: 0.3em;">
+            <nb-tab [tabTitle]="tabTitle2" style="height: 93%; padding: 0.3em;" [active]="tabBankUsers">
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createBankUser()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createBankUserFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">
                 <nb-card-body style="padding: 0.5em;"> -->
 
-                  <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
+                  <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser" (userRowSelect)="onUserRowSelectBankUser($event)">
                   </ng2-smart-table>
 
                 <!-- </nb-card-body>
@@ -79,26 +79,26 @@
       
             </nb-tab>
             
-            <nb-tab tabTitle="Мерчанти" style="height: 93%; padding: 0.3em;">
+            <nb-tab [tabTitle]="tabTitle3" style="height: 93%; padding: 0.3em;" [active]="tabMerchants">
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerch()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerchFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">
                 <nb-card-body style="padding: 0.5em;"> -->
 
-                  <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
+                  <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch" (userRowSelect)="onUserRowSelectMerchant($event)">
                   </ng2-smart-table>
 
                 <!-- </nb-card-body>
               </nb-card> -->
             </nb-tab>
 
-            <nb-tab tabTitle="ATM" style="height: 93%; padding: 0.3em;">
+            <nb-tab [tabTitle]="tabTitle4" style="height: 93%; padding: 0.3em;" [active]="tabAtm">
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createATM()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createATMFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">
                 <nb-card-body style="padding: 0.5em;"> -->
 
-                  <ng2-smart-table [settings]="settingsATM" [source]="sourceATM">
+                  <ng2-smart-table [settings]="settingsATM" [source]="sourceATM" (userRowSelect)="onUserRowSelectATM($event)">
                   </ng2-smart-table>
 
                 <!-- </nb-card-body>

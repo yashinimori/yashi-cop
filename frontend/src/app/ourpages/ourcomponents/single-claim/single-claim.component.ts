@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, ChangeDetectorRef, HostListener, Output, EventEmitter } from '@angular/core';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
@@ -16,7 +16,7 @@ import {MerchUser} from '../../../share/models/merch-user.model';
 import {MAIN_URL} from '../../../share/urlConstants';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorService } from '../../../share/services/error.service';
-import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { NbGlobalPhysicalPosition, NbPopoverDirective, NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -61,6 +61,15 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
+  copyEmit(event) {
+    if(event) {
+      this.popover.show();
+      setTimeout(() => {
+        this.popover.hide();
+      }, 2000);
+    }
+  }
 
   filesArr: Array<any> = new Array<any>();
   selectedFile: any;

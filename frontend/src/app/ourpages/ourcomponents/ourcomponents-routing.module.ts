@@ -26,6 +26,9 @@ import { ATMComponent } from './atm/atm.component';
 import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 import { ChangeUserInfoComponent } from './change-user-info/change-user-info.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import { EditAtmComponent } from './bank-single/edit/edit-atm/edit-atm.component';
+import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-merchant.component';
+import { EditBankUserComponent } from './bank-single/edit/edit-bank-user/edit-bank-user.component';
 
 const routes: Routes = [{
   path: '',
@@ -110,6 +113,18 @@ const routes: Routes = [{
     {
       path: 'bank-single',
       component: BankSingleComponent,
+    },
+    {
+      path: 'edit-atm',
+      component: EditAtmComponent,
+    },
+    {
+      path: 'edit-bank-user',
+      component: EditBankUserComponent,
+    },
+    {
+      path: 'edit-merchant',
+      component: EditMerchantComponent,
     },
     {
       path: 'top-officer/:status',

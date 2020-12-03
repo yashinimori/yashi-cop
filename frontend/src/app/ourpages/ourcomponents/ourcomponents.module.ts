@@ -18,6 +18,7 @@ import {
   NbAutocompleteModule,
   NbTooltipModule,
   NbSpinnerModule,
+  NbPopoverModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -61,11 +62,16 @@ import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 import { TutorialsDialogComponent } from './tutorial-page/tutorials-dialog/tutorials-dialog.component';
 import { ChangeUserInfoComponent } from './change-user-info/change-user-info.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import { EditBankUserComponent } from './bank-single/edit/edit-bank-user/edit-bank-user.component';
+import { EditAtmComponent } from './bank-single/edit/edit-atm/edit-atm.component';
+import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-merchant.component';
 
 @NgModule({
   imports: [
     FormsModule,
     TableModule,
+    ClipboardModule,
     ReactiveFormsModule,
     ThemeModule,
     NbTabsetModule,
@@ -75,6 +81,7 @@ import { RegisterUserComponent } from './register-user/register-user.component';
     NbTooltipModule,
     NbButtonModule,
     NbSpinnerModule,
+    NbPopoverModule,
     NbListModule,
     NbAccordionModule,
     NbUserModule,
@@ -130,6 +137,9 @@ import { RegisterUserComponent } from './register-user/register-user.component';
     TutorialsDialogComponent,
     ChangeUserInfoComponent,
     RegisterUserComponent,
+    EditBankUserComponent,
+    EditAtmComponent,
+    EditMerchantComponent,
   ],
   // providers: [
     

@@ -60,7 +60,10 @@
 
                 <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
                   <label class="label-caption">Номер карти</label>
-                    <label class="label-data">{{claimData.pan}}</label>
+                    <label class="label-data customPopover">{{claimData.pan}} <button nbButton size="tiny" style="margin-left: 1em;" 
+                      nbPopover="Copied!" nbPopoverTrigger="noop" nbPopoverPlacement="right"
+                      (cdkCopyToClipboardCopied)="copyEmit($event)" [cdkCopyToClipboard]="claimData.pan"><nb-icon icon="save-outline"></nb-icon></button></label>
+                    
                 </div>
 
               <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">

@@ -51,7 +51,6 @@ export class MerchUserComponent implements OnInit, OnDestroy {
     } else {
       this.bankBin = this.transferService.bankBIN.getValue();
     }
-    console.log(typeof this.bankID);
     // this.bankID = this.transferService.bankID.getValue();
     // this.bankBin = this.transferService.bankBIN.getValue();
     this.role = localStorage.getItem('role');
