@@ -10,7 +10,7 @@
       <div style="height: 100%;">
         <nb-card size="small" style="height: 100%;" >
           <nb-tabset fullWidth class="tabsSingleBank" style="height: 100%;" #tabset (changeTab)="tabChangeEvent($event)">
-            <nb-tab [tabTitle]="tabTitle1" style="height: 100%; font-size: 12px; padding: 2em;" [active]="tabInfo">
+            <nb-tab [tabTitle]="tabTitle1" style="height: 100%; font-size: 12px; padding: 2em;" #tabInfo>
 
               <!-- <nb-card style="height: 93%;">
                 <nb-card-body style="font-size: 12px;"> -->
@@ -65,7 +65,7 @@
 
             </nb-tab>
 
-            <nb-tab [tabTitle]="tabTitle2" style="height: 93%; padding: 0.3em;" [active]="tabBankUsers">
+            <nb-tab [tabTitle]="tabTitle2" style="height: 93%; padding: 0.3em;" #tabBankUsers>
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createBankUser()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createBankUserFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">
@@ -79,7 +79,7 @@
       
             </nb-tab>
             
-            <nb-tab [tabTitle]="tabTitle3" style="height: 93%; padding: 0.3em;" [active]="tabMerchants">
+            <nb-tab [tabTitle]="tabTitle3" style="height: 93%; padding: 0.3em;" #tabMerchants>
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerch()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createMerchFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">
@@ -92,7 +92,7 @@
               </nb-card> -->
             </nb-tab>
 
-            <nb-tab [tabTitle]="tabTitle4" style="height: 93%; padding: 0.3em;" [active]="tabAtm">
+            <nb-tab [tabTitle]="tabTitle4" style="height: 93%; padding: 0.3em;" #tabAtm>
               <button nbButton style="margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createATM()">Зареєструвати</button>
               <button nbButton style="margin-left: 2em; margin-bottom: 0.3em;" size="tiny" status="primary" (click)="createATMFromCsv()">Зареєструвати з файлу</button>
               <!-- <nb-card style="height: 92%;">

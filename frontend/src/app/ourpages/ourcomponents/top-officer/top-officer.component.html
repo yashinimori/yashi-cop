@@ -1,14 +1,14 @@
 <nb-card class="customCardHeight">
   
-    <nb-card-header style="padding: 0.5em 1em;">
+    <nb-card-header style="padding: 0.2em 1em;">
       <div *ngIf="routeParamsStatus == 'users'">
         Користувачі
-        <button nbButton size="small" status="primary" style="margin-left: 2em;" (click)="createBankUser()">Зареєструвати</button>
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createBankUser()">Зареєструвати</button>
       </div>
 
       <div *ngIf="routeParamsStatus != 'users'">
         Мерчанти
-        <button nbButton size="small" status="primary" style="margin-left: 2em;" (click)="createMerch()">Зареєструвати</button>
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createMerch()">Зареєструвати</button>
       </div>
 
     </nb-card-header>
@@ -17,12 +17,12 @@
 
       <div *ngIf="routeParamsStatus == 'users'">
         <ngx-table #table  [data]="dataTable1" [columns]="columns1" [noResultsTemplate]="noResultsTemplate1"
-        [configuration]="configuration1" [pagination]="pagination1">
+        [configuration]="configuration1" [pagination]="pagination1" (event)="eventEmitted1($event)">
         </ngx-table>
       </div> 
       <div *ngIf="routeParamsStatus != 'users'">
         <ngx-table #table2  [data]="dataTable2" [columns]="columns2" [noResultsTemplate]="noResultsTemplate2"
-        [configuration]="configuration2" [pagination]="pagination2">
+        [configuration]="configuration2" [pagination]="pagination2" (event)="eventEmitted2($event)">
         </ngx-table>
       </div> 
 

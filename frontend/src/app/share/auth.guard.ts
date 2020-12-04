@@ -119,6 +119,8 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/bank-statistic' || 
          url == '/cop/cabinet/bank-user' ||
          url == '/cop/cabinet/merch-user' ||
+         url == '/cop/cabinet/edit-bank-user' ||
+         url == '/cop/cabinet/edit-merchant' ||
          url == '/cop/cabinet/change-user-info') {
           return true;
         } else {

@@ -194,6 +194,34 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     });
   }
 
+  // onUserRowSelectBankUser(event) {
+  //   localStorage.setItem('activeTab', 'tabBankUsers');
+  //   this.transferService.bankUserID.next(event.data.bankUserId);
+  //   this.isClearLocalStorage = false;
+  //   this.router.navigate(['cop', 'cabinet', 'edit-bank-user']);
+  // }
+  eventEmitted1($event: { event: string; value: any }): void {
+    switch($event.event) {
+      case 'onClick':
+        this.transferService.bankUserID.next($event.value.row.bankUserId);
+        this.router.navigate(['cop', 'cabinet', 'edit-bank-user']);
+        break;
+      case 'onPagination':
+        break;
+    }
+  }
+
+  eventEmitted2($event: { event: string; value: any }): void {
+    switch($event.event) {
+      case 'onClick':
+        this.transferService.merchantID.next($event.value.row.id);
+        this.router.navigate(['cop', 'cabinet', 'edit-merchant']);
+        break;
+      case 'onPagination':
+        break;
+    }
+  }
+
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
     this.merchListSubscription.unsubscribe();
@@ -295,6 +323,8 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
           t.userId = user['userId'];
           t.unit = el['unit'];
           t.registration_date = user['registration_date'];
+          //@ts-ignore
+          t.bankUserId = el.id;
 
           self.bankUserData.push(t);
         });

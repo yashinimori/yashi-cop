@@ -109,6 +109,9 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
+    if(localStorage.getItem('activeTab')) {
+      localStorage.removeItem('activeTab');
+    }
     this.transferService.bankID.next(event.data.id);
     this.transferService.bankBIN.next(event.data.bin);
     this.router.navigate(['cop', 'cabinet', 'bank-single']);
@@ -130,6 +133,9 @@ export class BankListComponent implements OnInit, OnDestroy {
   eventEmitted($event: { event: string; value: any }): void {
     switch($event.event) {
       case 'onClick':
+        if(localStorage.getItem('activeTab')) {
+          localStorage.removeItem('activeTab');
+        }
         this.transferService.bankID.next($event.value.row.id);
         this.transferService.bankBIN.next($event.value.row.bin);
         this.router.navigate(['cop', 'cabinet', 'bank-single']);

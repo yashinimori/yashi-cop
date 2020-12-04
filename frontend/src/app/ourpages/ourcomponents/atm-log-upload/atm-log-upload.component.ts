@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { HttpService } from '../../../share/services/http.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 
 
 @Component({
@@ -17,11 +18,12 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   source: LocalDataSource;
   role: string;
   filesArr: Array<any> = new Array<any>();
+  observableArrFiles: Array<any> = new Array<any>();
   selectedFile: any;
   //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   acceptFiles = 'application/txt/*';
 
-  constructor(private httpService: HttpService, private errorService: ErrorService) {
+  constructor(private httpService: HttpService, private toastrService: NbToastrService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -35,12 +37,21 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
     this.atmlogUploadSubscription.unsubscribe();
   }
 
+  createObservableArray(data) {
+    return this.httpService.uploadATMlog(data);
+  }
+
+  showToast(status: NbComponentStatus, position, text: string) {
+    this.toastrService.show(status, text, { status, position});
+  }
+
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
     if(this.selectedFile.size > 50000000) {
       alert('Файл занадто великий!');
     } else {
       this.filesArr.push(this.selectedFile);
+      this.observableArrFiles.push(this.createObservableArray(this.selectedFile));
     }
   }
 
@@ -49,17 +60,19 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadLogs() {
-    let data = this.filesArr[0];
-    this.atmlogUploadSubscription = this.httpService.uploadATMlog(data).subscribe({
+    //let data = this.filesArr[0];
+    this.atmlogUploadSubscription = forkJoin(this.observableArrFiles).subscribe({
       next: (response: any) => {
-        this.filesArr = [];
+        this.filesArr = new Array();
+        this.observableArrFiles = new Array();
       },
       error: error => {
+        this.showToast('danger', 'bottom-end', 'Сталася помилка');
         this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
-       
+        this.showToast('success', 'bottom-end', 'Всі файли успішно завантажені!');
       }
     });
   }

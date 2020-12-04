@@ -48,15 +48,11 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // @ViewChild("tabset") tabsetEl: NbTabsetComponent;
-  // @ViewChild("tabInfo") tabInfo: NbTabComponent;
-  // @ViewChild("tabBankUsers") tabBankUsers: NbTabComponent;
-  // @ViewChild("tabMerchants") tabMerchants: NbTabComponent;
-  // @ViewChild("tabAtm") tabAtm: NbTabComponent;
-  tabInfo = true;
-  tabBankUsers = false;
-  tabMerchants = false;
-  tabAtm = false;
+  @ViewChild("tabset") tabsetEl: NbTabsetComponent;
+  @ViewChild("tabInfo") infoTab: NbTabComponent;
+  @ViewChild("tabBankUsers") bankUsersTab: NbTabComponent;
+  @ViewChild("tabMerchants") merchantsTab: NbTabComponent;
+  @ViewChild("tabAtm") atmTab: NbTabComponent;
 
   bankUsersSubscription: Subscription = new Subscription();
   atmSubscription: Subscription = new Subscription();
@@ -69,14 +65,12 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   tabTitle4 = 'ATM';
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
     if(localStorage.getItem('bankID')) {
       this.bankID = localStorage.getItem('bankID');
     } else {
       this.bankID = this.transferService.bankID.getValue();
     }
-    //this.bankID = this.transferService.bankID.getValue();
 
     this.bank = new Bank();
     this.getBankData(this.bankID);
@@ -91,12 +85,10 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.setSettingsGridATM(this.role);
     this.getAtmData(this.bankID);
-    
   }
 
   ngAfterViewInit(): void {
     this.setActiveTab();
-    //this.tabsetEl.selectTab(this.tabBankUsers);
     this.cdr.detectChanges();
   }
 
@@ -104,37 +96,24 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
     if(localStorage.getItem('activeTab')) {
       switch(localStorage.getItem('activeTab')) {
         case 'tabInfo':
-          this.tabInfo = true;
-          this.tabBankUsers = false;
-          this.tabMerchants = false;
-          this.tabAtm = false;
+          this.tabsetEl.selectTab(this.infoTab);
           break;
         case 'tabBankUsers':
-          this.tabInfo = false;
-          this.tabBankUsers = true;
-          this.tabMerchants = false;
-          this.tabAtm = false;
+          this.tabsetEl.selectTab(this.bankUsersTab);
           break;
         case 'tabMerchants':
-          this.tabInfo = false;
-          this.tabBankUsers = false;
-          this.tabMerchants = true;
-          this.tabAtm = false;
+          this.tabsetEl.selectTab(this.merchantsTab);
           break;
         case 'tabAtm':
-          this.tabInfo = false;
-          this.tabBankUsers = false;
-          this.tabMerchants = false;
-          this.tabAtm = true;
+          this.tabsetEl.selectTab(this.atmTab);
           break;
         default: 
-          this.tabInfo = true;
-          this.tabBankUsers = false;
-          this.tabMerchants = false;
-          this.tabAtm = false;
+          this.tabsetEl.selectTab(this.infoTab);
           break;
       }
+      this.tabsetEl.ngAfterContentInit();
     } 
+    
   }
 
   tabChangeEvent(event) {
@@ -166,7 +145,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['cop', 'cabinet', 'register', 'user']);
   }
 
-  createMerch(){
+  createMerch() {
     this.transferService.bankID.next(this.bankID);
     this.isClearLocalStorage = false;
     this.router.navigate(['cop', 'cabinet', 'merch-user']);

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../../../share/services/error.service';
 import { HttpService } from '../../../../../share/services/http.service';
 import { TransferService } from '../../../../../share/services/transfer.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'ngx-edit-merchant',
@@ -13,7 +14,7 @@ import { TransferService } from '../../../../../share/services/transfer.service'
 export class EditMerchantComponent implements OnInit, OnDestroy {
 
   constructor(private transferService: TransferService,
-    private router: Router,
+    private router: Router, private _location: Location,
     private httpServise: HttpService, private errorService: ErrorService) { }
  
   @HostListener('window:beforeunload', ['$event'])
@@ -79,7 +80,7 @@ export class EditMerchantComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['cop', 'cabinet', 'bank-single']);
+    this._location.back();
   }
 
   editMerchant() {

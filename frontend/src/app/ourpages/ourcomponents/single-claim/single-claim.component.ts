@@ -17,6 +17,7 @@ import {MAIN_URL} from '../../../share/urlConstants';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbGlobalPhysicalPosition, NbPopoverDirective, NbToastrService } from '@nebular/theme';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -31,6 +32,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
+              private _location: Location,
               private router: Router, private toastrService: NbToastrService,
               private cdr: ChangeDetectorRef, private errorService: ErrorService) {
     this.claimData = new ClaimView();
@@ -894,7 +896,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   goBack(){
     this.isSaveClaimId = false;
-    this.router.navigate(['cop', 'cabinet', 'claims']);
+    this._location.back();
+    //this.router.navigate(['cop', 'cabinet', 'claims']);
   }
 
   get getClaimData_merch_name_ips(): string{
