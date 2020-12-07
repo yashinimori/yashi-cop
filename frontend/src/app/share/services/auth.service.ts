@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   login() {
-    return this.http.get(URL_USER_INFO, this.getHeaders());
+    return this.http.get(URL_USER_INFO +'/', this.getHeaders());
   }
 
   private getHeaders() {

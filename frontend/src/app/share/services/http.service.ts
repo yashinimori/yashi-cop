@@ -39,9 +39,9 @@ export class HttpService {
 
   constructor(private http: HttpClient) {
   }
-
+ 
   getUserInfo() {
-    return this.http.get(URL_USER_INFO, this.getHeaders());
+    return this.http.get(URL_USER_INFO+'/', this.getHeaders());
   }
   updateUserInfo(data: any) {
     return this.http.put(`${URL_USER_INFO}/`, data, this.getHeaders());
@@ -63,16 +63,24 @@ export class HttpService {
       req = `${URL_GET_CLAIM_LIST}/?all`;
 
     if(search != undefined) {
-      req = req + `&search=${search}`;
+      req = req + `&search=${search}/`;
     }
     if(ordering != undefined) {
-      req = req + `&ordering=${ordering}`;
+      req = req + `&ordering=${ordering}/`;
     }
+    // console.log(req)
+    // console.log(req.lastIndexOf("all") == req.length - 3)
+    // if(req.lastIndexOf("all") == req.length - 3) {
+    //   req = req + '/';
+    // }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
   getSingleClaim(id: any) {
-    return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
+    return this.http.get(URL_GET_CLAIM_LIST + '/' + id+ '/', this.getHeaders());
   }
 
   getTimeLine(id: any){
@@ -84,11 +92,11 @@ export class HttpService {
   }
 
   getMerchants() {
-    return this.http.get(URL_GET_MERCHANTS, this.getHeaders());
+    return this.http.get(URL_GET_MERCHANTS+ '/', this.getHeaders());
   }
 
   getMerchantById(id:number) {
-    return this.http.get(`${URL_GET_MERCHANTS}/${id}`, this.getHeaders());
+    return this.http.get(`${URL_GET_MERCHANTS}/${id}/`, this.getHeaders());
   }
 
   createMerchant(data: any) {
@@ -130,11 +138,14 @@ export class HttpService {
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
     if(search != undefined) {
-      req = req + `&search=${search}`;
+      req = req + `&search=${search}/`;
     }
     if(ordering != undefined) {
-      req = req + `&ordering=${ordering}`;
+      req = req + `&ordering=${ordering}/`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -182,6 +193,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -195,7 +209,7 @@ export class HttpService {
   }
 
   getBankUserById(id:number) {
-    return this.http.get(`${URL_BANK_USERS}/${id}`, this.getHeaders());
+    return this.http.get(`${URL_BANK_USERS}/${id}/`, this.getHeaders());
   }
 
   getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
@@ -214,6 +228,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -233,6 +250,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -267,19 +287,19 @@ export class HttpService {
 
   getCountUpdatedClaims() {
     let req = '';
-    req = `${URL_COUNT_UPDATED_CLAIMS}`;
+    req = `${URL_COUNT_UPDATED_CLAIMS}/`;
     return this.http.get(req, this.getHeaders());
   }
 
   getCountNewClaims() {
     let req = '';
-    req = `${URL_COUNT_NEW_CLAIMS}`;
+    req = `${URL_COUNT_NEW_CLAIMS}/`;
     return this.http.get(req, this.getHeaders());
   }
 
   getCountClaimsByStages() {
     let req = '';
-    req = `${URL_COUNT_CLAIMS_BY_STAGES}`;
+    req = `${URL_COUNT_CLAIMS_BY_STAGES}/`;
     return this.http.get(req, this.getHeaders());
   }
 
@@ -317,11 +337,14 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
   getAtm(id:number) {
-    return this.http.get(`${URL_GET_ATMS}${id}`, this.getHeaders());
+    return this.http.get(`${URL_GET_ATMS}${id}/`, this.getHeaders());
   }
 
   getLoggerList(userId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
@@ -340,6 +363,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
