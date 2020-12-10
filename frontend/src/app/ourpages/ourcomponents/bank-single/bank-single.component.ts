@@ -53,6 +53,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("tabBankUsers") bankUsersTab: NbTabComponent;
   @ViewChild("tabMerchants") merchantsTab: NbTabComponent;
   @ViewChild("tabAtm") atmTab: NbTabComponent;
+  @ViewChild("tabBankAccounts") bankAccountsTab: NbTabComponent;
 
   bankUsersSubscription: Subscription = new Subscription();
   atmSubscription: Subscription = new Subscription();
@@ -63,6 +64,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   tabTitle2 = 'Користувачі';
   tabTitle3 = 'Мерчанти';
   tabTitle4 = 'ATM';
+  tabTitle5 = 'Рахунки';
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
@@ -107,6 +109,9 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
         case 'tabAtm':
           this.tabsetEl.selectTab(this.atmTab);
           break;
+        case 'tabBankAccounts':
+          this.tabsetEl.selectTab(this.bankAccountsTab);
+          break;
         default: 
           this.tabsetEl.selectTab(this.infoTab);
           break;
@@ -129,6 +134,9 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case this.tabTitle4:
         localStorage.setItem('activeTab', 'tabAtm')
+        break;
+      case this.tabTitle5:
+        localStorage.setItem('activeTab', 'tabBankAccounts')
         break;
     }
   }

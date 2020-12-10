@@ -24,6 +24,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   fieldsStatus: FieldsStatus;
   stageParam: string;
 
+  items = [
+    { title: 'us-on-us' },
+    { title: 'us-on-them' },
+    { title: 'them-on-us' },
+  ];
+
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
     private router: Router,
@@ -63,6 +69,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     if(role && (role == 'cardholder' || role == 'user')){
         delete this.settings.columns.id;
     }
+  }
+
+  createNewClaimCb() {
+    this.transferService.cOPClaimID.next('0');
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
+  }
+
+  setUserCb() {
+
   }
   
   setSettingsGrid(role:string){

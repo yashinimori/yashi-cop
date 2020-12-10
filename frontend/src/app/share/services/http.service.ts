@@ -29,6 +29,7 @@ import { URL_GET_CLAIM_LIST,
   URL_GET_LOGGER,
   URL_USER_INFO,
   URL_SET_PASS,
+  URL_GET_REASON_CODES,
 
 } from '../urlConstants';
 
@@ -38,6 +39,10 @@ import { URL_GET_CLAIM_LIST,
 export class HttpService {
 
   constructor(private http: HttpClient) {
+  }
+
+  getReasonCodes() {
+    return this.http.get(`${URL_GET_REASON_CODES}?page_size=40`, this.getHeaders());
   }
  
   getUserInfo() {

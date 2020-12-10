@@ -1,0 +1,78 @@
+<!-- <nb-card class="customCardHeight">
+    
+    <nb-card-header style="padding: 0.5em;">
+       
+    </nb-card-header>
+  
+    <nb-card-body style="padding: 0.5em;"> -->
+
+        <nb-card style="margin-bottom: 0.5em; max-height: 5em;">
+            <nb-card-body style="padding: 0.5em; display: flex; align-items: center;">
+                <div class="filterItem">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="PAN" [(ngModel)]="panInput">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="ARN" [(ngModel)]="arnInput">
+                </div>
+                <div class="filterItem">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="Amount From"  [(ngModel)]="amountFrom">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="Amount To"  [(ngModel)]="amountTo">
+                </div>
+                <div class="filterItem">
+                    <input readonly style="cursor: pointer;" class="trInput" fieldSize="tiny" nbInput placeholder="Start Date" [(ngModel)]="startDate" [nbDatepicker]="formpicker1">
+                    <nb-datepicker #formpicker1 format="dd/MM/yyyy"></nb-datepicker>
+                    <input readonly class="trInput" style="cursor: pointer;" fieldSize="tiny" nbInput placeholder="End Date" [(ngModel)]="endDate" [nbDatepicker]="formpicker2">
+                    <nb-datepicker #formpicker2 format="dd/MM/yyyy"></nb-datepicker>
+                </div>
+                <button style="margin-left: 1.5em;" nbButton size="small" 
+                status="primary" (click)="searchData()"> Search</button>
+            </nb-card-body>
+        </nb-card>
+        <nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 60vh);">
+            <nb-card-body style="padding: 0.5em;">
+                <ng2-smart-table [settings]="settings" [source]="source" 
+                (userRowSelect)="onUserRowSelect($event)">
+                </ng2-smart-table>
+            </nb-card-body>
+        </nb-card>
+        <nb-card style="max-height: 45%; margin-bottom: 0.5em;">
+            <nb-tabset fullWidth class="tansactionSearchTabset">
+                <nb-tab tabTitle="Summary">
+                    <nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 50vh);">
+                        <nb-card-body style="padding: 0.5em; display: flex; justify-content: space-around;">
+                            <div style="display: flex; flex-direction: column; width: 45%;">
+                                <p style="margin-bottom: 0.2em;">authorizationSummary</p>
+                                <div class="sumItem" *ngFor="let authS of this.authSummaryArr">
+                                    <div class="sumTitle">
+                                        {{authS.title}}
+                                    </div>
+                                    <div class="sumBody">
+                                        {{authS.value}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; width: 45%;">
+                                <p style="margin-bottom: 0.2em;">clearingSummary:</p>
+                                <div class="sumItem" *ngFor="let clearS of this.clearingSummaryArr">
+                                    <div class="sumTitle">
+                                        {{clearS.title}}
+                                    </div>
+                                    <div class="sumBody">
+                                        {{clearS.value}}
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </nb-tab>
+                <nb-tab tabTitle="Authorization details">
+                  <p>Authorization details</p>
+                </nb-tab>
+                <nb-tab tabTitle="Clearing details">
+                    <p>Clearing details</p>
+                  </nb-tab>
+              </nb-tabset>
+        </nb-card>
+<!-- 
+       
+    </nb-card-body>
+
+</nb-card> -->

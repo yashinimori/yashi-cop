@@ -75,6 +75,7 @@ export class AuthGuard implements CanActivate {
         url == '/cop/cabinet/bank-user'||
         url == '/cop/cabinet/merch-user' || 
         url == '/cop/cabinet/atm' ||
+        url == '/cop/cabinet/bank-accounts' ||
         url == '/cop/cabinet/edit-atm' ||
         url == '/cop/cabinet/edit-bank-user' ||
         url == '/cop/cabinet/edit-merchant' ||
@@ -88,6 +89,7 @@ export class AuthGuard implements CanActivate {
         }
       case 'chargeback_officer': //all ?
         if(url == '/cop/cabinet/claims' ||
+         url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/chbo-dashboard' || 
          url == '/cop/cabinet/atm-log-upload' ||
          url == '/cop/cabinet/atm-log-view' ||
@@ -99,7 +101,12 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/single-claim' ||
          url == '/cop/cabinet/single-claim-forms' ||
          url == '/cop/cabinet/tutorials' ||
-         url == '/cop/cabinet/change-user-info') {
+         url == '/cop/cabinet/bank-accounts' ||
+         url == '/cop/cabinet/change-user-info' ||
+         url == '/cop/cabinet/mastercard-transaction-search' ||
+         url == '/cop/cabinet/mastercard-chargebacks' ||
+         url == '/cop/cabinet/mastercard-retrieval' ||
+         url == '/cop/cabinet/mastercard-fees') {
           return true;
         } else {
           return false;
@@ -108,6 +115,8 @@ export class AuthGuard implements CanActivate {
         if(url == '/cop/cabinet/claims/all' ||
          url == '/cop/cabinet/claims/archive' || 
          url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/transactions' ||
+         url == '/cop/cabinet/transaction-info' ||
          url == '/cop/cabinet/single-claim-forms' ||
          url == '/cop/cabinet/change-user-info') {
           return true;
@@ -121,6 +130,7 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/merch-user' ||
          url == '/cop/cabinet/edit-bank-user' ||
          url == '/cop/cabinet/edit-merchant' ||
+         url == '/cop/cabinet/bank-accounts' ||
          url == '/cop/cabinet/change-user-info') {
           return true;
         } else {

@@ -19,4 +19,5 @@ export class TransferService {
   public atmID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public bankUserID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public merchantID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public transactionID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
 }

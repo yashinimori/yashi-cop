@@ -1,0 +1,63 @@
+.trInput {
+    margin-right: 0.5em;
+    margin-bottom: 0.3em;
+}
+
+.filterItem {
+    // display: flex;
+    // flex-direction: column;
+}
+
+.sumItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // margin-bottom: 3px;
+  padding: 0.3em;
+}
+
+.sumTitle {
+  font-size: 13px;  
+}
+
+.sumBody {
+  font-size: 13px;
+  font-weight: bold;
+  max-width: 95%;
+  overflow-x: hidden;
+  text-transform: uppercase;
+}
+
+:host /deep/ .tansactionSearchTabset > ul > li > a {
+  font-size: 12px;
+  padding: 10px;
+}
+
+:host /deep/ .tansactionSearchTabset > nb-tab {
+  padding: 0.5em;
+}
+
+
+:host /deep/ ng2-smart-table thead > tr > th  { 
+  font-size: 11px;
+  padding: 0.7em 0.5em!important
+}
+
+:host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+  font-size: 11px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td  { 
+  font-size: 12px;
+}
+
+@media (min-width: 1800px) {
+  :host /deep/ ng2-smart-table thead > tr > th  { 
+    font-size: 12px;
+    padding: 0.7em 0.5em!important
+  }
+  
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 12px;
+  }
+}

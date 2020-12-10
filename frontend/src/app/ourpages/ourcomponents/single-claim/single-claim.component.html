@@ -371,7 +371,7 @@
                     <div style="width: 60%;">
                       <input class="input-data-valid" autocomplete="off" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
                         placeholder="Номер карти" pattern="^\d+$" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
-                        required maxlength="16" minlength="16">
+                        required maxlength="16" minlength="16" (keyup)="checkPanForReasonCodeCb()">
                       <ng-container *ngIf="pan.invalid && pan.touched">
                         <p class="caption status-danger danger-warning" *ngIf="pan.errors?.required">
                           Номер карти - обов'язкове поле для заповнення!
@@ -521,6 +521,25 @@
                       maxlength="6"
                     >
                   </div>
+                  <div class="div-panel" *ngIf="this.role == 'chargeback_officer'">
+                    <label class="label-caption">Reason code</label>        
+                    <div style="width: 60%;">
+                      <nb-select class="input-data-valid" [disabled]="!isReasonCodeInputValid" #claim_reason_code="ngModel" name="claim_reason_code" id="input-claim_reason_code"  
+                          [(ngModel)]="claimData.claim_reason_code"
+                          placeholder="Reason code" autofocus [status]="claim_reason_code.dirty ? (claim_reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
+                          required >
+                          <nb-option *ngFor="let code of reasonCodesArr" [value]="code.code">
+                            {{ code.description }}
+                        </nb-option>
+                      </nb-select>
+                        <ng-container *ngIf="claim_reason_code.invalid && claim_reason_code.touched">
+                          <p class="caption status-danger danger-warning" *ngIf="claim_reason_code.errors?.required">
+                            Reason code - обов'язкове поле для заповнення!
+                          </p>
+                        </ng-container>
+                    </div>
+                  </div>
+                  
         
                 </form>
 
@@ -528,7 +547,10 @@
         
               <nb-card-footer style="padding: 0.5em;">
                 <div class="center">
-                  <button nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStep()" >До наступного кроку</button>
+                  <button *ngIf="this.role != 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStep()" >До наступного кроку</button>
+                  <button *ngIf="this.role == 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStepCb()" >До наступного кроку</button>
+
+                  
                 </div>
               </nb-card-footer>
             </nb-card>
@@ -536,7 +558,7 @@
 
 
         </nb-step>
-        <nb-step [label]="labelTwo">
+        <nb-step [label]="labelTwo" *ngIf="this.role != 'chargeback_officer'">
           <ng-template #labelTwo>Додаткова інформація</ng-template>
 
             <!-- *ngIf="stepNewRecord==2" -->

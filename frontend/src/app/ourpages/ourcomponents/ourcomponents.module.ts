@@ -19,6 +19,7 @@ import {
   NbTooltipModule,
   NbSpinnerModule,
   NbPopoverModule,
+  NbContextMenuModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -66,6 +67,13 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { EditBankUserComponent } from './bank-single/edit/edit-bank-user/edit-bank-user.component';
 import { EditAtmComponent } from './bank-single/edit/edit-atm/edit-atm.component';
 import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-merchant.component';
+import { TransactionSearchComponent } from './mastercard-menu/transaction-search/transaction-search.component';
+import { MastercardChargebacksComponent } from './mastercard-menu/mastercard-chargebacks/mastercard-chargebacks.component';
+import { MastercardRetrievalComponent } from './mastercard-menu/mastercard-retrieval/mastercard-retrieval.component';
+import { MastercardFeesComponent } from './mastercard-menu/mastercard-fees/mastercard-fees.component';
+import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
 
 @NgModule({
   imports: [
@@ -83,6 +91,7 @@ import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-mer
     NbSpinnerModule,
     NbPopoverModule,
     NbListModule,
+    NbContextMenuModule,
     NbAccordionModule,
     NbUserModule,
     OurComponentsRoutingModule,
@@ -140,6 +149,13 @@ import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-mer
     EditBankUserComponent,
     EditAtmComponent,
     EditMerchantComponent,
+    TransactionSearchComponent,
+    MastercardChargebacksComponent,
+    MastercardRetrievalComponent,
+    MastercardFeesComponent,
+    BankAccountsComponent,
+    TransactionsComponent,
+    TransactionsInfoComponent,
   ],
   // providers: [
     

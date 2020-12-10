@@ -29,6 +29,13 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { EditAtmComponent } from './bank-single/edit/edit-atm/edit-atm.component';
 import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-merchant.component';
 import { EditBankUserComponent } from './bank-single/edit/edit-bank-user/edit-bank-user.component';
+import { TransactionSearchComponent } from './mastercard-menu/transaction-search/transaction-search.component';
+import { MastercardChargebacksComponent } from './mastercard-menu/mastercard-chargebacks/mastercard-chargebacks.component';
+import { MastercardFeesComponent } from './mastercard-menu/mastercard-fees/mastercard-fees.component';
+import { MastercardRetrievalComponent } from './mastercard-menu/mastercard-retrieval/mastercard-retrieval.component';
+import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
 
 const routes: Routes = [{
   path: '',
@@ -131,6 +138,18 @@ const routes: Routes = [{
       component: TopOfficerComponent,
     },
     {
+      path: 'bank-accounts',
+      component: BankAccountsComponent,
+    },
+    {
+      path: 'transactions',
+      component: TransactionsComponent,
+    },
+    {
+      path: 'transaction-info',
+      component: TransactionsInfoComponent,
+    },
+    {
       path: 'secur-officer',
       component: SecurOfficerComponent,
     },
@@ -153,7 +172,23 @@ const routes: Routes = [{
     {
       path: 'tutorials',
       component: TutorialPageComponent
-    }
+    },
+    {
+      path: 'mastercard-transaction-search',
+      component: TransactionSearchComponent
+    },
+    {
+      path: 'mastercard-chargebacks',
+      component: MastercardChargebacksComponent
+    },
+    {
+      path: 'mastercard-retrieval',
+      component: MastercardRetrievalComponent
+    },
+    {
+      path: 'mastercard-fees',
+      component: MastercardFeesComponent
+    },
 
   ],
 }];

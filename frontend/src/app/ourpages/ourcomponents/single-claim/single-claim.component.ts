@@ -94,6 +94,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription6: Subscription = new Subscription();
   subscription7: Subscription = new Subscription();
   subscription8: Subscription = new Subscription();
+  subscription9: Subscription = new Subscription();
   claimData: ClaimView;
   Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
@@ -177,6 +178,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   arbitration_date: Date;
   arbitration_response_date : Date;
 
+  reasonCodesArr: Array<any> = new Array<any>();
+  readonlyReasonCodesArr: Array<any> = new Array<any>();
+  isReasonCodeInputValid: boolean = false;
+
   ngOnInit(): void {
     this.inputFormControlMerchUser = new FormControl();
     this.claimData = new ClaimView();
@@ -184,6 +189,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.claimData.user = {};
 
     this.role = localStorage.getItem('role');
+    if(this.role == 'chargeback_officer') {
+      this.getReasonCodes();
+    }
     if(localStorage.getItem('claimId')) {
       this.claimId = localStorage.getItem('claimId');
     } else {
@@ -309,6 +317,47 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         complete: () => {
         }
       });
+  }
+
+  getReasonCodes() {
+    this.httpService.getReasonCodes().subscribe({
+      next: (response: any) => {
+        this.reasonCodesArr = response.results;
+        console.log(this.reasonCodesArr)
+        this.readonlyReasonCodesArr = JSON.parse(JSON.stringify(response.results));
+        console.log(response)
+      },
+      error: error => {
+        this.errorService.handleError(error);
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  checkPanForReasonCodeCb() {
+    if(this.role == 'chargeback_officer') {
+      if(this.claimData.pan[0] == '4') {
+        this.reasonCodesArr = JSON.parse(JSON.stringify(this.readonlyReasonCodesArr));
+        this.filterReasonCodesArr('visa');
+      } else if(this.claimData.pan[0] == '5' || this.claimData.pan[0] == '6') {
+        this.reasonCodesArr = JSON.parse(JSON.stringify(this.readonlyReasonCodesArr));
+        this.filterReasonCodesArr('mastercard');
+      } else {
+        this.isReasonCodeInputValid = false;
+      }
+    }
+  }
+
+  filterReasonCodesArr(type:string) {
+    if(type == 'visa') {
+      this.reasonCodesArr = this.reasonCodesArr.filter(e => e.visa != null);
+    } else {
+      this.reasonCodesArr = this.reasonCodesArr.filter(e => e.mastercard != null);
+    }
+    this.isReasonCodeInputValid = true;
+    
   }
 
   loadClaim() {
@@ -745,6 +794,17 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  onClickGoNextStepCb(){
+    if(!this.checkData()){
+      return;
+    }
+    this.claimData.comment = this.claimData.ch_comments;
+    this.isLastStep = true;
+    this.claimData.answers = {};
+    this.stepNewRecord = 3;
+    this.cdr.detectChanges();
+  }
+
   public get getCheckData(): boolean{
     let d =this.checkData(); 
     return d;
@@ -767,6 +827,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
       
     if(!this.claimData.trans_currency)
+      return false;
+
+    if(this.role == 'chargeback_officer' && !this.claimData.claim_reason_code)
       return false;
 
     return true;
