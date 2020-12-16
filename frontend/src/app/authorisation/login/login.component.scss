@@ -44,4 +44,11 @@ nb-card-body {
   .logo{
     width: 200px;
   }
+  @media (max-width: 500px) {
+
+    .registration-card {
+      width: 95vw;
+    }
+  }
+
 

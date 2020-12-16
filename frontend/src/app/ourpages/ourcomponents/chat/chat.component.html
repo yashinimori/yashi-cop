@@ -1,0 +1,31 @@
+<button *ngIf="this.role && (this.role.includes('merchant') || this.role.includes('chargeback_officer') || this.role.includes('cardholder')) && !isChatOpen" class="positionAbsolute chatButton" nbButton status="danger"
+    (click)="openChatMain()"
+    ><nb-icon icon="message-square"></nb-icon></button>
+
+    <button *ngIf="isVisibleSmallButtons && isVisibleButton1" class="smallChatButton1" nbButton status="danger"
+    nbTooltip="{{this.buttonsRole[0].name}}" nbTooltipStatus="primary" nbTooltipPlacement="left"
+    (click)="openChatDelay(this.buttonsRole[0])"
+    ><nb-icon icon="person-add-outline"></nb-icon></button>
+    <button *ngIf="isVisibleSmallButtons && isVisibleButton2" class="smallChatButton2" nbButton status="danger"
+    nbTooltip="{{this.buttonsRole[1].name}}" nbTooltipPlacement="left" nbTooltipStatus="primary"
+    (click)="openChatDelay(this.buttonsRole[1])"
+    ><nb-icon icon="person-done-outline"></nb-icon></button>
+
+    <button *ngIf="this.role && (this.role.includes('merchant') || this.role.includes('chargeback_officer') || this.role.includes('cardholder')) && isChatOpen" size="tiny" class="closeButtonChat" nbButton status="danger"
+    (click)="closeChat()"
+    ><nb-icon icon="close-outline"></nb-icon></button> 
+    <nb-chat class="positionAbsolute chatStyle" 
+    *ngIf="this.role && (this.role.includes('merchant') || this.role.includes('chargeback_officer') || this.role.includes('cardholder')) && isChatOpen" [title]="chat.title" [status]="chat.status" size="small">
+    <nb-chat-message *ngFor="let msg of chat.messages"
+                     [type]="msg.type"
+                     [message]="msg.text"
+                     [reply]="msg.reply"
+                     [sender]="msg.user.name"
+                     [date]="msg.date"
+                     dateFormat="dd-MM-yyyy hh:mm:ss"
+                     [files]="msg.files">
+    </nb-chat-message>
+    <nb-chat-form style="padding: 0.5em 1em;"
+     (send)="sendMessage(chat.messages, $event)"
+     [dropFiles]="true"></nb-chat-form>
+  </nb-chat>

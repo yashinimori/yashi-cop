@@ -20,6 +20,7 @@ import {
   NbSpinnerModule,
   NbPopoverModule,
   NbContextMenuModule,
+  NbChatModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -74,6 +75,9 @@ import { MastercardFeesComponent } from './mastercard-menu/mastercard-fees/maste
 import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
+import { ChatComponent } from './chat/chat.component';
+import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
+import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
 
 @NgModule({
   imports: [
@@ -89,6 +93,7 @@ import { TransactionsInfoComponent } from './transactions-info/transactions-info
     NbTooltipModule,
     NbButtonModule,
     NbSpinnerModule,
+    NbChatModule,
     NbPopoverModule,
     NbListModule,
     NbContextMenuModule,
@@ -116,6 +121,7 @@ import { TransactionsInfoComponent } from './transactions-info/transactions-info
     ClaimsComponent,
     SingleClaimComponent,
     ATMlogUploadComponent,
+    ShowClaimResultComponent,
     ATMlogViewerComponent,
     ATMlogViewerDetailComponent,
     SingleClaimFormsComponent,
@@ -156,6 +162,8 @@ import { TransactionsInfoComponent } from './transactions-info/transactions-info
     BankAccountsComponent,
     TransactionsComponent,
     TransactionsInfoComponent,
+    ChatComponent,
+    ChboMerchantRequestsComponent,
   ],
   // providers: [
     

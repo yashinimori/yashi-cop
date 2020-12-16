@@ -103,6 +103,11 @@ export class OurPagesComponent {
             icon: 'inbox-outline',
             link: '/cop/cabinet/chbo-my-claims/closed',
           },
+          {
+            title: 'Merchant requests',
+            icon: 'file-text-outline',
+            link: '/cop/cabinet/chbo-merchant-requests',
+          },
         ],
       },
       {

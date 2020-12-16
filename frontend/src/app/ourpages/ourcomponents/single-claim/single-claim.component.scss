@@ -72,6 +72,95 @@
     align-items: center;
 }
 
+.mainCardSingleClaim {
+    margin-bottom: 0.5em!important;
+    border: unset!important;
+
+    nb-card-header {
+        padding: 0.5em 1em;
+    }
+}
+
+.cardDetails {
+    width: 100%; 
+    height: 300px;  
+    margin-bottom: 0.5em;
+
+    nb-card-header {
+        width: 100%; 
+        text-align: center; 
+        padding: 0.5em;
+    }
+
+    nb-card-body {
+        padding: 0.5em 2em;
+    }
+}
+
+.cardProcess {
+    width: 100%; 
+    height: 300px; 
+    padding: 0.1em 0.1em 1em 0.1em; 
+    margin-bottom: 0.5em;
+
+    nb-card-header {
+        width: 100%; 
+        text-align: center; 
+        padding: 0.5em;
+    }
+
+    nb-card-body {
+        padding: 0.5em 1em;
+    }
+}
+.cardProcessListItem {
+    display: flex; 
+    flex-direction: column;
+}
+.cardProcessListItem > div:nth-child(1) {
+    font-size: 12px;
+}
+
+.cardProcessLabel {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.card1CreateNewClaimStep1 {
+    width: 95%; 
+    margin: auto; 
+    height: calc(100vh - 190px);
+}
+
+.step1Card1Item {
+    
+}
+
+.card1CreateNewClaimStep2 {
+    width: 75%;
+    height: calc(100vh - 190px);
+    margin: auto;
+}
+
+.card1CreateNewClaimStep2Footer {
+    display: flex; 
+    justify-content: center;
+}
+
+.card1CreateNewClaimStep2 {
+    width: 70%; 
+    height: calc(100vh - 190px); 
+    margin: auto;
+}
+
+.card1CreateNewClaimStep3 {
+    height: calc(100vh - 190px);
+    margin: auto;
+}
+
+
+
+
 .danger-warning{
     margin: 0em!important;
     padding: 0em!important;
@@ -136,4 +225,149 @@
 :host /deep/ .chargeTabset > ul > li > a {
     font-size: 12px;
     padding: 10px;
+}
+
+
+@media (max-width: 500px) {
+    .mainCardSingleClaim {
+        nb-card-header {
+            padding: 0.2em 0.4em;
+        }
+    }
+    .mainHeaderSingleClaimButtonsBlock {
+        width: min-content;
+    }
+    .mainHeaderSingleClaimButtonsBlock > button {
+        padding: 0.2em 1em!important;
+        font-size: 10px;
+    }
+
+    .cardDetails {    
+        nb-card-header {
+            padding: 0.2em;
+        }
+    
+        nb-card-body {
+            padding: 0.4em;
+        }
+
+        nb-card-body > a {
+            font-size: 11px;
+        }
+    }
+
+    .cardDetailsItem > label {
+        font-size: 10px;
+        margin-bottom: 0!important;
+    }
+
+    .cardProcess {    
+        nb-card-header {
+            padding: 0.2em;
+        }
+    
+        nb-card-body {
+            padding: 0.4em;
+        }
+
+        nb-card-body > a {
+            font-size: 11px;
+        }
+    }
+    .cardProcessListItem > div {
+        font-size: 10px;
+    }
+    .cardProcessListItem > div:nth-child(1) {
+        font-size: 10px;
+    }
+
+    .cardProcessLabel {
+        font-size: 10px;
+        margin-bottom: 0!important;
+    }
+
+    .timlineItemText {
+        font-size: 12px;
+    }
+
+    //create new claim step 1
+    .card1CreateNewClaimStep1 {
+        width: 100%;
+
+        nb-card-body {
+            padding: 0.5em!important;
+        }
+
+        nb-card-footer {
+            padding: 0.3em!important;
+        }
+    }
+
+    .step1Card1Item > label {
+            font-size: 11px!important;
+        }
+
+    .step1Card1Item > div> input {
+        font-size: 10px;
+        padding: 0.1em 1em;
+    }
+    :host /deep/ .step1Card1Item > div > nb-select > button {
+        font-size: 10px!important;
+        padding: 0.1em 1em!important;
+    }
+    .step1Card1Item > div> p {
+        font-size: 9px!important;
+    }
+
+    .step1Card1ItemOption {
+        font-size: 13px!important;
+        padding: 0.1em 1em!important;
+    }
+    
+    //create new claim step 2
+    .card1CreateNewClaimStep2 {
+        width: 100%;
+
+        nb-card-footer {
+            padding: 0.3em!important;
+        }
+    }
+
+    .card1CreateNewClaimStep2Footer {
+        flex-wrap: wrap;
+    }
+
+    .card1CreateNewClaimStep2Footer > button {
+        margin-bottom: 0.3em;
+    }
+
+    //create new claim step 3
+    .card1CreateNewClaimStep3 {
+        width: 100%;
+
+        nb-card-header {
+            font-size: 12px!important;
+            padding: 0.5em!important;
+        }
+
+        nb-card-body {
+            padding: 0.5em!important;
+        }
+
+        nb-card-footer {
+            padding: 0.3em!important;
+        }
+    }
+
+    .card1CreateNewClaimStep3 > nb-card-body > div > label {
+        text-align: center!important;
+    }
+
+    .itemDisplayColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+
 }

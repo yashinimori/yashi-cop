@@ -1,0 +1,100 @@
+.positionAbsolute {
+  bottom: 14px;
+  right: 14px;
+  position: absolute;
+  z-index: 10;
+}
+.chatButton {
+  width: 60px;
+  height: 60px;
+  
+  border-radius: 100%!important;
+  border: 2px solid transparent;
+  opacity: .7;
+} 
+.chatStyle {
+  max-width: 25em;
+  max-height: 30em;
+  min-height: 30em;
+  width: 25em!important;
+  height: 30em!important;
+}
+.closeButtonChat {
+  // bottom: 337px;
+  bottom: 450px;
+  right: 4px;
+  position: absolute;
+  border-radius: 100%!important;
+  z-index: 999;
+}
+
+::ng-deep.chatStyle > .header {
+  padding: 0.3em 1em!important;
+}
+
+//asd
+
+.smallChatButton1 {
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  bottom: 75px;
+  right: 45px;
+  position: absolute;
+  border-radius: 100%!important;
+  border: 2px solid transparent;
+  opacity: .7;
+  -webkit-animation: floatBubble1 1s normal ease-out;
+  animation: floatBubble1 1s normal ease-out;
+}
+.smallChatButton2 {
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  bottom: 38px;
+  right: 80px;
+  position: absolute;
+  border-radius: 100%!important;
+  border: 2px solid transparent;
+  opacity: .7;
+  -webkit-animation: floatBubble2 1s normal ease-out;
+  animation: floatBubble2 1s normal ease-out;
+}
+
+::ng-deep.dropped-files > div:nth-child(2n) {
+  display: none;
+}
+
+@-webkit-keyframes floatBubble1 {
+  0% {
+    right:0px;
+  }
+  100% {
+    right: 45px;
+  }
+}
+@keyframes floatBubble1 {
+  0% {
+    right:0px;
+  }
+  100% {
+    right: 45px;
+  }
+}
+
+@-webkit-keyframes floatBubble2 {
+  0% {
+    bottom:0px;
+  }
+  100% {
+    bottom: 38px;
+  }
+}
+@keyframes floatBubble2 {
+  0% {
+    bottom:0px;
+  }
+  100% {
+    bottom: 38px;
+  }
+}

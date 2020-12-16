@@ -1,0 +1,11 @@
+:host /deep/ ng2-smart-table thead > tr > th  { 
+    font-size: 11px;
+  }
+    
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 11px;
+  }
+  
+  :host /deep/ ng2-smart-table tbody > tr > td  { 
+    font-size: 12px;
+  }

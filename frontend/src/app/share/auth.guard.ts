@@ -13,6 +13,9 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     this.token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
+    if(state.url == '/cop/cabinet/show-claim-result') {
+      return true;
+    }
     //this.checkPath(role, state.url)
     if (this.token) {
       if (Number(localStorage.getItem('tokenExpiredDate')) < new Date().getTime()) {
@@ -97,6 +100,7 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/chbo-my-claims/pre_mediation'||
          url == '/cop/cabinet/chbo-my-claims/mediation' || 
          url == '/cop/cabinet/chbo-my-claims/chargeback' ||
+         url == '/cop/cabinet/chbo-merchant-requests' ||
          url == '/cop/cabinet/chbo-my-claims/closed' ||
          url == '/cop/cabinet/single-claim' ||
          url == '/cop/cabinet/single-claim-forms' ||

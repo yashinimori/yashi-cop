@@ -27,6 +27,7 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { TableModule } from 'ngx-easy-table';
+import { ShowClaimResultComponent } from './show-claim-result/show-claim-result.component';
 
 @NgModule({
   declarations: [AppComponent],

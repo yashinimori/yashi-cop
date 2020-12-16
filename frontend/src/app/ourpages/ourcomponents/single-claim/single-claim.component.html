@@ -1,10 +1,11 @@
-<nb-card style="margin-bottom: 0.5em; border: unset;" *ngIf="!isNewRecord" status="info">
-    <nb-card-header style="padding: 0.5em 1em;">
+<nb-card class="mainCardSingleClaim" *ngIf="!isNewRecord" status="info">
+    <nb-card-header>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>Скарга № {{claimData.id}}</div> 
         <div style="display: flex; ">
-          <div *ngIf="!isNewRecord" >
-              <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible" 
+          <div *ngIf="!isNewRecord" class="mainHeaderSingleClaimButtonsBlock">
+              <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
+                style="margin-left: 10px;" 
                   nbTooltip="В разі незгоди з отриманим результатом Ви маєте можливість повторного розгляду вашої претензії" nbTooltipStatus="primary"
                   nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
                   nbButton size="small" status="basic" (click)="onClickEscalation()" >Ескалація</button>
@@ -17,7 +18,7 @@
                       nbButton size="small" status="basic" (click)="onClickRequestDocs()" style="margin-left: 10px;">Запит документів
               </button>
           </div>
-          <div *ngIf="!isNewRecord" style='padding-left: 2em;'>
+          <div *ngIf="!isNewRecord" class="mainHeaderSingleClaimButtonsBlock" style='padding-left: 2em;'>
             
             <button size="small" *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
                 nbButton status="basic" (click)="onClickFinish()" >Додати Коментар</button>
@@ -37,6 +38,7 @@
      
     </nb-card-header>
 </nb-card>
+<ngx-chat *ngIf="!isNewRecord"></ngx-chat>
 
 <!-- <div *ngIf="!isNewRecord" style='margin-top: -30px;padding-top: 10px; padding-bottom: 10px; display:flex'>
     <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
@@ -52,13 +54,13 @@
 <div *ngIf="!isNewRecord && isUIloaded" class="div-panel" >
     <div class="left-panel">
 
-        <nb-card style="width: 100%; height: 300px;  margin-bottom: 0.5em;" accent="info">
-            <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">
+        <nb-card class="cardDetails" accent="info">
+            <nb-card-header>
                 Деталізація cкарги
               </nb-card-header>
-            <nb-card-body style="padding: 0.5em 2em;">
+            <nb-card-body>
 
-                <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
+                <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.pan.invisible">
                   <label class="label-caption">Номер карти</label>
                     <label class="label-data customPopover">{{claimData.pan}} <button nbButton size="tiny" style="margin-left: 1em;" 
                       nbPopover="Copied!" nbPopoverTrigger="noop" nbPopoverPlacement="right"
@@ -66,37 +68,37 @@
                     
                 </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.fio.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.fio.invisible">
                 <label class="label-caption">П.І.Б.</label>
                 <label class="label-data">{{ getUserName }}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.transDate.invisible">
                 <label class="label-caption">Дата транзакції</label>
                 <label class="label-data">{{getDateTrans}}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
                 <label class="label-caption">Cума</label>
                 <label class="label-data">{{claimData.trans_currency}} {{claimData.trans_amount}}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.merchantName.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.merchantName.invisible">
                 <label class="label-caption">Назва торговця</label>
                 <label class="label-data">{{getClaimData_merch_name_ips}}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.rC.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.rC.invisible">
                 <label class="label-caption">Причина диспуту</label>
                 <label class="label-data">{{claimData.reason_code_group}}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.aRN.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.aRN.invisible">
                 <label class="label-caption">ARN</label>
                 <label class="label-data">{{claimData.arn}}</label>
               </div>
 
-              <div class="div-panel" *ngIf="!fieldsStatus.aRN_editor.invisible">
+              <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.aRN_editor.invisible">
                 <label class="label-caption">ARN</label>
                 <input class="input-data" nbInput placeholder="ARN"
                        [required]="fieldsStatus.comment.required"
@@ -115,26 +117,25 @@
     </div>
 
     <div class="right-panel" *ngIf="role!='chargeback_officer'" >
-        <nb-card accent="info" style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
-            <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">
+        <nb-card class="cardProcess" accent="info">
+            <nb-card-header>
               Процес розгляду
             </nb-card-header>
-            <nb-card-body style="padding: 0.5em 1em;">
+            <nb-card-body>
                 <div>
                   <div >
-                      <label style="font-size: 13px;
-                      font-weight: bold;">Результат</label>
+                      <label class="cardProcessLabel">Результат</label>
                       <br>
-                      <label style="font-weight: bold;">{{claimData.result}}</label>
+                      <label class="cardProcessLabel">{{claimData.result}}</label>
                   </div>
 
                   <div >
-                      <label style="font-size: 13px; font-weight: bold;">Коментар</label>
+                      <label class="cardProcessLabel">Коментар</label>
                       <br>
                     <nb-list *ngIf="comments.length != 0">
                       <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
-                        <div style="display: flex; flex-direction: column;">
-                          <div style="font-size: 12px;">{{item.user}} {{ item.create_date_str}}</div>
+                        <div class="cardProcessListItem">
+                          <div>{{item.user}} {{ item.create_date_str}}</div>
                           <div>{{ item.text }}</div>
                         </div>                       
                       </nb-list-item>
@@ -142,12 +143,12 @@
                   </div>
 
                   <div>
-                      <label style="font-size: 13px; font-weight: bold;">Документи</label>
+                      <label class="cardProcessLabel">Документи</label>
                           <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
                           <br>
                           <nb-list *ngIf="documents.length != 0">
                               <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
-                                  <div style="display: flex; flex-direction: column;">
+                                  <div class="cardProcessListItem">
                                       <!-- <div>
                                           Описание: {{ item.description }}
                                       </div> -->
@@ -167,25 +168,25 @@
     </div>
 
     <div class="right-panel" *ngIf="role=='chargeback_officer'">
-        <nb-card accent="info" style="width: 100%; height: 300px; padding: 0.1em 0.1em 1em 0.1em; margin-bottom: 0.5em;">
+        <nb-card accent="info" class="cardProcess">
             <nb-tabset fullWidth class="chargeTabset">
 
               <nb-tab tabTitle="Результат">
                 <nb-card style="width: 100%; border: 0; height: 15em;">
                   <nb-card-body  style="padding: 0.5em 1em;">
                     <div >
-                        <label style="font-size: 13px; font-weight: bold;">Результат</label>
+                        <label class="cardProcessLabel">Результат</label>
                         <br>
-                        <label style="font-weight: bold;">{{claimData.result}}</label>
+                        <label class="cardProcessLabel">{{claimData.result}}</label>
                     </div>
 
                     <div>
-                        <label style="font-size: 13px; font-weight: bold;">Документи</label>
+                        <label class="cardProcessLabel">Документи</label>
                         <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
                         <br>
                         <nb-list *ngIf="documents.length != 0">
                             <nb-list-item *ngFor="let item of documents" style="font-weight: bold;">
-                                <div style="display: flex; flex-direction: column;">
+                                <div class="cardProcessListItem">
                                     <!-- <div>
                                         Описание: {{ item.description }}
                                     </div> -->
@@ -206,22 +207,17 @@
                 <nb-card style="width: 100%; border: 0; height: 15em;">
                   <nb-card-body style="padding: 0.5em 1em;">
                     <div >
-                      <label style="font-size: 13px; font-weight: bold;">Коментар</label>
+                      <label class="cardProcessLabel">Коментар</label>
                       <br>
                     <nb-list *ngIf="comments.length != 0">
                       <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
-                        <div style="display: flex; flex-direction: column;">
-                          <div style="font-size: 12px;">{{item.user}} {{ item.create_date_str}}</div>
+                        <div class="cardProcessListItem">
+                          <div>{{item.user}} {{ item.create_date_str}}</div>
                           <div>{{ item.text }}</div>
                         </div>                       
                       </nb-list-item>
                     </nb-list>
                   </div>
-                    <!-- <nb-list *ngIf="comments.length != 0">
-                      <nb-list-item *ngFor="let item of comments">
-                        {{ item.create_date_str}} {{item.user}}  повідомив: {{ item.text }}
-                      </nb-list-item>
-                    </nb-list> -->
                   </nb-card-body>
                 </nb-card>
 
@@ -287,20 +283,6 @@
 
 </div>
 
-<!-- <div *ngIf="!isNewRecord" style='margin-top: -10px;padding-top: 10px; padding-bottom: 10px;'>
-    <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible"
-        nbButton size="small" status="primary" (click)="onClickFinish()" >Завершити</button>
-    <button size="small" *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
-        nbButton status="primary" (click)="onClickFinish()" >Додати Коментар</button>
-  <button *ngIf="!isNewRecord && !fieldsStatus.save_edit_claim.invisible"
-          style="margin-left: 10px;"
-          nbButton size="small" status="primary" (click)="saveClaimUpdate()">Зберегти
-  </button>
-    <button  style="margin-left: 10px;"
-        nbButton size="small" status="primary" (click)="goBack()">До списку</button>
-
-</div> -->
-
 <div  *ngIf="!isNewRecord" >
     <nb-card accent="info" class="col-12" style="min-height: 325px; max-height: calc(100vh - 460px); padding-bottom: 1em; margin-bottom: 0;">
         <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">Останні дії</nb-card-header>
@@ -347,27 +329,13 @@
 
           <!--  *ngIf="stepNewRecord==1" -->
           
-            <nb-card   style="width: 95%; margin: auto; height: calc(100vh - 190px);">
-        
-                <!-- <nb-card-header style="width: 100%; text-align: center;">
-                        Нове звернення
-                </nb-card-header> -->
-        
+            <nb-card class="card1CreateNewClaimStep1">        
                 <nb-card-body style="padding: 0.5em;">
     
                 <form #form="ngForm" ngNativeValidate>    
                 
-                  <div class="div-panel" *ngIf="!fieldsStatus.pan.invisible">
-                    
-                    <label class="label-caption">Номер карти</label>
-                    <!-- <input class="input-data" nbInput placeholder="Номер карти"
-                      [required]="fieldsStatus.pan.required"
-                      [readonly]="fieldsStatus.pan.readonly"
-                      [(ngModel)]="claimData.pan"
-                      minlength="16"
-                      maxlength="16">
-                      -->
-  
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.pan.invisible">
+                    <label class="label-caption">Номер карти</label>  
                     <div style="width: 60%;">
                       <input class="input-data-valid" autocomplete="off" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
                         placeholder="Номер карти" pattern="^\d+$" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
@@ -378,20 +346,10 @@
                         </p>
                       </ng-container>
                     </div>
-  
                   </div>
         
-                  <div class="div-panel" *ngIf="!fieldsStatus.transDate.invisible">
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.transDate.invisible">
                     <label class="label-caption">Дата транзакції</label>
-                    <!-- <input class="input-date" nbInput
-                           placeholder="Дата транзакції"
-                           [nbDatepicker]="formpicker"
-                           [required]="fieldsStatus.transDate.required"
-                           [readonly]="fieldsStatus.transDate.readonly"
-                           [(ngModel)]="claimData.trans_date"
-                           minlength="12"
-                           maxlength="12"> -->
-        
                     <div style="width: 60%;">
                       <input class="input-data-valid" style="cursor: pointer;" nbInput [(ngModel)]="claimData.trans_date" #trans_date="ngModel" name="trans_date" id="input-trans_date"  
                         placeholder="Дата транзакції" autofocus [status]="trans_date.dirty ? (claimData.trans_date == null ? 'danger' : 'success') : 'basic'"  
@@ -405,46 +363,23 @@
                     </div>
                   </div>
         
-                  <div class="div-panel" *ngIf="!fieldsStatus.merchantID.invisible">
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.merchantID.invisible">
                     <label class="label-caption">Торгова точка</label>
-                      
-                      <!-- <nb-select class="selector-list" [(selected)]="claimData.merch_id"
-                                  [required]="fieldsStatus.merchantID.required"
-                                  [disabled]="fieldsStatus.merchantID.readonly" >
-                        <nb-option *ngFor="let item of merchantsArr" [value]="item.merch_id">
-                          {{ item.name_ips }}
-                        </nb-option>
-                      </nb-select> -->
-                      
-                      <!--  [handleDisplayFn]="viewHandle"
-                      -->
-        
-                      <input style="width: 60%;" name="merch_id" autocomplete="off"
+                    <div style="width: 60%;">      
+                      <input style="width: 100%;" name="merch_id" autocomplete="off"
                         [formControl]="inputFormControlMerchUser" nbInput type="text"
                         placeholder="Введіть торгову точку"
                         [nbAutocomplete]="auto" />
-                  
                       <nb-autocomplete #auto (selectedChange)="onSelectionChangeMerch($event)">
-        
-                        <nb-option *ngFor="let item of filteredControlOptionsMerchUser$ | async" [value]="item">
+                        <nb-option class="step1Card1ItemOption" *ngFor="let item of filteredControlOptionsMerchUser$ | async" [value]="item">
                           {{ item }}
                         </nb-option>
-        
                       </nb-autocomplete>
-        
-        
+                    </div>  
                   </div>
         
-        
-                  <div class="div-panel" *ngIf="!fieldsStatus.terminalID.invisible">
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.terminalID.invisible">
                     <label class="label-caption">Номер терміналу</label>
-                    <!-- <input class="input-data" nbInput placeholder="Terminal ID"
-                           [required]="fieldsStatus.terminalID.required"
-                           [readonly]="fieldsStatus.terminalID.readonly"
-                           [(ngModel)]="claimData.term_id"
-                           minlength="8"
-                           maxlength="8"> -->
-        
                     <div style="width: 60%;">
                       <input class="input-data-valid" nbInput [(ngModel)]="claimData.term_id" #term_id="ngModel" name="term_id" id="input-term_id"  
                         placeholder="Номер терміналу" autofocus [status]="term_id.dirty ? (term_id.invalid  ? 'danger' : 'success') : 'basic'"  
@@ -455,18 +390,10 @@
                         </p>
                       </ng-container>
                     </div>
-        
                   </div>
         
-                  <div class="div-panel" *ngIf="!fieldsStatus.amount.invisible">
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.amount.invisible">
                     <label class="label-caption">Cума операції</label>
-                    <!-- <input class="input-data" nbInput placeholder="Cума операції"
-                           [required]="fieldsStatus.amount.required"
-                           [readonly]="fieldsStatus.amount.readonly"
-                           [(ngModel)]="claimData.trans_amount"
-                           minlength="10"
-                           maxlength="10"> -->
-        
                     <div style="width: 60%;">
                       <input class="input-data-valid" nbInput [(ngModel)]="claimData.trans_amount" #trans_amount="ngModel" name="trans_amount" id="input-trans_amount"  
                         placeholder="Cума операції" autofocus [status]="trans_amount.dirty ? (trans_amount.invalid  ? 'danger' : 'success') : 'basic'"  
@@ -477,20 +404,10 @@
                         </p>
                       </ng-container>
                     </div>
-              
                   </div>
         
-                  <div class="div-panel" *ngIf="!fieldsStatus.currency.invisible">
+                  <div class="div-panel step1Card1Item " *ngIf="!fieldsStatus.currency.invisible">
                     <label class="label-caption">Валюта операції</label>
-                    <!-- <nb-select class="selector-list" name="trans_currency"
-                      [(selected)]="claimData.trans_currency"
-                      [required]="fieldsStatus.currency.required"
-                      [disabled]="fieldsStatus.currency.readonly">
-                      <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
-                          {{ item.caption }}
-                      </nb-option>
-                    </nb-select> -->
-        
                     <div style="width: 60%;">
                       <nb-select class="input-data-valid" [(selected)]="claimData.trans_currency" #trans_currency="ngModel" name="trans_currency" id="input-trans_currency"  
                           [(ngModel)]="claimData.trans_currency"
@@ -506,29 +423,29 @@
                           </p>
                         </ng-container>
                     </div>
-        
-        
                   </div>
         
-                  <div class="div-panel" *ngIf="!fieldsStatus.authCode.invisible">
+                  <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.authCode.invisible">
                     <label class="label-caption">Код операції</label>
-                    <input class="input-data" nbInput name="trans_approval_code"
-                      placeholder="Код операції"
-                      [required]="fieldsStatus.authCode.required"
-                      [readonly]="fieldsStatus.authCode.readonly"
-                      [(ngModel)]="claimData.trans_approval_code"
-                      minlength="6"
-                      maxlength="6"
-                    >
+                    <div style="width: 60%;">
+                      <input style="width: 100%;" class="input-data" nbInput name="trans_approval_code"
+                        placeholder="Код операції"
+                        [required]="fieldsStatus.authCode.required"
+                        [readonly]="fieldsStatus.authCode.readonly"
+                        [(ngModel)]="claimData.trans_approval_code"
+                        minlength="6"
+                        maxlength="6"
+                      >
+                    </div>
                   </div>
-                  <div class="div-panel" *ngIf="this.role == 'chargeback_officer'">
+                  <div class="div-panel step1Card1Item" *ngIf="this.role == 'chargeback_officer'">
                     <label class="label-caption">Reason code</label>        
                     <div style="width: 60%;">
                       <nb-select class="input-data-valid" [disabled]="!isReasonCodeInputValid" #claim_reason_code="ngModel" name="claim_reason_code" id="input-claim_reason_code"  
                           [(ngModel)]="claimData.claim_reason_code"
                           placeholder="Reason code" autofocus [status]="claim_reason_code.dirty ? (claim_reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
                           required >
-                          <nb-option *ngFor="let code of reasonCodesArr" [value]="code.code">
+                          <nb-option class="step1Card1ItemOption" *ngFor="let code of reasonCodesArr" [value]="code.code">
                             {{ code.description }}
                         </nb-option>
                       </nb-select>
@@ -540,17 +457,13 @@
                     </div>
                   </div>
                   
-        
                 </form>
-
                 </nb-card-body>
         
               <nb-card-footer style="padding: 0.5em;">
                 <div class="center">
                   <button *ngIf="this.role != 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStep()" >До наступного кроку</button>
-                  <button *ngIf="this.role == 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStepCb()" >До наступного кроку</button>
-
-                  
+                  <button *ngIf="this.role == 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStepCb()" >До наступного кроку</button>  
                 </div>
               </nb-card-footer>
             </nb-card>
@@ -562,7 +475,7 @@
           <ng-template #labelTwo>Додаткова інформація</ng-template>
 
             <!-- *ngIf="stepNewRecord==2" -->
-          <nb-card  style="width: 75%; height: calc(100vh - 190px); margin: auto;">
+          <nb-card class="card1CreateNewClaimStep2">
 
             <!-- <nb-card-header style="width: 100%; text-align: center;">
               Додаткова інформація
@@ -794,7 +707,7 @@
             </nb-card-body>
       
             <nb-card-footer>
-              <div class="center" style="display: flex; justify-content: center;">
+              <div class="center card1CreateNewClaimStep2Footer">
                   <button  nbButton nbStepperPrevious status="primary" size="small" (click)="onClickBack()">Повернутися</button>
                   <button *ngIf="isVisibleBackStepButton" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="onClickBackStep()">Назад</button>
                   <button *ngIf="!isLastStep" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="change(this)">Далі</button>
@@ -812,10 +725,10 @@
 
           <ng-template #labelThird>Відправити</ng-template>
 
-          <nb-card  style="width: 70%; height: calc(100vh - 190px); margin: auto;">
+          <nb-card class="card1CreateNewClaimStep3">
             <nb-card-header style="text-align: center;">Додайте Ваші коментарі та документи, що стосуються операції</nb-card-header>
             <nb-card-body>
-              <div class="div-panel" *ngIf="!fieldsStatus.comment.invisible">
+              <div class="div-panel itemDisplayColumn" *ngIf="!fieldsStatus.comment.invisible">
                 <label class="label-caption">Коментарі</label>
                 <textarea class="input-data" [required]="fieldsStatus.comment.required"
                 [readonly]="fieldsStatus.comment.readonly" placeholder="Ваші коментарі" name="ch_comments"
@@ -835,7 +748,6 @@
                 </div>
               </div>
 
-
             </nb-card-body>
 
             <nb-card-footer>
@@ -846,51 +758,7 @@
             </nb-card-footer>
 
           </nb-card>
-
-
         </nb-step>
-
-        <!-- <nb-step [label]="labelFour">
-          <ng-template #labelFour>Додати документи</ng-template>
-
-          <nb-card  style="width: 49%; height: 450px;margin: auto;">
-          
-            <nb-card-body>
-            </nb-card-body>
-
-            <nb-card-footer>
-              <div class="center">
-                <button  nbButton nbStepperPrevious status="primary" >Повернутися</button>
-                <button *ngIf="isLastStep" nbButton nbStepperNext status="primary" 
-                  [disabled]="!getCheckData"
-                  style="margin-left: 10px;">До наступного кроку</button>
-              </div>
-            </nb-card-footer>
-          
-          </nb-card>
-
-        </nb-step>
-
-
-        <nb-step [label]="labelFive">
-          <ng-template #labelFive>Відправити</ng-template>
-
-          <nb-card  style="width: 49%; height: 450px;margin: auto;">
-          
-            <nb-card-body>
-              <h4 class="center">Відправити на сервер </h4>
-            </nb-card-body>
-
-            <nb-card-footer>
-              <div class="center">
-                <button  nbButton nbStepperPrevious status="primary" >Повернутися</button>
-                
-              </div>
-            </nb-card-footer>
-          
-          </nb-card>
-
-        </nb-step> -->
 
       </nb-stepper>
 

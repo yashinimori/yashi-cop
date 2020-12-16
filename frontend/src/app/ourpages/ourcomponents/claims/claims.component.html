@@ -2,7 +2,7 @@
   <nb-card class="customCardHeight">
     
       <nb-card-header style="padding: 0.5em;">
-        <div style="display: flex; align-items: center;">
+        <div class="headerClaimsComponent">
           Список скарг
             <button *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all' && role != 'chargeback_officer'" nbButton size="tiny" 
               status="primary" (click)="add_claim()" style="margin-left: 1.5em;">Додати скаргу</button>

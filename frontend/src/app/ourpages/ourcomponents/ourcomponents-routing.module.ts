@@ -36,6 +36,8 @@ import { MastercardRetrievalComponent } from './mastercard-menu/mastercard-retri
 import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
+import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
+import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
 
 const routes: Routes = [{
   path: '',
@@ -88,6 +90,10 @@ const routes: Routes = [{
     {
       path: 'chbo-my-claims/:status',
       component: ChboMyClaimsComponent,
+    },
+    {
+      path: 'chbo-merchant-requests',
+      component: ChboMerchantRequestsComponent,
     },
     {
       path: 'chart-donat',
@@ -188,6 +194,11 @@ const routes: Routes = [{
     {
       path: 'mastercard-fees',
       component: MastercardFeesComponent
+    },
+    
+    {
+      path: 'show-claim-result',
+      component: ShowClaimResultComponent,
     },
 
   ],
