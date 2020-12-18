@@ -11,3 +11,18 @@
   align-items: center;
   margin-bottom: 0.5em;
 }
+
+.logUploadCard {
+  nb-card-header {
+    display: flex; 
+    align-items: baseline;
+  }
+}
+
+@media (max-width: 500px) {
+  .logUploadCard {
+    nb-card-header {
+      flex-wrap: wrap;
+    }
+  }
+}

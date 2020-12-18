@@ -1,7 +1,7 @@
 <div *ngIf="!fieldsStatus.list_claims.invisible">
   <nb-card class="customCardHeight">
     
-      <nb-card-header style="padding: 0.5em;">
+      <nb-card-header style="padding: 0.5em; overflow-x: auto;">
         <div class="headerClaimsComponent">
           Список скарг
             <button *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all' && role != 'chargeback_officer'" nbButton size="tiny" 

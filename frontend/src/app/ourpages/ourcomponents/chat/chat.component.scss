@@ -65,6 +65,12 @@
   display: none;
 }
 
+@media (max-width: 500px) {
+  .chatStyle {
+    width: 90vw!important;
+  }
+}
+
 @-webkit-keyframes floatBubble1 {
   0% {
     right:0px;

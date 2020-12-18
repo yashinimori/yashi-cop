@@ -173,7 +173,7 @@
 
               <nb-tab tabTitle="Результат">
                 <nb-card style="width: 100%; border: 0; height: 15em;">
-                  <nb-card-body  style="padding: 0.5em 1em;">
+                  <nb-card-body>
                     <div >
                         <label class="cardProcessLabel">Результат</label>
                         <br>
@@ -205,7 +205,7 @@
               <nb-tab tabTitle="Коментарі">
 
                 <nb-card style="width: 100%; border: 0; height: 15em;">
-                  <nb-card-body style="padding: 0.5em 1em;">
+                  <nb-card-body>
                     <div >
                       <label class="cardProcessLabel">Коментар</label>
                       <br>
@@ -224,45 +224,45 @@
               </nb-tab>
 
               <nb-tab tabTitle="Dispute details">
-                <nb-card style="width: 100%; height: 15em; border: 0;">
-                  <nb-card-body style="padding: 0.5em 1em;">
+                <nb-card class="editClaimTab3Card">
+                  <nb-card-body>
 
-                    <input class="input-date center" nbInput style="cursor: pointer;"
+                    <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="width: 100%; max-width: 35em;"
                            placeholder="Chb date"
                            [nbDatepicker]="formpicker_chargeback_date"
                            [(ngModel)]="claimData.chargeback_date" readonly>
                     <nb-datepicker #formpicker_chargeback_date format="dd/MM/yyyy"></nb-datepicker>
 
-                    <input class="input-date center calendar-set" nbInput style="cursor: pointer;"
+                    <input class="input-date center calendar-set tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
                            placeholder="Sec Pres date"
                            [nbDatepicker]="formpicker_second_presentment_date"
                            [(ngModel)]="claimData.second_presentment_date" readonly>
                     <nb-datepicker #formpicker_second_presentment_date format="dd/MM/yyyy"></nb-datepicker>
 
-                    <input class="input-date center" nbInput style="cursor: pointer;"
+                    <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
                            placeholder="Pre Arb date"
                            [nbDatepicker]="formpicker_pre_arbitration_date"
                            [(ngModel)]="claimData.pre_arbitration_date" readonly>
                     <nb-datepicker #formpicker_pre_arbitration_date format="dd/MM/yyyy"></nb-datepicker>
 
-                    <input class="input-date center" nbInput style="cursor: pointer;"
+                    <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
                            placeholder="Pre Arb Resp date"
                            [nbDatepicker]="formpicker_pre_arbitration_response_date"
                            [(ngModel)]="claimData.pre_arbitration_response_date" readonly>
                     <nb-datepicker #formpicker_pre_arbitration_response_date format="dd/MM/yyyy"></nb-datepicker>
 
-                    <input class="input-date center" nbInput style="cursor: pointer;"
+                    <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
                            placeholder="Arb date"
                            [nbDatepicker]="formpicker_arbitration_date"
                            [(ngModel)]="claimData.arbitration_date" readonly>
                     <nb-datepicker #formpicker_arbitration_date format="dd/MM/yyyy"></nb-datepicker>
 
-                    <input class="input-date center" nbInput style="cursor: pointer;"
+                    <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
                            placeholder="Arb Resp date"
                            [nbDatepicker]="formpicker_arbitration_response_date"
@@ -284,7 +284,7 @@
 </div>
 
 <div  *ngIf="!isNewRecord" >
-    <nb-card accent="info" class="col-12" style="min-height: 325px; max-height: calc(100vh - 460px); padding-bottom: 1em; margin-bottom: 0;">
+    <nb-card accent="info" class="col-12" style="min-height: 325px; height: calc(100vh - 440px); max-height: calc(100vh - 440px); padding-bottom: 1em; margin-bottom: 0;">
         <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">Останні дії</nb-card-header>
         <nb-card-body style="padding: 0.5em 1em;">
             <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">

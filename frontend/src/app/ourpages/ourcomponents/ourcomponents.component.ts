@@ -4,7 +4,10 @@ import { Component } from '@angular/core';
   selector: 'ngx-components',
   template: `
     <router-outlet></router-outlet>
-  `
+  `,
+  styles: [`:host {
+    height: 100%!important;
+  }`]
 })
 export class OurComponentsComponent {
  

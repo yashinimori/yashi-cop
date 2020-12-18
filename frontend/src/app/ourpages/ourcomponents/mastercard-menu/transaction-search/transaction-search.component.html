@@ -22,7 +22,7 @@
                     <input readonly class="trInput" style="cursor: pointer;" fieldSize="tiny" nbInput placeholder="End Date" [(ngModel)]="endDate" [nbDatepicker]="formpicker2">
                     <nb-datepicker #formpicker2 format="dd/MM/yyyy"></nb-datepicker>
                 </div>
-                <button style="margin-left: 1.5em;" nbButton size="small" 
+                <button class="trInputButton" nbButton size="small" 
                 status="primary" (click)="searchData()"> Search</button>
             </nb-card-body>
         </nb-card>
@@ -38,8 +38,8 @@
                 <nb-tab tabTitle="Summary">
                     <nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 50vh);">
                         <nb-card-body style="padding: 0.5em; display: flex; justify-content: space-around;">
-                            <div style="display: flex; flex-direction: column; width: 45%;">
-                                <p style="margin-bottom: 0.2em;">authorizationSummary</p>
+                            <div class="tansactionSearchTabsetItem">
+                                <p>authorizationSummary</p>
                                 <div class="sumItem" *ngFor="let authS of this.authSummaryArr">
                                     <div class="sumTitle">
                                         {{authS.title}}
@@ -49,8 +49,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; flex-direction: column; width: 45%;">
-                                <p style="margin-bottom: 0.2em;">clearingSummary:</p>
+                            <div class="tansactionSearchTabsetItem">
+                                <p>clearingSummary:</p>
                                 <div class="sumItem" *ngFor="let clearS of this.clearingSummaryArr">
                                     <div class="sumTitle">
                                         {{clearS.title}}

@@ -1,5 +1,7 @@
 @import '../../../@theme/styles/themes';
-
+:host {
+    height: 100%!important;
+}
   
 .div-panel{
     display: flex;
@@ -226,9 +228,36 @@
     font-size: 12px;
     padding: 10px;
 }
+:host /deep/ .chargeTabset > nb-tab > nb-card > nb-card-body {
+    padding: 0.5em 1em;
+}
+
+.editClaimTab3Card {
+    width: 100%; 
+    height: 15em; 
+    border: 0;
+}
 
 
 @media (max-width: 500px) {
+    :host /deep/ .chargeTabset > ul > li > a {
+        font-size: 8px;
+        padding: 0.1em;
+    }
+    :host /deep/ .chargeTabset > nb-tab {
+        padding: 0.1em;
+    }
+    :host /deep/ .chargeTabset > nb-tab > nb-card > nb-card-body {
+        padding: 0.1em;
+    }
+    .tabInput {
+        padding: 0.3em!important;
+        font-size: 10px!important;
+    }
+    .editClaimTab3Card {
+        height: 17em!important;
+    }
+    
     .mainCardSingleClaim {
         nb-card-header {
             padding: 0.2em 0.4em;
@@ -259,6 +288,13 @@
     .cardDetailsItem > label {
         font-size: 10px;
         margin-bottom: 0!important;
+    }
+
+    .cardDetailsItem > input {
+        padding: 0.3em!important;
+        font-size: 10px!important;
+        text-align: center;
+        height: 2em!important;
     }
 
     .cardProcess {    
