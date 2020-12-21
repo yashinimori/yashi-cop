@@ -45,7 +45,7 @@
             </div>
             <div *ngIf="!isEdit" class="div-panel">
                 <label class="label-caption">Банк</label> 
-                <div style="display: flex;">
+                <div class="banksDiv" style="display: flex;">
                     <label style="margin-right: 1em;" *ngFor="let bank of currentMerchant.bankCustom; let i = index;">
                         {{bank.name_eng}}<span *ngIf="i < currentMerchant.bankCustom.length - 1">,</span>
                     </label>

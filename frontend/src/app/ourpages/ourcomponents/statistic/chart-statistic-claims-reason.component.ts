@@ -7,6 +7,13 @@ import { ErrorService } from '../../../share/services/error.service';
 @Component({
     selector: 'app-chart-statistic-claims-reason',
     templateUrl: './chart-statistic-claims-reason.component.html',
+    styles: [`
+    @media (max-width: 500px) { 
+      #chartContainer {
+        width: 85vw!important;
+      }
+    }
+    `]
 })
 export class StatisticClaimsByReasonComponent implements OnInit, OnDestroy {
    

@@ -37,3 +37,69 @@
   font-size: 13px!important;
   padding: 0.7em;
 }
+
+@media (max-width: 500px) { 
+  .div-panel {
+    font-size: 10px;
+  }
+  .label-caption {
+    width: 50%;
+  }
+
+  :host /deep/ .tabsSingleBank > ul > li > a {
+    font-size: 8px!important;
+    padding: 0.1em;
+  }
+  :host /deep/ .tabsSingleBank > nb-tab {
+    padding: 0.1em;
+  }
+
+  // table head
+  :host /deep/ ng2-smart-table thead > tr > th  { 
+    font-size: 9px;
+    padding: 0.3em 0.5em !important;
+  }
+  
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 9px;
+    padding: 0!important;
+  }
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div { 
+    text-align: center;
+  }
+  // table head button sort
+  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a::after {
+    right: 0!important;
+  }
+  
+  // table body
+  :host /deep/ ng2-smart-table tbody > tr > td  { 
+    font-size: 9px;
+    text-align: center;
+    padding: 1em;
+  }
+  :host /deep/ ng2-smart-table tbody > tr > td:nth-child(2)  { 
+    min-width: 11em;
+  }
+
+
+  // pager
+  :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul > li > a {
+    padding: 0.6em 0.9em !important;
+  }
+
+  :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul > li > span {
+    padding: 0.6em 0.9em !important;
+  }
+
+  :host /deep/ ng2-smart-table ng2-smart-table-pager nav {
+    margin-top: 0.5em!important;
+  }
+
+  :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul {
+    margin-bottom: 0.2em!important;
+  }
+  // :host /deep/ .tabsSingleBank > nb-tab > nb-card > nb-card-body {
+  //   padding: 0.1em;
+  // }
+}

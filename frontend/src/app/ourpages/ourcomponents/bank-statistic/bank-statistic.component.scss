@@ -5,3 +5,12 @@
     transform: translate3d(0, 0, 0);
   }
 }
+.bigCard {
+  width: 80%;
+}
+
+@media (max-width: 500px) { 
+  .bigCard {
+    width: 100%;
+  }
+}

@@ -23,4 +23,13 @@
 
 .statCardInside {
   margin-bottom: 0.5em!important;
+  width: 43%;
+}
+
+@media (max-width: 500px) { 
+  .statCardInside {
+    width: 100%;
+  }
+
+  
 }
