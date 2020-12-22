@@ -4,11 +4,14 @@
     </nb-card-header>
 </nb-card>
       <div class="secOfficerUser" style="display: flex; height: 100%;">
-          <nb-card style="height: calc(100vh - 140px); margin-bottom: 0;" accent="info">
+          <nb-card class="card1" accent="info">
             <nb-card-header style="padding: 0.3em; text-align: center;">
               Інформація
             </nb-card-header>
             <nb-card-body style="padding: 1em;">
+              <div class="card1BodyDiv">
+
+              
               <div class="div-panel" >
                 <label class="label-caption">Ім'я</label> 
                 <label class="label-data">{{ userData.first_name }}</label>
@@ -45,9 +48,10 @@
               </div>     
               <button nbButton size="small" status="primary"
                 (click)="sendMail()">Надіслати</button>
+              </div>
             </nb-card-body>
           </nb-card>
-        <nb-card style="height: calc(100vh - 140px); margin-bottom: 0; width: 100%;" accent="info">
+        <nb-card class="card2" accent="info">
           <nb-card-header style="padding: 0.3em; text-align: center;">
             Логи
           </nb-card-header>

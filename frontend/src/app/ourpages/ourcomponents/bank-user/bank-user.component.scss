@@ -42,3 +42,16 @@ nb-card-body {
   margin: 1em;
   margin-top: 0!important;
 }
+
+.bankUserCard {
+  width: 70%; 
+  margin: auto; 
+  overflow: auto; 
+  max-width: 500px;
+}
+
+@media (max-width: 500px) { 
+  .bankUserCard {
+    width: 95%;
+  }
+}

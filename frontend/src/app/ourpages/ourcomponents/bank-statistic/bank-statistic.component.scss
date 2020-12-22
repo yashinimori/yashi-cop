@@ -8,6 +8,11 @@
 .bigCard {
   width: 80%;
 }
+.smallCard {
+  width: 15%;
+  max-width: 12em;
+  min-width: 9em;
+}
 
 @media (max-width: 500px) { 
   .bigCard {
