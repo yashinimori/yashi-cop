@@ -47,7 +47,7 @@
                   placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"></label>
               </div>     
               <button nbButton size="small" status="primary"
-                (click)="sendMail()">Надіслати</button>
+                (click)="sendMail()" [nbSpinner]="loadingSendEmail" nbSpinnerStatus="info">Надіслати</button>
               </div>
             </nb-card-body>
           </nb-card>

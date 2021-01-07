@@ -5,6 +5,7 @@ import { TransferService } from '../../../share/services/transfer.service';
 import { ATM } from '../../../share/models/atm.model'
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-atm',
@@ -17,10 +18,11 @@ export class ATMComponent implements OnInit, OnDestroy {
   bankID: any;
   bankBin: string;
   role: any;
+  loadingCreate = false;
 
   constructor(private httpService: HttpService,
     private router: Router,
-    private transferService: TransferService, private errorService: ErrorService) {
+    private transferService: TransferService, private errorService: ErrorService, private toastService: ToastService) {
       this.bankID = '';
       this.role = '';
   }
@@ -64,6 +66,7 @@ export class ATMComponent implements OnInit, OnDestroy {
 
   createATM() {
     if(this.enter() == 0){
+      this.loadingCreate = true;
       let d = {
         "merch_id": this.data.merch_id,
         "name_ips": this.data.name_ips,
@@ -80,10 +83,14 @@ export class ATMComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.loadingCreate = false;
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.toastService.showToast('success', 'top-end', 'Всі файли успішно завантажені!');
+          this.loadingCreate = false;
           this.goBack();
         }
       });

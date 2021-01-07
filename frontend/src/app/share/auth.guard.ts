@@ -110,6 +110,7 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/mastercard-transaction-search' ||
          url == '/cop/cabinet/mastercard-chargebacks' ||
          url == '/cop/cabinet/mastercard-retrieval' ||
+         url == '/cop/cabinet/mastercard-transaction-info' ||
          url == '/cop/cabinet/mastercard-fees') {
           return true;
         } else {

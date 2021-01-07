@@ -10,6 +10,7 @@ import {ClaimView} from '../../../share/models/claim-view.model';
 import {SingleClaimForms} from '../../../share/models/single-claim-forms.model';
 import {SelectorDataStr} from '../../../share/models/selector-data-str.model';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-single-claim-forms',
@@ -24,6 +25,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   cOPClaimID: string;
   getEscalationSubscription: Subscription = new Subscription();
   claimData: ClaimView;
+
+  loadingEs = false;
 
   role: string;
   claimId: any;
@@ -43,6 +46,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
+              private toastService: ToastService,
               private router: Router, private errorService: ErrorService) {
   }
 
@@ -129,6 +133,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   }
 
   onClickApply() {
+    this.loadingEs = true;
     const claim = new ClaimView();
     claim.claimId = this.claimId;
     claim.id = this.claimId;
@@ -206,10 +211,14 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         // this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
+        this.loadingEs = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingEs = false;
         this.transferService.cOPClaimID.next(this.claimId);
         if (this.typeOperation == 'FinishForm')
           this.router.navigate(['cop', 'cabinet', 'claims']);

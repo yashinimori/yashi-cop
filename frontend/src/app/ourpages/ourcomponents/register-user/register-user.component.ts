@@ -1,10 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import * as Papa from 'papaparse';
 import { forkJoin, Subscription } from 'rxjs';
 import { MerchUser } from '../../../share/models/merch-user.model';
+import { ErrorService } from '../../../share/services/error.service';
 import { HttpService } from '../../../share/services/http.service';
+import { ToastService } from '../../../share/services/toast.service';
 import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   constructor( 
     private transferService: TransferService,
     private router: Router,
-    private toastrService: NbToastrService,
+    private errorService: ErrorService,
+    private toastService: ToastService,
     private httpServise: HttpService,
     private activatedRoute: ActivatedRoute,) { }
 
@@ -36,6 +38,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   subscriptionAtms: Subscription = new Subscription();
   subscriptionUsers: Subscription = new Subscription();
   selectedFile: any;
+
+  loadingCreate = false;
 
   merchantsArr: Array<any> = new Array<any>();
   observableArrMerchants: Array<any> = new Array<any>();
@@ -136,17 +140,21 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   createNewMerchants() {
+    this.loadingCreate = true;
     this.subscriptionMerchants = forkJoin(this.observableArrMerchants).subscribe({
       next: (response: any) => {},
       error: error => {
-        this.showToast('danger', 'bottom-end', 'Сталася помилка при реєстрації');
+        this.loadingCreate = false;
+        this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingCreate = false;
         this.merchantsArr = new Array();
         this.observableArrMerchants = new Array();
         this.selectedFile = undefined;
-        this.showToast('success', 'bottom-end', 'Всі мерчанти успішно створені!');
+        this.toastService.showSuccessToast();
       }
     });
   }
@@ -180,17 +188,21 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   createNewAtm() {
+    this.loadingCreate = true;
     this.subscriptionAtms = forkJoin(this.observableArrAtms).subscribe({
       next: (response: any) => {},
       error: error => {
-        this.showToast('danger', 'bottom-end', 'Сталася помилка при реєстрації');
+        this.loadingCreate = false;
+        this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingCreate = false;
         this.atmsArr = new Array();
         this.observableArrAtms = new Array();
         this.selectedFile = undefined;
-        this.showToast('success', 'bottom-end', 'Всі АТМ успішно створені!');
+        this.toastService.showSuccessToast();
       }
     });
   }
@@ -225,26 +237,26 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   createNewUser() {
+    this.loadingCreate = true;
     this.subscriptionUsers = forkJoin(this.observableArrUsers).subscribe({
       next: (response: any) => {},
       error: error => {
-        this.showToast('danger', 'bottom-end', 'Сталася помилка при реєстрації');
+        this.loadingCreate = false;
+        this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingCreate = false;
         this.usersArr = new Array();
         this.observableArrUsers = new Array();
         this.selectedFile = undefined;
-        this.showToast('success', 'bottom-end', 'Всі АТМ успішно створені!');
+        this.toastService.showSuccessToast();
       }
     });
   }
 
   // ------------------------------------------------------------------------------
-
-  showToast(status: NbComponentStatus, position, text: string) {
-    this.toastrService.show(status, text, { status, position});
-  }
 
   ngOnDestroy(): void {
     localStorage.removeItem('bankID');

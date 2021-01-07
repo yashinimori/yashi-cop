@@ -225,6 +225,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {   
@@ -353,6 +354,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => { 
@@ -485,6 +487,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -605,6 +608,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {

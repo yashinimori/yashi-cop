@@ -6,6 +6,7 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-bank-user',
@@ -19,12 +20,13 @@ export class BankUserComponent implements OnInit, OnDestroy {
   bankID: any;
   role: any;
   banksList: any;
+  loadingCreate = false;
 
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
 
   constructor(private httpService: HttpService,
-              private router: Router,
+              private router: Router, private toastService: ToastService,
               private transferService: TransferService, private errorService: ErrorService) {
     this.bankID = '';
     this.role = '';
@@ -67,6 +69,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
 
   createBankUser() {
     if (this.enter() == 0) {
+      this.loadingCreate = true;
       const d = {
         'email': this.data.email,
         'password': this.data.password,
@@ -84,10 +87,14 @@ export class BankUserComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.loadingCreate = false;
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.loadingCreate = false;
+          this.toastService.showSuccessToast();
           this.goBack();
         },
       });

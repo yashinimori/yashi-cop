@@ -49,6 +49,6 @@
         <button *ngIf="!isEdit" nbButton size="small" status="primary" (click)="goBack()">Повернутися до списку</button>
         <button *ngIf="!isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="editBankUser()">Редагувати</button>
         <button *ngIf="isEdit" nbButton size="small" status="primary" (click)="closeEditBankUser()">Відмінити</button>
-        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="updateBankUser()">Зберегти зміни</button>
+        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" [nbSpinner]="loadingUpdate" nbSpinnerStatus="info" (click)="updateBankUser()">Зберегти зміни</button>
     </nb-card-footer>
 </nb-card>

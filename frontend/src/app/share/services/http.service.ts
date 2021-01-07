@@ -41,6 +41,39 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
+  createClaimMastercardApi(body:any) {
+    return this.http.post('https://api.mastercard.com/mastercom/v6/transactions/search', {
+      "acquirerRefNumber": "05436847276000293995738",
+      "bankNetRefNumber": "U68FRGDFA",
+      "primaryAccountNum": "5488888888887192",
+      "transAmountFrom": "10000",
+      "transAmountTo": "20050",
+      "tranStartDate": "2017-10-01",
+      "tranEndDate": "2017-10-02"
+    }, {
+      headers: new HttpHeaders({
+        oauth_body_hash:"94cOcstEzvTvyBcNV94PCbo1b5IA35XgPf5dWR4OamU=",
+        oauth_nonce:"32lqGrI0f0nQEW85",
+        oauth_signature:"MhfaStcHU0vlIoeaBLuP14(...)qqd99lI56XuCk8RM5dDA%3D%3D",
+        oauth_consumer_key:"9TioEULnU__3EhV2zYyz67Ji907I9j1umylVzVzc3a3766bd!a2c4fc23e3744a8a9e762bdb22b809190000000000000000",
+        oauth_signature_method:"RSA-SHA256",
+        oauth_timestamp:"1558370962",
+        oauth_version:"1.0"
+      })
+      // headers: new HttpHeaders({
+      //   Authorization: `
+      //   OAuth 
+      //   oauth_body_hash="94cOcstEzvTvyBcNV94PCbo1b5IA35XgPf5dWR4OamU=",
+      //   oauth_nonce="32lqGrI0f0nQEW85",
+      //   oauth_signature="MhfaStcHU0vlIoeaBLuP14(...)qqd99lI56XuCk8RM5dDA%3D%3D",
+      //   oauth_consumer_key="9TioEULnU__3EhV2zYyz67Ji907I9j1umylVzVzc3a3766bd!a2c4fc23e3744a8a9e762bdb22b809190000000000000000",
+      //   oauth_signature_method="RSA-SHA256",
+      //   oauth_timestamp="1558370962",
+      //   oauth_version="1.0"`
+      // })
+    });
+  }
+
   getReasonCodes() {
     return this.http.get(`${URL_GET_REASON_CODES}?page_size=40`, this.getHeaders());
   }

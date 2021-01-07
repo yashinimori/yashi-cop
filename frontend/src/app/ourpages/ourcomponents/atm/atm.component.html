@@ -26,7 +26,8 @@
       <div class="button-enter">
         <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
         <button nbButton size="small" status="primary" style="margin-left: 10px;"
-          (click)="createATM()">Зарегистрировать</button>
+        [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
+          (click)="createATM()">Зареєструвати</button>
       </div>
     </nb-card-footer>
 

@@ -15,7 +15,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div class="button-enter">
-      <button nbButton size="small" status="primary" (click)="createBank()">Зареєструвати</button>
+      <button nbButton size="small" status="primary" (click)="createBank()" [nbSpinner]="loadingCreate" nbSpinnerStatus="info">Зареєструвати</button>
     </div>
   </nb-card-footer>
 </nb-card>

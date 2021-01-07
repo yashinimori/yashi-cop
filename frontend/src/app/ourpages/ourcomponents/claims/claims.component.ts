@@ -23,6 +23,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   pagerSize = 10;
   fieldsStatus: FieldsStatus;
   stageParam: string;
+  loadingRefresh = false;
+  loadingReport = false;
 
   items = [
     { title: 'us-on-us' },
@@ -383,6 +385,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   refresh_claim(){
+    this.loadingRefresh = true;
     this.getClaimsData();
   }
 
@@ -446,10 +449,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
       },
       error: error => {
+        this.loadingRefresh = false;
         this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingRefresh = false;
       }
     });
   }
@@ -475,6 +480,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   public createReport(){
     if(this.claimsData){
+      this.loadingReport = true;
       let str = '';
 
       str += 'ID;';
@@ -521,6 +527,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     
       var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
+      this.loadingReport = false;
       FileSaver.saveAs(blob, filename);
     }
   }

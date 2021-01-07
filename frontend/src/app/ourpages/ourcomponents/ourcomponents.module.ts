@@ -21,6 +21,7 @@ import {
   NbPopoverModule,
   NbContextMenuModule,
   NbChatModule,
+  NbDialogModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -78,6 +79,8 @@ import { TransactionsInfoComponent } from './transactions-info/transactions-info
 import { ChatComponent } from './chat/chat.component';
 import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
 import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
+import { MastercardTransactionInfoComponent } from './mastercard-menu/mastercard-transaction-info/mastercard-transaction-info.component';
+import { MastercardDialogFormsComponent } from './mastercard-menu/mastercard-dialog-forms/mastercard-dialog-forms.component';
 
 @NgModule({
   imports: [
@@ -105,6 +108,7 @@ import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-mer
       formatOptions: { useAdditionalWeekYearTokens: true, useAdditionalDayOfYearTokens: true },
     }),
     Ng2SmartTableModule,
+    NbDialogModule.forRoot(),
     NbDatepickerModule, 
     NbIconModule,
     NbSelectModule,
@@ -164,6 +168,8 @@ import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-mer
     TransactionsInfoComponent,
     ChatComponent,
     ChboMerchantRequestsComponent,
+    MastercardTransactionInfoComponent,
+    MastercardDialogFormsComponent,
   ],
   // providers: [
     

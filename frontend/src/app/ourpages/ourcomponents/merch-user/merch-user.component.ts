@@ -5,6 +5,7 @@ import { MerchUser } from '../../../share/models/merch-user.model';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-merch-user',
@@ -17,9 +18,10 @@ export class MerchUserComponent implements OnInit, OnDestroy {
   bankID: any;
   bankBin: string;
   role: any;
+  loadingCreate = false;
 
   constructor(private httpService: HttpService,
-    private router: Router,
+    private router: Router, private toastService: ToastService,
     private transferService: TransferService, private errorService: ErrorService) {
       this.bankID = '';
       this.role = '';
@@ -69,6 +71,7 @@ export class MerchUserComponent implements OnInit, OnDestroy {
   createMerchUser() {
     this.data.role = 'merchant';
     if(this.enter() == 0){
+      this.loadingCreate = true;
       let d = {
         "email": this.data.email,
         "password": this.data.password,
@@ -93,10 +96,14 @@ export class MerchUserComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.loadingCreate = false;
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.loadingCreate = false;
+          this.toastService.showSuccessToast();
           this.goBack();
         }
       });

@@ -38,6 +38,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
 import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
 import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
+import { MastercardTransactionInfoComponent } from './mastercard-menu/mastercard-transaction-info/mastercard-transaction-info.component';
 
 const routes: Routes = [{
   path: '',
@@ -182,6 +183,10 @@ const routes: Routes = [{
     {
       path: 'mastercard-transaction-search',
       component: TransactionSearchComponent
+    },
+    {
+      path: 'mastercard-transaction-info',
+      component: MastercardTransactionInfoComponent
     },
     {
       path: 'mastercard-chargebacks',

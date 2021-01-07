@@ -29,6 +29,7 @@ export class EditMerchantComponent implements OnInit, OnDestroy {
   editedMerchant: any;
   currentMerchant: any;
   isUiLoad: boolean = false;
+  loadingUpdate: boolean = false;
   isEdit: boolean = false;
   banksList = new Array<any>();
 
@@ -49,6 +50,7 @@ export class EditMerchantComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => { 

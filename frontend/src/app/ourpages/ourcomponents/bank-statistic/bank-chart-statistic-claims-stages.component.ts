@@ -79,6 +79,7 @@ export class BankStatisticClaimsByStagesComponent implements OnInit, OnDestroy {
         },
         error: error => {
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {

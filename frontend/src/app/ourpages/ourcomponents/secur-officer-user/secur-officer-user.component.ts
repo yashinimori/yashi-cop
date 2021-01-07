@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-secur-officer-user',
@@ -24,10 +25,11 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   sourceLogs: LocalDataSource;
   userId: any;
   userData: BankUser;
+  loadingSendEmail = false;
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
-    private router: Router,
+    private router: Router, private toastService: ToastService,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.logsData = new Array<BankUser>();
     this.userData = new BankUser();
@@ -164,6 +166,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   }
 
   sendMail(){
+    this.loadingSendEmail = true;
     let d = {
       "email": this.userData.email
     };
@@ -171,10 +174,14 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
       next: (response: any) => {
       },
       error: error => {
+        this.loadingSendEmail = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingSendEmail = false;
       }
     });
   }

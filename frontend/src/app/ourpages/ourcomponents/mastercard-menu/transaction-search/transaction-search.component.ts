@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Router } from '@angular/router';
+import { TransferService } from '../../../../share/services/transfer.service';
 
 @Component({
   selector: 'ngx-transaction-search',
@@ -9,7 +11,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class TransactionSearchComponent implements OnInit {
 
-  constructor(private datePipe: DatePipe,) { }
+  constructor(private datePipe: DatePipe, private router: Router, private transferService: TransferService) { }
   pagerSize = 10;
   settings: any;
   source: LocalDataSource;
@@ -63,6 +65,15 @@ export class TransactionSearchComponent implements OnInit {
     this.clearingSummaryArr = this.parseObjectToArray(this.clearingSummaryObj);
     console.log(this.authSummaryArr)
     this.setSettingsForTable();
+    this.source = new LocalDataSource();
+    this.source.load([{
+      id: 1,
+      pan: '4000002222222222',
+    date:  '2020-11-19T12:15:59.761294Z',      
+    merch_name_ips:  'test',
+    trans_amount: 100,
+    trans_currency:  'usd',
+    auth_code:  '2210'}]);
   }
 
   parseObjectToArray(obj) {
@@ -87,6 +98,10 @@ export class TransactionSearchComponent implements OnInit {
 
   onUserRowSelect(event): void {
     this.isLoadTabsInfo = true;
+    console.log(event.data.id);
+    this.transferService.transactionMastercardID.next(event.data.id);
+    this.router.navigate(['cop','cabinet', 'mastercard-transaction-info']);
+
   }
 
   setSettingsForTable() {

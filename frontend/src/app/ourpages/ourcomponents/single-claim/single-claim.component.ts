@@ -18,6 +18,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbGlobalPhysicalPosition, NbPopoverDirective, NbToastrService } from '@nebular/theme';
 import {Location} from '@angular/common';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -32,7 +33,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
-              private _location: Location,
+              private _location: Location, private toastService: ToastService,
               private router: Router, private toastrService: NbToastrService,
               private cdr: ChangeDetectorRef, private errorService: ErrorService) {
     this.claimData = new ClaimView();
@@ -81,6 +82,9 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   previousPart = 'one';
   part = 'one';
+
+  loadingSaveEdit = false;
+  loadingCreateNewClaim = false;
 
   cOPClaimID: string;
   isNewRecord: boolean = true;
@@ -483,6 +487,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaim() {
+    this.loadingCreateNewClaim = true;
     this.claimData.comment = this.claimData.ch_comments;
     //this.claimData.ch_comments = [{'text': this.claimData.ch_comments}];
     //this.claimData.form_name = 'claim_form';
@@ -497,10 +502,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       error: error => {
+        this.loadingCreateNewClaim = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
         this.isSaveClaimId = false;
         this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       }
@@ -935,15 +944,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveClaimUpdate(){
+    this.loadingSaveEdit = true;
     this.claimData.claimId = this.claimData.id;
     this.subscription7 = this.httpService.updateClaim(this.claimData).subscribe({
       next: (response: any) => {
       },
       error: error => {
+        this.loadingSaveEdit = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingSaveEdit = false;
       }
     });
   }

@@ -17,6 +17,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   settings: any;
   source: LocalDataSource;
   role: string;
+  loadingUpload = false;
   filesArr: Array<any> = new Array<any>();
   observableArrFiles: Array<any> = new Array<any>();
   selectedFile: any;
@@ -60,6 +61,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadLogs() {
+    this.loadingUpload = true;
     //let data = this.filesArr[0];
     this.atmlogUploadSubscription = forkJoin(this.observableArrFiles).subscribe({
       next: (response: any) => {
@@ -67,11 +69,13 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
         this.observableArrFiles = new Array();
       },
       error: error => {
-        this.showToast('danger', 'bottom-end', 'Сталася помилка');
+        this.loadingUpload = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingUpload = false;
         this.showToast('success', 'bottom-end', 'Всі файли успішно завантажені!');
       }
     });

@@ -209,8 +209,8 @@
         </div>
     </nb-card-body>
     <nb-card-footer>
-        <button *ngIf="this.merchantsArr.length != 0" nbButton size="small" status="primary" (click)="createNewMerchants()">Зареєструвати</button>
-        <button *ngIf="this.atmsArr.length != 0" nbButton size="small" status="primary" (click)="createNewAtm()">Зареєструвати</button>
-        <button *ngIf="this.usersArr.length != 0" nbButton size="small" status="primary" (click)="createNewUser()">Зареєструвати</button>
+        <button *ngIf="this.merchantsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewMerchants()">Зареєструвати</button>
+        <button *ngIf="this.atmsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewAtm()">Зареєструвати</button>
+        <button *ngIf="this.usersArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewUser()">Зареєструвати</button>
     </nb-card-footer>
 </nb-card>

@@ -1,0 +1,52 @@
+<nb-card style="width: 30em; height: 40em;">
+    <nb-card-header>Creating new</nb-card-header>
+    <nb-card-body>
+        <form #form="ngForm" ngNativeValidate>
+            <div class="msDialogItem">
+                <label>Select Dispute Type</label>
+                <nb-select #dispute_type="ngModel" name="dispute_type" id="input-dispute_type"  
+                    [(ngModel)]="selectedDisputeType"
+                    placeholder="Dispute Type" autofocus [status]="dispute_type.dirty ? (dispute_type.invalid  ? 'danger' : 'success') : 'basic'"  
+                    required >
+                    <nb-option *ngFor="let item of disputeTypesArr" [value]="item.value">
+                        {{ item.title }}
+                    </nb-option>
+                </nb-select>
+            </div>
+            <div class="msDialogItem">
+                <label>Select Reason Code</label>
+                <nb-select #reason_code="ngModel" name="reason_code" id="input-reason_code"  
+                    [(ngModel)]="selectedReasonCode"
+                    placeholder="Reason Code" autofocus [status]="reason_code.dirty ? (reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
+                    required >
+                    <nb-option *ngFor="let item of reasonCodesArr" [value]="item.mastercard">
+                        {{ item.mastercard }} - {{ item.description }}
+                    </nb-option>
+                </nb-select>
+            </div>
+
+            <div class="msDialogItem">
+                <label>Dispute amount</label>
+                  <input nbInput [(ngModel)]="disputAmount" #disput_amount="ngModel" name="disput_amount" id="input-disput_amount"  
+                    placeholder="Dispute amount" autofocus [status]="disput_amount.dirty ? (disput_amount.invalid  ? 'danger' : 'success') : 'basic'"  
+                    required maxlength="100" minlength="1">
+              </div>
+
+            <div class="msDialogItem">
+                <label>Currency</label>
+                  <nb-select #current_currency="ngModel" name="current_currency" id="input-current_currency"  
+                      [(ngModel)]="currentCurrency"
+                      placeholder="Currency" autofocus [status]="current_currency.dirty ? (current_currency.invalid  ? 'danger' : 'success') : 'basic'"  
+                      required >
+                      <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
+                        {{ item.caption }}
+                    </nb-option>
+                  </nb-select>
+              </div>
+        </form>
+    </nb-card-body>
+    <nb-card-footer>
+        <button nbButton (click)="createClaim()">Create</button>
+      <button style="margin-left: 1em;" nbButton (click)="close(false)">Close Dialog</button>
+    </nb-card-footer>
+</nb-card>

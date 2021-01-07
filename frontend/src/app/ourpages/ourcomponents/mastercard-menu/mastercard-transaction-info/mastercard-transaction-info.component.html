@@ -1,0 +1,76 @@
+<div >
+    <nb-card class="customCardHeight" accent="info">
+      
+        <nb-card-header style="padding: 0.5em; overflow-x: auto;">  
+            <button nbButton size="tiny" 
+            status="primary" (click)="openDialog()">Create Case</button>
+        </nb-card-header>
+      
+        <nb-card-body style="padding: 0.5em;">
+          <div style="display: flex;">
+              <div class="mastercardTrInfoBlock1">
+                  <div class="mastercardTrInfoBlock1Title">Transaction Details</div>
+                  <div class="mastercardTrInfoBlock1Body">
+                    <div class="mastercardTrInfoBlock1Element" *ngFor="let el of transactionDetailsArr">
+                      <div class="mastercardTrInfoBlock1ElementTitle">{{el.title}}</div>
+                      <div class="mastercardTrInfoBlock1ElementBody">{{el.value}}</div>
+                    </div>
+                  </div>
+              </div>
+              <div class="mastercardTrInfoBlock">
+                <div class="mastercardTrInfoBlockTitle">Dispute Details</div>
+                <div class="mastercardTrInfoBlockBody">
+
+                  <div class="mastercardTrInfoSubBlockTitle">Case ID</div>
+
+                  <div class="mastercardTrInfoBlockElement">
+                    <div class="mastercardTrInfoBlockElementBody">{{caseId}}</div>
+                  </div>
+                  
+                  <div class="mastercardTrInfoSubBlockTitle">Chargeback</div>
+
+                  <div class="mastercardTrInfoBlockElement">
+                    <div class="mastercardTrInfoBlockElementBody"> 14:40</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 4837</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 
+                      <div class="docDiv">Doc1</div>
+                    </div>
+                  </div>
+                  <div class="mastercardTrInfoBlockElement">
+                    <div class="mastercardTrInfoBlockElementBody"> 14:40</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 4837</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 
+                      <div class="docDiv">Doc1</div>
+                    </div>
+                  </div>
+                  
+                  <div class="mastercardTrInfoSubBlockTitle">Retrieval</div>
+
+                  <div class="mastercardTrInfoBlockElement">
+                    <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 4837</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 
+                      <div class="docDiv">Doc1</div>
+                    </div>
+                  </div>
+
+                  <div class="mastercardTrInfoSubBlockTitle">Case</div>
+
+                  <div class="mastercardTrInfoBlockElement">
+                    <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 4837</div>
+                    <div class="mastercardTrInfoBlockElementBody"> 
+                      <div class="docDiv">Doc1</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+        </nb-card-body>
+    
+    </nb-card>
+    
+  </div>

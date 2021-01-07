@@ -37,6 +37,7 @@
       <div class="button-enter">
         <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
         <button nbButton size="small" status="primary" style="margin-left: 10px;"
+          [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
           (click)="createMerchUser()">Зареєструвати</button>
       </div>
     </nb-card-footer>

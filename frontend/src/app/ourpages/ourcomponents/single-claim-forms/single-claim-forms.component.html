@@ -57,7 +57,7 @@
         <nb-card-footer>
             <div class="center">
                 <button  nbButton size="small" status="primary" (click)="onClickBackClaim()">Повернутися</button>
-                <button  nbButton size="small" status="primary" (click)="onClickApply()"
+                <button  nbButton size="small" status="primary" (click)="onClickApply()" [nbSpinner]="loadingEs" nbSpinnerStatus="info"
                     style="margin-left: 10px;">Ескалація</button>
             </div>
             </nb-card-footer>
@@ -146,7 +146,7 @@
         <nb-card-footer>
             <div class="center">
                 <button  nbButton size="small" status="primary" (click)="onClickBackClaim()">Повернутися</button>
-                <button  nbButton size="small" status="primary" (click)="onClickApply()"
+                <button  nbButton size="small" status="primary" (click)="onClickApply()" [nbSpinner]="loadingEs" nbSpinnerStatus="info"
                     style="margin-left: 10px;">Завершити</button>
             </div>
         </nb-card-footer>
@@ -193,7 +193,7 @@
         <nb-card-footer>
             <div class="center">
                 <button  nbButton size="small" status="primary" (click)="onClickBackClaim()">Повернутися</button>
-                <button  nbButton size="small" status="primary" (click)="onClickApply()"
+                <button  nbButton size="small" status="primary" (click)="onClickApply()" [nbSpinner]="loadingEs" nbSpinnerStatus="info"
                     style="margin-left: 10px;width: 140px;">ОК</button>
             </div>
         </nb-card-footer>

@@ -23,6 +23,8 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
   source: LocalDataSource;
   role: string;
   pagerSize = 10;
+  loadingRefresh = false;
+  loadingReport = false;
   fieldsStatus: FieldsStatus;
   routeParamsStatus: any;
 
@@ -185,6 +187,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   refresh_claim(){
+    this.loadingRefresh = true;
     this.getClaimsData(this.routeParamsStatus);
   }
 
@@ -322,10 +325,12 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
         //self.source .refresh();
       },
       error: error => {
+        this.loadingRefresh = false;
         this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingRefresh = false;
         this.configuration.isLoading = false;
         this.isUiLoad = true;
       }
@@ -344,6 +349,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public createReport(){
     if(this.claimsData){
+      this.loadingReport = true;
       let str = '';
       str += 'ID;';
       str += 'Номер карти;';
@@ -393,6 +399,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
       }); 
       var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}_${this.routeParamsStatus}.txt`;
+      this.loadingReport = false;
       FileSaver.saveAs(blob, filename);
     }
   }

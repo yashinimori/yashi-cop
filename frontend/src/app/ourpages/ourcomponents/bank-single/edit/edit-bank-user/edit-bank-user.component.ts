@@ -30,6 +30,7 @@ export class EditBankUserComponent implements OnInit, OnDestroy {
   currentBankUser: any;
   isUiLoad: boolean = false;
   isEdit: boolean = false;
+  loadingUpdate: boolean = false;
   banksList = new Array<any>();
 
   ngOnInit(): void {
@@ -51,6 +52,7 @@ export class EditBankUserComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => { 

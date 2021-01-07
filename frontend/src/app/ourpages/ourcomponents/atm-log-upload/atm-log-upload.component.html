@@ -7,7 +7,7 @@
         type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
         <nb-icon style="margin-left: 0.5em;" icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
       <button *ngIf="filesArr.length > 0" style="margin-left: 1em;" nbButton size="small" status="primary" 
-        (click)="onClickUploadLogs()">Завантажити обрані файли</button>
+        (click)="onClickUploadLogs()" [nbSpinner]="loadingUpload" nbSpinnerStatus="info">Завантажити обрані файли</button>
     </nb-card-header>
   
     <nb-card-body>
