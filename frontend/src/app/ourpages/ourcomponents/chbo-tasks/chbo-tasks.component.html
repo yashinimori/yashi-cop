@@ -1,0 +1,95 @@
+<div style="display: flex; justify-content: flex-end; width: 100%;">
+  <button (click)="openWindowWithoutBackdrop()" nbButton shape="round" size="small"><nb-icon icon="settings-outline"></nb-icon></button>
+</div>
+<div class="control-section">
+
+    <div class="content-wrapper">
+      <ejs-kanban #kanbanObj cssClass='kanban-overview' keyField="Status" [dataSource]='kanbanData'
+        [cardSettings]='cardSettings' enableTooltip='true' [dialogSettings]='dialogSettings'
+         (cardRendered)='cardRendered($event)'>
+        <e-columns>
+          <e-column *ngFor="let column of columns;" headerText={{column.headerText}} keyField='{{column.keyField}}'
+            [allowToggle]='column.allowToggle' [allowDrop]='column.allowDrop' [allowDrag]='column.allowDrag'>
+            <ng-template #template let-data>
+              <div class="header-template-wrap">
+                <div class="header-icon e-icons {{data.keyField}}"></div>
+                <div class="header-text">{{data.headerText}}</div>
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+        <ng-template #cardSettingsTemplate let-data>
+          <div class='card-template'>
+            <div class='e-card-header'>
+              <div class='e-card-header-caption'>
+                <div class='e-card-header-title e-tooltip-text'>{{data.Title}}</div>
+              </div>
+            </div>
+            <div class='e-card-content e-tooltip-text'>
+              <div class='e-text'>{{data.Summary}}</div>
+            </div>
+            <div class='e-card-custom-footer'>
+              <div class="e-card-tag-field e-tooltip-text" *ngFor="let tag of data.Tags.split(',');">{{tag}}</div>
+              <!-- <div class='e-card-avatar'>{{getString(data.Assignee)}}</div> -->
+            </div>
+          </div>
+        </ng-template>
+      </ejs-kanban>
+    </div>
+  </div>
+
+  <ng-template #settingsKanbanTemplate>
+    <div *ngFor="let set of columns; let i = index" class="chboKanbanDialogColumn">
+      {{set.headerText}} <button *ngIf="columnsProtected.indexOf(set.headerText) == -1" nbButton shape="round" size="tiny" (click)="removeColumn(i)"><nb-icon icon="close"></nb-icon></button>
+    </div>
+    <div>
+      <button *ngIf="!isCreatingNewColumn" (click)="addNewColumn()" nbButton>Add</button>
+    </div>
+    <div *ngIf="isCreatingNewColumn" style="display: flex; flex-direction: column;">
+      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnName" nbInput fieldSize="tiny" placeholder="Name">
+      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnKey" nbInput fieldSize="tiny" placeholder="Key">
+      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnPosition" nbInput fieldSize="tiny" placeholder="Position">
+      <div style="display: flex; justify-content: space-evenly;">
+        <button (click)="createColumn()" nbButton>Create</button>
+        <button (click)="cancelCreateColumn()" nbButton>Cancel</button>
+      </div>
+      
+    </div>
+  </ng-template>
+  
+  
+
+<!-- <nb-card class="customCardHeight">
+    <nb-card-body>
+        <ejs-kanban #kanbanObj cssClass='kanban-overview' keyField="Status" [dataSource]='kanbanData'
+            [cardSettings]='cardSettings' enableTooltip='true' [swimlaneSettings]='swimlaneSettings' [dialogSettings]='dialogSettings' (cardRendered)='cardRendered($event)'>
+            <e-columns>
+                <e-column *ngFor="let column of columns;" headerText={{column.headerText}} keyField='{{column.keyField}}'
+                allowToggle='{{column.allowToggle}}'>
+                <ng-template #template let-data>
+                    <div class="header-template-wrap">
+                    <div class="header-icon e-icons {{data.keyField}}"></div>
+                    <div class="header-text">{{data.headerText}}</div>
+                    </div>
+                </ng-template>
+                </e-column>
+            </e-columns>
+            <ng-template #cardSettingsTemplate let-data>
+                <div class='card-template'>
+                <div class='e-card-header'>
+                    <div class='e-card-header-caption'>
+                    <div class='e-card-header-title e-tooltip-text'>{{data.Title}}</div>
+                    </div>
+                </div>
+                <div class='e-card-content e-tooltip-text'>
+                    <div class='e-text'>{{data.Summary}}</div>
+                </div>
+                <div class='e-card-custom-footer'>
+                    <div class="e-card-tag-field e-tooltip-text" *ngFor="let tag of data.Tags.split(',');">{{tag}}</div>
+                    <div class='e-card-avatar'>{{getString(data.Assignee)}}</div>
+                </div>
+                </div>
+            </ng-template>
+        </ejs-kanban>
+    </nb-card-body>
+</nb-card> -->

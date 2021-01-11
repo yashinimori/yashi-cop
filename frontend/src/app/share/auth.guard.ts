@@ -100,6 +100,7 @@ export class AuthGuard implements CanActivate {
          url == '/cop/cabinet/chbo-my-claims/pre_mediation'||
          url == '/cop/cabinet/chbo-my-claims/mediation' || 
          url == '/cop/cabinet/chbo-my-claims/chargeback' ||
+         url == '/cop/cabinet/chbo-tasks' ||
          url == '/cop/cabinet/chbo-merchant-requests' ||
          url == '/cop/cabinet/chbo-my-claims/closed' ||
          url == '/cop/cabinet/single-claim' ||

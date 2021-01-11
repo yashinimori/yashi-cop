@@ -108,6 +108,11 @@ export class OurPagesComponent {
             icon: 'file-text-outline',
             link: '/cop/cabinet/chbo-merchant-requests',
           },
+          {
+            title: 'Tasks',
+            icon: 'file-text-outline',
+            link: '/cop/cabinet/chbo-tasks',
+          },
         ],
       },
       {

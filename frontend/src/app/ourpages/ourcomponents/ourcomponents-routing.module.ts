@@ -39,6 +39,7 @@ import { TransactionsInfoComponent } from './transactions-info/transactions-info
 import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
 import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
 import { MastercardTransactionInfoComponent } from './mastercard-menu/mastercard-transaction-info/mastercard-transaction-info.component';
+import { ChboTasksComponent } from './chbo-tasks/chbo-tasks.component';
 
 const routes: Routes = [{
   path: '',
@@ -95,6 +96,10 @@ const routes: Routes = [{
     {
       path: 'chbo-merchant-requests',
       component: ChboMerchantRequestsComponent,
+    },
+    {
+      path: 'chbo-tasks',
+      component: ChboTasksComponent,
     },
     {
       path: 'chart-donat',

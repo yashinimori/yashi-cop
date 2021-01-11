@@ -22,6 +22,7 @@ import {
   NbContextMenuModule,
   NbChatModule,
   NbDialogModule,
+  NbWindowModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -81,10 +82,34 @@ import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-res
 import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
 import { MastercardTransactionInfoComponent } from './mastercard-menu/mastercard-transaction-info/mastercard-transaction-info.component';
 import { MastercardDialogFormsComponent } from './mastercard-menu/mastercard-dialog-forms/mastercard-dialog-forms.component';
+import { ChboTasksComponent } from './chbo-tasks/chbo-tasks.component';
+
+//import { NumericTextBoxAllModule, TextBoxAllModule } from '@syncfusion/ej2-inputs';
+
+// import { DialogModule } from '@syncfusion/ej2-popups';
+
+// import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+
+// import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
+
+//import { NumericTextBoxAllModule, TextBoxAllModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxAllModule, TextBoxAllModule } from '@syncfusion/ej2-angular-inputs';
+
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+
+import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
+
+
+import { KanbanAllModule } from '@syncfusion/ej2-angular-kanban';
 
 @NgModule({
   imports: [
     FormsModule,
+
+    KanbanAllModule, DialogModule, DropDownListAllModule, CheckBoxAllModule,NumericTextBoxAllModule, TextBoxAllModule, 
+    NbWindowModule,
     TableModule,
     ClipboardModule,
     ReactiveFormsModule,
@@ -170,6 +195,7 @@ import { MastercardDialogFormsComponent } from './mastercard-menu/mastercard-dia
     ChboMerchantRequestsComponent,
     MastercardTransactionInfoComponent,
     MastercardDialogFormsComponent,
+    ChboTasksComponent,
   ],
   // providers: [
     
