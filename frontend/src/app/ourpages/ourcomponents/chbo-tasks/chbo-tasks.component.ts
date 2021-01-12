@@ -29,6 +29,7 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
 
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   @ViewChild('settingsKanbanTemplate', { read: TemplateRef }) settingsKanbanTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('dialogKanbanTemplate', { read: TemplateRef }) dialogKanbanTemplate: TemplateRef<HTMLElement>;
 
   public kanbanData: Object[];
  
@@ -64,15 +65,19 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
   claimsSubscription: Subscription = new Subscription();
   onCloseWindowSubscription: Subscription = new Subscription();
   claimsData: any;
+  allClaims: any;
+  settingsWindowRef: any;
+  isGoToClaim = false;
+  windowsDetailsArr: Array<any> = new Array<any>();
   
   openWindowWithoutBackdrop() {
     if(!this.isSettingsWindowOpen) {
-      let w = this.windowService.open(
+      this.settingsWindowRef = this.windowService.open(
         this.settingsKanbanTemplate,
         { title: 'Columns settings', hasBackdrop: false, closeOnEsc: false, initialState: NbWindowState.MAXIMIZED },
       );
       this.isSettingsWindowOpen = true;
-      this.onCloseWindowSubscription = w.onClose.subscribe(() => {this.isSettingsWindowOpen = false;});
+      this.onCloseWindowSubscription = this.settingsWindowRef.onClose.subscribe(() => {this.isSettingsWindowOpen = false;});
     }
   }
 
@@ -86,13 +91,47 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
     } else {
       this.columns = JSON.parse(localStorage.getItem('kanbanColumns'));
     }
-    console.log('aaaaaa')
     this.getClaimsData();
     
   }
 
+  openOnDoubleClick(e) {
+    e.cancel = true;
+    let el = this.allClaims.find(i => i.id == e.data.Id);
+    
+    let w = this.windowService.open(
+      this.dialogKanbanTemplate,
+      { title: `Case ${el.id}`, hasBackdrop: false, context: el, closeOnEsc: false, initialState: NbWindowState.MAXIMIZED },
+    );
+    this.windowsDetailsArr.push({id: el.id, context: w});
+    w.onClose.subscribe(() => {
+      if(!this.isGoToClaim) {
+        //@ts-ignore
+        if(this.windowsDetailsArr.findIndex(e => e.id == w.config.context.id) != -1) {
+          //@ts-ignore
+          this.windowsDetailsArr.splice(this.windowsDetailsArr.findIndex(e => e.id == w.config.context.id), 1);
+        }
+      }
+      
+    });
+  }
+
   goToClaim(data) {
-    this.transferService.cOPClaimID.next(data.Id);
+    this.isGoToClaim = true;
+    if(this.isSettingsWindowOpen) {
+      this.settingsWindowRef.close();
+    }
+    if(data.Id) {
+      this.transferService.cOPClaimID.next(data.Id);
+    } else {
+      this.transferService.cOPClaimID.next(data.id);
+      if(this.windowsDetailsArr.length > 0) {
+        this.windowsDetailsArr.forEach(e => {
+          e.context.close();
+        })
+      }
+    }
+    
     this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
@@ -108,6 +147,8 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
           data = response.results;
         else
           data = response;
+
+        this.allClaims = data;
     
         data.forEach(el => {
           this.createKanbanArr(el);
@@ -119,7 +160,6 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.kanbanData = extend([], this.claimsData, null, true) as Object[];
-        console.log(this.kanbanData);
       }
     });
   }
@@ -136,7 +176,7 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
     const output = day  + '.' + month  + '.' + year;
     //@ts-ignore
     // t.Title = 'Case: ' + el['id'] + ';  ' + output;
-    t.Title = 'Case: ' + el['id'];
+    t.Title = 'Case ' + el['id'];
     //@ts-ignore
     // t.Protected = this.columnsProtected.find(pr => pr == el.Title) == undefined;
     if(el.reason_code == null) {
@@ -172,10 +212,6 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
      }
     }
     this.claimsData.push(t);
-  }
-
-  checkDeleteButton(set) {
-    console.log(set)
   }
 
   addNewColumn() {
@@ -245,7 +281,6 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
     this.claimsSubscription.unsubscribe();
     this.onCloseWindowSubscription.unsubscribe();
   }

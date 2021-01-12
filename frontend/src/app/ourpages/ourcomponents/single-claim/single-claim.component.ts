@@ -327,9 +327,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.httpService.getReasonCodes().subscribe({
       next: (response: any) => {
         this.reasonCodesArr = response.results;
-        console.log(this.reasonCodesArr)
         this.readonlyReasonCodesArr = JSON.parse(JSON.stringify(response.results));
-        console.log(response)
       },
       error: error => {
         this.errorService.handleError(error);

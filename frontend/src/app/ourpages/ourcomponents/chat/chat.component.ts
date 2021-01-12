@@ -80,7 +80,6 @@ export class ChatComponent implements OnInit {
         break;
     }
     this.setVisibilityChatButtons();
-    console.log(this.role)
   }
 
   setVisibilityChatButtons() {
@@ -148,8 +147,6 @@ export class ChatComponent implements OnInit {
         icon: 'file-text-outline',
       };
     });
-    console.log(event)
-    console.log(files)
     messages.push({
       text: event.message,
       date: new Date(),

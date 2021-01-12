@@ -4,7 +4,7 @@
 <div class="control-section">
 
     <div class="content-wrapper">
-      <ejs-kanban #kanbanObj cssClass='kanban-overview' keyField="Status" [dataSource]='kanbanData'
+      <ejs-kanban #kanbanObj cssClass='kanban-overview' (cardDoubleClick)='openOnDoubleClick($event)' keyField="Status" [dataSource]='kanbanData'
         [cardSettings]='cardSettings' enableTooltip='false' [dialogSettings]='dialogSettings'
          (cardRendered)='cardRendered($event)'>
         <e-columns>
@@ -58,6 +58,27 @@
       </div>
       
     </div>
+  </ng-template>
+
+  <ng-template #dialogKanbanTemplate let-data>
+    <div style="display: flex; flex-direction: column;">
+      <div class="dialogDetailsKanbanItem" style="display: flex; justify-content: space-between; align-items: center;">
+        <div><div class="dialogDetailsKanbanItemTitle">Pan:</div>{{data.pan}}</div> 
+        <button (click)="goToClaim(data)" style="cursor: pointer;" nbButton shape="round" size="small">
+          <nb-icon icon="external-link-outline"></nb-icon>
+        </button>
+      </div>
+      <div class="dialogDetailsKanbanItem" style="display: flex; flex-direction: column;"><div class="dialogDetailsKanbanItemTitle">Resaon code</div> <div style="display: flex;"> <div *ngIf="data.reason_code">{{data.reason_code}} -</div>  <div>{{data.reason_code_group}}</div></div></div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Result</div> {{data.result}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Status</div> {{data.status.name}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Merchant name</div> {{data.merch_name_ips}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Terminal id</div> {{data.term_id}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Amount</div> {{data.trans_amount}} {{data.trans_currency}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Approcal code</div> {{data.trans_approval_code}}</div>
+      <!-- <div style="display: flex; justify-content: space-between; margin-bottom: 0.5em;"><div style="margin-right: 0.5em; padding: 0.5em; font-size: 12px;" *ngFor="let tag of data.Tags.split(',');">{{tag}}</div></div> -->
+      <div></div>
+    </div>
+    
   </ng-template>
   
   

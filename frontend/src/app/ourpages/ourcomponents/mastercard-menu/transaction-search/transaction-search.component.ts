@@ -60,10 +60,8 @@ export class TransactionSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(Object.values(this.authSummaryArr));
     this.authSummaryArr = this.parseObjectToArray(this.authSummaryObj);
     this.clearingSummaryArr = this.parseObjectToArray(this.clearingSummaryObj);
-    console.log(this.authSummaryArr)
     this.setSettingsForTable();
     this.source = new LocalDataSource();
     this.source.load([{
@@ -98,7 +96,6 @@ export class TransactionSearchComponent implements OnInit {
 
   onUserRowSelect(event): void {
     this.isLoadTabsInfo = true;
-    console.log(event.data.id);
     this.transferService.transactionMastercardID.next(event.data.id);
     this.router.navigate(['cop','cabinet', 'mastercard-transaction-info']);
 

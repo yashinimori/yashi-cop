@@ -52,7 +52,6 @@ export class MastercardDialogFormsComponent implements OnInit, OnDestroy {
     this.subscription1 = this.httpService.getReasonCodes().subscribe({
       next: (response: any) => {
         this.reasonCodesArr = response.results;
-        console.log(this.reasonCodesArr);
       },
       error: error => {
         this.errorService.handleError(error);
@@ -78,7 +77,6 @@ export class MastercardDialogFormsComponent implements OnInit, OnDestroy {
     this.subscription2 = this.httpService.createClaimMastercardApi(claim).subscribe({
       next: (response: any) => {
         this.reasonCodesArr = response.results;
-        console.log(this.reasonCodesArr);
       },
       error: error => {
         this.errorService.handleError(error);
