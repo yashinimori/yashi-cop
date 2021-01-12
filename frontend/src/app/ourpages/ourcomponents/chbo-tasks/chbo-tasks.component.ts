@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { extend, addClass } from '@syncfusion/ej2-base';
 import { KanbanComponent, ColumnsModel, CardSettingsModel, SwimlaneSettingsModel, DialogSettingsModel, CardRenderedEventArgs } from '@syncfusion/ej2-angular-kanban';
 import { cardData } from './data';
@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { HttpService } from '../../../share/services/http.service';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbWindowService, NbWindowState } from '@nebular/theme';
+import { Router } from '@angular/router';
+import { TransferService } from '../../../share/services/transfer.service';
 
 interface customColumn extends ColumnsModel {
     protectedColumn: boolean;
@@ -17,8 +19,11 @@ interface customColumn extends ColumnsModel {
   styleUrls: ['./chbo-tasks.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChboTasksComponent implements OnInit {
-  constructor(private httpServise: HttpService, private windowService: NbWindowService, private errorService: ErrorService) {
+export class ChboTasksComponent implements OnInit, OnDestroy {
+  constructor(private httpServise: HttpService, private windowService: NbWindowService,
+    private transferService: TransferService,
+    private router: Router,
+    private errorService: ErrorService) {
         
   }
 
@@ -39,8 +44,8 @@ export class ChboTasksComponent implements OnInit {
   public columnsProtected = ['New', 'In Progress', 'CH Request', 'Pending', 'Settlement', 'Done'];
   isCreatingNewColumn: boolean = false;
   createColumnName: any;
-  createColumnKey: any;
-  createColumnPosition: any;
+  createColumnDescription: any;
+  createColumnPosition: any = 1;
   public cardSettings: CardSettingsModel = {
       headerField: 'Title',
       template: '#cardTemplate'
@@ -54,16 +59,21 @@ export class ChboTasksComponent implements OnInit {
         
     ]
   };
+  isSettingsWindowOpen: boolean = false;
 
   claimsSubscription: Subscription = new Subscription();
+  onCloseWindowSubscription: Subscription = new Subscription();
   claimsData: any;
   
   openWindowWithoutBackdrop() {
-    let w = this.windowService.open(
-      this.settingsKanbanTemplate,
-      { title: 'Columns settings', hasBackdrop: false, closeOnEsc: false, initialState: NbWindowState.MAXIMIZED },
-    );
-
+    if(!this.isSettingsWindowOpen) {
+      let w = this.windowService.open(
+        this.settingsKanbanTemplate,
+        { title: 'Columns settings', hasBackdrop: false, closeOnEsc: false, initialState: NbWindowState.MAXIMIZED },
+      );
+      this.isSettingsWindowOpen = true;
+      this.onCloseWindowSubscription = w.onClose.subscribe(() => {this.isSettingsWindowOpen = false;});
+    }
   }
 
     
@@ -79,6 +89,11 @@ export class ChboTasksComponent implements OnInit {
     console.log('aaaaaa')
     this.getClaimsData();
     
+  }
+
+  goToClaim(data) {
+    this.transferService.cOPClaimID.next(data.Id);
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   getClaimsData() {
@@ -120,7 +135,8 @@ export class ChboTasksComponent implements OnInit {
     const year = dateObj.getFullYear();
     const output = day  + '.' + month  + '.' + year;
     //@ts-ignore
-    t.Title = 'Case: ' + el['id'] + ';  ' + output;
+    // t.Title = 'Case: ' + el['id'] + ';  ' + output;
+    t.Title = 'Case: ' + el['id'];
     //@ts-ignore
     // t.Protected = this.columnsProtected.find(pr => pr == el.Title) == undefined;
     if(el.reason_code == null) {
@@ -132,7 +148,7 @@ export class ChboTasksComponent implements OnInit {
     }
     
     //@ts-ignore
-    t.Tags = el['trans_amount'] + ' ' + el.trans_currency;
+    t.Tags = el['trans_amount'] + ' ' + el.trans_currency + ',' + output;
 
     if(localStorage.getItem('kanban') && localStorage.getItem('kanban').length != 0) {
       let localKanban = JSON.parse(localStorage.getItem('kanban'));
@@ -155,8 +171,11 @@ export class ChboTasksComponent implements OnInit {
         t.Status = 'InProgress';
      }
     }
-    console.log(t);
     this.claimsData.push(t);
+  }
+
+  checkDeleteButton(set) {
+    console.log(set)
   }
 
   addNewColumn() {
@@ -164,14 +183,14 @@ export class ChboTasksComponent implements OnInit {
   }
   cancelCreateColumn() {
     this.createColumnName = '';
-    this.createColumnKey = '';
-    this.createColumnPosition = null;
+    this.createColumnDescription = '';
+    this.createColumnPosition = 1;
     this.isCreatingNewColumn = false;
   }
 
   createColumn() {
     let text: string = this.createColumnName;
-    let key: string = this.createColumnKey;
+    let key: string = this.createColumnName.replace(/\s+/g, '_');
     let index: number = Number(this.createColumnPosition);
     if (this.kanbanObj.columns.length >= index && key && key.length > 0 && text && text.length > 0 && index !== null) {
         //this.columns.push({ keyField: key, protectedColumn: false, headerText: text, showItemCount: true, allowToggle: true, allowDrop: true, allowDrag: true });
@@ -183,14 +202,15 @@ export class ChboTasksComponent implements OnInit {
           localStorage.setItem('kanbanColumns', JSON.stringify(localKanbanColumns));
         } 
         this.createColumnName = '';
-        this.createColumnKey = '';
-        this.createColumnPosition = null;
+        this.createColumnDescription = '';
+        this.createColumnPosition = 1;
         this.isCreatingNewColumn = false;
     }
   }
 
   removeColumn(index) {
-    // let index: number = this.deleteObj.value;
+    //@ts-ignore
+    if(this.kanbanData.filter(e => e.Status == this.columns[index].keyField).length == 0) {
       if (this.kanbanObj.columns.length > 1) {
           if (this.kanbanObj.columns.length >= (index + 1) && index !== null) {
               this.kanbanObj.deleteColumn(index);
@@ -202,6 +222,7 @@ export class ChboTasksComponent implements OnInit {
               }
           }
       }
+    }
   }
 
   cardRendered(args: CardRenderedEventArgs): void {
@@ -221,6 +242,12 @@ export class ChboTasksComponent implements OnInit {
         localKanban = [{id:args.data.Id, status: args.data.Status}];
       }
       localStorage.setItem('kanban', JSON.stringify(localKanban));
+  }
+
+  ngOnDestroy(): void {
+    console.log('destroy');
+    this.claimsSubscription.unsubscribe();
+    this.onCloseWindowSubscription.unsubscribe();
   }
 
 }

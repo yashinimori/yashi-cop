@@ -76,15 +76,26 @@
   //   color: #63ba3c;
   //   font-size: 16px;
   // }
-  
+  // .kanban-overview.e-kanban .e-card .e-card-header-title {
+  //   font-size: 11px!important;
+  // }
+
   .kanban-overview.e-kanban .e-card .e-card-tag-field {
     background: #ececec;
     color: #6b6b6b;
     margin-right: 5px;
-    line-height: 1.1;
-    font-size: 13px;
+    line-height: 1;
+    font-size: 10px;
     border-radius: 3px;
     padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .kanban-overview.e-kanban .e-card .e-text {
+    font-size: 11px;
   }
   
   .kanban-overview.e-kanban .e-card-custom-footer {

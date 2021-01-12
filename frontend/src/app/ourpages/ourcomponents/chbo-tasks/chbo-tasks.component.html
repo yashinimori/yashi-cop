@@ -5,7 +5,7 @@
 
     <div class="content-wrapper">
       <ejs-kanban #kanbanObj cssClass='kanban-overview' keyField="Status" [dataSource]='kanbanData'
-        [cardSettings]='cardSettings' enableTooltip='true' [dialogSettings]='dialogSettings'
+        [cardSettings]='cardSettings' enableTooltip='false' [dialogSettings]='dialogSettings'
          (cardRendered)='cardRendered($event)'>
         <e-columns>
           <e-column *ngFor="let column of columns;" headerText={{column.headerText}} keyField='{{column.keyField}}'
@@ -22,7 +22,7 @@
           <div class='card-template'>
             <div class='e-card-header'>
               <div class='e-card-header-caption'>
-                <div class='e-card-header-title e-tooltip-text'>{{data.Title}}</div>
+                <div class='e-card-header-title' style="cursor: pointer;" (click)="goToClaim(data)">{{data.Title}}</div>
               </div>
             </div>
             <div class='e-card-content e-tooltip-text'>
@@ -47,8 +47,11 @@
     </div>
     <div *ngIf="isCreatingNewColumn" style="display: flex; flex-direction: column;">
       <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnName" nbInput fieldSize="tiny" placeholder="Name">
-      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnKey" nbInput fieldSize="tiny" placeholder="Key">
-      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnPosition" nbInput fieldSize="tiny" placeholder="Position">
+      <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnDescription" nbInput fieldSize="tiny" placeholder="Description">
+      <div>Insert after: {{createColumnPosition}}</div>
+      <input type="range" [(ngModel)]="createColumnPosition"
+         min="1" max="{{columns.length - 1}}">
+      <!-- <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnPosition" nbInput fieldSize="tiny" placeholder="Position"> -->
       <div style="display: flex; justify-content: space-evenly;">
         <button (click)="createColumn()" nbButton>Create</button>
         <button (click)="cancelCreateColumn()" nbButton>Cancel</button>
