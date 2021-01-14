@@ -1,14 +1,34 @@
 <div style="display: flex; justify-content: flex-end; width: 100%;">
+  <!-- <div *ngIf="isSearchBlockOpen" [@inOutAnimation] style="display: flex; align-items: center;">
+    <input fieldSize="tiny" nbInput (keyup)="searchClick($event)">
+    <button nbSuffix nbButton shape="round" size="small" ghost (click)="resetSearch($event)">
+      <nb-icon icon="close-outline">
+      </nb-icon>
+    </button>
+  </div> -->
+  <div *ngIf="isFilterBlockOpen" [@inOutAnimation] style="display: flex; align-items: center;">
+    <input nbInput fieldSize="tiny" style="margin-right: 1em; cursor: pointer;" placeholder="Pick Date Range" [nbDatepicker]="formpicker" [(ngModel)]="filterDate">
+    <nb-rangepicker #formpicker></nb-rangepicker>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterCards()">Apply</button>
+    <button nbButton style="margin-right: 2em;" size="tiny" (click)="clearFilters()">Clear</button>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterMonth()">Month</button>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterWeek()">Week</button>
+  </div>
+  
+  <!-- <button style="margin-right: 1em;" nbButton shape="round" size="small" (click)="openOrCloseSearchBlock()"><nb-icon icon="search-outline"></nb-icon></button> -->
+
+  <button style="margin-right: 1em;" nbButton shape="round" size="small" (click)="openOrCloseFilterBlock()"><nb-icon icon="funnel-outline"></nb-icon></button>
+  
   <button (click)="openWindowWithoutBackdrop()" nbButton shape="round" size="small"><nb-icon icon="settings-outline"></nb-icon></button>
 </div>
 <div class="control-section">
 
     <div class="content-wrapper">
-      <ejs-kanban #kanbanObj cssClass='kanban-overview' (cardDoubleClick)='openOnDoubleClick($event)' keyField="Status" [dataSource]='kanbanData'
+      <ejs-kanban #kanbanObj class="customHeight" cssClass='kanban-overview' (cardDoubleClick)='openOnDoubleClick($event)' keyField="Status" [dataSource]='kanbanData'
         [cardSettings]='cardSettings' enableTooltip='false' [dialogSettings]='dialogSettings'
          (cardRendered)='cardRendered($event)'>
         <e-columns>
-          <e-column *ngFor="let column of columns;" headerText={{column.headerText}} keyField='{{column.keyField}}'
+          <e-column *ngFor="let column of columns;"  headerText={{column.headerText}} keyField='{{column.keyField}}'
             [allowToggle]='column.allowToggle' [allowDrop]='column.allowDrop' [allowDrag]='column.allowDrag'>
             <ng-template #template let-data>
               <div class="header-template-wrap">
@@ -40,7 +60,11 @@
 
   <ng-template #settingsKanbanTemplate>
     <div *ngFor="let set of columns; let i = index" class="chboKanbanDialogColumn">
-      {{set.headerText}} <button *ngIf="columnsProtected.indexOf(set.headerText) == -1" nbButton shape="round" size="tiny" (click)="removeColumn(i)"><nb-icon icon="close"></nb-icon></button>
+      <!-- <div>{{columnsDescription[i].description}}</div> -->
+      <div style="cursor: context-menu;" nbTooltip="{{columnsDescription[i].description}}" nbTooltipPlacement="right" nbTooltipStatus="basic">
+        {{set.headerText}}
+      </div> 
+      <button *ngIf="columnsProtected.indexOf(set.headerText) == -1" nbButton shape="round" size="tiny" (click)="removeColumn(i)"><nb-icon icon="close"></nb-icon></button>
     </div>
     <div>
       <button *ngIf="!isCreatingNewColumn" (click)="addNewColumn()" nbButton>Add</button>
@@ -60,7 +84,7 @@
     </div>
   </ng-template>
 
-  <ng-template #dialogKanbanTemplate let-data>
+  <ng-template #dialogKanbanTemplate let-data >
     <div style="display: flex; flex-direction: column;">
       <div class="dialogDetailsKanbanItem" style="display: flex; justify-content: space-between; align-items: center;">
         <div><div class="dialogDetailsKanbanItemTitle">Pan:</div>{{data.pan}}</div> 

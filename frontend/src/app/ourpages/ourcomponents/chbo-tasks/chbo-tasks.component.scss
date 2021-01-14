@@ -1,6 +1,24 @@
 .kanban-overview {
   padding: 0.5em;
 }
+.customHeight {
+  height: calc(100vh - 9em)!important;
+}
+.e-kanban-header > div {
+  // padding-right: 0.3125rem!important;
+  // width: calc(100% - 0.3125rem);
+  // width: calc(100% - 1em);
+  // padding-right: 0.3125rem !important;
+}
+.e-kanban-content {
+  height: 90%!important;
+  //padding-right: 12px;
+}
+.e-kanban-content > div {
+  // width: calc(100% - 0.3125rem);
+  // width: calc(100% - 1em);
+  // padding-right: 0.3125rem !important;
+}
 .kanban-overview.e-kanban .header-template-wrap {
     display: inline-flex;
     font-size: 15px;
@@ -24,6 +42,14 @@
   .kanban-overview.e-kanban.e-rtl .e-card-avatar {
     left: 12px;
     right: auto;
+  }
+
+  .e-kanban-table {
+    min-height: 15em;
+  }
+
+  .e-collapse-header-text {
+    padding-left: 2em;
   }
   
   .kanban-overview.e-kanban .e-card-avatar {
@@ -170,3 +196,24 @@
     font-weight: normal;
     font-size: 13px;
   }
+
+
+  ::-webkit-scrollbar {
+    // width: 0.3125rem;
+    height: 0.3125rem;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e4e9f2;
+    cursor: pointer;
+    border-radius: 0.15625rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f7f9fc;
+  }
+
+  // // TODO: remove
+  // // For Internet Explorer
+  // scrollbar-face-color: $fg;
+  // scrollbar-track-color: $bg;

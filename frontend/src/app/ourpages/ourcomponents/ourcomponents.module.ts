@@ -100,14 +100,14 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { KanbanAllModule } from '@syncfusion/ej2-angular-kanban';
 
 @NgModule({
   imports: [
     FormsModule,
-
+    DragDropModule,
     KanbanAllModule, DialogModule, DropDownListAllModule, CheckBoxAllModule,NumericTextBoxAllModule, TextBoxAllModule, 
     NbWindowModule,
     TableModule,
