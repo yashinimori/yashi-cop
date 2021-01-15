@@ -1,92 +1,203 @@
-# ngx-admin [<img src="https://i.imgur.com/oMcxwZ0.png" alt="Eva Design System" height="20px" />](https://hubs.ly/H0n4ZDy0) [![Build Status](https://travis-ci.org/akveo/ngx-admin.svg?branch=master)](https://travis-ci.org/akveo/ngx-admin)
+# COP
 
-[Who uses ngx-admin?](https://github.com/akveo/ngx-admin/issues/1645)| [Documentation](https://hubs.ly/H0n4Sfq0) | [Installation Guidelines](https://hubs.ly/H0n4Svc0)
+Этот проект был создан с помощью [Angular CLI](https://github.com/angular/angular-cli) версии 9.1.12.
 
-# New! Material theme for ngx-admin
+## Development server
 
-Material admin theme is based on the most popular Angular dashboard template - [ngx-admin](https://hubs.ly/H0nJG1G0)
-To use material theme checkout `feat/material-theme` branch.
+Запустите `ng serve` для запуска сервера разработки. Перейдите по адресу `http://localhost:4200/`. Приложение автоматически перезагрузится, если вы измените любой из исходных файлов.
 
-Get material ngx-admin integrated with backend technology of your choice. [Check out our store](https://hubs.ly/H0qwyl60).
+## Code scaffolding
 
-## Key features
+Запустите `ng generate component component-name` чтобы сгенерировать новый компонент. 
+Вы также можете использовать `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-- The most popular and trusted Angular open source dashboard template is out there. Used by hundreds of thousands developers worldwide and Fortune 500 companies*.
-- Over 40+ Angular Components and 60+ Usage Examples. Kick off your project and save money by using ngx-admin.
-- Already using ngx-admin and willing to switch to material theme? Material theme is backward-compatible. Check out the article describing how to do that.
-- ngx-admin material works perfectly with Angular Material and Nebular. Take the best from both!
+## Build
 
-### To use material theme checkout `feat/material-theme` branch
+Запустите `npm run build-prod`, чтобы собрать проект.
 
-# Admin template based on Angular 9+ and <a href="https://github.com/akveo/nebular">Nebular</a>
-<a target="_blank" href="https://hubs.ly/H0n4Sw20"><img src="https://i.imgur.com/mFdqvgG.png"/></a>
+## Further help
 
-### Backend Integration Bundles
-Easy way to integrate ngx-admin with any backend (PHP, .Net, .Net Core, Java etc. )
-<a href="https://hubs.ly/H0qwyl60"><img src="https://i.imgur.com/qbtASmP.png"></a>
+Чтобы получить дополнительную помощь по Angular CLI, используйте `ng help` или просмотрите [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-[Check out our Store](https://hubs.ly/H0qwyl60) for ready to use Backend Bundles.
+## Документация
 
-### Free Bundles
-<a href="https://hubs.ly/H0rD0XL0"><img src="https://i.imgur.com/NzTDxRG.png"></a>
+## 1.Общая структура 
 
-[Download ngx-admin with .net backend for FREE!](https://hubs.ly/H0rvhPL0)
+Структура проекта состоит из 2 основных модулей: OurPagesModule, AuthorisationModule.
+Внутри модуля OurPagesModule находится модуль с основными компонентами.
+В проекте использовался шаблон [ngx-admin](https://hubs.ly/H0nJG1G0).
 
-### With 6 stunning visual themes
+## 2.Роутинг
 
-| <a target="_blank" href="https://hubs.ly/H0nxM3b0"><img src="https://i.imgur.com/67YAlhf.png"/></a> | <a target="_blank" href="https://hubs.ly/H0nxNmv0"><img src="https://i.imgur.com/aQzw0hD.png"/></a> |
-| --- | --- |
-|  Material Dark | Material Light |
+Роутинг прописан в каждом из модулей. В проекте используется Lazy-loading.
+На каждой ссылке срабатывает `guard: canActivate: [AuthGuard]`. В нём описаны правила доступа к компонентам. После авторизации создается токен. Токен имеет время жизни 1 час. По истечению этого времени происходит редирект на страницу логина.
 
-| <a target="_blank" href="https://hubs.ly/H0n4Th20"><img src="https://i.imgur.com/9UkTGgr.png"/></a> | <a target="_blank" href="https://hubs.ly/H0n4Tgv0"><img src="https://i.imgur.com/Kn3xDKQ.png"/></a> |
-| --- | --- |
-|  Dark| Default |
+## 3.Модуль AuthorisationModule
 
-| <a target="_blank" href="https://hubs.ly/H0n4Tj80"><img src="https://i.imgur.com/iJu2YDF.png"/></a> | <a target="_blank" href="https://hubs.ly/H0n4TDQ0"><img src="https://i.imgur.com/GpUt6NW.png"/></a> |
-| --- | --- |
-| Cosmic  | Corporate |
+В этом модуле находятся страницы логина, регистрации, восстановления пароля.
+Для выполнения действий необходимо пройти каптчу (используеться RecaptchaModule).
 
-### What's included:
+## 4.Модуль OurPagesModule
 
-- Angular 9+ & Typescript
-- Bootstrap 4+ & SCSS
-- Responsive layout
-- RTL support
-- High resolution
-- Flexibly configurable themes with **hot-reload** (3 themes included)
-- Authentication module with multiple providers
-- 40+ Angular Components
-- 60+ Usage Examples
+В файле ourpages.component.ts описан шаблон создания меню.
+```html
+<ngx-one-column-layout>
+    <nb-menu [items]="menu"></nb-menu>
+    <router-outlet></router-outlet>
+</ngx-one-column-layout>
+```
+Так же описаны все пункты меню доступные каждой из ролей. В `<router-outlet></router-outlet>` запускаются компоненты из модуля OurComponentsModule.
 
-### Demo
+## 5.Модуль OurComponentsModule
 
-<a target="_blank" href="https://hubs.ly/H0n4Tk70">Live Demo</a>
+В этом модуле находятся все компоненты системы.
 
-## Documentation
-This template is using [Nebular](https://github.com/akveo/nebular) modules set, [here you can find documentation and other useful articles](https://hubs.ly/H0n4ZPt0).
+### 5.1.Компонента atm
 
-### Empty starter kit
-Don't need all the pages and modules and just looking for an empty starter kit for your next project? Check out our [starter-kit branch](https://github.com/akveo/ngx-admin/tree/starter-kit).
+В этой компоненте происходит регистрация новой atm.
 
-## BrowserStack
-This project runs its tests on multiple desktop and mobile browsers using [BrowserStack](http://www.browserstack.com).
+### 5.2.Компонента atm-log-upload
 
-<img src="https://cloud.githubusercontent.com/assets/131406/22254249/534d889e-e254-11e6-8427-a759fb23b7bd.png" height="40" />
+В этой компоненте происходит создание логов atm методм загрузки файлов.
 
-## More from Akveo
+### 5.3.Компонента atm-log-view
 
-- [Eva Icons](https://github.com/akveo/eva-icons) - 480+ beautiful Open Source icons
-- [Nebular](https://github.com/akveo/nebular) - Angular Components, Auth and Security
+В этой компоненте просмотр логов atm.
 
-### How can I support developers?
-- Star our GitHub repo :star:
-- Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
-- Follow us on [Twitter](https://twitter.com/akveo_inc) :feet:
-- Like our page on [Facebook](https://www.facebook.com/akveo/) :thumbsup:
+### 5.4.Компонента atm-log-view-detail
 
-### Looking for engineering services? 
-Visit [our homepage](https://hubs.ly/H0n4YJt0) or simply leave us a message to [contact@akveo.com](mailto:contact@akveo.com). We will be happy to work with you!
+В этой компоненте детальный просмотр логов atm.
 
-### From Developers
-Made with :heart: by [Akveo team](https://hubs.ly/H0n4YwQ0). Follow us on [Twitter](https://twitter.com/akveo_inc) to get the latest news first!
-We're always happy to receive your feedback!
+### 5.5.Компонента bank
+
+В этой компоненте происходит регистрация нового банка
+
+### 5.6.Компонента bank-accounts
+
+В этой компоненте просмотр аккаунтов банка.
+
+### 5.7.Компонента bank-list
+
+В этой компоненте просмотр списка всех банков.
+
+### 5.8.Компонента bank-single
+
+В этой компоненте детальный просмотр банка. На странице находится 5 вкладок: 
+  - Інфо;
+  - Користувачі;
+  - Мерчанти;
+  - ATM;
+  - Рахунки;
+
+На вкладке Информации можно перейти на просмотр статистики по банку. На остальных вкладках есть возможность перейти на регистрацию или регистрацию из файла соответствующего объекта.
+
+#### 5.8.1.Компоненты edit
+
+В папке компоненты bank-single есть три компоненты для создания пользователей банка, мерчантов и атм.
+
+### 5.9.Компонента bank-statistic
+
+В данной компоненте собрана статистика по банкам.
+
+### 5.9.Компонента bank-user
+
+В этой компоненте происходит создание пользователей банка.
+
+### 5.10.Компонента change-user-info
+
+В этой компоненте происходит изменение личной информации пользователя.
+
+### 5.11.Компонента chart-donat
+
+В этой компоненте график типа donat.
+
+### 5.12.Компонента chat
+
+Компонента чата. Здесь находится кнопка вызова чата. В зависимости от роли и жалобы будет отображаться разная возможность открыть чат. В чате есть возможность загрузки файлов путем перетаскивания файла внутрь. Количество файлов не ограничено.
+
+### 5.13.Компонента chbo-dashboard
+
+В этой компоненте отображаються графики, собраные с других компонент.
+
+### 5.14.Компонента chbo-merchant-requests
+
+В этой компоненте отображаються действия мерчантов.
+
+### 5.15.Компонента chbo-my-claims
+
+В этой компоненте на входе принимается статус по которому будут фильтроваться жалобы.
+Выводится список жалоб.
+
+### 5.16.Компонента chbo-tasks
+
+В этой компоненте находится канбан. У жалоб кастомные статусы. Все настройки сохраняются в localStorage. Управление жалобами осуществляется путем перетягивания нужной жалобы в нужный статус. Присутствует возможность фильтровать жалобы по периоду. Колонки можно добавлять и удалять (все кроме встроенных изначально).
+
+### 5.17.Компонента claims
+
+В этой компоненте выводится список жалоб. Есть кнопка печати отчета, кнопка создания новой жалобы.
+
+### 5.18.Компонента merch-user
+
+В этой компоненте происходит создание мерчантов.
+
+### 5.19.Компонента register-user
+
+В этой компоненте находиться страница с которой можно перейти на регистрацию мерчантов, атм и пользователей банка с файла.
+
+### 5.20.Компонента secur-officer
+
+В этой компоненте находиться страница с списком пользователей банка.
+
+### 5.21.Компонента secur-officer-user
+
+В этой компоненте находиться страница с детальной информацией о пользователе банка. Присутствует функция смены пароля способом отправки письма на email.
+
+### 5.22.Компонента showcase-dialog
+
+Вспомогательная компонента для отображения данных в диалоговом окне.
+
+### 5.23.Компонента single-claim
+
+В этой компоненте создаються и просматриваются новые жалобы. Создание новой жалобы происходит в 2 или 3 этапа (в зависимости от роли). Сначала заполняется форма с основными данными. Дальше (если роль пользователя) заполняеться опросник и определяеться код. Опросник работает сменой темплейтов в зависимости от выбора ответа пользователя. Есть возможность вернуться на вопрос назад или начать сначала. Последний шаг это добавление файлов и написание комментария к жалобе. 
+Просмтор существующей жалобы: страница разделена на три блока. Вверху слева информация о жалобе. Вверху справа либо комментарии в жалобе и документы либо поля для управления. Внизу блок с историей событий в жалобе. В самом верху, над блоками, находяться кнопки управления жалобой. Количество кнопок определяеться запросом на сервер и привязкой к ответу (влияет статус жалобы, роль пользователя...).
+
+### 5.24.Компонента single-claim-forms
+
+В этой компоненте находиться страница для дополнительных действий с жалобой. Отображение форм зависит от выбраной кнопки в детальном просмотре жалобы.
+
+### 5.25.Компонента statistic
+
+В этой компоненте собрана общая статистика по жалобам. 
+
+### 5.26.Компонента top-officer
+
+В этой компоненте на входе принимается статус по которому будет определяться вид таблицы для отображения. Над таблицей находится кнопка регистрации либо пользователя либо мерчанта.
+
+### 5.27.Компонента transactions
+
+В этой компоненте находиться список и статистика транзакций.
+
+### 5.27.Компонента transactions-info
+
+В этой компоненте находиться детальная информация о транзакции.
+
+### 5.27.Компонента tutorial-page
+
+В этой компоненте находяться туториалы с данными по mastercard и visa.
+
+## 6.Share
+
+В папке находятся файлы, которые используются в разных компонентах. В файле urlConstants.ts находиться список всех ссылок для запросов. В файле auth.guard.ts описана логика доступов к страницами и проверка токена.
+
+### 6.1 Models
+
+В данной папке находятся все модели для работы с данными, которые приходят с сервера.
+
+### 6.2 Services
+
+Здесь находятся сервисы для связи компонент между собой, для запросов к серверу, для обработки ошибок и оповещения об результатах операций.
+
+### С компонентами шаблона можно ознакомиться по [ссылке](https://akveo.github.io/nebular/docs/components/components-overview).
+### С компонентами канбана можно ознакомиться по [ссылке](https://ej2.syncfusion.com/angular/demos/#/material/kanban/overview).
+### С таблицами можно ознакомиться по [ссылке](https://ngx-easy-table.eu/#/).
+### Для ознакомления с Angular Material можно перейти по [ссылке](https://material.angular.io/).

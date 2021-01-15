@@ -244,7 +244,6 @@ export class ChboTasksComponent implements OnInit, OnDestroy {
         
       });
     }
-    
   }
 
   goToClaim(data) {
