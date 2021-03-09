@@ -16,4 +16,5 @@ class CustomActivationEmail(BaseEmailMessage):
         context["uid"] = utils.encode_uid(user.pk)
         context["token"] = default_token_generator.make_token(user)
         context["url"] = settings.ACTIVATION_URL.format(**context)
+        context["domain"] = "3.65.140.135"
         return context
