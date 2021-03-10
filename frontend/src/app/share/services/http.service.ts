@@ -154,6 +154,18 @@ export class HttpService {
     };
   }
 
+  private getHeadersCustom() {
+    let body = `JWT ${localStorage.getItem('token')}`;
+    return {
+      headers: new HttpHeaders({
+        'Authorization': body,
+        'sec-fetch-user': localStorage.getItem('user_id')
+      })
+    };
+  }
+
+  
+
 
   createNewUser(user: any){
     return this.http.post(URL_CREATE_NEW_USER, user);
@@ -164,7 +176,7 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
+    return this.http.post(URL_BANK_USERS+'/', user, this.getHeadersCustom());
     //return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
 
   }

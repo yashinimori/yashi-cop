@@ -79,6 +79,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.data.email = this.reactiveForm.value.email;
     this.data.login = this.reactiveForm.value.login;
     this.data.password = this.reactiveForm.value.password;
+    this.data.role = "cardholder";
     if(!this.enter())
       return;
     if(this.reactiveForm.value.password === this.reactiveForm.value.password2) {

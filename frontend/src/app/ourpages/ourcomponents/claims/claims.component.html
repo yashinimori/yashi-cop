@@ -17,14 +17,33 @@
               status="primary" (click)="setUserCb()">Назначити</button>
             <button *ngIf="role == 'chargeback_officer'" outline style="margin-left: 1.5em;" nbButton size="tiny" 
             status="primary" [nbContextMenu]="items"> Тип таблиці</button>
+            <div style="flex: 1 1 auto;"></div>
+            <button *ngIf="role == 'cardholder'" outline style="margin-left: 1.5em;" nbButton size="tiny" 
+            status="primary" (click)="changeViewMode()"><nb-icon icon="{{viewModeTable?'keypad-outline':'menu-2-outline'}}"></nb-icon></button>
         </div>    
       </nb-card-header>
     
       <nb-card-body style="padding: 0.5em;">
-        <ng2-smart-table [settings]="settings" [source]="source" 
+        <ng2-smart-table *ngIf="viewModeTable" [settings]="settings" [source]="source" 
         (userRowSelect)="onUserRowSelect($event)"
         (deleteConfirm)="onDeleteConfirm($event)">
         </ng2-smart-table>
+        <div class="cabinetDiv" *ngIf="!viewModeTable">
+          <nb-card *ngFor="let el of claimsData" class="cabinetCard" (click)="onUserRowSelect(el, 2)" accent="{{getClaimAccent(el)}}">
+            <nb-card-header style="padding: 0.2em 1.5em;">
+              <div>{{el.pan}}</div>
+              <div style="font-size: 12px; color: grey;">{{el.trans_date | date: 'dd.MM.yyyy': 'Europe/Kiev'}}</div>
+            </nb-card-header>
+            <nb-card-body>
+              <p>
+                {{el.result}}
+              </p>
+            </nb-card-body>
+            <nb-card-footer style="padding: 0.2em 1.5em;">
+              <div style="display: flex;align-items: center;">{{el.trans_amount}} {{el.trans_currency}}</div>
+            </nb-card-footer>
+          </nb-card>
+        </div>
       </nb-card-body>
   
   </nb-card>

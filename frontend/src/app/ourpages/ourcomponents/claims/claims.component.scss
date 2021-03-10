@@ -11,6 +11,29 @@
   align-items: center;
 }
 
+.cabinetCard {
+  margin: 1em 0;
+  min-width: 18em;
+  max-width: 23em;
+  min-height: 7em;
+  height: 12em;
+  cursor: pointer;
+}
+.cabinetCard > nb-card-body > p {
+  max-width: 100%;
+  height: 3em;
+}
+
+.cabinetCard > nb-card-body {
+  margin: 0 16px;
+  height: 45%;
+}
+.cabinetDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 .button-set {
   margin-left: 10px; 
   width: 150px;

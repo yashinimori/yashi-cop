@@ -25,6 +25,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   stageParam: string;
   loadingRefresh = false;
   loadingReport = false;
+  viewModeTable = true;
 
   items = [
     { title: 'us-on-us' },
@@ -49,9 +50,29 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.data.id);
-    this.router.navigate(['cop', 'cabinet', 'single-claim']);
+  changeViewMode() {
+    this.viewModeTable = !this.viewModeTable;
+  }
+
+  getClaimAccent(el) {
+    let res = 'success';
+    if(el.status == 'archive' || el.status == 'closed') {
+      res = 'control';
+    } else if (el.status == 'closed') {
+      res = 'danger';
+    } else if(el.status != 'archive' && el.status != 'closed') {
+      res = 'success';
+    }
+    return res;
+  }
+
+  onUserRowSelect(event, el?: number): void {
+    if(el == 2) {
+      this.transferService.cOPClaimID.next(event.id);
+    } else {
+      this.transferService.cOPClaimID.next(event.data.id);
+    }
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);    
   }
 
   ngOnInit(): void {
