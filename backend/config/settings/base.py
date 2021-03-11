@@ -329,6 +329,7 @@ DJOSER = {
     },
     'EMAIL': {
         "activation": "cop.users.api.email.CustomActivationEmail",
+        "password_reset": "cop.users.api.email.CustomPasswordResetEmail",
     },
     'PERMISSIONS': {
         'user_create': ['rest_framework.permissions.AllowAny',
