@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {TransferService} from '../../../share/services/transfer.service';
 import {Router} from '@angular/router';
 import {HttpService} from '../../../share/services/http.service';
-import {Subscription} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {DatePipe} from '@angular/common';
 import {SelectorData} from '../../../share/models/selector-data.model';
 import {FieldsStatus} from '../../../share/models/fieldsStatus.model';
@@ -10,6 +10,7 @@ import {ClaimView} from '../../../share/models/claim-view.model';
 import {SingleClaimForms} from '../../../share/models/single-claim-forms.model';
 import {SelectorDataStr} from '../../../share/models/selector-data-str.model';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-single-claim-forms',
@@ -24,6 +25,8 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   cOPClaimID: string;
   getEscalationSubscription: Subscription = new Subscription();
   claimData: ClaimView;
+
+  loadingEs = false;
 
   role: string;
   claimId: any;
@@ -43,6 +46,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
+              private toastService: ToastService,
               private router: Router, private errorService: ErrorService) {
   }
 
@@ -51,12 +55,19 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   subscription3: Subscription = new Subscription();
   subscription4: Subscription = new Subscription();
 
+  isUploadedDoc: boolean = false;
+  isUploadedComment: boolean = false;
+
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
     this.generateStatusFields();
     this.singleClaimFormsData = new SingleClaimForms();
     this.filesArr = [];
     const v = this.transferService.singleClaimFormsSettings.getValue();
+    if(!v) {
+      this.router.navigate(['cop', 'cabinet', 'single-claim']);
+      return;
+    }
     this.claimId = v.claimId;
     this.typeOperation = v.typeOperation;
 
@@ -122,6 +133,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   }
 
   onClickApply() {
+    this.loadingEs = true;
     const claim = new ClaimView();
     claim.claimId = this.claimId;
     claim.id = this.claimId;
@@ -191,17 +203,22 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         });
       }
     }
-
+    this.uploadDoc(claim);
+    this.commentClaim(claim.id, claim.comments, claim.form_name);
     this.subscription2 = this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
-        this.uploadDoc(claim);
-        this.commentClaim(claim.id, claim.comments, claim.form_name);
+        // this.uploadDoc(claim);
+        // this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
+        this.loadingEs = false;
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingEs = false;
         this.transferService.cOPClaimID.next(this.claimId);
         if (this.typeOperation == 'FinishForm')
           this.router.navigate(['cop', 'cabinet', 'claims']);
@@ -225,6 +242,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.isUploadedDoc = true;
         },
       });
     }
@@ -239,6 +257,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.isUploadedComment = true;
       },
     });
   }

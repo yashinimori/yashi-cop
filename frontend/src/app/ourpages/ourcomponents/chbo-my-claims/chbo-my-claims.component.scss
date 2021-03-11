@@ -1,3 +1,12 @@
+.chboMyClaimsCard {
+  height: calc(100vh - 8rem);
+  margin-bottom: 0;
+
+  nb-card-header {
+    padding: 0.5em;
+  }
+}
+
 .card-row{
     display: flex;
 }
@@ -6,15 +15,72 @@
     margin-left: 10px; 
     width: 150px;
 }
+:host ::ng-deep table > thead > tr > th  { 
+  font-size: 11px;
+}
+
+:host ::ng-deep table > tbody > tr > td  { 
+  font-size: 11px;
+}
+
+.form-checkbox {
+  font-size: 10px;
+  margin-right: 1em;
+  margin-bottom: 0;
+
+  input {
+    margin-right: 0.3em;
+  }
+}
 
 :host /deep/ ng2-smart-table thead > tr > th  { 
-    font-size: 12px;
+  font-size: 11px;
+}
+  
+:host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+  font-size: 11px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td  { 
+  font-size: 12px;
+}
+:host ::ng-deep ngx-table > div > table {
+  border: 1px solid #e7e9ed;
+}
+:host ::ng-deep ngx-table > div > table > thead > tr > th > .ngx-table__column-resizer {
+  height: 100%!important;
+  margin-top: 0!important;
+}
+// :host ::ng-deep ngx-table > div > table > thead > tr >  {
+//   border: 1px solid #e7e9ed;
+// }
+
+
+@media (max-width: 500px) { 
+  .form-checkbox {
+    font-size: 9px;
+  }
+  .chboMyClaimsCard {
+    nb-card-body {
+      padding: 0.2em!important;
+    }
+  }
+  :host ::ng-deep ngx-table > div > table > thead > tr > th {
+    padding: 0.2em 0.3em !important;
+    text-align: center!important;
+    font-size: 10px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > table-header > label > input {
+    font-size: 9px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > .ngx-table__column-resizer {
+    height: 100%!important;
+    margin-top: 0!important;
+  }
+  :host ::ng-deep ngx-table > tbody > tr > td {
+    font-size: 10px!important;
   }
   
-  :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
-    font-size: 12px;
-  }
-  
-  :host /deep/ ng2-smart-table tbody > tr > td  { 
-    font-size: 12px;
-  }
+}

@@ -1,0 +1,12 @@
+<nb-card class="customCardHeight" status="info">
+  
+    <nb-card-header style="padding: 0.5em;">
+      <button nbButton size="tiny" status="basic" (click)="getDocuments()">запит документів</button>
+    </nb-card-header>
+  
+    <nb-card-body style="padding: 0.5em;">
+      <ng2-smart-table [settings]="settingsMerchantRequests" [source]="sourceMerchantRequests"
+        (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

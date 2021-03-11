@@ -1,44 +1,41 @@
-<nb-card style="height: 40em; ">
+<nb-card class="customCardHeight">
   
-    <nb-card-header>
-      Данні
-      <button  nbButton status="primary" (click)="goStatistic()">Cтатистика</button>
+    <nb-card-header style="padding: 0.2em 1em;">
+      <div *ngIf="routeParamsStatus == 'users'">
+        Користувачі
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createBankUser()">Зареєструвати</button>
+      </div>
+
+      <div *ngIf="routeParamsStatus != 'users'">
+        Мерчанти
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createMerch()">Зареєструвати</button>
+      </div>
+
     </nb-card-header>
   
-    <nb-card-body style="overflow-y: hidden;">
-      <div class="col-12">
-        <nb-card size="small" style="height: 33em;">
-          <nb-tabset fullWidth>
+    <nb-card-body style="padding: 0.2em;">
 
-            <nb-tab tabTitle="Користувачи">
-              <button nbButton status="primary" (click)="createBankUser()">Зарегистрировать</button>
-              <nb-card style="height: 25em;">
-                <nb-card-body>
+      <div *ngIf="routeParamsStatus == 'users'">
+        <ngx-table #table  [data]="dataTable1" [columns]="columns1" [noResultsTemplate]="noResultsTemplate1"
+        [configuration]="configuration1" [pagination]="pagination1" (event)="eventEmitted1($event)">
+        </ngx-table>
+      </div> 
+      <div *ngIf="routeParamsStatus != 'users'">
+        <ngx-table #table2  [data]="dataTable2" [columns]="columns2" [noResultsTemplate]="noResultsTemplate2"
+        [configuration]="configuration2" [pagination]="pagination2" (event)="eventEmitted2($event)">
+        </ngx-table>
+      </div> 
 
-                  <ng2-smart-table [settings]="settingsBankUser" [source]="sourceBankUser">
-                  </ng2-smart-table>
-
-                </nb-card-body>
-              </nb-card>
-      
-            </nb-tab>
-            
-            <nb-tab tabTitle="Мерчанти">
-              <button nbButton status="primary" (click)="createMerch()">Зарегистрировать</button>
-              <nb-card style="height: 25em;">
-                <nb-card-body>
-
-                  <ng2-smart-table [settings]="settingsMerch" [source]="sourceMerch">
-                  </ng2-smart-table>
-
-                </nb-card-body>
-              </nb-card>
-            </nb-tab>
-
-          </nb-tabset>
-        </nb-card>
-      </div>
-    
+      <ng-template #noResultsTemplate1>
+        <td style="text-align: center;" *ngIf="!this.configuration1.isLoading" [attr.colspan]="columns1.length" class="no-results">
+          No results
+        </td>
+      </ng-template>
+      <ng-template #noResultsTemplate2>
+        <td style="text-align: center;" *ngIf="!this.configuration2.isLoading" [attr.colspan]="columns2.length" class="no-results">
+          No results
+        </td>
+      </ng-template>   
     </nb-card-body>
 
 </nb-card>

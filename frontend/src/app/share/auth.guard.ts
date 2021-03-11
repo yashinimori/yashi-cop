@@ -12,18 +12,148 @@ export class AuthGuard implements CanActivate {
   private token:any;
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     this.token = localStorage.getItem('token');
-     
+    const role = localStorage.getItem('role');
+    if(state.url == '/cop/cabinet/show-claim-result') {
+      return true;
+    }
+    //this.checkPath(role, state.url)
     if (this.token) {
       if (Number(localStorage.getItem('tokenExpiredDate')) < new Date().getTime()) {
         localStorage.clear();
         this.router.navigate(['auth', 'login']);
         return false;
       } else {
-        return true;
+        if(this.checkPath(role, state.url)) {
+          return true;
+        }
+        return false;
+        //return true;
       }
     }
+    
     this.router.navigate(['auth', 'login'], { queryParams: { returnUrl: state.url }});
     return false;
+  }
+
+  private checkPath(role: string, url: string): boolean {
+    switch (role) {
+      case 'user': //all ++
+        if(url == '/cop/cabinet/claims/all' ||
+         url == '/cop/cabinet/claims/archive' || 
+         url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'сс_branch': //all ++
+        if(url == '/cop/cabinet/claims/all' ||
+         url == '/cop/cabinet/claims/archive' || 
+         url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'cardholder': //all in user ++
+        if(url == '/cop/cabinet/claims/all' ||
+         url == '/cop/cabinet/claims/archive' || 
+         url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'admin':
+        return true;
+      case 'cop_manager': //all
+        if(url == '/cop/cabinet/bank-list' ||
+        url == '/cop/cabinet/bank' || 
+        url == '/cop/cabinet/statistic' ||
+        url == '/cop/cabinet/bank-single' ||
+        url == '/cop/cabinet/bank-statistic' || 
+        url == '/cop/cabinet/bank-user'||
+        url == '/cop/cabinet/merch-user' || 
+        url == '/cop/cabinet/atm' ||
+        url == '/cop/cabinet/bank-accounts' ||
+        url == '/cop/cabinet/edit-atm' ||
+        url == '/cop/cabinet/edit-bank-user' ||
+        url == '/cop/cabinet/edit-merchant' ||
+        url == '/cop/cabinet/change-user-info' ||
+        url == '/cop/cabinet/register/merchant' ||
+        url == '/cop/cabinet/register/atm' ||
+        url == '/cop/cabinet/register/user') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'chargeback_officer': //all ?
+        if(url == '/cop/cabinet/claims' ||
+         url == '/cop/cabinet/claims/all' ||
+         url == '/cop/cabinet/chbo-dashboard' || 
+         url == '/cop/cabinet/atm-log-upload' ||
+         url == '/cop/cabinet/atm-log-view' ||
+         url == '/cop/cabinet/atm-log-view-detail' || 
+         url == '/cop/cabinet/chbo-my-claims/pre_mediation'||
+         url == '/cop/cabinet/chbo-my-claims/mediation' || 
+         url == '/cop/cabinet/chbo-my-claims/chargeback' ||
+         url == '/cop/cabinet/chbo-tasks' ||
+         url == '/cop/cabinet/chbo-merchant-requests' ||
+         url == '/cop/cabinet/chbo-my-claims/closed' ||
+         url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/tutorials' ||
+         url == '/cop/cabinet/bank-accounts' ||
+         url == '/cop/cabinet/change-user-info' ||
+         url == '/cop/cabinet/mastercard-transaction-search' ||
+         url == '/cop/cabinet/mastercard-chargebacks' ||
+         url == '/cop/cabinet/mastercard-retrieval' ||
+         url == '/cop/cabinet/mastercard-transaction-info' ||
+         url == '/cop/cabinet/mastercard-fees') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'merchant': //+
+        if(url == '/cop/cabinet/claims/all' ||
+         url == '/cop/cabinet/claims/archive' || 
+         url == '/cop/cabinet/single-claim' ||
+         url == '/cop/cabinet/transactions' ||
+         url == '/cop/cabinet/transaction-info' ||
+         url == '/cop/cabinet/single-claim-forms' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'top_level': //all +
+        if(url == '/cop/cabinet/top-officer/users' || url == '/cop/cabinet/top-officer/merchants' ||
+         url == '/cop/cabinet/bank-statistic' || 
+         url == '/cop/cabinet/bank-user' ||
+         url == '/cop/cabinet/merch-user' ||
+         url == '/cop/cabinet/edit-bank-user' ||
+         url == '/cop/cabinet/edit-merchant' ||
+         url == '/cop/cabinet/bank-accounts' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'security_officer': //all +
+        if(url == '/cop/cabinet/secur-officer' ||
+         url == '/cop/cabinet/claims/bank-user' || 
+         url == '/cop/cabinet/secur-officer-user' ||
+         url == '/cop/cabinet/change-user-info') {
+          return true;
+        } else {
+          return false;
+        }
+      default:
+        return false;
+    }
   }
   
   

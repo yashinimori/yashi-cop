@@ -20,3 +20,28 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+
+:host ::ng-deep ngx-table > div > table {
+  border: 1px solid #e7e9ed;
+}
+
+@media (max-width: 500px) { 
+  :host ::ng-deep ngx-table > div > table > thead > tr > th {
+    padding: 0.2em 0.3em !important;
+    text-align: center!important;
+    font-size: 10px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > table-header > label > input {
+    font-size: 9px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > .ngx-table__column-resizer {
+    height: 100%!important;
+    margin-top: 0!important;
+  }
+  :host ::ng-deep ngx-table > tbody > tr > td {
+    font-size: 10px!important;
+  }
+  
+}

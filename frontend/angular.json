@@ -19,6 +19,7 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "crossOrigin": "use-credentials",
             "assets": [
               "src/assets",
               "src/favicon.ico",

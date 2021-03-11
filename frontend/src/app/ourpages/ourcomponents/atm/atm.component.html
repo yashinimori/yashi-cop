@@ -1,11 +1,9 @@
-<div class="center-screen">
-  
-  <nb-card style="width: 39%; margin: auto; ">
-    <nb-card-header style="width: 100%;">
+  <nb-card class="customCardHeight" style="width: 80%; margin: auto; ">
+    <nb-card-header style="width: 100%; text-align: center;">
       Реєстрація ATM
     </nb-card-header>
     
-    <nb-card-body>
+    <nb-card-body style="display: flex; flex-direction: column; align-items: center; padding: 0.5em; overflow: auto;">
 
       <!-- <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
       <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999"> -->
@@ -24,14 +22,13 @@
 
     </nb-card-body>
 
-    <nb-card-footer>
+    <nb-card-footer style="padding: 0.5em;">
       <div class="button-enter">
-        <button nbButton status="primary" (click)="goBack()">Повернутись</button>
-        <button nbButton status="primary" style="margin-left: 10px;"
-          (click)="createATM()">Зарегистрировать</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" style="margin-left: 10px;"
+        [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
+          (click)="createATM()">Зареєструвати</button>
       </div>
     </nb-card-footer>
 
   </nb-card>
-
-</div>     

@@ -15,6 +15,7 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy 
     doughnutChartData: any;
     is_data_ready = false;
     bankId: string;
+    chartOptions: any;
 
     constructor(private transferService: TransferService,
       private httpServise: HttpService, private errorService: ErrorService) {
@@ -22,6 +23,18 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy 
     subscription1: Subscription = new Subscription();
 
     ngOnInit(): void {
+      this.chartOptions = {
+        responsive: true,
+        aspectRatio: 1.4,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'right',
+          labels: {
+            fontSize: 10,
+            usePointStyle: true
+          }
+        },
+      };
       this.role = localStorage.getItem('role');
       this.bankId = this.transferService.bankID.getValue();
       this.doughnutChartData = [ { data: [] } ];
@@ -50,6 +63,7 @@ export class BankStatisticClaimsByRcGroupComponent implements OnInit, OnDestroy 
         },
         error: error => {
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => { 

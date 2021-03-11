@@ -1,23 +1,87 @@
-<nb-card style="height: 55em;">
+<nb-card class="chboMyClaimsCard">
     <nb-card-header>
       <div style="display: flex;">
         Список скарг
         <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
-          <button  nbButton style="width: 100%;"
-            status="primary" (click)="refresh_claim()">Оновити</button>
+          <button  nbButton size="tiny" style="width: 90%;"
+            status="primary" (click)="refresh_claim()" [nbSpinner]="loadingRefresh" nbSpinnerStatus="info">Оновити</button>
         </div>
         <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
-          <button  nbButton style="width: 100%;" 
-            status="primary" (click)="createReport()">Звіт</button>
+          <button  nbButton size="tiny" style="width: 100%;" 
+            status="primary" (click)="createReport()" [nbSpinner]="loadingReport" nbSpinnerStatus="info">Звіт</button>
         </div>
       </div> 
+      <div style="display: flex; flex-wrap: wrap;">
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('id')" />
+          <em class="form-icon"></em> id
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('pan')" />
+          <em class="form-icon"></em> pan
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('trans_date')" />
+          <em class="form-icon"></em> trans_date
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('merch_name_ips')" />
+          <em class="form-icon"></em> merch_name_ips
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('term_id')" />
+          <em class="form-icon"></em> term_id
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('trans_amount')" />
+          <em class="form-icon"></em> trans_amount
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('trans_currency')" />
+          <em class="form-icon"></em> trans_currency
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('auth_code')" />
+          <em class="form-icon"></em> auth_code
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('claim_reason_code')" />
+          <em class="form-icon"></em> claim_reason_code
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('status')" />
+          <em class="form-icon"></em> status
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('action_needed')" />
+          <em class="form-icon"></em> action_needed
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('result')" />
+          <em class="form-icon"></em> result
+        </label>
+        <label class="form-checkbox form-inline">
+          <input type="checkbox" [checked]="true" (change)="toggle('due_date')" />
+          <em class="form-icon"></em> due_date
+        </label>
+        
+      </div>
     </nb-card-header>
   
     <nb-card-body>
-      <ng2-smart-table [settings]="settings" [source]="source" 
+      <ngx-table #table  [data]="dataTable" [columns]="columns" [noResultsTemplate]="noResultsTemplate"
+      [configuration]="configuration" (event)="eventEmitted($event)" [pagination]="pagination">
+      </ngx-table>
+      <!-- <ng2-smart-table [settings]="settings" [source]="source" 
       (userRowSelect)="onUserRowSelect($event)"
       (deleteConfirm)="onDeleteConfirm($event)">
-      </ng2-smart-table>
+      </ng2-smart-table> -->
     </nb-card-body>
+
+    <ng-template #noResultsTemplate>
+      <td style="text-align: center;" *ngIf="!this.configuration.isLoading" [attr.colspan]="columns.length" class="no-results">
+        No results
+      </td>
+    </ng-template>
 
 </nb-card>

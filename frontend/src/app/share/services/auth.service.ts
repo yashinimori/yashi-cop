@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {RESET_PASSWORD_CONFIRM, URL_CREATE_TOKEN, URL_LOGIN, URL_USER_ACTIVATED} from '../urlConstants';
+import {RESET_PASSWORD_CONFIRM, URL_CREATE_TOKEN, URL_USER_INFO, URL_USER_ACTIVATED, URL_RESET_PASS} from '../urlConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +11,11 @@ export class AuthService {
   }
 
   getToken(user: any) {
-    console.log('in token request: ');
-    console.log(user);
     return this.http.post(URL_CREATE_TOKEN, user);
   }
 
   login() {
-    return this.http.get(URL_LOGIN, this.getHeaders());
+    return this.http.get(URL_USER_INFO +'/', this.getHeaders());
   }
 
   private getHeaders() {
@@ -31,6 +29,11 @@ export class AuthService {
 
   private getTokenHeader() {
     return new HttpHeaders().set('Authorization', `JWT ${localStorage.getItem('token')}`)
+  }
+
+  sendResetPassword(email: string) {
+    const data = {email: email};
+    return this.http.post(URL_RESET_PASS, data);
   }
 
   setPassword(data: any) {

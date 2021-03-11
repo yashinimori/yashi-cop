@@ -36,5 +36,22 @@ nb-card-body {
     text-align: center;
   }
   .selector-list {
-    width: 160%;   
+    width: 100%;   
   }
+.marginBankUser {
+  margin: 1em;
+  margin-top: 0!important;
+}
+
+.bankUserCard {
+  width: 70%; 
+  margin: auto; 
+  overflow: auto; 
+  max-width: 500px;
+}
+
+@media (max-width: 500px) { 
+  .bankUserCard {
+    width: 95%;
+  }
+}

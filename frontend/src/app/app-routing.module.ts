@@ -16,6 +16,7 @@ import { RegistrationComponent } from './authorisation/registration/registration
 import { AuthGuard } from './share/auth.guard';
 import { PasswordComponent } from './authorisation/password/password.component';
 import { ActivationComponent } from './authorisation/activation/activation.component';
+import { ShowClaimResultComponent } from './show-claim-result/show-claim-result.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
         component: LoginComponent,
       },
       {
+        path: 'reset-password',
+        component: PasswordComponent,
+      },
+      {
         path: 'registration',
         component: RegistrationComponent,
       },
@@ -58,8 +63,6 @@ const routes: Routes = [
         path: 'activation/:uid/:token',
         component: ActivationComponent,
       },
-
-
     ],
     },
     // {

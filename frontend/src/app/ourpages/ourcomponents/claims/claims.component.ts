@@ -23,6 +23,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   pagerSize = 10;
   fieldsStatus: FieldsStatus;
   stageParam: string;
+  loadingRefresh = false;
+  loadingReport = false;
+  viewModeTable = true;
+
+  items = [
+    { title: 'us-on-us' },
+    { title: 'us-on-them' },
+    { title: 'them-on-us' },
+  ];
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
@@ -41,9 +50,29 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUserRowSelect(event): void {
-    this.transferService.cOPClaimID.next(event.data.id);
-    this.router.navigate(['cop', 'cabinet', 'single-claim']);
+  changeViewMode() {
+    this.viewModeTable = !this.viewModeTable;
+  }
+
+  getClaimAccent(el) {
+    let res = 'success';
+    if(el.status == 'archive' || el.status == 'closed') {
+      res = 'control';
+    } else if (el.status == 'closed') {
+      res = 'danger';
+    } else if(el.status != 'archive' && el.status != 'closed') {
+      res = 'success';
+    }
+    return res;
+  }
+
+  onUserRowSelect(event, el?: number): void {
+    if(el == 2) {
+      this.transferService.cOPClaimID.next(event.id);
+    } else {
+      this.transferService.cOPClaimID.next(event.data.id);
+    }
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);    
   }
 
   ngOnInit(): void {
@@ -63,6 +92,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     if(role && (role == 'cardholder' || role == 'user')){
         delete this.settings.columns.id;
     }
+  }
+
+  createNewClaimCb() {
+    this.transferService.cOPClaimID.next('0');
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
+  }
+
+  setUserCb() {
+
   }
   
   setSettingsGrid(role:string){
@@ -91,9 +129,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -148,7 +189,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -179,9 +221,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -236,7 +281,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -273,9 +319,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             trans_date: {
               title: 'Дата транзакції',
+              sort: true,
+              sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -330,7 +379,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if(due_date)
-                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                  return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
@@ -347,6 +397,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           actions:{
             add: false,
             edit: false,
+            sort: true,
             delete: false,
           },
         };
@@ -355,6 +406,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   refresh_claim(){
+    this.loadingRefresh = true;
     this.getClaimsData();
   }
 
@@ -418,10 +470,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         self.source.load(self.claimsData);
       },
       error: error => {
+        this.loadingRefresh = false;
         this.errorService.handleError(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.loadingRefresh = false;
       }
     });
   }
@@ -436,6 +490,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   add_claim(){
+    this.transferService.cOPClaimID.next('0');
     this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
   
@@ -446,6 +501,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   public createReport(){
     if(this.claimsData){
+      this.loadingReport = true;
       let str = '';
 
       str += 'ID;';
@@ -492,6 +548,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     
       var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
+      this.loadingReport = false;
       FileSaver.saveAs(blob, filename);
     }
   }
@@ -506,7 +563,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   getValueToReportDate(val: any){
     if(val){
-      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+      //return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
+      return this.datePipe.transform(new Date(val), 'dd-MM-yyyy');
     } else {
       return '';
     }

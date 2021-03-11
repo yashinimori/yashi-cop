@@ -5,3 +5,17 @@
     transform: translate3d(0, 0, 0);
   }
 }
+.bigCard {
+  width: 80%;
+}
+.smallCard {
+  width: 15%;
+  max-width: 12em;
+  min-width: 9em;
+}
+
+@media (max-width: 500px) { 
+  .bigCard {
+    width: 100%;
+  }
+}

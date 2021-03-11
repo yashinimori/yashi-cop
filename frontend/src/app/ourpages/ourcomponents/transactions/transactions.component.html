@@ -1,0 +1,25 @@
+<div style="display: flex;flex-wrap: wrap; justify-content: space-evenly;">
+    <nb-card class="infoCard" accent="info">  
+        <nb-card-header>Кількість транзакцій</nb-card-header>
+        <nb-card-body>34</nb-card-body>
+    </nb-card>
+    <nb-card class="infoCard" accent="info">  
+        <nb-card-header>Сума транзакцій</nb-card-header>
+        <nb-card-body>157963</nb-card-body>
+    </nb-card>
+    <nb-card class="infoCard" accent="info">  
+        <nb-card-header>Інтерчендж рейт</nb-card-header>
+        <nb-card-body>23</nb-card-body>
+    </nb-card>
+    <nb-card class="infoCard" accent="info">  
+        <nb-card-header>Чарджбек рейт</nb-card-header>
+        <nb-card-body>12</nb-card-body>
+    </nb-card>
+</div>
+<nb-card accent="info" class="cardTrTable">  
+    <nb-card-body style="padding: 0.5em;">
+      <ng2-smart-table [settings]="settings" [source]="source" 
+      (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { TransferService } from '../../../share/services/transfer.service';
 import { ATM } from '../../../share/models/atm.model'
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-atm',
@@ -14,15 +15,26 @@ import { ErrorService } from '../../../share/services/error.service';
 
 export class ATMComponent implements OnInit, OnDestroy {
   public data: ATM;
-  bankID: string;
+  bankID: any;
   bankBin: string;
   role: any;
+  loadingCreate = false;
 
   constructor(private httpService: HttpService,
     private router: Router,
-    private transferService: TransferService, private errorService: ErrorService) {
+    private transferService: TransferService, private errorService: ErrorService, private toastService: ToastService) {
       this.bankID = '';
       this.role = '';
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != '0') {
+      localStorage.setItem('bankID', this.bankID);
+    }
+    if (this.bankBin && this.bankBin != '0') {
+      localStorage.setItem('bankBIN', this.bankBin);
+    }
   }
 
   subscription1: Subscription = new Subscription();
@@ -30,8 +42,16 @@ export class ATMComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.data = new ATM();
 
-    this.bankID = this.transferService.bankID.getValue();
-    this.bankBin = this.transferService.bankBIN.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = Number(localStorage.getItem('bankID'));
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+    if(localStorage.getItem('bankBIN')) {
+      this.bankBin = localStorage.getItem('bankBIN');
+    } else {
+      this.bankBin = this.transferService.bankBIN.getValue();
+    }
     this.role = localStorage.getItem('role');
   }
 
@@ -46,6 +66,7 @@ export class ATMComponent implements OnInit, OnDestroy {
 
   createATM() {
     if(this.enter() == 0){
+      this.loadingCreate = true;
       let d = {
         "merch_id": this.data.merch_id,
         "name_ips": this.data.name_ips,
@@ -62,10 +83,14 @@ export class ATMComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.loadingCreate = false;
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.toastService.showToast('success', 'top-end', 'Всі файли успішно завантажені!');
+          this.loadingCreate = false;
           this.goBack();
         }
       });
@@ -101,6 +126,8 @@ export class ATMComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('bankID');
+    localStorage.removeItem('bankBIN');
     this.subscription1.unsubscribe();
   }
 }

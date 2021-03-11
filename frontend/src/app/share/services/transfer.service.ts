@@ -15,4 +15,10 @@ export class TransferService {
   public userID: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public claimsByStages: BehaviorSubject<DoughnutTransfer> = new BehaviorSubject<DoughnutTransfer>(null);
   public claimsByRcGroup: BehaviorSubject<DoughnutTransfer> = new BehaviorSubject<DoughnutTransfer>(null);
+
+  public atmID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public bankUserID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public merchantID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public transactionID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public transactionMastercardID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
 }
