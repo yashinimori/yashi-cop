@@ -22,7 +22,7 @@ class CustomActivationEmail(BaseEmailMessage):
         return context
 
 
-class PasswordResetEmail(BaseEmailMessage):
+class CustomPasswordResetEmail(BaseEmailMessage):
     template_name = "email/custom_password_reset.html"
 
     def get_context_data(self):
