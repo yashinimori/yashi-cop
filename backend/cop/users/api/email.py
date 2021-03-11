@@ -4,6 +4,7 @@ from templated_mail.mail import BaseEmailMessage
 from djoser import utils
 from djoser.conf import settings
 
+from config.settings.base import env
 
 class CustomActivationEmail(BaseEmailMessage):
     template_name = "email/custom_activation.html"
@@ -16,5 +17,5 @@ class CustomActivationEmail(BaseEmailMessage):
         context["uid"] = utils.encode_uid(user.pk)
         context["token"] = default_token_generator.make_token(user)
         context["url"] = settings.ACTIVATION_URL.format(**context)
-        context["domain"] = "3.65.140.135"
+        context["domain"] = env.list("DJANGO_ALLOWED_HOSTS")[0]
         return context
