@@ -1,0 +1,58 @@
+<nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 56vh);">  
+    <nb-card-body style="padding: 0.5em;">
+      <ng2-smart-table [settings]="settings" [source]="source" 
+      (userRowSelect)="onUserRowSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
+
+<nb-card style="height: 10em; margin-bottom: 0.5em; ">  
+    <nb-card-body style="padding: 0.5em; display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;">
+        <div style="width: 45%;">
+            <div class="itemBA">
+                <label class="titleBA">Рахунок №</label>
+                <label class="dataBA">109</label>
+            </div>
+            <div class="itemBA">
+                <label class="titleBA">Період</label>
+                <label class="dataBA">Грудень 2020</label>
+            </div>
+            <div class="itemBA">
+                <label class="titleBA">Сума</label>
+                <label class="dataBA">13098</label>
+            </div>
+            <div class="itemBA">
+                <label class="titleBA">Валюта</label>
+                <label class="dataBA">грн</label>
+            </div>
+        </div>
+        <div style="width: 45%;">
+            <div class="itemBA">
+                <label class="titleBA">Тип ліцензії</label>
+                <label class="dataBA">стандарт</label>
+            </div>
+            <div class="itemBA">
+                <label class="titleBA">Користувачі</label>
+                <label class="dataBA">64</label>
+            </div>
+            <div class="itemBA">
+                <label class="titleBA">Чарджбек-офіцери</label>
+                <label class="dataBA">3</label>
+            </div>
+            <div>
+                <button *ngIf="role != 'top_level'" class="changeLicensButton" nbButton size="tiny" status="primary">Змінити ліцензію</button>
+            </div>
+        </div>
+        
+    </nb-card-body>
+</nb-card>
+
+<nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 56vh);">  
+    <nb-card-body style="padding: 0.5em;">
+      <ng2-smart-table [settings]="settings2" (edit)="editRowFields($event)" (editConfirm)="saveRow($event)" [source]="source2" 
+      (userRowSelect)="onUserRowSelect2($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

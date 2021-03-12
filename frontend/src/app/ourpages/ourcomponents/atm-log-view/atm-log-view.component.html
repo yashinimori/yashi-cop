@@ -1,10 +1,9 @@
 <div *ngIf="isShowGrid">
-  <nb-card>
-    <nb-card-header>
+  <nb-card class="customCardHeight">
+    <nb-card-header style="padding: 0.5em; text-align: center;">
       Список транзакцій
     </nb-card-header>
-  
-    <nb-card-body>
+    <nb-card-body style="padding: 0.5em;">
       <ng2-smart-table [settings]="settings" [source]="source" 
         (userRowSelect)="onUserRowSelect($event)">
       </ng2-smart-table>
@@ -13,12 +12,12 @@
 </div>
 
 <div *ngIf="!isShowGrid">
-  <nb-card>
-    <nb-card-header>
+  <nb-card class="customCardHeight">
+    <nb-card-header style="padding: 0.5em; text-align: center;">
       Транзакція
     </nb-card-header>
 
-    <nb-card-body>
+    <nb-card-body style="padding: 0.5em;">
       <!-- <div class="div-panel" >
           <label class="label-caption">Початок транзакції</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.trans_start)}}</label>
@@ -93,7 +92,7 @@
 
     <nb-card-footer>
       <div class="center-screen">
-        <button nbButton status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
       </div>
     </nb-card-footer>
 

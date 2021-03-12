@@ -1,0 +1,68 @@
+<nb-card class="customCardHeight" style="margin-bottom: 0.5em; border: unset;" status="info">
+    <nb-card-header style="padding: 0.3em; text-align: center;">
+        {{isEdit?'Редагування мерчанта':'Перегляд мерчанта'}}
+    </nb-card-header>
+    <nb-card-body>
+        <div *ngIf="isUiLoad">
+            <div class="div-panel">
+                <label class="label-caption">Контактна особа</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.contact_person}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Контактна особа" [(ngModel)]="editedMerchant.contact_person" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Merchant ID</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.merch_id}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Merchant ID" [(ngModel)]="editedMerchant.merch_id" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Юридична назва</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.name_legal}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Юридична назва" [(ngModel)]="editedMerchant.name_legal" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Назва торговця в МПС</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.name_ips}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Назва торговця в МПС" [(ngModel)]="editedMerchant.name_ips" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Вид діяльності</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.description}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Вид діяльності" [(ngModel)]="editedMerchant.description" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">MCC</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.mcc}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="MCC" [(ngModel)]="editedMerchant.mcc" maxlength="999">
+            </div>
+            <div class="div-panel">
+                <label class="label-caption">Адреса</label> 
+                <label *ngIf="!isEdit" class="label-data">{{currentMerchant.address}}</label>
+                <input *ngIf="isEdit" nbInput placeholder="Адреса" [(ngModel)]="editedMerchant.address" maxlength="999">
+            </div>
+            <div *ngIf="!isEdit" class="div-panel">
+                <label class="label-caption">BIN</label> 
+                <label class="label-data">{{currentMerchant.bin}}</label>                
+            </div>
+            <div *ngIf="!isEdit" class="div-panel">
+                <label class="label-caption">Банк</label> 
+                <div class="banksDiv" style="display: flex;">
+                    <label style="margin-right: 1em;" *ngFor="let bank of currentMerchant.bankCustom; let i = index;">
+                        {{bank.name_eng}}<span *ngIf="i < currentMerchant.bankCustom.length - 1">,</span>
+                    </label>
+                </div>
+                <!-- <label *ngIf="!isEdit" class="label-data">{{currentMerchant.bankCustom.name_eng}}</label> -->
+                <!-- <nb-select *ngIf="isEdit" [(ngModel)]="editedMerchant.bank" placeholder="Банк">
+                    <nb-option *ngFor="let item of banksList" [value]="item.id">
+                    {{ item.name_eng }}
+                    </nb-option>
+                </nb-select> -->
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button *ngIf="!isEdit" nbButton size="small" status="primary" (click)="goBack()">Повернутися до списку</button>
+        <button *ngIf="!isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="editMerchant()">Редагувати</button>
+        <button *ngIf="isEdit" nbButton size="small" status="primary" (click)="closeEditMerchant()">Відмінити</button>
+        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" [nbSpinner]="loadingUpdate" nbSpinnerStatus="info" (click)="updateMerchant()">Зберегти зміни</button>
+    </nb-card-footer>
+</nb-card>

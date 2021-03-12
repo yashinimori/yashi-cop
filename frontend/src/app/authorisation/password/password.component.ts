@@ -12,51 +12,64 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class PasswordComponent implements OnInit, OnDestroy {
   public data: Authorization;
 
-  constructor(
-    private authService: AuthService,
+  constructor(private authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-  ) {
-    this.data = new Authorization();
-  }
+    private activatedRoute: ActivatedRoute) {}
 
   getTokenSubscription: Subscription = new Subscription();
+  sendEmailSubscription: Subscription = new Subscription();
+  email: string = '';
+  isSendEmailError: boolean = false;
+  isSendOk: boolean = false;
 
   ngOnInit(): void {
   }
 
-  OnInit() {
-    this.data = new Authorization();
-  }
-
   enter() {
+    this.isSendOk = false;
+    this.isSendEmailError = false;
+    this.sendEmailSubscription = this.authService.sendResetPassword(this.email).subscribe({
+      next: (response: any) => {
+        
+      },
+      error: error => {
+        this.isSendEmailError = true;
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        this.isSendOk = true;
+        this.email = '';
+        // this.router.navigate(['auth', 'login']);
+      }
+    });
 
-    if (this.data.confirm_password === this.data.password) {
-      const uid = this.activatedRoute.snapshot.paramMap.get('uid');
-      const token = this.activatedRoute.snapshot.paramMap.get('token');
-      let d = {
-        "new_password": this.data.password,
-        "re_new_password": this.data.confirm_password,
-        uid,
-        token,
-      };
+    // if (this.data.confirm_password === this.data.password) {
+    //   const uid = this.activatedRoute.snapshot.paramMap.get('uid');
+    //   const token = this.activatedRoute.snapshot.paramMap.get('token');
+    //   let d = {
+    //     "new_password": this.data.password,
+    //     "re_new_password": this.data.confirm_password,
+    //     uid,
+    //     token,
+    //   };
 
-      this.getTokenSubscription = this.authService.setPassword(d).subscribe({
-        next: (response: any) => {
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-          this.router.navigate(['auth', 'login']);
-        }
-      });
+    //   this.getTokenSubscription = this.authService.setPassword(d).subscribe({
+    //     next: (response: any) => {
+    //     },
+    //     error: error => {
+    //       console.error('There was an error!', error);
+    //     },
+    //     complete: () => {
+    //       this.router.navigate(['auth', 'login']);
+    //     }
+    //   });
 
-    }
+    // }
 
   }
 
   ngOnDestroy(): void {
     this.getTokenSubscription.unsubscribe();
+    this.sendEmailSubscription.unsubscribe();
   }
 }

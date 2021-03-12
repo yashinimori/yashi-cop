@@ -1,0 +1,13 @@
+.cardTutorial {
+    width: 25em;
+    height: 7em;
+    margin: 1em;
+    cursor: pointer;
+
+    nb-card-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+

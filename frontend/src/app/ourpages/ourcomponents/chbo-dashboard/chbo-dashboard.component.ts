@@ -6,6 +6,7 @@ import { HttpService } from '../../../share/services/http.service';
 @Component({
     selector: 'app-chbo-dashboard', 
     templateUrl: './chbo-dashboard.component.html',
+    styleUrls: ['./chbo-dashboard.component.scss']
     
 })
 export class ChboDashboardComponent implements OnInit, OnDestroy{

@@ -23,11 +23,36 @@ import { SecurOfficerUserComponent } from './secur-officer-user/secur-officer-us
 import { StatisticComponent } from './statistic/statistic.component';
 import { BankStatisticComponent } from './bank-statistic/bank-statistic.component';
 import { ATMComponent } from './atm/atm.component';
+import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
+import { ChangeUserInfoComponent } from './change-user-info/change-user-info.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
+import { EditAtmComponent } from './bank-single/edit/edit-atm/edit-atm.component';
+import { EditMerchantComponent } from './bank-single/edit/edit-merchant/edit-merchant.component';
+import { EditBankUserComponent } from './bank-single/edit/edit-bank-user/edit-bank-user.component';
+import { TransactionSearchComponent } from './mastercard-menu/transaction-search/transaction-search.component';
+import { MastercardChargebacksComponent } from './mastercard-menu/mastercard-chargebacks/mastercard-chargebacks.component';
+import { MastercardFeesComponent } from './mastercard-menu/mastercard-fees/mastercard-fees.component';
+import { MastercardRetrievalComponent } from './mastercard-menu/mastercard-retrieval/mastercard-retrieval.component';
+import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsInfoComponent } from './transactions-info/transactions-info.component';
+import { ShowClaimResultComponent } from '../../show-claim-result/show-claim-result.component';
+import { ChboMerchantRequestsComponent } from './chbo-merchant-requests/chbo-merchant-requests.component';
+import { MastercardTransactionInfoComponent } from './mastercard-menu/mastercard-transaction-info/mastercard-transaction-info.component';
+import { ChboTasksComponent } from './chbo-tasks/chbo-tasks.component';
 
 const routes: Routes = [{
   path: '',
   component: OurComponentsComponent,
   children: [
+    {
+      path: 'change-user-info',
+      component: ChangeUserInfoComponent,
+    },
+    {
+      path: 'register/:status',
+      component: RegisterUserComponent,
+    },
     {
       path: 'claims',
       component: ClaimsComponent,
@@ -69,6 +94,14 @@ const routes: Routes = [{
       component: ChboMyClaimsComponent,
     },
     {
+      path: 'chbo-merchant-requests',
+      component: ChboMerchantRequestsComponent,
+    },
+    {
+      path: 'chbo-tasks',
+      component: ChboTasksComponent,
+    },
+    {
       path: 'chart-donat',
       component: ChartDonatComponent,
     },
@@ -101,8 +134,32 @@ const routes: Routes = [{
       component: BankSingleComponent,
     },
     {
-      path: 'top-officer',
+      path: 'edit-atm',
+      component: EditAtmComponent,
+    },
+    {
+      path: 'edit-bank-user',
+      component: EditBankUserComponent,
+    },
+    {
+      path: 'edit-merchant',
+      component: EditMerchantComponent,
+    },
+    {
+      path: 'top-officer/:status',
       component: TopOfficerComponent,
+    },
+    {
+      path: 'bank-accounts',
+      component: BankAccountsComponent,
+    },
+    {
+      path: 'transactions',
+      component: TransactionsComponent,
+    },
+    {
+      path: 'transaction-info',
+      component: TransactionsInfoComponent,
     },
     {
       path: 'secur-officer',
@@ -124,7 +181,35 @@ const routes: Routes = [{
       path: 'atm',
       component: ATMComponent,
     },
-
+    {
+      path: 'tutorials',
+      component: TutorialPageComponent
+    },
+    {
+      path: 'mastercard-transaction-search',
+      component: TransactionSearchComponent
+    },
+    {
+      path: 'mastercard-transaction-info',
+      component: MastercardTransactionInfoComponent
+    },
+    {
+      path: 'mastercard-chargebacks',
+      component: MastercardChargebacksComponent
+    },
+    {
+      path: 'mastercard-retrieval',
+      component: MastercardRetrievalComponent
+    },
+    {
+      path: 'mastercard-fees',
+      component: MastercardFeesComponent
+    },
+    
+    {
+      path: 'show-claim-result',
+      component: ShowClaimResultComponent,
+    },
 
   ],
 }];

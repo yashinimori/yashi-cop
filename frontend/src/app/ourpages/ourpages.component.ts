@@ -103,6 +103,43 @@ export class OurPagesComponent {
             icon: 'inbox-outline',
             link: '/cop/cabinet/chbo-my-claims/closed',
           },
+          {
+            title: 'Merchant requests',
+            icon: 'file-text-outline',
+            link: '/cop/cabinet/chbo-merchant-requests',
+          },
+          {
+            title: 'Tasks',
+            icon: 'file-text-outline',
+            link: '/cop/cabinet/chbo-tasks',
+          },
+        ],
+      },
+      {
+        title: 'Mastercard',
+        icon: 'credit-card-outline',
+        hidden: this.setHiddenChargebackOfficer(),
+        children: [
+          {
+            title: 'Transaction Search',
+            link: '/cop/cabinet/mastercard-transaction-search',
+            icon: 'cast-outline'
+          },
+          {
+            title: 'Chargebacks',
+            link: '/cop/cabinet/mastercard-chargebacks',
+            icon: 'book-open-outline'
+          },
+          {
+            title: 'Retrieval',
+            link: '/cop/cabinet/mastercard-retrieval',
+            icon: 'book-open-outline'
+          },
+          {
+            title: 'Fees',
+            link: '/cop/cabinet/mastercard-fees',
+            icon: 'book-open-outline'
+          }
         ],
       },
       // {
@@ -172,6 +209,12 @@ export class OurPagesComponent {
         link: '/cop/cabinet/claims/archive',
       },
       {
+        title: 'Transactions',
+        icon: 'file-text',
+        hidden: this.setHiddenMerchant(),
+        link: '/cop/cabinet/transactions',
+      },
+      {
         title: 'Список банків',
         icon: 'layout-outline',
         link: '/cop/cabinet/bank-list',
@@ -186,7 +229,25 @@ export class OurPagesComponent {
       {
         title: 'Користувачі',
         icon: 'person-outline',
-        link: '/cop/cabinet/top-officer',
+        link: '/cop/cabinet/top-officer/users',
+        hidden: this.setHiddenTopOfficer(),
+      },
+      {
+        title: 'Мерчанти',
+        icon: 'people-outline',
+        link: '/cop/cabinet/top-officer/merchants',
+        hidden: this.setHiddenTopOfficer(),
+      },
+      {
+        title: 'Статистика',
+        icon: 'bar-chart-outline',
+        link: '/cop/cabinet/bank-statistic',
+        hidden: this.setHiddenTopOfficer(),
+      },
+      {
+        title: 'Рахунки',
+        icon: 'credit-card-outline',
+        link: '/cop/cabinet/bank-accounts',
         hidden: this.setHiddenTopOfficer(),
       },
       {
@@ -202,14 +263,27 @@ export class OurPagesComponent {
         hidden: this.setHiddenStatistic(),
       },  
       {
-        title: 'Messages',
-        icon: 'email-outline',
-        hidden: this.setHiddenMessages(),
+        title: 'Рахунки',
+        icon: 'credit-card-outline',
+        link: '/cop/cabinet/bank-accounts',
+        hidden: this.setHiddenChargebackOfficer(),
       },
       {
-        title: 'Settings',
-        hidden: this.setHiddenSettings(),
+        title: 'Tutorials',
+        icon: 'book-outline',
+        link: '/cop/cabinet/tutorials',
+        hidden: this.setHiddenTutorial(),
       },
+      
+      // {
+      //   title: 'Messages',
+      //   icon: 'email-outline',
+      //   hidden: this.setHiddenMessages(),
+      // },
+      // {
+      //   title: 'Settings',
+      //   hidden: this.setHiddenSettings(),
+      // },
       
     ];
     return m;
@@ -218,7 +292,6 @@ export class OurPagesComponent {
   setHiddenUser(){    
     let role = localStorage.getItem('role');
     if(role && (role=='user' || role.toString() == 'сс_branch' || role=='cardholder')) {
-      console.log('false');
       return false;
     }  
     return true;
@@ -283,6 +356,14 @@ export class OurPagesComponent {
   setHiddenMessages(){
     let role= localStorage.getItem('role');
     if(role && (role=='cop_manager'))
+      return false;
+  
+    return true;
+  }
+
+  setHiddenTutorial() {
+    let role= localStorage.getItem('role');
+    if(role && (role=='chargeback_officer'))
       return false;
   
     return true;

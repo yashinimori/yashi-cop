@@ -17,8 +17,8 @@ services:
     volumes:
       - ./backend/cop/media:/app/cop/media
     env_file:
-      - ./.envs/.staging_dev/.django
-      - ./.envs/.staging_dev/.postgres
+      - ./.envs/.staging/.django
+      - ./.envs/.staging/.postgres
     command: /start
 
   postgres:
@@ -30,7 +30,7 @@ services:
       - staging_postgres_data:/var/lib/postgresql/data
       - staging_postgres_data_backups:/backups
     env_file:
-      - ./.envs/.staging_dev/.postgres
+      - ./.envs/.staging/.postgres
 
   traefik:
     build:

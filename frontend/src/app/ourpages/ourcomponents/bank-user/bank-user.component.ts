@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../../../share/services/http.service';
 import { Router } from '@angular/router';
 import { BankUser } from '../../../share/models/bank-user.model';
@@ -6,6 +6,7 @@ import { SelectorData } from '../../../share/models/selector-data.model';
 import { TransferService } from '../../../share/services/transfer.service';
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { ToastService } from '../../../share/services/toast.service';
 
 @Component({
   selector: 'ngx-bank-user',
@@ -16,25 +17,38 @@ import { ErrorService } from '../../../share/services/error.service';
 export class BankUserComponent implements OnInit, OnDestroy {
   public data: BankUser;
   public listRole: Array<SelectorData>;
-  bankID: string;
+  bankID: any;
   role: any;
   banksList: any;
+  loadingCreate = false;
 
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
 
   constructor(private httpService: HttpService,
-              private router: Router,
+              private router: Router, private toastService: ToastService,
               private transferService: TransferService, private errorService: ErrorService) {
     this.bankID = '';
     this.role = '';
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != '0') {
+      localStorage.setItem('bankID', this.bankID);
+    }
   }
 
   ngOnInit(): void {
     this.data = new BankUser();
     this.role = localStorage.getItem('role');
     this.getRoles();
-    this.bankID = this.transferService.bankID.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = Number(localStorage.getItem('bankID'));
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
+    //this.bankID = this.transferService.bankID.getValue();
     this.getListBanks();
   }
 
@@ -55,6 +69,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
 
   createBankUser() {
     if (this.enter() == 0) {
+      this.loadingCreate = true;
       const d = {
         'email': this.data.email,
         'password': this.data.password,
@@ -72,10 +87,14 @@ export class BankUserComponent implements OnInit, OnDestroy {
         next: (response: any) => {
         },
         error: error => {
+          this.loadingCreate = false;
           this.errorService.handleError(error);
+          this.errorService.handleErrorToast(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          this.loadingCreate = false;
+          this.toastService.showSuccessToast();
           this.goBack();
         },
       });
@@ -85,7 +104,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
   goBack(){
     this.transferService.bankID.next(this.bankID);
     if (this.role == 'top_level') {
-      this.router.navigate(['cop', 'cabinet', 'top-officer']);
+      this.router.navigate(['cop', 'cabinet', 'top-officer', 'users']);
     } else if (this.role == 'security_officer') {
       this.router.navigate(['cop', 'cabinet', 'secur-officer']);
     } else {
@@ -133,6 +152,7 @@ export class BankUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('bankID');
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();
   }

@@ -7,17 +7,19 @@
 }
 
 :host /deep/ ng2-smart-table thead > tr > th  { 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 :host /deep/ ng2-smart-table tbody > tr > td  { 
   font-size: 12px;
 }
-
+:host ::ng-deep ngx-table > div > table {
+  border: 1px solid #e7e9ed;
+}
 :host ::ng-deep table > thead > tr > th  { 
   font-size: 11px;
 }
@@ -34,4 +36,25 @@
   input {
     margin-right: 0.3em;
   }
+}
+
+@media (max-width: 500px) { 
+  :host ::ng-deep ngx-table > div > table > thead > tr > th {
+    padding: 0.2em 0.3em !important;
+    text-align: center!important;
+    font-size: 10px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > table-header > label > input {
+    font-size: 9px!important;
+  }
+
+  :host ::ng-deep ngx-table > div > table > thead > tr > th > .ngx-table__column-resizer {
+    height: 100%!important;
+    margin-top: 0!important;
+  }
+  :host ::ng-deep ngx-table > tbody > tr > td {
+    font-size: 10px!important;
+  }
+  
 }

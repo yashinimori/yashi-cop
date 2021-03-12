@@ -10,4 +10,5 @@
 
 export const environment = {
   production: false,
+  baseUrl: 'http://18.192.28.31'
 };

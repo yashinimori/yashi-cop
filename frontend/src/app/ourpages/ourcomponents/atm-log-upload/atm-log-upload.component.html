@@ -1,22 +1,23 @@
-<nb-card>
+<nb-card class="customCardHeight logUploadCard" style="margin: auto;">
     <nb-card-header>
-      Новий файл лога
-      <button  nbButton status="primary" (click)="onClickUploadLogs()">Завантажити</button>
+      <label>
+        Додати файл лога
+      </label>
+      <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+        type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+        <nb-icon style="margin-left: 0.5em;" icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
+      <button *ngIf="filesArr.length > 0" style="margin-left: 1em;" nbButton size="small" status="primary" 
+        (click)="onClickUploadLogs()" [nbSpinner]="loadingUpload" nbSpinnerStatus="info">Завантажити обрані файли</button>
     </nb-card-header>
   
     <nb-card-body>
       <div>
 
-        <label>
-          Додати файл лога
-        </label>
-  
-        <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
-                                  type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
-                      <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                      <div *ngFor="let file of filesArr" class="fileAttached">
-                          {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
-                      </div>
+        
+      <div *ngFor="let file of filesArr" class="fileAttached">
+          <div>{{file.name}}</div>
+          <nb-icon icon="close-outline" style="margin-left: 1em;" (click)="deleteAttachedFile(file)"></nb-icon>
+      </div>
                                     
       </div>
       

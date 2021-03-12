@@ -10,6 +10,7 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from djoser.compat import get_user_email
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from cop.users.api.serializers.user import UserSerializer
 from cop.users.api.serializers.users_registration import CardholderRegistrationSerializer, \
@@ -17,8 +18,15 @@ from cop.users.api.serializers.users_registration import CardholderRegistrationS
 
 User = get_user_model()
 
+class CsrfExemptSessionAuthentication(JWTAuthentication):
+
+    def enforce_csrf(self, request):
+        return 
+
 
 class CustomRegistrationView(DjoserUserViewSet):
+
+    authentication_classes = (CsrfExemptSessionAuthentication, JWTAuthentication)
 
     @staticmethod
     def is_create_serializer(serializer_class):

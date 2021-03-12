@@ -1,0 +1,22 @@
+.changeUserInfoField {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+.changeUserInfoLabel {
+    padding: 0.3em;
+}
+
+.changeUserInfoInput {
+    width: 100%;
+    max-width: 30em!important;
+}
+
+.updateUserInfoAlert {
+    margin-top: 0.5em!important;
+    text-align: center!important;
+    width: 100%!important;
+    margin-bottom: 0!important;
+}

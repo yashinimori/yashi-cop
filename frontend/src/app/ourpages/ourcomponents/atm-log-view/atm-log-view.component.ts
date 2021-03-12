@@ -69,95 +69,95 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-            //  trans_start: {
-            //    title: 'Початок транзакції',
-            //    valuePrepareFunction: (trans_date) => {
-            //      if(trans_date)
-            //        return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            //  }, 
+             trans_start: {
+               title: 'TRANSACTION START',
+               valuePrepareFunction: (trans_date) => {
+                 if(trans_date)
+                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+             }, 
             pan: {
-              title: 'Номер карти',
+              title: 'PAN',
               type: 'string',
             },
-            // pin_entered:{
-            //   title: 'PIN',
-            //    valuePrepareFunction: (pin_entered) => {
-            //      if(pin_entered)
-            //        return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
-            // cash_request:{
-            //   title: 'Запит грошей',
-            //    valuePrepareFunction: (cash_request) => {
-            //      if(cash_request)
-            //        return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
+            pin_entered:{
+              title: 'PIN ENTERED',
+               valuePrepareFunction: (pin_entered) => {
+                 if(pin_entered)
+                   return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_request:{
+              title: 'CASH REQUEST',
+               valuePrepareFunction: (cash_request) => {
+                 if(cash_request)
+                   return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
             trans_amount: {
-              title: 'Сума',
+              title: 'Transaction Amount',
               type: 'string',
             },
             currency: {
-              title: 'Baлюта',
+              title: 'Transaction Currency',
               type: 'string',
             },
             approval_code: {
-              title: 'Код затвердження',
+              title: 'Approval Code',
               type: 'string',
             },
-            // cash_presented:{
-            //   title: 'Готівка представлена',
-            //    valuePrepareFunction: (cash_presented) => {
-            //      if(cash_presented)
-            //        return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
-            // cash_taken:{
-            //   title: 'Готівка отримана',
-            //    valuePrepareFunction: (cash_taken) => {
-            //      if(cash_taken)
-            //        return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
-            // cash_count: {
-            //   title: 'Кількість готівки',
-            //   type: 'string',
-            // },
-            // card_taken:{
-            //   title: 'Картка отримана',
-            //    valuePrepareFunction: (card_taken) => {
-            //      if(card_taken)
-            //        return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
-            // trans_end:{
-            //   title: 'Кінец транзакції',
-            //    valuePrepareFunction: (trans_end) => {
-            //      if(trans_end)
-            //        return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
-            //      else
-            //        return '';
-            //    }
-            // },
-            // error: {
-            //   title: 'Помилки',
-            //   type: 'string',
-            // },
+            cash_presented:{
+              title: 'CASH PRESENTED',
+               valuePrepareFunction: (cash_presented) => {
+                 if(cash_presented)
+                   return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_taken:{
+              title: 'CASH TAKEN',
+               valuePrepareFunction: (cash_taken) => {
+                 if(cash_taken)
+                   return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            cash_count: {
+              title: 'CASH Count',
+              type: 'string',
+            },
+            card_taken:{
+              title: 'CARD TAKEN',
+               valuePrepareFunction: (card_taken) => {
+                 if(card_taken)
+                   return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            trans_end:{
+              title: 'TRANSACTION END',
+               valuePrepareFunction: (trans_end) => {
+                 if(trans_end)
+                   return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
+                 else
+                   return '';
+               }
+            },
+            error: {
+              title: 'ERROR',
+              type: 'string',
+            },
             result: {
-              title: 'Результат',
+              title: 'RESULT',
               type: 'string',
             },
           },
@@ -188,6 +188,7 @@ export class ATMlogViewerComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {

@@ -1,0 +1,148 @@
+// :host /deep/ ng2-st-tbody-edit-delete {display: flex !important;
+//     height: 0 !important;
+//   }
+  
+//   :host /deep/ ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
+//     display: inline-block;
+//     width: 50px;
+//     text-align: center;
+//     font-size: 1.1em;
+//   }
+  
+//   :host /deep/ ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom:hover {
+//     color: #5dcfe3;
+//   }
+
+.itemBA {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.titleBA {
+    font-size: 13px;
+    width: 40%;
+    font-weight: bold;
+}
+
+.dataBA {
+    font-size: 13px;
+    width: 60%;
+    text-transform: uppercase;
+}
+
+.changeLicensButton {
+    margin-bottom: 0.3em!important;
+}
+
+:host /deep/ ng2-smart-table thead > tr > th  { 
+    font-size: 11px;
+    padding: 0.7em 0.5em!important
+}
+
+:host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+    font-size: 11px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td  { 
+    font-size: 12px;
+}
+
+// :host /deep/ .nb-theme-default ng2-smart-table .ng2-smart-actions a.ng2-smart-action {
+//     font-size: 14px!important;
+//     color: red;
+// }
+
+// :host /deep/ ng2-smart-table tbody > tr > td > ng2-st-tbody-edit-delete > a { 
+//     font-size: 14px!important;
+//     color: red;
+// }
+
+// :host /deep/ tr td.ng2-smart-actions,
+// ng2-st-tbody-custom {
+//     display: -webkit-box;
+//     display: -ms-flexbox;
+//     display: flex;
+//     height: 100%;
+// }
+
+// :host /deep/.nb-theme-default ng2-smart-table .ng2-smart-actions a.ng2-smart-action {
+//     padding-top: 0.8em; 
+
+// }
+
+// :host /deep/ .ng2-smart-action.ng2-smart-action-custom-custom:hover {
+//     color: red;
+// }
+
+@media (min-width: 1800px) {
+    :host /deep/ ng2-smart-table thead > tr > th  { 
+        font-size: 12px;
+        padding: 0.7em 0.5em!important
+    }
+
+    :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .titleBA {
+        font-size: 10px;
+        width: 50%;
+    }
+
+    .dataBA {
+        font-size: 10px;
+        width: 50%;
+    }
+    .changeLicensButton {
+        padding: 0.2em!important;
+        font-size: 9px!important;
+    }
+// table head
+    :host /deep/ ng2-smart-table thead > tr > th  { 
+        font-size: 9px;
+        padding: 0.3em 0.5em !important;
+    }
+    
+    :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a { 
+        font-size: 9px;
+        padding: 0!important;
+    }
+    :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div { 
+        text-align: center;
+    }
+    // table head button sort
+    :host /deep/ ng2-smart-table thead > tr > th > ng2-st-column-title > div > ng2-smart-table-title > a::after {
+        right: 0!important;
+    }
+    
+    // table body
+    :host /deep/ ng2-smart-table tbody > tr > td  { 
+        font-size: 9px;
+        text-align: center;
+        padding: 1em;
+    }
+    :host /deep/ ng2-smart-table tbody > tr > td:nth-child(2)  { 
+        min-width: 11em;
+    }
+
+
+    // pager
+    :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul > li > a {
+        padding: 0.6em 0.9em !important;
+    }
+
+    :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul > li > span {
+        padding: 0.6em 0.9em !important;
+    }
+
+    :host /deep/ ng2-smart-table ng2-smart-table-pager nav {
+        margin-top: 0.5em!important;
+    }
+
+    :host /deep/ ng2-smart-table ng2-smart-table-pager nav > ul {
+        margin-bottom: 0.2em!important;
+    }
+}

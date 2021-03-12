@@ -1,0 +1,31 @@
+<nb-card class="customCardHeight">
+    <nb-card-body>
+     <div style="display: flex; margin-top: 5em; margin-bottom: 5em;">
+        <div style="width: 60%;">
+            <div style="font-size: 20px; font-weight: 600; padding: 1em;">Перевірка статусу розгляду скарги</div>
+            <div style="font-size: 16px; padding: 1em;">На цій сторінці ви можете перевірити статус розгляду поданої скарги.
+                 Для цього достатньо вказати ID скарги в поле пошуку.</div>
+        </div>
+        <div style="display: flex; width: 40%; align-items: center;
+        flex-direction: column; padding: 1em;">
+            <label style="width: 80%; max-width: 20em;">Введіть ID скарги</label>
+            <input nbInput [(ngModel)]="claimID" style="width: 80%; max-width: 20em;" name="claimID" id="claimID"  
+                placeholder="ID скарги" autofocus required>
+            <button nbButton size="small" status="basic" (click)="sendRequest()"
+             style="margin-top: 1em; max-width: 15em; width: 80%;">Пошук
+            </button>
+        </div>
+     </div>
+     <div *ngIf="isResult" style="display: flex; flex-direction: column;">
+        <div style="display: flex; padding: 1em;">
+            <div style="font-size: 20px; margin-right: 1em; width: 8em;">Номер скарги:</div>
+            <div style="font-size: 20px; font-weight: 600;">1651616</div>
+        </div>
+        <div style="display: flex; padding: 1em;">
+            <div style="font-size: 20px; margin-right: 1em; width: 8em;">Результат:</div>
+            <div style="font-size: 20px; font-weight: 600;">Розглядається</div>
+        </div>
+     </div>
+    </nb-card-body>
+
+</nb-card>

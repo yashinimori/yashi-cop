@@ -1,44 +1,44 @@
 <div class="center-screen">
 
-  <nb-card style="width: 39%; margin: auto; ">
-    <nb-card-header style="width: 100%;">
+  <nb-card class="customCardHeight" style="width: 70%; margin: auto; overflow: auto; max-width: 500px;">
+    <nb-card-header style="width: 100%; padding: 0.5em 1em;">
       Реєстрація мерчанта
     </nb-card-header>
 
-    <nb-card-body>
+    <nb-card-body style="padding-bottom: 0; overflow-y: auto; padding-top: 1em; display: flex; flex-direction: column; align-items: center;">
 
       <!-- <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
       <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999"> -->
 
-      <input nbInput placeholder="Merchant ID" [(ngModel)]="data.merch_id" maxlength="999">
-      <div class="div-panel">
-        <nb-select class="selector-list"
+      <input nbInput class="marginMerchUser" placeholder="Merchant ID" [(ngModel)]="data.merch_id" maxlength="999">
+      <!-- <div class="div-panel"> -->
+        <nb-select class="selector-list marginMerchUser"
           [(ngModel)]="bankID"
-          placeholder="Банк"
-        >
+          placeholder="Банк">
           <nb-option *ngFor="let item of banksList" [value]="item.id">
             {{ item.name_eng }}
           </nb-option>
         </nb-select>
-      </div>
-      <input nbInput placeholder="Юридична назва" [(ngModel)]="data.name_legal" maxlength="999">
-      <input nbInput placeholder="MCC" [(ngModel)]="data.mcc" maxlength="999">
-      <input nbInput placeholder="Вид діяльності" [(ngModel)]="data.description" maxlength="999">
-      <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
-      <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
-      <input nbInput placeholder="Назва торговця в МПС" [(ngModel)]="data.name_ips" maxlength="999">
-      <input nbInput placeholder="Адрес" [(ngModel)]="data.address" maxlength="999">
-      <input nbInput placeholder="Terminal ID" [(ngModel)]="data.term_id" maxlength="999">
-      <input nbInput placeholder="Контактна особа" [(ngModel)]="data.contact_person" maxlength="999">
-      <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
+      <!-- </div> -->
+      <input class="marginMerchUser" nbInput placeholder="Юридична назва" [(ngModel)]="data.name_legal" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="MCC" [(ngModel)]="data.mcc" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Вид діяльності" [(ngModel)]="data.description" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
+      <input class="marginMerchUser" nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Назва торговця в МПС" [(ngModel)]="data.name_ips" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Адрес" [(ngModel)]="data.address" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Terminal ID" [(ngModel)]="data.term_id" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Контактна особа" [(ngModel)]="data.contact_person" maxlength="999">
+      <input class="marginMerchUser" nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
 
     </nb-card-body>
 
     <nb-card-footer>
       <div class="button-enter">
-        <button nbButton status="primary" (click)="goBack()">Повернутись</button>
-        <button nbButton status="primary" style="margin-left: 10px;"
-          (click)="createMerchUser()">Зарегистрировать</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" style="margin-left: 10px;"
+          [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
+          (click)="createMerchUser()">Зареєструвати</button>
       </div>
     </nb-card-footer>
 

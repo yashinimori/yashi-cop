@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   getTokenSubscription: Subscription = new Subscription();
   isLoginDataError: boolean = false;
   reactiveForm: FormGroup;
+  loading = false;
+
   ngOnInit(): void {
     
   }
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   enter() {
+    this.loading = true;
     this.data.email = this.reactiveForm.value.email;
     this.data.password = this.reactiveForm.value.password;
     this.getTokenSubscription = this.authService.getToken(this.data).subscribe({
@@ -58,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         localStorage.setItem('tokenExpiredDate', (new Date().getTime() + 3600000).toString());
       },
       error: error => {
+        this.loading = false;
         this.isLoginDataError = true;
         console.error('There was an error!', error);
       },
@@ -91,12 +95,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       error: error => {
+        this.loading = false;
         console.error('There was an error!', error);
       },
       complete: () => {
         if(password_change_required) {
           this.router.navigate(['auth', 'password']);
         } else {
+          this.loading = false;
           if(role == 'chargeback_officer')
             this.router.navigate(['cop', 'cabinet', 'claims']);
           else if(role == 'security_officer')
@@ -108,13 +114,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           else if(role == 'cardholder') 
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
           else if(role.toString() == 'сс_branch') {
-            console.log('cc_branch');
             this.router.navigate(['cop', 'cabinet', 'claims','all']);
           } 
           else if(role == 'top_level')
-            this.router.navigate(['cop', 'cabinet', 'top-officer']);
+            this.router.navigate(['cop', 'cabinet', 'top-officer', 'users']);
           else {
-            console.log('else');
             this.router.navigate(['cop', 'cabinet']);
           }
         }

@@ -1,0 +1,82 @@
+<nb-card style="width: 80vw;
+height: 90vh;">
+    <nb-card-header style="justify-content: space-between; display: flex; font-size: 17px; align-items: center;">
+        {{title}}
+        <button nbButton shape="round" size="small" (click)="dismiss()"><nb-icon icon="close"></nb-icon></button>
+    </nb-card-header>
+    <nb-card-body>
+        <div style="display: flex; flex-direction: column; height: 100%;
+        overflow: auto;">
+            <div class="cardContentMainTitle">
+                chargeback
+            </div>
+            <div style="padding-left: 1em; padding-bottom: 1em;">
+                <div class="cardContentTitle">
+                    data_record
+                </div>
+                <div class="cardContentText">
+                    {{content[0].data_record.length == 0? '--':content[0].data_record}}
+                </div>
+                <div class="cardContentTitle">
+                    general
+                </div>
+                <div class="cardContentText">
+                    {{content[0].general.length == 0? '--':content[0].general}}
+                </div>
+                <div class="cardContentTitle">
+                    reason_code
+                </div>
+                <div class="cardContentText">
+                    {{content[0].reason_code.length == 0? '--':content[0].reason_code}}
+                </div>
+                <div class="cardContentTitle">
+                    supp_documents
+                </div>
+                <div class="cardContentText">
+                    {{content[0].supp_documents.length == 0? '--':content[0].supp_documents}}
+                </div>
+                <div class="cardContentTitle">
+                    time_frame
+                </div>
+                <div class="cardContentText">
+                    {{content[0].time_frame.length == 0? '--':content[0].time_frame}}
+                </div>
+            </div>
+            <div class="cardContentMainTitle">
+                second_presentment
+            </div>
+            <div style="padding-left: 1em; padding-bottom: 1em;">
+                <div class="cardContentTitle">
+                    data_record
+                </div>
+                <div class="cardContentText">
+                    {{content[1].data_record.length == 0? '--':content[1].data_record}}
+                </div>
+                <div class="cardContentTitle">
+                    general
+                </div>
+                <div class="cardContentText">
+                    {{content[1].general.length == 0? '--':content[1].general}}
+                </div>
+                <div class="cardContentTitle">
+                    reason_code
+                </div>
+                <div class="cardContentText">
+                    {{content[1].reason_code.length == 0? '--':content[1].reason_code}}
+                </div>
+                <div class="cardContentTitle">
+                    supp_documents
+                </div>
+                <div class="cardContentText">
+                    {{content[1].supp_documents.length == 0? '--':content[1].supp_documents}}
+                </div>
+                <div class="cardContentTitle">
+                    time_frame
+                </div>
+                <div class="cardContentText">
+                    {{content[1].time_frame.length == 0? '--':content[1].time_frame}}
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

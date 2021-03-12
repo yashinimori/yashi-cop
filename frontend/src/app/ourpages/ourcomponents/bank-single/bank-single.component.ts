@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
@@ -10,13 +10,14 @@ import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 import { ATM } from '../../../share/models/atm.model';
 import { ErrorService } from '../../../share/services/error.service';
+import { NbTabComponent, NbTabsetComponent } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-bank-single',
   templateUrl: './bank-single.component.html',
   styleUrls: ['./bank-single.component.scss']
 })
-export class BankSingleComponent implements OnInit, OnDestroy {
+export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   role: string;
   pagerSize = 10;
   bankID: any;
@@ -33,22 +34,45 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   sourceATM: LocalDataSource;
 
   constructor(private transferService: TransferService,
-    private router: Router,
+    private router: Router, private cdr: ChangeDetectorRef,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.bank = new Bank();
     this.bankUserData = new Array<BankUser>();
     this.bankMerchData = new Array<MerchUser>();
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler($event) {
+    if (this.bankID && this.bankID != 0) {
+      localStorage.setItem('bankID', this.bankID);
+    }
+  }
+
+  @ViewChild("tabset") tabsetEl: NbTabsetComponent;
+  @ViewChild("tabInfo") infoTab: NbTabComponent;
+  @ViewChild("tabBankUsers") bankUsersTab: NbTabComponent;
+  @ViewChild("tabMerchants") merchantsTab: NbTabComponent;
+  @ViewChild("tabAtm") atmTab: NbTabComponent;
+  @ViewChild("tabBankAccounts") bankAccountsTab: NbTabComponent;
+
   bankUsersSubscription: Subscription = new Subscription();
   atmSubscription: Subscription = new Subscription();
   merchantSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
+  isClearLocalStorage = true;
+  tabTitle1 = 'Інфо';
+  tabTitle2 = 'Користувачі';
+  tabTitle3 = 'Мерчанти';
+  tabTitle4 = 'ATM';
+  tabTitle5 = 'Рахунки';
 
   ngOnInit(): void {
-    
     this.role = localStorage.getItem('role');
-    this.bankID = this.transferService.bankID.getValue();
+    if(localStorage.getItem('bankID')) {
+      this.bankID = localStorage.getItem('bankID');
+    } else {
+      this.bankID = this.transferService.bankID.getValue();
+    }
 
     this.bank = new Bank();
     this.getBankData(this.bankID);
@@ -64,25 +88,119 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.setSettingsGridATM(this.role);
     this.getAtmData(this.bankID);
   }
+
+  ngAfterViewInit(): void {
+    this.setActiveTab();
+    this.cdr.detectChanges();
+  }
+
+  setActiveTab() {
+    if(localStorage.getItem('activeTab')) {
+      switch(localStorage.getItem('activeTab')) {
+        case 'tabInfo':
+          this.tabsetEl.selectTab(this.infoTab);
+          break;
+        case 'tabBankUsers':
+          this.tabsetEl.selectTab(this.bankUsersTab);
+          break;
+        case 'tabMerchants':
+          this.tabsetEl.selectTab(this.merchantsTab);
+          break;
+        case 'tabAtm':
+          this.tabsetEl.selectTab(this.atmTab);
+          break;
+        case 'tabBankAccounts':
+          this.tabsetEl.selectTab(this.bankAccountsTab);
+          break;
+        default: 
+          this.tabsetEl.selectTab(this.infoTab);
+          break;
+      }
+      this.tabsetEl.ngAfterContentInit();
+    } 
+    
+  }
+
+  tabChangeEvent(event) {
+    switch(event.tabTitle) {
+      case this.tabTitle1:
+        localStorage.setItem('activeTab', 'tabInfo')
+        break;
+      case this.tabTitle2:
+        localStorage.setItem('activeTab', 'tabBankUsers')
+        break;
+      case this.tabTitle3:
+        localStorage.setItem('activeTab', 'tabMerchants')
+        break;
+      case this.tabTitle4:
+        localStorage.setItem('activeTab', 'tabAtm')
+        break;
+      case this.tabTitle5:
+        localStorage.setItem('activeTab', 'tabBankAccounts')
+        break;
+    }
+  }
   
   createBankUser(){
     this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
     this.router.navigate(['cop', 'cabinet', 'bank-user']);
   }
 
-  createMerch(){
+  createBankUserFromCsv() {
     this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'register', 'user']);
+  }
+
+  createMerch() {
+    this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
     this.router.navigate(['cop', 'cabinet', 'merch-user']);
   }
 
+  createMerchFromCsv() {
+    this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'register', 'merchant']);
+  }
+ 
   createATM(){
     this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
     this.router.navigate(['cop', 'cabinet', 'atm']);
+  }
+  
+  createATMFromCsv() {
+    this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'register', 'atm']);
   }
 
   generateStatusFields() {
     this.fieldsStatus = new FieldsStatus();
     this.fieldsStatus.setStatusByRole(this.role);
+  }
+
+  onUserRowSelectBankUser(event) {
+    localStorage.setItem('activeTab', 'tabBankUsers');
+    this.transferService.bankUserID.next(event.data.bankUserId);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'edit-bank-user']);
+  }
+
+  onUserRowSelectMerchant(event) {
+    localStorage.setItem('activeTab', 'tabMerchants');
+    this.transferService.merchantID.next(event.data.id);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'edit-merchant']);
+  }
+
+  onUserRowSelectATM(event) {
+    localStorage.setItem('activeTab', 'tabAtm');
+    this.transferService.atmID.next(event.data.id);
+    this.isClearLocalStorage = false;
+    this.router.navigate(['cop', 'cabinet', 'edit-atm']);
   }
   
   getBankData(id: any) {
@@ -107,6 +225,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {   
@@ -115,6 +234,11 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if(this.isClearLocalStorage){
+      localStorage.removeItem('bankID');
+    } else {
+      localStorage.setItem('bankID', this.bankID);
+    }
     this.bankUsersSubscription.unsubscribe();
     this.atmSubscription.unsubscribe();
     this.merchantSubscription.unsubscribe();
@@ -150,7 +274,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             first_name: {
-              title: 'Імя',
+              title: "Ім'я",
               type: 'string',
             },
             last_name: {
@@ -170,7 +294,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             registration_date:{
-              title: 'Регістрація',
+              title: 'Реєстрація',
               type: 'string',
 
             }
@@ -199,7 +323,6 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     this.bankUsersSubscription = this.httpServise.getBankUsersList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
         let data: any;
-
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
@@ -219,6 +342,8 @@ export class BankSingleComponent implements OnInit, OnDestroy {
           t.userId = user['userId'];
           t.unit = el['unit'];
           t.registration_date = user['registration_date'];
+          //@ts-ignore
+          t.bankUserId = el.id;
 
           self.bankUserData.push(t);
         });
@@ -229,6 +354,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => { 
@@ -361,6 +487,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
@@ -370,6 +497,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
   
   goStatistic(){
     this.transferService.bankID.next(this.bankID);
+    this.isClearLocalStorage = false;
     this.router.navigate(['cop', 'cabinet', 'bank-statistic']);
   }
 
@@ -452,7 +580,6 @@ export class BankSingleComponent implements OnInit, OnDestroy {
     let pageNumber = 0;
     this.atmSubscription = this.httpServise.getAtmList(id,pageSize, pageNumber).subscribe({
       next: (response: any) => {
-
         let data: any;
         if(pageSize > 0 && pageNumber > 0)
           data = response.results;
@@ -481,6 +608,7 @@ export class BankSingleComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {

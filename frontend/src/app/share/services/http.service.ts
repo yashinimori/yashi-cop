@@ -27,6 +27,9 @@ import { URL_GET_CLAIM_LIST,
   URL_CREATE_NEW_ATM,
   URL_GET_ATMS,
   URL_GET_LOGGER,
+  URL_USER_INFO,
+  URL_SET_PASS,
+  URL_GET_REASON_CODES,
 
 } from '../urlConstants';
 
@@ -38,6 +41,57 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
+  createClaimMastercardApi(body:any) {
+    return this.http.post('https://api.mastercard.com/mastercom/v6/transactions/search', {
+      "acquirerRefNumber": "05436847276000293995738",
+      "bankNetRefNumber": "U68FRGDFA",
+      "primaryAccountNum": "5488888888887192",
+      "transAmountFrom": "10000",
+      "transAmountTo": "20050",
+      "tranStartDate": "2017-10-01",
+      "tranEndDate": "2017-10-02"
+    }, {
+      headers: new HttpHeaders({
+        oauth_body_hash:"94cOcstEzvTvyBcNV94PCbo1b5IA35XgPf5dWR4OamU=",
+        oauth_nonce:"32lqGrI0f0nQEW85",
+        oauth_signature:"MhfaStcHU0vlIoeaBLuP14(...)qqd99lI56XuCk8RM5dDA%3D%3D",
+        oauth_consumer_key:"9TioEULnU__3EhV2zYyz67Ji907I9j1umylVzVzc3a3766bd!a2c4fc23e3744a8a9e762bdb22b809190000000000000000",
+        oauth_signature_method:"RSA-SHA256",
+        oauth_timestamp:"1558370962",
+        oauth_version:"1.0"
+      })
+      // headers: new HttpHeaders({
+      //   Authorization: `
+      //   OAuth 
+      //   oauth_body_hash="94cOcstEzvTvyBcNV94PCbo1b5IA35XgPf5dWR4OamU=",
+      //   oauth_nonce="32lqGrI0f0nQEW85",
+      //   oauth_signature="MhfaStcHU0vlIoeaBLuP14(...)qqd99lI56XuCk8RM5dDA%3D%3D",
+      //   oauth_consumer_key="9TioEULnU__3EhV2zYyz67Ji907I9j1umylVzVzc3a3766bd!a2c4fc23e3744a8a9e762bdb22b809190000000000000000",
+      //   oauth_signature_method="RSA-SHA256",
+      //   oauth_timestamp="1558370962",
+      //   oauth_version="1.0"`
+      // })
+    });
+  }
+
+  getReasonCodes() {
+    return this.http.get(`${URL_GET_REASON_CODES}?page_size=40`, this.getHeaders());
+  }
+ 
+  getUserInfo() {
+    return this.http.get(URL_USER_INFO+'/', this.getHeaders());
+  }
+  updateUserInfo(data: any) {
+    return this.http.put(`${URL_USER_INFO}/`, data, this.getHeaders());
+  }
+  updateUserPassword(newPassword: string, currentPassword: string) {
+    const data = {
+      new_password: newPassword,
+      current_password: currentPassword
+    }
+    return this.http.post(`${URL_SET_PASS}`, data, this.getHeaders());
+  }
+
   getClaimList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
 
@@ -47,17 +101,24 @@ export class HttpService {
       req = `${URL_GET_CLAIM_LIST}/?all`;
 
     if(search != undefined) {
-      req = req + `&search=${search}`;
+      req = req + `&search=${search}/`;
     }
     if(ordering != undefined) {
-      req = req + `&ordering=${ordering}`;
+      req = req + `&ordering=${ordering}/`;
     }
-    //console.log(req);
+    // console.log(req)
+    // console.log(req.lastIndexOf("all") == req.length - 3)
+    // if(req.lastIndexOf("all") == req.length - 3) {
+    //   req = req + '/';
+    // }
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
   getSingleClaim(id: any) {
-    return this.http.get(URL_GET_CLAIM_LIST + '/' + id, this.getHeaders());
+    return this.http.get(URL_GET_CLAIM_LIST + '/' + id+ '/', this.getHeaders());
   }
 
   getTimeLine(id: any){
@@ -69,7 +130,11 @@ export class HttpService {
   }
 
   getMerchants() {
-    return this.http.get(URL_GET_MERCHANTS, this.getHeaders());
+    return this.http.get(URL_GET_MERCHANTS+ '/', this.getHeaders());
+  }
+
+  getMerchantById(id:number) {
+    return this.http.get(`${URL_GET_MERCHANTS}/${id}/`, this.getHeaders());
   }
 
   createMerchant(data: any) {
@@ -89,6 +154,18 @@ export class HttpService {
     };
   }
 
+  private getHeadersCustom() {
+    let body = `JWT ${localStorage.getItem('token')}`;
+    return {
+      headers: new HttpHeaders({
+        'Authorization': body,
+        'sec-fetch-user': localStorage.getItem('user_id')
+      })
+    };
+  }
+
+  
+
 
   createNewUser(user: any){
     return this.http.post(URL_CREATE_NEW_USER, user);
@@ -99,24 +176,26 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    //return this.http.post(URL_BANK_USERS+'/', user, this.getHeaders());
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(URL_BANK_USERS+'/', user, this.getHeadersCustom());
+    //return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
 
   }
 
   createNewUserMerch(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(`${URL_GET_MERCHANTS}/`, user, this.getHeaders());
   }
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = `${URL_GET_TRANSACTIONS_LIST}/?page_size=${pageSize}&page=${pageNumber}`;
     if(search != undefined) {
-      req = req + `&search=${search}`;
+      req = req + `&search=${search}/`;
     }
     if(ordering != undefined) {
-      req = req + `&ordering=${ordering}`;
+      req = req + `&ordering=${ordering}/`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -164,7 +243,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -177,6 +258,9 @@ export class HttpService {
     return this.http.get(URL_BANK + '?all', this.getHeaders());
   }
 
+  getBankUserById(id:number) {
+    return this.http.get(`${URL_BANK_USERS}/${id}/`, this.getHeaders());
+  }
 
   getBankUsersList(bankId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
     let req = '';
@@ -194,7 +278,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -214,7 +300,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
@@ -238,35 +326,30 @@ export class HttpService {
   getBankCountUpdatedClaims(bankId: string) {
     let req = '';
     req = `${URL_BANK_COUNT_UPDATED_CLAIMS}${bankId}/stats/updated-claims/`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getBankCountNewClaims(bankId: string) {
     let req = '';
     req = `${URL_BANK_COUNT_NEW_CLAIMS}${bankId}/stats/`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
   getCountUpdatedClaims() {
     let req = '';
-    req = `${URL_COUNT_UPDATED_CLAIMS}`;
-    //console.log(req);
+    req = `${URL_COUNT_UPDATED_CLAIMS}/`;
     return this.http.get(req, this.getHeaders());
   }
 
   getCountNewClaims() {
     let req = '';
-    req = `${URL_COUNT_NEW_CLAIMS}`;
-    //console.log(req);
+    req = `${URL_COUNT_NEW_CLAIMS}/`;
     return this.http.get(req, this.getHeaders());
   }
 
   getCountClaimsByStages() {
     let req = '';
-    req = `${URL_COUNT_CLAIMS_BY_STAGES}`;
-    //console.log(req);
+    req = `${URL_COUNT_CLAIMS_BY_STAGES}/`;
     return this.http.get(req, this.getHeaders());
   }
 
@@ -274,7 +357,6 @@ export class HttpService {
   getCountClaimsByRcGroup() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_RC_GROUP}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -282,7 +364,6 @@ export class HttpService {
   getCountClaimsBySupport() {
     let req = '';
     req = `${URL_COUNT_CLAIMS_BY_SUPPORT}`;
-    //console.log(req);
     return this.http.get(req, this.getHeaders());
   }
 
@@ -306,8 +387,14 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
+  }
+
+  getAtm(id:number) {
+    return this.http.get(`${URL_GET_ATMS}${id}/`, this.getHeaders());
   }
 
   getLoggerList(userId: any, pageSize: any, pageNumber:any, search?: any, ordering?: any) {
@@ -326,7 +413,9 @@ export class HttpService {
     if(ordering != undefined) {
       req = req + `&ordering=${ordering}`;
     }
-    //console.log(req);
+    // if(search == undefined && ordering == undefined) {
+    //   req = req + '/';
+    // }
     return this.http.get(req, this.getHeaders());
   }
 
