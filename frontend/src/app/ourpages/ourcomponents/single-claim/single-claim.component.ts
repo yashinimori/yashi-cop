@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, Ch
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
@@ -450,14 +450,20 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.saveClaim();
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
+  sendDoc(claim, data) {
+    return this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
+    claim.user.id, '');
+  }
 
   uploadDoc(claim: any) {
-    if(this.filesArr && this.filesArr.length > 0){
-      let data = this.filesArr[0];
+    if (this.filesArr && this.filesArr.length > 0) {
+      let observeArr = [];
       claim.form_name = "claim_form";
+      this.filesArr.forEach((e) => {
+        observeArr.push(this.sendDoc(claim, e))
+      });
 
-      this.subscription3 = this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
-        claim.user.id, '').subscribe({
+      this.subscription3 = forkJoin(observeArr).subscribe({
         next: (response: any) => {
           this.filesArr = [];
         },
@@ -466,7 +472,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('There was an error!', error);
         },
         complete: () => {
-        }
+        },
       });
     }
   }
