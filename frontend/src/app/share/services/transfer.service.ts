@@ -21,4 +21,6 @@ export class TransferService {
   public merchantID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public transactionID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public transactionMastercardID: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+
+  public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
 }

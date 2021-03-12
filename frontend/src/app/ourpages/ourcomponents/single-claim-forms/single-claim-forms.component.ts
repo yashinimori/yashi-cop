@@ -228,12 +228,18 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     });
   }
 
+  sendDoc(claim, data) {
+    return this.httpService.uploadClaimDoc(data, 'substitute_draft', this.claimId,
+    this.userId, claim.form_name);
+  }
   uploadDoc(claim: any) {
     if (this.filesArr && this.filesArr.length > 0) {
-      const data = this.filesArr[0];
+      let observeArr = [];
+      this.filesArr.forEach((e) => {
+        observeArr.push(this.sendDoc(claim, e))
+      });
 
-      this.subscription3 = this.httpService.uploadClaimDoc(data, 'substitute_draft', this.claimId,
-        this.userId, claim.form_name).subscribe({
+      this.subscription3 = forkJoin(observeArr).subscribe({
         next: (response: any) => {
           this.filesArr = [];
         },
