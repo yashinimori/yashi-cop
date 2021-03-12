@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSearchService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
   selector: 'ngx-header',
@@ -45,6 +47,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private layoutService: LayoutService,
+              private searchService: NbSearchService,
+              private router: Router,
+              private transferService: TransferService,
               private breakpointService: NbMediaBreakpointsService) {
   }
 
@@ -55,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.user_fio = "no name.";
     
     this.currentTheme = this.themeService.currentTheme;
+    this.onSearch();
 
     // this.userService.getUsers()
     //   .pipe(takeUntil(this.destroy$))
@@ -92,6 +98,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.layoutService.changeLayoutSize();
 
     return false;
+  }
+
+  onSearch() {
+    this.searchService.onSearchSubmit()
+      .subscribe((data: any) => {
+        console.log(data);
+        this.transferService.searchValue.next(data.term);
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
+      })
   }
 
   navigateHome() {

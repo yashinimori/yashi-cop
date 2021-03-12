@@ -4,7 +4,7 @@ import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { TransferService } from '../../../share/services/transfer.service';
 import { HttpService } from '../../../share/services/http.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
@@ -27,13 +27,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   loadingReport = false;
   viewModeTable = true;
 
+  searchValue: string;
+
   items = [
     { title: 'us-on-us' },
     { title: 'us-on-them' },
     { title: 'them-on-us' },
   ];
 
-  constructor(private datePipe: DatePipe, 
+  constructor(private datePipe: DatePipe,
     private transferService: TransferService,
     private router: Router,
     private httpServise: HttpService, private errorService: ErrorService) {
@@ -41,7 +43,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   claimsSubscription: Subscription = new Subscription();
-  
+  searchSubscription: Subscription = new Subscription();
+
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
@@ -56,29 +59,35 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   getClaimAccent(el) {
     let res = 'success';
-    if(el.status == 'archive' || el.status == 'closed') {
+    if (el.status == 'archive' || el.status == 'closed') {
       res = 'control';
     } else if (el.status == 'closed') {
       res = 'danger';
-    } else if(el.status != 'archive' && el.status != 'closed') {
+    } else if (el.status != 'archive' && el.status != 'closed') {
       res = 'success';
     }
     return res;
   }
 
   onUserRowSelect(event, el?: number): void {
-    if(el == 2) {
+    if (el == 2) {
       this.transferService.cOPClaimID.next(event.id);
     } else {
       this.transferService.cOPClaimID.next(event.data.id);
     }
-    this.router.navigate(['cop', 'cabinet', 'single-claim']);    
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
+    this.searchSubscription = this.transferService.searchValue.subscribe(data => {
+      this.searchValue = data;
+      if (this.searchValue != '') {
+        this.getClaimsData();
+      }
+    });
     this.generateStatusFields();
-    
+
     this.stageParam = '';
     let urlArr = this.router.url.split('/');
     this.stageParam = urlArr[urlArr.length - 1]
@@ -88,9 +97,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.hideColumnForUser(this.role);
   }
 
-  hideColumnForUser(role:string){
-    if(role && (role == 'cardholder' || role == 'user')){
-        delete this.settings.columns.id;
+  hideColumnForUser(role: string) {
+    if (role && (role == 'cardholder' || role == 'user')) {
+      delete this.settings.columns.id;
     }
   }
 
@@ -102,14 +111,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   setUserCb() {
 
   }
-  
-  setSettingsGrid(role:string){
-    switch(role){
-      case 'chargeback_officer':  {
+
+  setSettingsGrid(role: string) {
+    switch (role) {
+      case 'chargeback_officer': {
         this.settings = {
-          pager:{perPage: this.pagerSize},
+          pager: { perPage: this.pagerSize },
           //hideSubHeader: true,
-          actions:{
+          actions: {
             add: false,
             edit: false,
             delete: false,
@@ -132,13 +141,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
-                if(trans_date)
+                if (trans_date)
                   //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
-            },      
+            },
             merch_name_ips: {
               title: "Назва торговця",
               type: 'string',
@@ -171,13 +180,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Дії",
               //type: 'string',
               valuePrepareFunction: (action_needed) => {
-                if(action_needed && action_needed == true)
+                if (action_needed && action_needed == true)
                   return 'Y';
                 else
                   return 'N';
               }
             },
-            flag:{
+            flag: {
               title: "flag",
               type: 'string',
             },
@@ -188,7 +197,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             due_date: {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
-                if(due_date)
+                if (due_date)
                   //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
@@ -198,13 +207,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       }
-      break;
+        break;
       case 'admin':
       case 'сс_branch': {
         this.settings = {
-          pager:{perPage: this.pagerSize},
+          pager: { perPage: this.pagerSize },
           //hideSubHeader: true,
-          actions:{
+          actions: {
             add: false,
             edit: false,
             delete: false,
@@ -224,13 +233,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
-                if(trans_date)
+                if (trans_date)
                   //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
-            },      
+            },
             merch_name_ips: {
               title: "Назва торговця",
               type: 'string',
@@ -263,13 +272,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Дії",
               //type: 'string',
               valuePrepareFunction: (action_needed) => {
-                if(action_needed && action_needed == true)
+                if (action_needed && action_needed == true)
                   return 'Y';
                 else
                   return 'N';
               }
             },
-            flag:{
+            flag: {
               title: "flag",
               type: 'string',
             },
@@ -280,7 +289,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             due_date: {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
-                if(due_date)
+                if (due_date)
                   //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
@@ -290,14 +299,14 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           },
         };
       }
-      break;
+        break;
       case 'merchant':
       case 'cardholder':
       case 'user': {
         this.settings = {
-          pager:{perPage: this.pagerSize},
+          pager: { perPage: this.pagerSize },
           //hideSubHeader: true,
-          actions:{
+          actions: {
             add: false,
             edit: false,
             delete: false,
@@ -322,25 +331,25 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
-                if(trans_date)
+                if (trans_date)
                   //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
-            }, 
+            },
             merch_name_ips: {
               title: "Назва торговця",
               type: 'string',
-            }, 
+            },
             term_id: {
               title: "Ім'я терміналу",
               type: 'string',
-            },   
+            },
             trans_amount: {
               title: "Cума",
               type: 'number',
-            }, 
+            },
             trans_currency: {
               title: "Валюта",
               type: 'string',
@@ -378,7 +387,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             due_date: {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
-                if(due_date)
+                if (due_date)
                   //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
@@ -391,10 +400,10 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           }
         };
       }
-      break;
+        break;
       default: {
         this.settings = {
-          actions:{
+          actions: {
             add: false,
             edit: false,
             sort: true,
@@ -405,7 +414,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     }
   }
 
-  refresh_claim(){
+  refresh_claim() {
     this.loadingRefresh = true;
     this.getClaimsData();
   }
@@ -419,15 +428,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         let data: any;
 
-        if(pageSize > 0 && pageNumber > 0)
+        if (pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
           data = response;
 
         data.forEach(el => {
           let t = new ClaimView();
-          
-          if(this.role == 'chargeback_officer'){
+
+          if (this.role == 'chargeback_officer') {
             //this.transferService.cOPClaimID.next(el['id']);
             //this.router.navigate(['ourpages', 'ourcomponents', 'single-claim']);
             //t.openClaim = '<a href="/ourpages/ourcomponents/single-claim" target="_blank">'+el['id']+'</a>'
@@ -450,24 +459,35 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.flag = el['flag'];
 
           let m = el['merchant'];
-          if(m) 
+          if (m)
             t.merch_name_ips = m['name_ips'];
-          
+
           self.claimsData.push(t);
         });
 
-        if(this.role =='cardholder' && this.stageParam == 'all'){
-          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' && i.status != 'closed');
-        } else if(this.role =='cardholder' && this.stageParam == 'archive'){
-          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' || i.status == 'closed' );
-        } else if(this.role =='merchant' && this.stageParam == 'all'){
-          self.claimsData = self.claimsData.filter(i=>i.status != 'archive' && i.status != 'closed' );
-        } else if(this.role =='merchant' && this.stageParam == 'archive'){
-          self.claimsData = self.claimsData.filter(i=>i.status == 'archive' || i.status == 'closed' );
-        } 
+        if (this.role == 'cardholder' && this.stageParam == 'all') {
+          self.claimsData = self.claimsData.filter(i => i.status != 'archive' && i.status != 'closed');
+        } else if (this.role == 'cardholder' && this.stageParam == 'archive') {
+          self.claimsData = self.claimsData.filter(i => i.status == 'archive' || i.status == 'closed');
+        } else if (this.role == 'merchant' && this.stageParam == 'all') {
+          self.claimsData = self.claimsData.filter(i => i.status != 'archive' && i.status != 'closed');
+        } else if (this.role == 'merchant' && this.stageParam == 'archive') {
+          self.claimsData = self.claimsData.filter(i => i.status == 'archive' || i.status == 'closed');
+        }
+        // поиск без сервера
+        if (this.searchValue != '') {
+          console.log(this.searchValue)
+          for(let el of Object.keys(self.claimsData)) {
+            console.log(el)
+          }
+          self.source = new LocalDataSource();
+          self.source.load(self.claimsData);
+        } else {
+          self.source = new LocalDataSource();
+          self.source.load(self.claimsData);
+        }
 
-        self.source = new LocalDataSource();
-        self.source.load(self.claimsData);
+
       },
       error: error => {
         this.loadingRefresh = false;
@@ -482,6 +502,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 
   generateStatusFields() {
@@ -489,18 +510,18 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     this.fieldsStatus.setStatusByRole(this.role);
   }
 
-  add_claim(){
+  add_claim() {
     this.transferService.cOPClaimID.next('0');
     this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
-  
-  goToLink(url: string, id: string){
+
+  goToLink(url: string, id: string) {
     this.transferService.cOPClaimID.next(id);
     window.open(url, "_blank");
-  } 
+  }
 
-  public createReport(){
-    if(this.claimsData){
+  public createReport() {
+    if (this.claimsData) {
       this.loadingReport = true;
       let str = '';
 
@@ -512,19 +533,19 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       str += 'Cума;';
       str += 'Валюта;';
       str += 'Код авторизації;';
-      
-      if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+
+      if (this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user') {
         str += 'Reason Code;';
         str += 'Статус;';
         str += 'Дії;';
         str += 'flag;';
       }
-      
+
       str += 'Результат;';
       str += 'Кінцевий термін претензії';
       str += '\r\n';
 
-      this.claimsData.forEach(el=>{
+      this.claimsData.forEach(el => {
         str += `${this.getValueToReport(el['id'])};`;
         str += `'${this.getValueToReport(el['pan'])};`;
         str += `${this.getValueToReportDate(el['trans_date'])};`;
@@ -534,7 +555,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         str += `${this.getValueToReport(el['trans_currency'])};`;
         str += `${this.getValueToReport(el['auth_code'])};`;
 
-        if(this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user'){
+        if (this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user') {
           str += `${this.getValueToReport(el['claim_reason_code'])};`;
           str += `${this.getValueToReport(el['status'])};`;
           str += `${this.getValueToReportBool(el['action_needed'])};`;
@@ -545,24 +566,24 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         str += `${this.getValueToReportDate(el['due_date'])}`;
         str += '\r\n';
       });
-    
-      var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
+
+      var blob = new Blob([str], { type: "text/plain;charset=utf-8" });
       let filename = `report_${this.datePipe.transform(new Date(), 'yyyy-MM-dd_HH-mm-ss.SSS')}.txt`;
       this.loadingReport = false;
       FileSaver.saveAs(blob, filename);
     }
   }
 
-  getValueToReport(val: any){
-    if(val){
+  getValueToReport(val: any) {
+    if (val) {
       return val;
     } else {
       return '';
     }
   }
 
-  getValueToReportDate(val: any){
-    if(val){
+  getValueToReportDate(val: any) {
+    if (val) {
       //return this.datePipe.transform(new Date(val), 'dd-MM-yyyy hh:mm:ss');
       return this.datePipe.transform(new Date(val), 'dd-MM-yyyy');
     } else {
@@ -570,8 +591,8 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getValueToReportBool(val: any){
-    if(val){
+  getValueToReportBool(val: any) {
+    if (val) {
       return 'Y';
     } else {
       return 'N';
