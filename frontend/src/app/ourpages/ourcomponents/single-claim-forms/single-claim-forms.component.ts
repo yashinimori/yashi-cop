@@ -204,28 +204,28 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       }
     }
     this.uploadDoc(claim);
-    this.commentClaim(claim.id, claim.comments, claim.form_name);
-    this.subscription2 = this.httpService.updateClaim(claim).subscribe({
-      next: (response: any) => {
-        // this.uploadDoc(claim);
-        // this.commentClaim(claim.id, claim.comments, claim.form_name);
-      },
-      error: error => {
-        this.loadingEs = false;
-        this.errorService.handleError(error);
-        this.errorService.handleErrorToast(error);
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-        this.toastService.showSuccessToast();
-        this.loadingEs = false;
-        this.transferService.cOPClaimID.next(this.claimId);
-        if (this.typeOperation == 'FinishForm')
-          this.router.navigate(['cop', 'cabinet', 'claims']);
-        else
-          this.router.navigate(['cop', 'cabinet', 'single-claim']);
-      },
-    });
+    // this.commentClaim(claim.id, claim.comments, claim.form_name);
+    // this.subscription2 = this.httpService.updateClaim(claim).subscribe({
+    //   next: (response: any) => {
+    //     // this.uploadDoc(claim);
+    //     // this.commentClaim(claim.id, claim.comments, claim.form_name);
+    //   },
+    //   error: error => {
+    //     this.loadingEs = false;
+    //     this.errorService.handleError(error);
+    //     this.errorService.handleErrorToast(error);
+    //     console.error('There was an error!', error);
+    //   },
+    //   complete: () => {
+    //     this.toastService.showSuccessToast();
+    //     this.loadingEs = false;
+    //     this.transferService.cOPClaimID.next(this.claimId);
+    //     if (this.typeOperation == 'FinishForm')
+    //       this.router.navigate(['cop', 'cabinet', 'claims']);
+    //     else
+    //       this.router.navigate(['cop', 'cabinet', 'single-claim']);
+    //   },
+    // });
   }
 
   sendDoc(claim, data) {
@@ -241,16 +241,20 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
 
       this.subscription3 = forkJoin(observeArr).subscribe({
         next: (response: any) => {
-          this.filesArr = [];
+          
         },
         error: error => {
           this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          //this.filesArr = [];
+          this.commentClaim(claim.id, claim.comments, claim.form_name);
           this.isUploadedDoc = true;
         },
       });
+    } else {
+      this.commentClaim(claim.id, claim.comments, claim.form_name);
     }
   }
 
@@ -260,10 +264,19 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       },
       error: error => {
         this.errorService.handleError(error);
+        this.loadingEs = false;
+            this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
         this.isUploadedComment = true;
+        this.toastService.showSuccessToast();
+        this.loadingEs = false;
+        this.transferService.cOPClaimID.next(this.claimId);
+        if (this.typeOperation == 'FinishForm')
+          this.router.navigate(['cop', 'cabinet', 'claims']);
+        else
+          this.router.navigate(['cop', 'cabinet', 'single-claim']);
       },
     });
   }

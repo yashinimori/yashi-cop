@@ -46,10 +46,11 @@
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                <div *ngFor="let file of filesArr" class="fileAttached">
-                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                <div style="display: flex; flex-direction: column;">
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                    </div>
                 </div>
-
             </div>
 
         </nb-card-body>
@@ -135,10 +136,11 @@
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                <div *ngFor="let file of filesArr" class="fileAttached">
-                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                <div style="display: flex; flex-direction: column;">
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                    </div>
                 </div>
-
             </div>
 
         </nb-card-body>
@@ -183,8 +185,10 @@
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                <div *ngFor="let file of filesArr" class="fileAttached">
-                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                <div style="display: flex; flex-direction: column;">
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon><br>
+                    </div>
                 </div>
             </div>
 
@@ -231,8 +235,10 @@
                 <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                             type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                <div *ngFor="let file of filesArr" class="fileAttached">
-                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                <div style="display: flex; flex-direction: column;">
+                    <div *ngFor="let file of filesArr" class="fileAttached">
+                        {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                    </div>
                 </div>
             </div>
 

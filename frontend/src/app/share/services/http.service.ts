@@ -211,8 +211,8 @@ export class HttpService {
     formData.append('description', "");
     formData.append('type', type_);
     formData.append('claim', claimId);
-    formData.append('user', userId);
-    formData.append('form_name', form_name);
+    // formData.append('user', userId);
+    // formData.append('form_name', form_name);
 
     return this.http.post(URL_UPLOAD_CLAIM_DOC, formData, this.getHeaders());
   }

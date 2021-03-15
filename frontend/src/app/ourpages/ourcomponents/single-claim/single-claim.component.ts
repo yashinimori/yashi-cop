@@ -465,15 +465,22 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.subscription3 = forkJoin(observeArr).subscribe({
         next: (response: any) => {
-          this.filesArr = [];
+          // this.filesArr = [];
         },
         error: error => {
           this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
+          if(this.claimData.comment){
+            this.commentClaim(claim['id'], this.claimData.comment, '');
+          }
         },
       });
+    } else {
+      if(this.claimData.comment){
+        this.commentClaim(claim['id'], this.claimData.comment, '');
+      }
     }
   }
 
@@ -486,6 +493,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       }
     });
   }
@@ -497,13 +508,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.claimData.form_name = 'claim_form';
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
+    let data;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
     this.subscription5 = this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
-        this.uploadDoc(response);
-        if(this.claimData.comment){
-          this.commentClaim(response['id'], this.claimData.comment, '');
-        }
+        data = response;
       },
       error: error => {
         this.loadingCreateNewClaim = false;
@@ -512,10 +521,14 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.toastService.showSuccessToast();
-        this.loadingCreateNewClaim = false;
-        this.isSaveClaimId = false;
-        this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
+        this.uploadDoc(data);
+        // if(this.claimData.comment){
+        //   this.commentClaim(data['id'], this.claimData.comment, '');
+        // }
+        // this.toastService.showSuccessToast();
+        // this.loadingCreateNewClaim = false;
+        // this.isSaveClaimId = false;
+        // this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       }
     });
   }
