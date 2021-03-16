@@ -138,7 +138,7 @@ export class HttpService {
   }
 
   createMerchant(data: any) {
-    return this.http.post(URL_GET_MERCHANTS+'/', data, this.getHeaders());
+    return this.http.post(URL_CREATE_NEW_USER+'/', data, this.getHeaders());
   }
 
   getMerchantsAll() {
@@ -176,13 +176,13 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    return this.http.post(URL_BANK_USERS+'/', user, this.getHeadersCustom());
+    return this.http.post(URL_CREATE_NEW_USER+'/', user, this.getHeadersCustom());
     //return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
 
   }
 
   createNewUserMerch(user: any){
-    return this.http.post(`${URL_GET_MERCHANTS}/`, user, this.getHeaders());
+    return this.http.post(`${URL_CREATE_NEW_USER}/`, user, this.getHeaders());
   }
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {

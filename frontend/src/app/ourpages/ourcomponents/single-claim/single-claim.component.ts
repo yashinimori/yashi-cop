@@ -474,12 +474,22 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         complete: () => {
           if(this.claimData.comment){
             this.commentClaim(claim['id'], this.claimData.comment, '');
+          } else {
+            this.toastService.showSuccessToast();
+            this.loadingCreateNewClaim = false;
+            this.isSaveClaimId = false;
+            this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
           }
         },
       });
     } else {
       if(this.claimData.comment){
         this.commentClaim(claim['id'], this.claimData.comment, '');
+      } else {
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
       }
     }
   }

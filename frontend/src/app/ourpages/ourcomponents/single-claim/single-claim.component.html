@@ -755,7 +755,8 @@
             <nb-card-footer>
               <div class="center">
                 <button  nbButton nbStepperPrevious size="small" status="primary" >Повернутися</button>
-                <button *ngIf="isLastStep && getCheckData" [nbSpinner]="loadingCreateNewClaim" nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+                <button *ngIf="isLastStep && getCheckData" [nbSpinner]="loadingCreateNewClaim" [disabled]="loadingCreateNewClaim"
+                 nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
               </div>
             </nb-card-footer>
 
