@@ -81,7 +81,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
             employee_bank = current_user.bankemployee.bank
             result_qs = qs.filter(bank=employee_bank)
             for merchant in merchants:
-                result_qs = chain(result_qs, qs.filter(merchant=merchant.id))
+                to_connect_qs = qs.filter(merchant=merchant.id)
+                result_qs = result_qs | to_connect_qs
         elif current_user.is_cardholder or current_user.is_cc_branch:
             result_qs = qs.filter(user=current_user)
         elif current_user.is_merchant:
