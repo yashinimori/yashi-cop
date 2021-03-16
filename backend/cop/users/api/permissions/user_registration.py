@@ -17,7 +17,7 @@ class UserRegistrationPermission(permissions.BasePermission):
             if req_user.is_authenticated and req_user.is_cop_manager:
                 return True
 
-            if req_user.is_authenticated and req_user.is_top_level and role == User.Roles.SECURITY_OFFICER:
+            if req_user.is_authenticated and req_user.is_top_level and role in [User.Roles.SECURITY_OFFICER, User.Roles.MERCHANT]:
                 return True
 
             if req_user.is_authenticated and req_user.is_security_officer and \
