@@ -203,29 +203,30 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         });
       }
     }
-    this.uploadDoc(claim);
+    
     // this.commentClaim(claim.id, claim.comments, claim.form_name);
-    // this.subscription2 = this.httpService.updateClaim(claim).subscribe({
-    //   next: (response: any) => {
-    //     // this.uploadDoc(claim);
-    //     // this.commentClaim(claim.id, claim.comments, claim.form_name);
-    //   },
-    //   error: error => {
-    //     this.loadingEs = false;
-    //     this.errorService.handleError(error);
-    //     this.errorService.handleErrorToast(error);
-    //     console.error('There was an error!', error);
-    //   },
-    //   complete: () => {
-    //     this.toastService.showSuccessToast();
-    //     this.loadingEs = false;
-    //     this.transferService.cOPClaimID.next(this.claimId);
-    //     if (this.typeOperation == 'FinishForm')
-    //       this.router.navigate(['cop', 'cabinet', 'claims']);
-    //     else
-    //       this.router.navigate(['cop', 'cabinet', 'single-claim']);
-    //   },
-    // });
+    this.subscription2 = this.httpService.updateClaim(claim).subscribe({
+      next: (response: any) => {
+        // this.uploadDoc(claim);
+        // this.commentClaim(claim.id, claim.comments, claim.form_name);
+      },
+      error: error => {
+        // this.loadingEs = false;
+        this.errorService.handleError(error);
+        // this.errorService.handleErrorToast(error);
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+        // this.toastService.showSuccessToast();
+        // this.loadingEs = false;
+        // this.transferService.cOPClaimID.next(this.claimId);
+        // if (this.typeOperation == 'FinishForm')
+        //   this.router.navigate(['cop', 'cabinet', 'claims']);
+        // else
+        //   this.router.navigate(['cop', 'cabinet', 'single-claim']);
+      },
+    });
+    this.uploadDoc(claim);
   }
 
   sendDoc(claim, data) {
@@ -265,7 +266,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       error: error => {
         this.errorService.handleError(error);
         this.loadingEs = false;
-            this.errorService.handleErrorToast(error);
+        this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {

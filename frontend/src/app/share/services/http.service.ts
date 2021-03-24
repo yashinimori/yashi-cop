@@ -222,6 +222,7 @@ export class HttpService {
   }
 
   commentClaim(claimId: any, comment: any, form_name:any) {
+    comment = comment == undefined ? ' ': comment;
     let data = {
       "text": comment,
       "form_name": form_name

@@ -58,7 +58,7 @@
         <nb-card-footer>
             <div class="center">
                 <button  nbButton size="small" status="primary" (click)="onClickBackClaim()">Повернутися</button>
-                <button  nbButton size="small" status="primary" (click)="onClickApply()" [nbSpinner]="loadingEs" nbSpinnerStatus="info"
+                <button  nbButton size="small" status="primary" [disabled]="singleClaimFormsData.comment == undefined || singleClaimFormsData.comment.length < 1" (click)="onClickApply()" [nbSpinner]="loadingEs" nbSpinnerStatus="info"
                     style="margin-left: 10px;">Ескалація</button>
             </div>
             </nb-card-footer>
