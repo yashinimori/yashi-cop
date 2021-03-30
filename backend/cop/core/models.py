@@ -22,14 +22,6 @@ class BaseModel(models.Model):
 
 
 class Bank(BaseModel):
-    TYPE = (
-        ('ACQ', 'ACQ'),
-        ('ISS', 'ISS'),
-        ('BOTH', 'BOTH'),
-    )
-
-    bin = models.CharField(max_length=8, unique=True)
-    type = models.CharField(choices=TYPE, max_length=4)
     name_eng = models.CharField(max_length=999)
     name_uk = models.CharField(max_length=999)
     name_rus = models.CharField(max_length=999)
@@ -40,6 +32,18 @@ class Bank(BaseModel):
 
     def __str__(self):
         return self.name_eng
+
+
+class Bin(BaseModel):
+    TYPE = (
+        ('ACQ', 'ACQ'),
+        ('ISS', 'ISS'),
+        ('BOTH', 'BOTH'),
+    )
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    bin = models.CharField(max_length=8, unique=True)
+    type = models.CharField(choices=TYPE, max_length=4)
+    product_code = models.CharField(max_length=3)
 
 
 class ATM(BaseModel):

@@ -8,7 +8,7 @@ from cop.core.api.serializers.bin import BinSerializer
 from cop.core.models import Bin
 
 
-class BankViewSet(viewsets.ModelViewSet):
+class BinViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, BinPermission]
     serializer_class = BinSerializer
     queryset = Bin.objects.all().order_by('id')
