@@ -3,7 +3,7 @@ DJANGO_SETTINGS_MODULE=config.settings.staging
 DJANGO_SECRET_KEY=f2X7LrsN3KLUC4ddZTAlCZUTDqFjgzVC72x7YSzeqJ9SiinYhG65PzNFoX1OJzLI
 DJANGO_ENCRYPT_KEY=XXjyV3sl5R6PWeG_0NDwgwv1wLLer8EP34bI0VqIymk=
 DJANGO_ADMIN_URL=admin/
-DJANGO_ALLOWED_HOSTS=3.65.147.136
+DJANGO_ALLOWED_HOSTS=3.66.35.227
 
 # Security
 # ------------------------------------------------------------------------------
