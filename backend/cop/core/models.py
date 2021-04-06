@@ -361,6 +361,13 @@ class Claim(BaseModel):
         )
 
 
+class Notification(BaseModel):
+    claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='notifications')
+    text = models.CharField(max_length=999)
+    is_active = models.BooleanField(default=True)
+
+
+
 class ClaimDocument(BaseModel):
     """Upload Documents for specific Claim."""
 
