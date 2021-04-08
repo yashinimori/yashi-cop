@@ -1,6 +1,8 @@
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from cop.core.api.serializers.notification import NotificationSerializer
 from cop.core.models import Notification
@@ -23,3 +25,9 @@ class NotificationViewSet(viewsets.ModelViewSet):
         'text',
         'is_active'
     ]
+
+
+class NotificationManagerView(APIView):
+    def post(self, request):
+        data = request.data
+        return Response(data)

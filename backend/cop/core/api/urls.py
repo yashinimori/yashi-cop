@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from cop.core.api.views.atm import ATMViewSet
 from cop.core.api.views.bank import BankViewSet
 from cop.core.api.views.bin import BinViewSet
-from cop.core.api.views.notification import NotificationViewSet
+from cop.core.api.views.notification import NotificationViewSet, NotificationManagerView
 from cop.core.api.views.bank_employee import BankEmployeeList, BankEmployeeRetrieveUpdate
 from cop.core.api.views.claim import ClaimFormToPDFView, ClaimTimelineView
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
@@ -49,4 +49,5 @@ urlpatterns = router.urls + [
     path('stats/by-status-stages/', ClaimsStatisticsByStatusStage.as_view()),
     path('stats/by-rc-group/', ClaimsStatisticsByRcGroup.as_view()),
     path('stats/by-support/', ClaimsStatisticsBySupportChoices.as_view()),
+    path('notifications/manager', NotificationManagerView.as_view()),
 ]

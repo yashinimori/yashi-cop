@@ -363,6 +363,7 @@ class Claim(BaseModel):
 
 class Notification(BaseModel):
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='notifications')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=5)
     text = models.CharField(max_length=999)
     is_active = models.BooleanField(default=True)
 
