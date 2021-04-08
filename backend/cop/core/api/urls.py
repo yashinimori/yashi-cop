@@ -49,5 +49,5 @@ urlpatterns = router.urls + [
     path('stats/by-status-stages/', ClaimsStatisticsByStatusStage.as_view()),
     path('stats/by-rc-group/', ClaimsStatisticsByRcGroup.as_view()),
     path('stats/by-support/', ClaimsStatisticsBySupportChoices.as_view()),
-    path('notifications/manager', NotificationManagerView.as_view()),
+    path('notification-manager/', NotificationManagerView.as_view()),
 ]
