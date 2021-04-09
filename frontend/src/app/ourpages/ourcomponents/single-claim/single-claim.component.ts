@@ -99,10 +99,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription7: Subscription = new Subscription();
   subscription8: Subscription = new Subscription();
   subscription9: Subscription = new Subscription();
-<<<<<<< HEAD
   subscriptionNotification: Subscription = new Subscription();
-=======
->>>>>>> ea8a8e4baf5f3956c281c1083d8aee0328edd644
   claimData: ClaimView;
   Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
