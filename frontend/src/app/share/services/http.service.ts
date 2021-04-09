@@ -30,6 +30,7 @@ import { URL_GET_CLAIM_LIST,
   URL_USER_INFO,
   URL_SET_PASS,
   URL_GET_REASON_CODES,
+  URL_NOTIFICATION,
 
 } from '../urlConstants';
 
@@ -419,5 +420,12 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
+  sendNotificationEmail(claim_id:string, action:string) {
+    const body = {
+      'claim':  claim_id,
+      'action': action
+    }
+    return this.http.post(URL_NOTIFICATION, body, this.getHeaders());
+  }
 
 }

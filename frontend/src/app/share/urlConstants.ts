@@ -18,6 +18,7 @@ export const URL_GET_TRANSACTIONS_LIST = `${MAIN_URL}/api/v1/transactions`;
 export const URL_UPLOAD_ATM_LOG = `${MAIN_URL}/api/v1/atm-logs/`;
 
 export const URL_GET_MERCHANTS = `${MAIN_URL}/api/v1/merchants`;
+export const URL_NOTIFICATION = `${MAIN_URL}/api/v1/notification-manager/`;
 
 export const URL_CREATE_NEW_USER = `${MAIN_URL}/api/v1/users/`;
 
