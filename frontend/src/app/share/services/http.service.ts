@@ -139,7 +139,7 @@ export class HttpService {
   }
 
   createMerchant(data: any) {
-    return this.http.post(URL_GET_MERCHANTS+'/', data, this.getHeaders());
+    return this.http.post(URL_CREATE_NEW_USER, data, this.getHeaders());
   }
 
   getMerchantsAll() {
@@ -177,7 +177,7 @@ export class HttpService {
   }
 
   createNewUserBank(user: any){
-    return this.http.post(URL_BANK_USERS+'/', user, this.getHeadersCustom());
+    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeadersCustom());
     //return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
 
   }
@@ -212,8 +212,8 @@ export class HttpService {
     formData.append('description', "");
     formData.append('type', type_);
     formData.append('claim', claimId);
-    formData.append('user', userId);
-    formData.append('form_name', form_name);
+    // formData.append('user', userId);
+    // formData.append('form_name', form_name);
 
     return this.http.post(URL_UPLOAD_CLAIM_DOC, formData, this.getHeaders());
   }
@@ -223,6 +223,7 @@ export class HttpService {
   }
 
   commentClaim(claimId: any, comment: any, form_name:any) {
+    comment = comment == undefined ? ' ': comment;
     let data = {
       "text": comment,
       "form_name": form_name

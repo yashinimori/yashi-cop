@@ -17,6 +17,10 @@
               status="primary" (click)="setUserCb()">Назначити</button>
             <button *ngIf="role == 'chargeback_officer'" outline style="margin-left: 1.5em;" nbButton size="tiny" 
             status="primary" [nbContextMenu]="items"> Тип таблиці</button>
+            <span style="margin-left: 1em;" *ngIf="this.searchValue != '' && (role == 'chargeback_officer' || role == 'сс_branch')">
+              Параметр пошуку: {{this.searchValue}}
+              <button ghost status="danger" style="margin-left: 1em;" nbButton size="tiny" (click)="clearSearch()"><nb-icon icon="close-outline"></nb-icon></button>
+            </span>
             <div style="flex: 1 1 auto;"></div>
             <button *ngIf="role == 'cardholder'" outline style="margin-left: 1.5em;" nbButton size="tiny" 
             status="primary" (click)="changeViewMode()"><nb-icon icon="{{viewModeTable?'keypad-outline':'menu-2-outline'}}"></nb-icon></button>

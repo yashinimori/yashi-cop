@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
 import { ErrorService } from '../../../share/services/error.service';
+import { NbSearchService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-claims',
@@ -38,6 +39,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   constructor(private datePipe: DatePipe,
     private transferService: TransferService,
     private router: Router,
+    private searchService: NbSearchService,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
@@ -462,7 +464,19 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           if (m)
             t.merch_name_ips = m['name_ips'];
 
-          self.claimsData.push(t);
+          if(this.role == 'chargeback_officer' || this.role == 'сс_branch') {
+            if (this.searchValue != '') {
+              for(let el in t) {
+                if(this.searchFilter(this.searchValue, t[el])) {
+                  self.claimsData.push(t);
+                }
+              } 
+            } else {
+              self.claimsData.push(t);
+            }
+          } else {
+            self.claimsData.push(t);
+          }
         });
 
         if (this.role == 'cardholder' && this.stageParam == 'all') {
@@ -476,10 +490,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         }
         // поиск без сервера
         if (this.searchValue != '') {
-          console.log(this.searchValue)
-          for(let el of Object.keys(self.claimsData)) {
-            console.log(el)
-          }
           self.source = new LocalDataSource();
           self.source.load(self.claimsData);
         } else {
@@ -498,6 +508,20 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         this.loadingRefresh = false;
       }
     });
+  }
+
+  clearSearch() {
+    this.searchService.submitSearch('', 'globalSearch');
+    this.transferService.searchValue.next('');
+    this.getClaimsData();
+  }
+
+  private searchFilter(value: string, data) {
+    const filterValue = value.toLowerCase();
+    if (data == null || data == undefined) {
+      return false;
+    }
+    return data.toString().toLowerCase().indexOf(filterValue) === 0;
   }
 
   ngOnDestroy(): void {

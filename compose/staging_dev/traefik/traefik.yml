@@ -26,8 +26,7 @@ certificatesResolvers:
 http:
   routers:
     api-router:
-      #left host - DEV, right one - TEST
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      rule: "Host(`3.66.35.227`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - web
       middlewares:
@@ -35,7 +34,7 @@ http:
       service: django
 
     api-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      rule: "Host(`3.66.35.227`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - web-secure
       service: django
@@ -44,7 +43,7 @@ http:
         certResolver: letsencrypt
 
     frontend-router:
-      rule: "Host(`18.156.118.192`) || Host(`18.192.198.88`)"
+      rule: "Host(`3.66.35.227`)"
       entryPoints:
         - web
       middlewares:
@@ -52,7 +51,7 @@ http:
       service: frontend
 
     frontend-secure-router:
-      rule: "Host(`18.156.118.192`) || Host(`18.192.198.88`)"
+      rule: "Host(`3.66.35.227`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -63,7 +62,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`18.156.118.192`) && PathPrefix(`/api/`,`/admin/`,`/static/`) || Host(`18.192.198.88`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
+      rule: "Host(`3.66.35.227`) && PathPrefix(`/api/`,`/admin/`,`/static/`)"
       entryPoints:
         - flower
       service: flower
@@ -75,15 +74,14 @@ http:
     redirect:
       # https://docs.traefik.io/master/middlewares/redirectscheme/
       redirectScheme:
-        # uncomment for redirect 80->443
-        #scheme: https
         scheme: http
+#        scheme: https
         permanent: true
-    #csrf:
+    csrf:
       # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
       # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-      #headers:
-        #hostsProxyHeaders: ["X-CSRFToken"]
+      headers:
+        hostsProxyHeaders: ["X-CSRFToken"]
 
   services:
     django:
@@ -106,3 +104,4 @@ providers:
   file:
     filename: /etc/traefik/traefik.yml
     watch: true
+

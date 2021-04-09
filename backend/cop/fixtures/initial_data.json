@@ -60,8 +60,6 @@
     "fields": {
       "create_date": "2020-08-09T18:25:43.511Z",
       "update_date": "2020-08-09T18:25:43.511Z",
-      "bin": "400000",
-      "type": "",
       "name_eng": "Bank A",
       "name_uk": "\u0411\u0430\u043d\u043a \u0410",
       "name_rus": "\u0411\u0430\u043d\u043a \u0410",
@@ -77,8 +75,6 @@
     "fields": {
       "create_date": "2020-08-09T18:25:43.511Z",
       "update_date": "2020-08-09T18:25:43.511Z",
-      "bin": "500000",
-      "type": "",
       "name_eng": "Bank B",
       "name_uk": "\u0411\u0430\u043d\u043a \u0411",
       "name_rus": "\u0411\u0430\u043d\u043a \u0411",

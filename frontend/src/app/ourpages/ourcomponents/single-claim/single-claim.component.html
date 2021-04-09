@@ -743,8 +743,10 @@
                     [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                     type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
-                <div *ngFor="let file of filesArr" class="fileAttached">
-                    {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                <div style="display: flex; flex-direction: column;">
+                  <div *ngFor="let file of filesArr" class="fileAttached">
+                      {{file.name}} <nb-icon icon="close-outline" (click)="deleteAttachedFile(file)"></nb-icon>
+                  </div>
                 </div>
               </div>
 
@@ -753,7 +755,12 @@
             <nb-card-footer>
               <div class="center">
                 <button  nbButton nbStepperPrevious size="small" status="primary" >Повернутися</button>
+<<<<<<< HEAD
                 <button *ngIf="isLastStep && getCheckData" [nbSpinner]="loadingCreateNewClaim" nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+=======
+                <button *ngIf="isLastStep && getCheckData" [nbSpinner]="loadingCreateNewClaim" [disabled]="loadingCreateNewClaim"
+                 nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+>>>>>>> ea8a8e4baf5f3956c281c1083d8aee0328edd644
               </div>
             </nb-card-footer>
 

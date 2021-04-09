@@ -18,6 +18,9 @@ from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer,
 from cop.core.api.serializers.comment import CommentListSerializer
 from cop.core.api.serializers.stage_history import StageHistorySerializerLite
 from cop.core.models import Claim, ClaimDocument, ReasonCodeGroup, SurveyQuestion, Comment, StageChangesHistory
+from cop.users.models import Merchant
+
+from itertools import chain
 
 User = get_user_model()
 
@@ -74,16 +77,20 @@ class ClaimViewSet(viewsets.ModelViewSet):
         current_user = self.request.user
         qs = super().get_queryset()
         if current_user.is_chargeback_officer:
+            merchants = Merchant.objects.filter(bank=current_user.bankemployee.bank)
             employee_bank = current_user.bankemployee.bank
-            qs = qs.filter(bank=employee_bank)
+            result_qs = qs.filter(bank=employee_bank)
+            for merchant in merchants:
+                to_connect_qs = qs.filter(merchant=merchant.id)
+                result_qs = result_qs | to_connect_qs
         elif current_user.is_cardholder or current_user.is_cc_branch:
-            qs = qs.filter(user=current_user)
+            result_qs = qs.filter(user=current_user)
         elif current_user.is_merchant:
-            qs = qs.filter(merchant=current_user.merchant) \
+            result_qs = qs.filter(merchant=current_user.merchant) \
                 .exclude(claim_reason_code__code=ReasonCodeGroup.ATM_CLAIM_CODE)
         elif not self.user_has_access():
-            qs = Claim.objects.none()
-        return qs
+            result_qs = Claim.objects.none()
+        return result_qs
 
     def user_has_access(self):
         return self.request.user.role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CHARGEBACK_OFFICER, User.Roles.CC_BRANCH)

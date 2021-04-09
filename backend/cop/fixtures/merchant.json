@@ -3,7 +3,6 @@
     "model": "core.bank",
     "pk": 1,
     "fields": {
-      "bin": 400000,
       "name_eng": "Bank A",
       "name_uk": "Банк А",
       "name_rus": "Банк А",
@@ -19,7 +18,6 @@
     "model": "core.bank",
     "pk": 2,
     "fields": {
-      "bin": 500000,
       "name_eng": "Bank B",
       "name_uk": "Банк Б",
       "name_rus": "Банк Б",

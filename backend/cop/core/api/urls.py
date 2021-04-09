@@ -3,6 +3,8 @@ from rest_framework.routers import DefaultRouter
 
 from cop.core.api.views.atm import ATMViewSet
 from cop.core.api.views.bank import BankViewSet
+from cop.core.api.views.bin import BinViewSet
+from cop.core.api.views.notification import NotificationViewSet, NotificationManagerView
 from cop.core.api.views.bank_employee import BankEmployeeList, BankEmployeeRetrieveUpdate
 from cop.core.api.views.claim import ClaimFormToPDFView, ClaimTimelineView
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
@@ -19,6 +21,8 @@ from cop.core.api.views.transaction import TransactionViewSet
 
 router = DefaultRouter()
 router.register(r'banks', BankViewSet, basename='banks')
+router.register(r'bins', BinViewSet, basename='bins')
+router.register(r'notifications', NotificationViewSet, basename='notificationss')
 router.register(r'merchants', MerchantViewSet, basename='merchants')
 router.register(r'atms', ATMViewSet, basename='atms')
 router.register(r'terminals', TerminalViewSet, basename='terminals')
@@ -45,4 +49,5 @@ urlpatterns = router.urls + [
     path('stats/by-status-stages/', ClaimsStatisticsByStatusStage.as_view()),
     path('stats/by-rc-group/', ClaimsStatisticsByRcGroup.as_view()),
     path('stats/by-support/', ClaimsStatisticsBySupportChoices.as_view()),
+    path('notification-manager/', NotificationManagerView.as_view()),
 ]

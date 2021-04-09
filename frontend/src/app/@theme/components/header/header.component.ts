@@ -103,7 +103,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onSearch() {
     this.searchService.onSearchSubmit()
       .subscribe((data: any) => {
-        console.log(data);
         this.transferService.searchValue.next(data.term);
         this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
       })

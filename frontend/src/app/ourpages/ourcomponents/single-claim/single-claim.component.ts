@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, AfterViewInit, Ch
 import { TransferService } from '../../../share/services/transfer.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../share/services/http.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { ClaimView } from '../../../share/models/claim-view.model';
 import { DatePipe } from '@angular/common';
 import { SelectorData } from '../../../share/models/selector-data.model';
@@ -99,7 +99,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription7: Subscription = new Subscription();
   subscription8: Subscription = new Subscription();
   subscription9: Subscription = new Subscription();
+<<<<<<< HEAD
   subscriptionNotification: Subscription = new Subscription();
+=======
+>>>>>>> ea8a8e4baf5f3956c281c1083d8aee0328edd644
   claimData: ClaimView;
   Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
@@ -452,24 +455,47 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.saveClaim();
     // this.router.navigate(['ourpages', 'ourcomponents', 'claims'])
   }
+  sendDoc(claim, data) {
+    return this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
+    claim.user.id, '');
+  }
 
   uploadDoc(claim: any) {
-    if(this.filesArr && this.filesArr.length > 0){
-      let data = this.filesArr[0];
+    if (this.filesArr && this.filesArr.length > 0) {
+      let observeArr = [];
       claim.form_name = "claim_form";
+      this.filesArr.forEach((e) => {
+        observeArr.push(this.sendDoc(claim, e))
+      });
 
-      this.subscription3 = this.httpService.uploadClaimDoc(data, "substitute_draft", claim.id,
-        claim.user.id, '').subscribe({
+      this.subscription3 = forkJoin(observeArr).subscribe({
         next: (response: any) => {
-          this.filesArr = [];
+          // this.filesArr = [];
         },
         error: error => {
           this.errorService.handleError(error);
           console.error('There was an error!', error);
         },
         complete: () => {
-        }
+          if(this.claimData.comment){
+            this.commentClaim(claim['id'], this.claimData.comment, '');
+          } else {
+            this.toastService.showSuccessToast();
+            this.loadingCreateNewClaim = false;
+            this.isSaveClaimId = false;
+            this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
+          }
+        },
       });
+    } else {
+      if(this.claimData.comment){
+        this.commentClaim(claim['id'], this.claimData.comment, '');
+      } else {
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']);
+      }
     }
   }
 
@@ -482,6 +508,10 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
       }
     });
   }
@@ -493,13 +523,11 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.claimData.form_name = 'claim_form';
     //this.claimData.trans_date = new Date(this.claimData.trans_date) + new Date().getTimezoneOffset();
     let lt = (new Date().getTimezoneOffset() * -1 * 60000) + 2000;
+    let data;
     this.claimData.trans_date = new Date(this.claimData.trans_date.getTime() + lt);
     this.subscription5 = this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
-        this.uploadDoc(response);
-        if(this.claimData.comment){
-          this.commentClaim(response['id'], this.claimData.comment, '');
-        }
+        data = response;
       },
       error: error => {
         this.loadingCreateNewClaim = false;
@@ -513,6 +541,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loadingCreateNewClaim = false;
         this.isSaveClaimId = false;
         this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
+        this.uploadDoc(data);
       }
     });
   }
