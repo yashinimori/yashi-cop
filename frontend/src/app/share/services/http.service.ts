@@ -30,6 +30,7 @@ import { URL_GET_CLAIM_LIST,
   URL_USER_INFO,
   URL_SET_PASS,
   URL_GET_REASON_CODES,
+  URL_NOTIFICATION,
 
 } from '../urlConstants';
 
@@ -182,7 +183,7 @@ export class HttpService {
   }
 
   createNewUserMerch(user: any){
-    return this.http.post(URL_CREATE_NEW_USER, user, this.getHeaders());
+    return this.http.post(`${URL_GET_MERCHANTS}/`, user, this.getHeaders());
   }
 
   getTransactionsList(pageSize: any, pageNumber:any, search?: any, ordering?: any) {
@@ -420,5 +421,12 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
+  sendNotificationEmail(claim_id:string, action:string) {
+    const body = {
+      'claim':  claim_id,
+      'action': action
+    }
+    return this.http.post(URL_NOTIFICATION, body, this.getHeaders());
+  }
 
 }

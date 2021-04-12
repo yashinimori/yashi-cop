@@ -29,5 +29,6 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
 class NotificationManagerView(APIView):
     def post(self, request):
-        data = request.data
-        return Response(data)
+        claim = request.data['claim']
+        action = request.data['action']
+        return Response(action)

@@ -113,17 +113,17 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       "last_name": 'no name',
       "phone": merch.Telephone,
       "role": "merchant",
-      //"merchant" : {
-      "merch_id": merch.Merchant_ID,
-      "name_ips": merch.Merchant_Name_IPS,
-      "bank": [Number(this.bankID)],
-      "name_legal": merch.Merchant_Name_Legal,
-      "bin": this.bankBin,
-      "mcc": merch.MCC,
-      "description": merch.Description,
-      "address": merch.Address,
-      "contact_person": merch.Contact_Person
-       // }
+      "merchant" : {
+        "merch_id": merch.Merchant_ID,
+        "name_ips": merch.Merchant_Name_IPS,
+        "bank": [Number(this.bankID)],
+        "name_legal": merch.Merchant_Name_Legal,
+        "bin": this.bankBin,
+        "mcc": merch.MCC,
+        "description": merch.Description,
+        "address": merch.Address,
+        "contact_person": merch.Contact_Person
+      }
     } 
   }
 

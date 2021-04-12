@@ -99,6 +99,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription7: Subscription = new Subscription();
   subscription8: Subscription = new Subscription();
   subscription9: Subscription = new Subscription();
+  subscriptionNotification: Subscription = new Subscription();
   claimData: ClaimView;
   Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
@@ -302,6 +303,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription6.unsubscribe();
     this.subscription7.unsubscribe();
     this.subscription8.unsubscribe();
+    this.subscriptionNotification.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -531,14 +533,25 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
+        this.sendNotificationToEmail();
+        this.toastService.showSuccessToast();
+        this.loadingCreateNewClaim = false;
+        this.isSaveClaimId = false;
+        this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
         this.uploadDoc(data);
-        // if(this.claimData.comment){
-        //   this.commentClaim(data['id'], this.claimData.comment, '');
-        // }
-        // this.toastService.showSuccessToast();
-        // this.loadingCreateNewClaim = false;
-        // this.isSaveClaimId = false;
-        // this.router.navigate(['cop', 'cabinet', 'claims', 'all']); 
+      }
+    });
+  }
+
+  sendNotificationToEmail() {
+    this.subscriptionNotification = this.httpService.sendNotificationEmail(this.claimId, 'create').subscribe({
+      next: (response: any) => {
+      },
+      error: error => {
+        this.errorService.handleError(error);
+        console.error('There was an error!', error);
+      },
+      complete: () => {
       }
     });
   }

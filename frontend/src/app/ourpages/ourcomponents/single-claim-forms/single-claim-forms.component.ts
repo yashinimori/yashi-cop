@@ -54,6 +54,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   subscription2: Subscription = new Subscription();
   subscription3: Subscription = new Subscription();
   subscription4: Subscription = new Subscription();
+  subscriptionNotification: Subscription = new Subscription();
 
   isUploadedDoc: boolean = false;
   isUploadedComment: boolean = false;
@@ -85,6 +86,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.subscription2.unsubscribe();
     this.subscription3.unsubscribe();
     this.subscription4.unsubscribe();
+    this.subscriptionNotification.unsubscribe();
   }
 
   loadClaim() {
@@ -203,7 +205,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         });
       }
     }
-    
+    // this.uploadDoc(claim);
     // this.commentClaim(claim.id, claim.comments, claim.form_name);
     this.subscription2 = this.httpService.updateClaim(claim).subscribe({
       next: (response: any) => {
@@ -211,12 +213,21 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
         // this.commentClaim(claim.id, claim.comments, claim.form_name);
       },
       error: error => {
-        // this.loadingEs = false;
+        //this.loadingEs = false;
         this.errorService.handleError(error);
-        // this.errorService.handleErrorToast(error);
+        //this.errorService.handleErrorToast(error);
         console.error('There was an error!', error);
       },
       complete: () => {
+        let action = '';
+        if (this.typeOperation == 'NewEscalation') {
+          action = 'escalate';
+        } else if (this.typeOperation == 'FinishForm') {
+          action = 'close';
+        } else if (this.typeOperation == 'Clarifications') {
+          action = 'escalate';
+        }
+        this.sendNotificationToEmail(action);
         // this.toastService.showSuccessToast();
         // this.loadingEs = false;
         // this.transferService.cOPClaimID.next(this.claimId);
@@ -227,6 +238,20 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
       },
     });
     this.uploadDoc(claim);
+  }
+
+  
+  sendNotificationToEmail(action) {
+    this.subscriptionNotification = this.httpService.sendNotificationEmail(this.claimId, action).subscribe({
+      next: (response: any) => {
+      },
+      error: error => {
+        this.errorService.handleError(error);
+        console.error('There was an error!', error);
+      },
+      complete: () => {
+      }
+    });
   }
 
   sendDoc(claim, data) {

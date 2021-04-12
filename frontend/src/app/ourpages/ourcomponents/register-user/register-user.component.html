@@ -19,19 +19,19 @@
             <div *ngIf="this.merchantsArr.length != 0" style="display: flex; flex-direction: column;">
                 <div class="tableItem" *ngFor="let merch of merchantsArr; let i = index;">
                     <div class="tableColumn">
-                       <div class="tableColumnTitle">
+                    <div class="tableColumnTitle">
                             Контактна персона
-                       </div> 
-                       <div class="tableColumnBody">
-                            {{merch.contact_person}}
-                       </div>
+                    </div> 
+                    <div class="tableColumnBody">
+                            {{merch.merchant.contact_person}}
+                    </div>
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
                             Юридична назва
                         </div> 
                         <div class="tableColumnBody">
-                            {{merch.name_legal}}
+                            {{merch.merchant.name_legal}}
                         </div>
                     </div>
                     <div class="tableColumn">
@@ -39,7 +39,7 @@
                             Назва торговця в МПС
                         </div> 
                         <div class="tableColumnBody">
-                            {{merch.name_ips}}
+                            {{merch.merchant.name_ips}}
                         </div>
                     </div>
                     <div class="tableColumn">
@@ -47,7 +47,7 @@
                             МСС
                         </div> 
                         <div class="tableColumnBody">
-                            {{merch.mcc}}
+                            {{merch.merchant.mcc}}
                         </div>
                     </div>
                     <div class="tableColumn">
@@ -55,7 +55,7 @@
                             Email
                         </div> 
                         <div class="tableColumnBody">
-                             {{merch.email}}
+                            {{merch.email}}
                         </div>
                     </div>
                     <div class="tableColumn">
@@ -71,7 +71,7 @@
                             Адреса
                         </div> 
                         <div class="tableColumnBody">
-                                {{merch.address}}
+                                {{merch.merchant.address}}
                         </div>
                     </div>
                     <div class="tableColumn">
@@ -79,7 +79,7 @@
                             Опис
                         </div> 
                         <div class="tableColumnBody">
-                                {{merch.description}}
+                                {{merch.merchant.description}}
                         </div>
                     </div>  
                     <div class="tableColumn">
