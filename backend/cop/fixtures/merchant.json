@@ -33,7 +33,7 @@
     "model": "core.bin",
     "pk": 1,
     "fields": {
-      "bank": 1,
+      "bank": "1",
       "bin": "400000",
       "type": "",
       "product_code": "123"
@@ -43,7 +43,7 @@
     "model": "core.bin",
     "pk": 2,
     "fields": {
-      "bank": 2,
+      "bank": " 2",
       "bin": "500000",
       "type": "",
       "product_code": "123"
