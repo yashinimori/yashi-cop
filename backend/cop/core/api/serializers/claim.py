@@ -156,13 +156,18 @@ class ClaimSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
+        print("Started create method")
         validated_data = self.update_initial_data(validated_data)
         validated_data['hidden_pan'] = validated_data['pan'][0:6] + '******' + validated_data['pan'][-4:]
         validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
+        print("validated_data", validated_data)
         instance = super().create(validated_data)
+        print("instance", instance)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
+
         self.instance = cmr.claim
         self.set_status(is_created=True)
+        print("Claim created")
         return instance
 
     def update(self, instance, validated_data):
@@ -193,6 +198,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             service(**kwargs)
 
     def update_initial_data(self, validated_data):
+        print("Started update_initial_data method")
         validated_data['user'] = self.context["request"].user
         crc_instance = self.get_crc(validated_data)
         validated_data['claim_reason_code'] = crc_instance
