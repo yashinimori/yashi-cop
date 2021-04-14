@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
@@ -7,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from cop.core.api.serializers.notification import NotificationSerializer
 from cop.core.models import Notification
 
+User = get_user_model()
 
 class NotificationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -29,6 +31,11 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
 class NotificationManagerView(APIView):
     def post(self, request):
-        claim = request.data['claim']
-        action = request.data['action']
-        return Response(action)
+        for role in (User.Roles.MERCHANT, User.Roles.CARDHOLDER, User.Roles.CC_BRANCH, User.Roles.CHARGEBACK_OFFICER):
+            self.create_notification(request, role)
+
+
+    def create_notification(self, request, role):
+        data = request.data
+        serializer = NotificationSerializer(data=data)
+        serializer.save()
