@@ -15,6 +15,8 @@ class BankViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         'id',
+        'bin',
+        'type'
         'name_eng',
         'name_uk',
         'name_rus',
@@ -26,6 +28,8 @@ class BankViewSet(viewsets.ModelViewSet):
 
     search_fields = [
         'id',
+        'bin',
+        'type',
         'name_eng',
         'name_uk',
         'name_rus',

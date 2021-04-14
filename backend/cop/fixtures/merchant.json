@@ -3,6 +3,7 @@
     "model": "core.bank",
     "pk": 1,
     "fields": {
+      "bin": 400000,
       "name_eng": "Bank A",
       "name_uk": "Банк А",
       "name_rus": "Банк А",
@@ -18,6 +19,7 @@
     "model": "core.bank",
     "pk": 2,
     "fields": {
+      "bin": 500000,
       "name_eng": "Bank B",
       "name_uk": "Банк Б",
       "name_rus": "Банк Б",
@@ -27,26 +29,6 @@
       "contact_email": "john.doe@cop.cop",
       "create_date": "2020-08-09T18:25:43.511Z",
       "update_date": "2020-08-09T18:25:43.511Z"
-    }
-  },
-  {
-    "model": "core.bin",
-    "pk": 1,
-    "fields": {
-      "bank": "1",
-      "bin": "400000",
-      "type": "",
-      "product_code": "123"
-    }
-  },
-  {
-    "model": "core.bin",
-    "pk": 2,
-    "fields": {
-      "bank": " 2",
-      "bin": "500000",
-      "type": "",
-      "product_code": "123"
     }
   },
   {

@@ -167,7 +167,7 @@ class ClaimSerializer(serializers.ModelSerializer):
 
         self.instance = cmr.claim
         self.set_status(is_created=True)
-        print("Claim created")
+        print("Claim created", instance)
         return instance
 
     def update(self, instance, validated_data):

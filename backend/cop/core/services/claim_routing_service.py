@@ -74,12 +74,10 @@ class ClaimRoutingService:
     def assign_bank_by_pan(self):
         print("Started assign_bank_by_pan")
         from cop.core.models import Bank
-        from cop.core.models import Bin
         bank_bin = self.claim.hidden_pan[0:6]
         print("Bank_bin", bank_bin)
-        bank_id = Bin.objects.filter(bin__startswith=bank_bin).values_list('bank', flat=True).first()
-        self.claim.bank = Bank.objects.filter(id=bank_id).get()
-        print("Bank_id", bank_id,"claim.bank", self.claim.bank)
+        self.claim.bank = Bank.objects.filter(bin__startswith=bank_bin).first()
+        print("claim.bank", self.claim.bank)
 
     def assign_atm(self, merch_id):
         print("Started assign_atm")
