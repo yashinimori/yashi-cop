@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.contrib.auth import get_user_model
 from django_celery_beat.utils import now
@@ -160,6 +160,7 @@ class ClaimSerializer(serializers.ModelSerializer):
         validated_data = self.update_initial_data(validated_data)
         validated_data['hidden_pan'] = validated_data['pan'][0:6] + '******' + validated_data['pan'][-4:]
         validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
+        validated_data['due_date'] = now() + timedelta(days=7)
         print("validated_data", validated_data)
         instance = super().create(validated_data)
         print("instance", instance)
@@ -173,6 +174,11 @@ class ClaimSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         pan = validated_data.pop('pan', None)
         claim_reason_code = validated_data.pop('claim_reason_code', None)
+        status = Claim.objects.values_list('status', flat=True).get(pk=validated_data.pop('id', None))
+        print("Status", status, type(status))
+        stage = Status.objects.values_list('stage', flat=True).get(pk=status)
+        print("Statge", stage, type(stage))
+        validated_data['due_date'] = now() + timedelta(days=7)
         instance = super().update(instance, validated_data)
         self.instance = instance
         self.set_status()
