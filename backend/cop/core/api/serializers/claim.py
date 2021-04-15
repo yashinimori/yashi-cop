@@ -174,10 +174,6 @@ class ClaimSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         pan = validated_data.pop('pan', None)
         claim_reason_code = validated_data.pop('claim_reason_code', None)
-        status = Claim.objects.values_list('status', flat=True).get(pk=validated_data.pop('id', None))
-        print("Status", status, type(status))
-        stage = Status.objects.values_list('stage', flat=True).get(pk=status)
-        print("Statge", stage, type(stage))
         validated_data['due_date'] = now() + timedelta(days=7)
         instance = super().update(instance, validated_data)
         self.instance = instance
