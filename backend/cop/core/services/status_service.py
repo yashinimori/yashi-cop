@@ -23,11 +23,13 @@ class BaseStatusService:
     user: User
     initial_status: int
     form_name: str
+    is_created: bool
 
     def __init__(self, claim, user: User, status_index=None, is_created=False):
         self.claim = claim
         self.user = user
         self.initial_status = self.claim.status.index
+        self.is_created = is_created
         if is_created:
             if self.initial_status == 2 or self.initial_status == 6 and self.claim.merchant:
                 self.create_merchant_notifications()
@@ -179,7 +181,8 @@ class BaseStatusService:
 
 class StatusServiceLite(BaseStatusService):
     def pre_mediation(self):
-        self.claim.due_date = now() + timedelta(days=7)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=7)
         if self.user.is_cardholder:
             if self.claim.escalation_form_received:
                 self.set_status(6)
@@ -188,7 +191,8 @@ class StatusServiceLite(BaseStatusService):
                 self.set_status(51)
 
     def mediation(self):
-        self.claim.due_date = now() + timedelta(days=10)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=10)
         if self.user.is_cardholder:
             if self.claim.escalation_form_received:
                 self.set_status(17)
@@ -222,7 +226,8 @@ class StatusServiceLite(BaseStatusService):
 class StatusService(BaseStatusService):
 
     def pre_mediation(self):
-        self.claim.due_date = now() + timedelta(days=7)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=7)
         if self.initial_status == 2:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
@@ -237,7 +242,8 @@ class StatusService(BaseStatusService):
                     self.create_cardholder_notifications()
 
     def mediation(self):
-        self.claim.due_date = now() + timedelta(days=10)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=10)
         if self.initial_status == 5:
             if self.user.is_cardholder:
                 if self.claim.escalation_form_received:
@@ -406,7 +412,8 @@ class StatusService(BaseStatusService):
 class AllocationStatusService(BaseStatusService):
 
     def pre_mediation(self):
-        self.claim.due_date = now() + timedelta(days=7)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=7)
         if self.initial_status == 2:
             if self.user.is_merchant:
                 if self.claim.close_form_received:
@@ -421,7 +428,8 @@ class AllocationStatusService(BaseStatusService):
                     self.create_cardholder_notifications()
 
     def mediation(self):
-        self.claim.due_date = now() + timedelta(days=10)
+        if self.is_created == True:
+            self.claim.due_date = now() + timedelta(days=10)
         if self.initial_status == 5:
             if self.user.is_cardholder:
                 if self.claim.escalation_form_received:
