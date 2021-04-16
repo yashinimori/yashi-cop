@@ -10,6 +10,8 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbSearchService } from '@nebular/theme';
+import { SolarService } from '../../../@core/mock/solar.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ngx-claims',
@@ -40,6 +42,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     private transferService: TransferService,
     private router: Router,
     private searchService: NbSearchService,
+    private sanitizer: DomSanitizer,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
@@ -72,12 +75,13 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event, el?: number): void {
-    if (el == 2) {
-      this.transferService.cOPClaimID.next(event.id);
-    } else {
-      this.transferService.cOPClaimID.next(event.data.id);
-    }
-    this.router.navigate(['cop', 'cabinet', 'single-claim']);
+    console.log(event)
+    // if (el == 2) {
+    //   this.transferService.cOPClaimID.next(event.id);
+    // } else {
+    //   this.transferService.cOPClaimID.next(event.data.id);
+    // }
+    // this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
@@ -119,6 +123,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       case 'chargeback_officer': {
         this.settings = {
           pager: { perPage: this.pagerSize },
+          //selectMode: 'multi',
           //hideSubHeader: true,
           actions: {
             add: false,
@@ -128,12 +133,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           columns: {
             id: {
               title: 'ID',
-              type: 'string',
+              type: 'html',
+              valuePrepareFunction: (value) => {
+                return this.sanitizer.bypassSecurityTrustHtml('<div style="width:20px"> ' + value + ' </div>');
+              }
             },
-            // openClaim: {
-            //    title: 'ID2',
-            //    type: 'html',
-            // },
             pan: {
               title: 'Номер карти',
               type: 'string',
@@ -144,7 +148,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
                 if (trans_date)
-                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
                 else
                   return '';
@@ -188,10 +191,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
                   return 'N';
               }
             },
-            flag: {
-              title: "flag",
-              type: 'string',
-            },
             result: {
               title: "Результат",
               type: 'string',
@@ -200,12 +199,39 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if (due_date)
-                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
+            },            
+            flag: {
+              title: 'Приоритет',
+              type: 'html',
+              valuePrepareFunction: (due_date) => {
+                if (due_date) {
+                  let res = new Date(due_date).getDate() - new Date().getDate();
+                  let statusColor = this.getColorStatusOfficer(res);
+                  return this.sanitizer.bypassSecurityTrustHtml(
+                    `<div class="circle" style="background:${statusColor};width: 30px;
+                    height: 30px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    border-radius: 30px;"></div>`);
+                }
+                else
+                  return '';
+              }
             },
+            chargeback_officer: {
+              title: 'Chargeback officer',
+              valuePrepareFunction: (chargeback_officer) => {
+                if (chargeback_officer) {
+                  return chargeback_officer.email;
+                }
+                else
+                  return '';
+              }
+            }
           },
         };
       }
@@ -235,9 +261,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
-                if (trans_date)
-                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
-                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
+                if (trans_date) {
+                  return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                }
                 else
                   return '';
               }
@@ -272,17 +298,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             },
             action_needed: {
               title: "Дії",
-              //type: 'string',
               valuePrepareFunction: (action_needed) => {
                 if (action_needed && action_needed == true)
                   return 'Y';
                 else
                   return 'N';
               }
-            },
-            flag: {
-              title: "flag",
-              type: 'string',
             },
             result: {
               title: "Результат",
@@ -292,12 +313,15 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
                 if (due_date)
-                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
                 else
                   return '';
               }
             },
+            chb: {
+              title: "Чарджбек офіцер",
+              type: 'string',
+            }
           },
         };
       }
@@ -314,12 +338,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             delete: false,
           },
           columns: {
-            // id: {
-            //   title: '#',
-            //   type: 'string',
-            //   hidden: true,
-            //   filter: false,               
-            // },
             id: {
               title: 'ID',
               type: 'string',
@@ -333,9 +351,9 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
-                if (trans_date)
-                  //return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
+                if (trans_date) {
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy');
+                }
                 else
                   return '';
               }
@@ -360,28 +378,6 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               title: "Код авторизації",
               type: 'number',
             },
-            // claim_reason_code: {
-            //   title: "Reason Code",
-            //   type: 'number',
-            // },
-            // status: {
-            //   title: "Статус",
-            //   type: 'string',
-            // },
-            // action_needed: {
-            //   title: "Дії",
-            //   //type: 'string',
-            //   valuePrepareFunction: (action_needed) => {
-            //     if(action_needed && action_needed == true)
-            //       return 'Y';
-            //     else
-            //       return 'N';
-            //   }
-            // },
-            // flag:{
-            //   title: "flag",
-            //   type: 'string',
-            // },
             result: {
               title: "Результат",
               type: 'string',
@@ -389,13 +385,31 @@ export class ClaimsComponent implements OnInit, OnDestroy {
             due_date: {
               title: 'Кінцевий термін претензії',
               valuePrepareFunction: (due_date) => {
-                if (due_date)
-                  //return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
+                if (due_date) {
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
+                }
                 else
                   return '';
               }
             },
+            flag: {
+              title: 'Приоритет',
+              type: 'html',
+              valuePrepareFunction: (due_date) => {
+                if (due_date) {
+                  let res = new Date(due_date).getDate() - new Date().getDate();
+                  let statusColor = this.getColorStatus(res);
+                  return this.sanitizer.bypassSecurityTrustHtml(
+                    `<div class="circle" style="background:${statusColor};width: 30px;
+                    height: 30px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    border-radius: 30px;"></div>`);
+                }
+                else
+                  return '';
+              }
+            }
           },
           attr: {
             class: 'customTable'
@@ -414,6 +428,24 @@ export class ClaimsComponent implements OnInit, OnDestroy {
         };
       }
     }
+  }
+
+  getColorStatus(res) {
+    if(Number(res) >= 5) {
+      return '#008000';
+    } else if(Number(res) >= 3 && Number(res) <= 4) {
+      return '#ffaa00';
+    }
+    return '#FF0000';
+  }
+
+  getColorStatusOfficer(res) {
+    if(Number(res) >= 7) {
+      return '#008000';
+    } else if(Number(res) >= 5 && Number(res) <= 6) {
+      return '#ffaa00';
+    }
+    return '#FF0000';
   }
 
   refresh_claim() {
@@ -458,7 +490,21 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           t.result = el['result'];
           t.due_date = el['due_date'];
           t.ch_comments = el['ch_comments'];
-          t.flag = el['flag'];
+          t.flag = el['due_date'];
+          t.chargeback_officer = el['chargeback_officer'];
+
+          // let myDate = el['due_date'].replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3")
+          // t.due_date = this.datePipe.transform(myDate, 'dd-MM-yyyy');
+          // console.log(t.due_date)
+
+          // let timestamp = Date.parse(el['due_date']);
+          // console.log(new Date(el['due_date'].toString().split()))
+
+          // if (isNaN(timestamp) == false) {
+          //   t.due_date = new Date(timestamp);
+          // } else {
+          //   t.due_date = new Date();
+          // }
 
           let m = el['merchant'];
           if (m)
@@ -496,7 +542,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
           self.source = new LocalDataSource();
           self.source.load(self.claimsData);
         }
-
+        
 
       },
       error: error => {

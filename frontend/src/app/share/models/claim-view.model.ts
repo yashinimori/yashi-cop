@@ -8,7 +8,7 @@ export class ClaimView extends ClaimRegistration {
   //stage: string;
   action_needed: string;
   result: string;
-  due_date: Date;
+  due_date: any;
   currency_name: string;
   fio: string;
   arn: string;
@@ -34,4 +34,6 @@ export class ClaimView extends ClaimRegistration {
   arbitration_response_date: Date;
   openClaim: string;
   flag: boolean;
+  chb: any;
+  chargeback_officer: any;
 }
