@@ -359,6 +359,12 @@ class Claim(BaseModel):
 
 
 class Notification(BaseModel):
+    ACTIONS = (
+        ('create', 'create'),
+        ('escalation', 'escalation'),
+        ('close', 'close'),
+    )
+    action = models.CharField(choices=ACTIONS, max_length=10)
     claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='notifications')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=5)
     text = models.CharField(max_length=999)
