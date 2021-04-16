@@ -244,6 +244,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "pan",
             "merchant",
             "merch_name_ips",
+            "chargeback_officer",
             "term_id",
             "due_date",
             "trans_approval_code",
