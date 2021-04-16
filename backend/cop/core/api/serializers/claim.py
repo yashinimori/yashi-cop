@@ -130,6 +130,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "term_id",
             "merch_id",
             "merchant",
+            "chargeback_officer",
             "bank",
             "atm",
             "trans_amount",
