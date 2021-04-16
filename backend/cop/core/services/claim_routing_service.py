@@ -17,12 +17,14 @@ class ClaimRoutingService:
     user: User
 
     def __init__(self, claim, user, **kwargs):
+        print("started initialization")
         self.claim = claim
         self.user = user
         self.set_merchant_and_bank(kwargs)
         self.claim.save()
 
     def set_merchant_and_bank(self, validated_data):
+        print("started set_merchant_and_bank method")
         """Try to set Merchant/Bank/Terminal."""
         if 'term_id' in validated_data:
             self.assign_by_term_id(validated_data['term_id'])
@@ -36,6 +38,7 @@ class ClaimRoutingService:
         self.assign_support()
 
     def assign_by_merch_id(self, merch_id):
+        print("started assign_by_merch_id")
         from cop.users.models import Merchant
         # TODO: merchant can be set directly by id when submitting Claim form.
         merchant = Merchant.objects.filter(merch_id=merch_id).first()
@@ -46,12 +49,14 @@ class ClaimRoutingService:
 
     def assign_by_term_id(self, term_id):
         from cop.core.models import Terminal
+        print("Started assign_by_term_id")
         terminal = Terminal.objects.filter(term_id=term_id).first()
         if terminal:
             self.claim.terminal = terminal
             self.claim.merchant = terminal.merchant
 
     def assign_rc_by_claim_rc(self, claim_reason_code):
+        print("started assign_rc_by_claim_rc")
         self.claim.reason_code_group = claim_reason_code.description
 
         if int(self.claim.hidden_pan[0]) in MASTERCARD_START_NUMBERS:
@@ -67,16 +72,20 @@ class ClaimRoutingService:
             pass
 
     def assign_bank_by_pan(self):
+        print("Started assign_bank_by_pan")
         from cop.core.models import Bank
-
         bank_bin = self.claim.hidden_pan[0:6]
+        print("Bank_bin", bank_bin)
         self.claim.bank = Bank.objects.filter(bin__startswith=bank_bin).first()
+        print("claim.bank", self.claim.bank)
 
     def assign_atm(self, merch_id):
+        print("Started assign_atm")
         from cop.core.models import ATM
         self.claim.atm = ATM.objects.filter(merch_id=merch_id).first()
 
     def assign_support(self):
+        print("Started assign_support")
         # TODO: should be tested with the client
         if self.claim.bank and self.claim.terminal:
             self.claim.support = Claim.Support.US_ON_US if self.claim_bank_is_term_bank() else Claim.Support.US_ON_THEM

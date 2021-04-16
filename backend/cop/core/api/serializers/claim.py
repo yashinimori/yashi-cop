@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.contrib.auth import get_user_model
 from django_celery_beat.utils import now
@@ -118,6 +118,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
     merchant = MerchantSerializer(read_only=True)
+    chargeback_officer = UserSerializerLite()
     pan = serializers.CharField(min_length=16, max_length=16, required=True)
 
     class Meta:
@@ -130,6 +131,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             "term_id",
             "merch_id",
             "merchant",
+            "chargeback_officer",
             "bank",
             "atm",
             "trans_amount",
@@ -156,13 +158,19 @@ class ClaimSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
+        print("Started create method")
         validated_data = self.update_initial_data(validated_data)
         validated_data['hidden_pan'] = validated_data['pan'][0:6] + '******' + validated_data['pan'][-4:]
         validated_data['pan'] = Claim.encrypt_pan(validated_data['pan'])
+        validated_data['due_date'] = now() + timedelta(days=7)
+        print("validated_data", validated_data)
         instance = super().create(validated_data)
+        print("instance", instance)
         cmr = ClaimRoutingService(claim=instance, **validated_data)
+
         self.instance = cmr.claim
         self.set_status(is_created=True)
+        print("Claim created", instance)
         return instance
 
     def update(self, instance, validated_data):
@@ -193,6 +201,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             service(**kwargs)
 
     def update_initial_data(self, validated_data):
+        print("Started update_initial_data method")
         validated_data['user'] = self.context["request"].user
         crc_instance = self.get_crc(validated_data)
         validated_data['claim_reason_code'] = crc_instance
@@ -224,6 +233,7 @@ class ClaimRetrieveSerializer(ClaimSerializer):
 
 class ClaimListSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
+    chargeback_officer = UserSerializerLite(read_only=True)
     user = UserSerializer(read_only=True)
     status = StatusSerializer(read_only=True)
     pan = serializers.SerializerMethodField()
@@ -236,6 +246,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "pan",
             "merchant",
             "merch_name_ips",
+            "chargeback_officer",
             "term_id",
             "due_date",
             "trans_approval_code",

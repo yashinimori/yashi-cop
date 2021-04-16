@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from cop.core.api.serializers.atm import ATMSerializer
-from cop.core.api.serializers.claim import BankSerializer
+from cop.core.api.serializers.bank import BankSerializer
 from cop.users.models import BankEmployee
 from cop.users.api.serializers.user import UserSerializer
 
