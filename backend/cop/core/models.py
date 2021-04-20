@@ -27,8 +27,9 @@ class Bank(BaseModel):
         ('ISS', 'ISS'),
         ('BOTH', 'BOTH'),
     )
-    type = models.CharField(choices=TYPE, max_length=4)
+
     bin = models.CharField(max_length=8, unique=True)
+    type = models.CharField(choices=TYPE, max_length=4)
     name_eng = models.CharField(max_length=999)
     name_uk = models.CharField(max_length=999)
     name_rus = models.CharField(max_length=999)

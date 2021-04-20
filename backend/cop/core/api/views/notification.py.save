@@ -10,7 +10,6 @@ from cop.core.models import Notification
 
 User = get_user_model()
 
-
 class NotificationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = NotificationSerializer
@@ -35,7 +34,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 class NotificationManagerView(APIView):
     def post(self, request):
         data = request.data
-        data['user'] = User.objects.get(email=request.user) 
+        data['user'] = request.user
         data['is_active'] = True
         for role in (User.Roles.MERCHANT, User.Roles.CHARGEBACK_OFFICER, request.user.role):
             print(role)
