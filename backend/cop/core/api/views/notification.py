@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -35,14 +36,14 @@ class NotificationViewSet(viewsets.ModelViewSet):
 class NotificationManagerView(APIView):
     def post(self, request):
         data = request.data
-        data['user'] = User.objects.get(email=request.user) 
+        data['user'] = request.user.id 
         data['is_active'] = True
         for role in (User.Roles.MERCHANT, User.Roles.CHARGEBACK_OFFICER, request.user.role):
             print(role)
             print(request.user)
+            print(request.user.id)
             self.create_notification(data, role)
-        return Response(data=Notification.objects.all().order_by('id'))
-
+            return Response(status=status.HTTP_201_CREATED)
 
     def create_notification(self, data, role):
         text = {
@@ -72,5 +73,5 @@ class NotificationManagerView(APIView):
         print (data['user'])
         serializer = NotificationSerializer(data=data)
         print("Validation", serializer.is_valid())
-        serializer.is_valid()
-        serializer.save()
+        if serializer.is_valid():
+            serializer.save()
