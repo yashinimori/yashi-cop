@@ -36,11 +36,16 @@ class NotificationViewSet(viewsets.ModelViewSet):
 class NotificationManagerView(APIView):
     def post(self, request):
         data = request.data
+        self.claim = Claim.objects.get(pk=data["claim"])
         data['user'] = request.user.id 
         data['is_active'] = True
         for role in (User.Roles.MERCHANT, User.Roles.CHARGEBACK_OFFICER, request.user.role):
+            if (role == "merchant"):
+                data["user"] = str(self.claim.merchant)
+            if (role = "chargeback_officer"):
+                data["user"] = str(self.claim.chargeback_officer)
             self.create_notification(data, role)
-        claim = Claim.objects.get(pk=data["claim"])
+        
         print("Claim", claim, "Merchant", claim.merchant)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -65,6 +70,8 @@ class NotificationManagerView(APIView):
                 'сс_branch': "Розгляд скарги №" + str(data["claim"]) + " завершено. Просимо ознайомитися з наданою інформацією",
             },
         }
+        if (role == "merchant" and self.claim.merchant == None) or (role == "chargeback_officer" and self.claim.chargeback_officer == None):
+            break
         if text[data['action']][role]:
             data['text'] = text[data['action']][role]
         for i in data:
