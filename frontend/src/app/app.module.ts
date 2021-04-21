@@ -28,6 +28,13 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { TableModule } from 'ngx-easy-table';
 import { ShowClaimResultComponent } from './show-claim-result/show-claim-result.component';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient} from '@angular/common/http';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +54,13 @@ import { ShowClaimResultComponent } from './show-claim-result/show-claim-result.
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (HttpLoaderFactory),
+        deps: [HttpClient]
+      }
+    }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     VerticalTimelineModule,
@@ -54,6 +68,7 @@ import { ShowClaimResultComponent } from './show-claim-result/show-claim-result.
     RecaptchaFormsModule, //this is the module for form incase form validation
     NgxCaptchaModule,
   ],
+  exports: [TranslateModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {

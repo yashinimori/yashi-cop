@@ -17,6 +17,15 @@
     width: 150px;
   }
 
+  .language {
+    cursor: pointer;
+    color: #8c97a3;
+    margin-right: 0.5em;
+  }
+  .selectedLanguage {
+    color: rgb(5, 5, 5);
+  }
+
   nb-action {
     height: auto;
     display: flex;

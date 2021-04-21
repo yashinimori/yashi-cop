@@ -3,7 +3,7 @@
     
       <nb-card-header style="padding: 0.5em; overflow-x: auto;">
         <div class="headerClaimsComponent">
-          Список скарг
+          {{'claims_component.text1' | translate}}
             <button *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all' && role != 'chargeback_officer'" nbButton size="tiny" 
               status="primary" (click)="add_claim()" style="margin-left: 1.5em;">Додати скаргу</button>
             <button  nbButton size="tiny" style="margin-left: 1.5em;" [nbSpinner]="loadingRefresh" nbSpinnerStatus="info"

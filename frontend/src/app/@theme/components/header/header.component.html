@@ -25,6 +25,13 @@
     <nb-action class="control-item">
       <nb-search *ngIf="role == 'chargeback_officer' || role == 'сс_branch'" type="column-curtain" tag='globalSearch'></nb-search>
     </nb-action>
+    <nb-action class="user-action">
+      <div class="language" [ngClass]="{'selectedLanguage': isSelectUKR}"
+        (click)="setLanguage('ukr')">UKR</div>
+        <div class="language" [ngClass]="{'selectedLanguage': isSelectENG}"
+        (click)="setLanguage('eng')">ENG</div>
+    </nb-action>
+    
     <!-- <nb-action class="control-item" icon="email-outline"></nb-action>
     <nb-action class="control-item" icon="bell-outline"></nb-action> -->
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >

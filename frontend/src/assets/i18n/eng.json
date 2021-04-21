@@ -1,0 +1,40 @@
+{
+    "menu": {
+        "claims_list": "List of complaints",
+        "archive": "Завершені",
+        "dashboard": "Dashboard",
+        "disputes": "Disputes",
+        "atm_managment": "ATM Management",
+        "atm_new": "ATM лог - новий",
+        "atm_log": "ATM лог - перегляд",
+        "atm_detail": "ATM лог - детальний",
+        "my_cases": "My Cases",
+        "my_cases_pre_mediation": "pre-mediation",
+        "my_cases_mediation": "mediation",
+        "my_cases_chargebacks": "chargebacks",
+        "my_cases_archive": "archive",
+        "my_cases_merchant_requests": "Merchant requests",
+        "my_cases_tasks": "Tasks",
+        "mastercard": "Mastercard",
+        "mastercard_transaction_search": "Transaction Search",
+        "mastercard_chargebacks": "Chargebacks",
+        "mastercard_retrieval": "Retrieval",
+        "mastercard_fees": "Fees",
+        "appeals": "Звернення",
+        "closed": "Завершені",
+        "transactions": "Transactions",
+        "bank_list": "Список банків",
+        "new_bank": "Новий банк",
+        "users": "Користувачі",
+        "merchants": "Мерчанти",
+        "bank_statistic": "Статистика",
+        "bank_accounts": "Рахунки",
+        "secur_officer": "Користувачі",
+        "statistic": "Статистика",
+        "bank_accounts_chb": "Рахунки",
+        "tutorials": "Tutorials"
+    },
+    "claims_component": {
+        "text1": "List of complaints"
+    }
+}
