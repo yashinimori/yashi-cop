@@ -124,6 +124,7 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
     trans_time = None
     trans_date = None
+    trans_end_time = None
     for line in transaction_lines:
         pan_match = re.search('[0-9]{6}[X*]{6}[0-9]{4}', line, re.M)
         if pan_match:
@@ -164,6 +165,13 @@ def parse_transaction(transaction_lines, previous_transaction=None):
                                            minute=int(trans_time_match.group(2)),
                                            second=int(trans_time_match.group(3)))
 
+        if TRANSACTION_END in line:
+            trans_end_time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
+            if trans_end_time_match:
+                trans_end_time = datetime.time(hour=int(trans_end_time_match.group(1)),
+                                               minute=int(trans_end_time_match.group(2)),
+                                               second=int(trans_end_time_match.group(3)))
+
         date_match = re.search('([0-9]{1,2})/([0-9]{1,2})/([0-9]{1,2})', line)
         if date_match:
             year = int(date_match.group(3))
@@ -184,9 +192,18 @@ def parse_transaction(transaction_lines, previous_transaction=None):
     if trans_date and trans_time:
         trans_date = datetime.datetime.combine(trans_date, trans_time)
         transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
+        transaction.trans_start = transaction.trans_date
     elif trans_time and previous_transaction:
         trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_time)
         transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
+        transaction.trans_start = transaction.trans_date
+
+    if trans_date and trans_end_time:
+        trans_date = datetime.datetime.combine(trans_date, trans_end_time)
+        transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
+    elif trans_end_time and previous_transaction:
+        trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_end_time)
+        transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
 
     if not transaction.result:
         if transaction.utrnno:

@@ -329,6 +329,7 @@ cop/media/
 
 .ipython/
 .env
+env.example
 .envs/*
 !.envs/.local/
 !.envs/.staging_dev/
