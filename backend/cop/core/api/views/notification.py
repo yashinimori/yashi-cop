@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from cop.core.api.serializers.notification import NotificationSerializer
-from cop.core.models import Notification
+from cop.core.models import Notification, Claim
 
 User = get_user_model()
 
@@ -39,11 +39,10 @@ class NotificationManagerView(APIView):
         data['user'] = request.user.id 
         data['is_active'] = True
         for role in (User.Roles.MERCHANT, User.Roles.CHARGEBACK_OFFICER, request.user.role):
-            print(role)
-            print(request.user)
-            print(request.user.id)
             self.create_notification(data, role)
-            return Response(status=status.HTTP_201_CREATED)
+        claim = Claim.objects.get(pk=data["claim"])
+        print("Claim", claim, "Merchant", claim.merchant)
+        return Response(status=status.HTTP_201_CREATED)
 
     def create_notification(self, data, role):
         text = {
