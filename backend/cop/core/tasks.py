@@ -19,6 +19,14 @@ User = get_user_model()
 TRANSACTION_START = '-> TRANSACTION START'
 TRANSACTION_END = '<- TRANSACTION END'
 PAGE = '----------------------- Page'
+PIN_ENTERED = 'PIN ENTERED'
+CASH_REQUEST = 'CASH REQUEST:'
+CASH_PRESENTED = 'CASH PRESENTED'
+CASH_TAKEN = 'CASH TAKEN'
+# CASH_WITHDRAWAL = 'CASH WITHDRAWAL'
+CASH_RETRACTED = 'CASH_RETRACTED'
+CARD_TAKEN = 'CARD TAKEN'
+
 MARK_FAILED = [
     'EXCEEDED DAILY LIMIT',
     'LIMIT EXCEEDED',
@@ -122,9 +130,16 @@ def parse_transaction(transaction_lines, previous_transaction=None):
     transaction = Transaction()
     transaction.raw = '\n'.join(transaction_lines)
 
-    trans_time = None
+    trans_start = None
+    trans_end = None
     trans_date = None
-    trans_end_time = None
+    pin_entered = None
+    cash_request = None
+    cash_presented = None
+    cash_taken = None
+    cash_retracted = None
+    card_taken = None
+
     for line in transaction_lines:
         pan_match = re.search('[0-9]{6}[X*]{6}[0-9]{4}', line, re.M)
         if pan_match:
@@ -159,18 +174,42 @@ def parse_transaction(transaction_lines, previous_transaction=None):
             transaction.disp_amount = decimal.Decimal(available_match.group(1))
 
         if TRANSACTION_START in line:
-            trans_time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
-            if trans_time_match:
-                trans_time = datetime.time(hour=int(trans_time_match.group(1)),
-                                           minute=int(trans_time_match.group(2)),
-                                           second=int(trans_time_match.group(3)))
+            trans_start = time_of_action(line)
 
         if TRANSACTION_END in line:
-            trans_end_time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
-            if trans_end_time_match:
-                trans_end_time = datetime.time(hour=int(trans_end_time_match.group(1)),
-                                               minute=int(trans_end_time_match.group(2)),
-                                               second=int(trans_end_time_match.group(3)))
+            trans_end = time_of_action(line)
+#
+        if PIN_ENTERED in line:
+            pin_entered = time_of_action(line)
+
+        if CASH_REQUEST in line:
+            cash_request = time_of_action(line)
+
+        if CASH_PRESENTED in line:
+            cash_presented = time_of_action(line)
+
+        if CASH_TAKEN in line:
+            cash_taken = time_of_action(line)
+
+        if CASH_RETRACTED in line:
+            cash_retracted = time_of_action(line)
+
+        if CARD_TAKEN in line:
+            card_taken = time_of_action(line)
+
+        # if TRANSACTION_START in line:
+        #     trans_time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
+        #     if trans_time_match:
+        #         trans_time = datetime.time(hour=int(trans_time_match.group(1)),
+        #                                    minute=int(trans_time_match.group(2)),
+        #                                    second=int(trans_time_match.group(3)))
+        #
+        # if TRANSACTION_END in line:
+        #     trans_end_time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
+        #     if trans_end_time_match:
+        #         trans_end_time = datetime.time(hour=int(trans_end_time_match.group(1)),
+        #                                        minute=int(trans_end_time_match.group(2)),
+        #                                        second=int(trans_end_time_match.group(3)))
 
         date_match = re.search('([0-9]{1,2})/([0-9]{1,2})/([0-9]{1,2})', line)
         if date_match:
@@ -189,21 +228,58 @@ def parse_transaction(transaction_lines, previous_transaction=None):
                 transaction.result = Claim.Result.FAILED
                 break
 
-    if trans_date and trans_time:
-        trans_date = datetime.datetime.combine(trans_date, trans_time)
-        transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
-        transaction.trans_start = transaction.trans_date
-    elif trans_time and previous_transaction:
-        trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_time)
-        transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
-        transaction.trans_start = transaction.trans_date
+    # if trans_date and trans_time:
+    #     trans_date = datetime.datetime.combine(trans_date, trans_time)
+    #     transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
+    #     transaction.trans_start = transaction.trans_date
+    # elif trans_time and previous_transaction:
+    #     trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_time)
+    #     transaction.trans_date = make_aware(trans_date, timezone=timezone.utc)
+    #     transaction.trans_start = transaction.trans_date
+    #
+    # if trans_date and trans_end_time:
+    #     trans_date = datetime.datetime.combine(trans_date, trans_end_time)
+    #     transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
+    # elif trans_end_time and previous_transaction:
+    #     trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_end_time)
+    #     transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
 
-    if trans_date and trans_end_time:
-        trans_date = datetime.datetime.combine(trans_date, trans_end_time)
-        transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
-    elif trans_end_time and previous_transaction:
-        trans_date = datetime.datetime.combine(previous_transaction.trans_date.date(), trans_end_time)
-        transaction.trans_end = make_aware(trans_date, timezone=timezone.utc)
+    if trans_date:
+        if trans_start:
+            transaction.trans_start = date_time_of_action(trans_date, trans_start)
+            transaction.trans_date = transaction.trans_start
+        if trans_end:
+            transaction.trans_end = date_time_of_action(trans_date, trans_end)
+        if pin_entered:
+            transaction.pin_entered = date_time_of_action(trans_date, pin_entered)
+        if cash_request:
+            transaction.cash_request = date_time_of_action(trans_date, cash_request)
+        if cash_presented:
+            transaction.cash_presented = date_time_of_action(trans_date, cash_presented)
+        if cash_taken:
+            transaction.cash_taken = date_time_of_action(trans_date, cash_taken)
+        if cash_retracted:
+            transaction.cash_retracted = date_time_of_action(trans_date, cash_retracted)
+        if card_taken:
+            transaction.card_taken = date_time_of_action(trans_date, card_taken)
+    else:
+        if trans_start:
+            transaction.trans_start = date_time_of_action(previous_transaction.trans_date.date(), trans_start)
+            transaction.trans_date = transaction.trans_start
+        if trans_end:
+            transaction.trans_end = date_time_of_action(previous_transaction.trans_date.date(), trans_end)
+        if pin_entered:
+            transaction.pin_entered = date_time_of_action(previous_transaction.trans_date.date(), pin_entered)
+        if cash_request:
+            transaction.cash_request = date_time_of_action(previous_transaction.trans_date.date(), cash_request)
+        if cash_presented:
+            transaction.cash_presented = date_time_of_action(previous_transaction.trans_date.date(), cash_presented)
+        if cash_taken:
+            transaction.cash_taken = date_time_of_action(previous_transaction.trans_date.date(), cash_taken)
+        if cash_retracted:
+            transaction.cash_retracted = date_time_of_action(previous_transaction.trans_date.date(), cash_retracted)
+        if card_taken:
+            transaction.card_taken = date_time_of_action(previous_transaction.trans_date.date(), card_taken)
 
     if not transaction.result:
         if transaction.utrnno:
@@ -212,6 +288,21 @@ def parse_transaction(transaction_lines, previous_transaction=None):
             transaction.result = Claim.Result.NEUTRAL
 
     return transaction
+
+
+def time_of_action(line):
+    time_match = re.search('([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})', line, re.M)
+    if time_match:
+        time_action = datetime.time(hour=int(time_match.group(1)),
+                                    minute=int(time_match.group(2)),
+                                    second=int(time_match.group(3)))
+        return time_action
+    else:
+        return None
+
+
+def date_time_of_action(trans_date, time_action):
+    return make_aware(datetime.datetime.combine(trans_date, time_action), timezone=timezone.utc)
 
 
 def assign_claim_transaction(report):
