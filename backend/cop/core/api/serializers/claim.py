@@ -206,6 +206,8 @@ class ClaimSerializer(serializers.ModelSerializer):
         crc_instance = self.get_crc(validated_data)
         validated_data['claim_reason_code'] = crc_instance
         validated_data['status'] = self.get_initial_status(crc_instance.code)
+        if "chargeback_officer" not in validated_data:
+            validated_data['chargeback_officer'] = None
         return validated_data
 
     def get_crc(self, validated_data):

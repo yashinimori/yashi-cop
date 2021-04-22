@@ -54,7 +54,7 @@ class NotificationManagerView(APIView):
             self.create_notification(data, role)
         
         print("Claim", self.claim, "Merchant", self.claim.merchant)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def create_notification(self, data, role):
         text = {
