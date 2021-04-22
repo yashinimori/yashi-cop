@@ -16,6 +16,9 @@ from cop.utils.storages import PrivateMediaRootS3Boto3Storage
 
 User = get_user_model()
 
+# Types of ERRORS - COMMUNICATION ERROR.
+COMMUNICATION_ERROR = 'COMMUNICATION ERROR'
+
 TRANSACTION_START = '-> TRANSACTION START'
 TRANSACTION_END = '<- TRANSACTION END'
 PAGE = '----------------------- Page'
@@ -139,6 +142,7 @@ def parse_transaction(transaction_lines, previous_transaction=None):
     cash_taken = None
     cash_retracted = None
     card_taken = None
+    cash_count_str = None
 
     for line in transaction_lines:
         pan_match = re.search('[0-9]{6}[X*]{6}[0-9]{4}', line, re.M)
@@ -169,6 +173,18 @@ def parse_transaction(transaction_lines, previous_transaction=None):
         elif 'USD' in line:
             transaction.currency = Transaction.USD
 
+        if COMMUNICATION_ERROR in line:
+            transaction.error = COMMUNICATION_ERROR
+
+        cash_count_match = re.search('(\d:\d,\d+;)(\d:\d,\d+;)*(\d:\d,\d+;)*(\d:\d,\d+;)*', line, re.M)
+        if cash_count_match:
+            cash_count_list = re.sub('[1-4],', '', cash_count_match.group(0).rstrip(';'), count=0).split(';')
+            for i in range(4):
+                if cash_count_list[i][0] != str(i + 1):
+                    cash_count_list.insert(i, str(i + 1) + ':0')
+                    cash_count_str = '; '.join(cash_count_list) + ';'
+            transaction.cash_count = cash_count_str
+
         # available_match = re.search('AVAILABLE BALANCE  ([0-9]+\.[0-9]+)', line, re.M)
         # if available_match:
         #     transaction.disp_amount = decimal.Decimal(available_match.group(1))
@@ -178,7 +194,7 @@ def parse_transaction(transaction_lines, previous_transaction=None):
 
         if TRANSACTION_END in line:
             trans_end = time_of_action(line)
-#
+
         if PIN_ENTERED in line:
             pin_entered = time_of_action(line)
 
