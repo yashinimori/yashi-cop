@@ -169,9 +169,9 @@ def parse_transaction(transaction_lines, previous_transaction=None):
         elif 'USD' in line:
             transaction.currency = Transaction.USD
 
-        available_match = re.search('AVAILABLE BALANCE  ([0-9]+\.[0-9]+)', line, re.M)
-        if available_match:
-            transaction.disp_amount = decimal.Decimal(available_match.group(1))
+        # available_match = re.search('AVAILABLE BALANCE  ([0-9]+\.[0-9]+)', line, re.M)
+        # if available_match:
+        #     transaction.disp_amount = decimal.Decimal(available_match.group(1))
 
         if TRANSACTION_START in line:
             trans_start = time_of_action(line)
