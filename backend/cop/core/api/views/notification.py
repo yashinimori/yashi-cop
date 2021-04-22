@@ -37,16 +37,23 @@ class NotificationManagerView(APIView):
     def post(self, request):
         data = request.data
         self.claim = Claim.objects.get(pk=data["claim"])
-        data['user'] = request.user.id 
         data['is_active'] = True
         for role in (User.Roles.MERCHANT, User.Roles.CHARGEBACK_OFFICER, request.user.role):
             if (role == "merchant"):
-                data["user"] = str(self.claim.merchant)
-            if (role = "chargeback_officer"):
-                data["user"] = str(self.claim.chargeback_officer)
+                if(self.claim.merchant):
+                    data["user"] = str(self.claim.merchant.id)
+                else:
+                    data["user"] = None
+            if (role == "chargeback_officer"):
+                if(self.claim.chargeback_officer):
+                    data["user"] = str(self.claim.chargeback_officer.id)
+                else:
+                    data["user"] = None
+            else:
+                data['user'] = request.user.id
             self.create_notification(data, role)
         
-        print("Claim", claim, "Merchant", claim.merchant)
+        print("Claim", self.claim, "Merchant", self.claim.merchant)
         return Response(status=status.HTTP_201_CREATED)
 
     def create_notification(self, data, role):
@@ -71,7 +78,7 @@ class NotificationManagerView(APIView):
             },
         }
         if (role == "merchant" and self.claim.merchant == None) or (role == "chargeback_officer" and self.claim.chargeback_officer == None):
-            break
+            return False
         if text[data['action']][role]:
             data['text'] = text[data['action']][role]
         for i in data:
