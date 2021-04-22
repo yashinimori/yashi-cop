@@ -5,6 +5,7 @@ import { HttpService } from '../../../share/services/http.service';
 import { forkJoin, Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   //acceptFiles = 'application/txt/, application/pdf, image/*, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   acceptFiles = 'application/txt/*';
 
-  constructor(private httpService: HttpService, private toastrService: NbToastrService, private errorService: ErrorService) {
+  constructor(private httpService: HttpService, private translate: TranslateService,
+    private toastrService: NbToastrService, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
   }
 
@@ -49,7 +51,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
   fileChanged(e) {
     this.selectedFile = e.target.files[0];
     if(this.selectedFile.size > 50000000) {
-      alert('Файл занадто великий!');
+      alert(this.translate.instant('atm_log_upload_component.toast_text2'));
     } else {
       this.filesArr.push(this.selectedFile);
       this.observableArrFiles.push(this.createObservableArray(this.selectedFile));
@@ -76,7 +78,7 @@ export class ATMlogUploadComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.loadingUpload = false;
-        this.showToast('success', 'bottom-end', 'Всі файли успішно завантажені!');
+        this.showToast('success', 'bottom-end', this.translate.instant('atm_log_upload_component.toast_text1'));
       }
     });
   }

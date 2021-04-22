@@ -5,20 +5,20 @@
         <div class="headerClaimsComponent">
           {{'claims_component.text1' | translate}}
             <button *ngIf="!fieldsStatus.button_add_claim.invisible  && stageParam=='all' && role != 'chargeback_officer'" nbButton size="tiny" 
-              status="primary" (click)="add_claim()" style="margin-left: 1.5em;">Додати скаргу</button>
+              status="primary" (click)="add_claim()" style="margin-left: 1.5em;">{{'claims_component.button1' | translate}}</button>
             <button  nbButton size="tiny" style="margin-left: 1.5em;" [nbSpinner]="loadingRefresh" nbSpinnerStatus="info"
-              status="primary" *ngIf="role == 'chargeback_officer'" (click)="refresh_claim()">Оновити</button>
+              status="primary" *ngIf="role == 'chargeback_officer'" (click)="refresh_claim()">{{'claims_component.button2' | translate}}</button>
             <button *ngIf="role == 'chargeback_officer'" style="margin-left: 1.5em;" nbButton size="tiny"
               [nbSpinner]="loadingReport" nbSpinnerStatus="info" 
-              status="primary" (click)="createReport()">Звіт</button>
+              status="primary" (click)="createReport()">{{'claims_component.button3' | translate}}</button>
             <button *ngIf="role == 'chargeback_officer'" style="margin-left: 1.5em;" nbButton size="tiny" 
-              status="primary" (click)="createNewClaimCb()">Створити скаргу</button>
+              status="primary" (click)="createNewClaimCb()">{{'claims_component.button4' | translate}}</button>
             <button *ngIf="role == 'chargeback_officer'" style="margin-left: 1.5em;" nbButton size="tiny" 
-              status="primary" (click)="setUserCb()">Назначити</button>
+              status="primary" (click)="setUserCb()">{{'claims_component.button5' | translate}}</button>
             <button *ngIf="role == 'chargeback_officer'" outline style="margin-left: 1.5em;" nbButton size="tiny" 
-            status="primary" [nbContextMenu]="items"> Тип таблиці</button>
+            status="primary" [nbContextMenu]="items">{{'claims_component.button6' | translate}}</button>
             <span style="margin-left: 1em;" *ngIf="this.searchValue != '' && (role == 'chargeback_officer' || role == 'сс_branch')">
-              Параметр пошуку: {{this.searchValue}}
+              {{'claims_component.text2' | translate}} {{this.searchValue}}
               <button ghost status="danger" style="margin-left: 1em;" nbButton size="tiny" (click)="clearSearch()"><nb-icon icon="close-outline"></nb-icon></button>
             </span>
             <div style="flex: 1 1 auto;"></div>

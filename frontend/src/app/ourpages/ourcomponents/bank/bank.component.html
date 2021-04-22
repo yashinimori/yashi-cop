@@ -1,21 +1,21 @@
 <nb-card class="customCardHeight" style="width: 80%; margin: auto;">
   <nb-card-header style="width: 100%; text-align: center;">
-    Реєстрація банку
+    {{'bank_component.text1' | translate}}
   </nb-card-header> 
   <nb-card-body style="display: flex; flex-direction: column; align-items: center; padding: 0.5em; overflow: auto;">
-    <input nbInput class="bankInput" placeholder="BIN" [(ngModel)]="data.bin" maxlength="8">
-    <input nbInput class="bankInput" placeholder="ACQ/ISS/BOTH" [(ngModel)]="data.type" maxlength="4">
-    <input nbInput class="bankInput" placeholder="Назва банку Англійською" [(ngModel)]="data.name_eng" maxlength="999">
-    <input nbInput class="bankInput" placeholder="Назва банку Українською" [(ngModel)]="data.name_uk" maxlength="999">
-    <input nbInput class="bankInput" placeholder="Назва банку Російською" [(ngModel)]="data.name_rus" maxlength="999">
-    <input nbInput class="bankInput" placeholder="Операційне ім’я" [(ngModel)]="data.operator_name" maxlength="999">
-    <input nbInput class="bankInput" placeholder="Контактна особа" [(ngModel)]="data.contact_person" maxlength="999">
-    <input nbInput class="bankInput" placeholder="Контактний телефон" [(ngModel)]="data.contact_telephone" maxlength="13">
-    <input nbInput class="bankInput" placeholder="Контактна пошта" [(ngModel)]="data.contact_email" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text2' | translate}}" [(ngModel)]="data.bin" maxlength="8">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text3' | translate}}" [(ngModel)]="data.type" maxlength="4">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text4' | translate}}" [(ngModel)]="data.name_eng" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text5' | translate}}" [(ngModel)]="data.name_uk" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text6' | translate}}" [(ngModel)]="data.name_rus" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text7' | translate}}" [(ngModel)]="data.operator_name" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text8' | translate}}" [(ngModel)]="data.contact_person" maxlength="999">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text9' | translate}}" [(ngModel)]="data.contact_telephone" maxlength="13">
+    <input nbInput class="bankInput" placeholder="{{'bank_component.text10' | translate}}" [(ngModel)]="data.contact_email" maxlength="999">
   </nb-card-body>
   <nb-card-footer>
     <div class="button-enter">
-      <button nbButton size="small" status="primary" (click)="createBank()" [nbSpinner]="loadingCreate" nbSpinnerStatus="info">Зареєструвати</button>
+      <button nbButton size="small" status="primary" (click)="createBank()" [nbSpinner]="loadingCreate" nbSpinnerStatus="info">{{'bank_component.button1' | translate}}</button>
     </div>
   </nb-card-footer>
 </nb-card>
