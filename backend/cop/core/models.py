@@ -219,7 +219,7 @@ class Claim(BaseModel):
     mediator = models.ForeignKey(User, related_name='claim_mediators', on_delete=models.CASCADE, blank=True, null=True)
     replier = models.ForeignKey(User, related_name='claim_repliers', on_delete=models.SET_NULL, blank=True, null=True)
     chargeback_officer = models.ForeignKey(User, related_name='claim_chargeback_officers', on_delete=models.SET_NULL,
-                                           blank=True, null=True)
+                                           default=None, blank=True, null=True)
 
     issuer_mmt = models.CharField(max_length=40, null=True, blank=True)
     acquirer_mmt = models.CharField(max_length=40, null=True, blank=True)
