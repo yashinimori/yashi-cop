@@ -1,12 +1,12 @@
 <nb-card style="width: 30em; height: 40em;">
-    <nb-card-header>Creating new</nb-card-header>
+    <nb-card-header>{{'mastercard_dialog_forms_component.text1' | translate}}</nb-card-header>
     <nb-card-body>
         <form #form="ngForm" ngNativeValidate>
             <div class="msDialogItem">
-                <label>Select Dispute Type</label>
+                <label>{{'mastercard_dialog_forms_component.text2' | translate}}</label>
                 <nb-select #dispute_type="ngModel" name="dispute_type" id="input-dispute_type"  
                     [(ngModel)]="selectedDisputeType"
-                    placeholder="Dispute Type" autofocus [status]="dispute_type.dirty ? (dispute_type.invalid  ? 'danger' : 'success') : 'basic'"  
+                    placeholder="{{'mastercard_dialog_forms_component.text2' | translate}}" autofocus [status]="dispute_type.dirty ? (dispute_type.invalid  ? 'danger' : 'success') : 'basic'"  
                     required >
                     <nb-option *ngFor="let item of disputeTypesArr" [value]="item.value">
                         {{ item.title }}
@@ -14,10 +14,10 @@
                 </nb-select>
             </div>
             <div class="msDialogItem">
-                <label>Select Reason Code</label>
+                <label>{{'mastercard_dialog_forms_component.text3' | translate}}</label>
                 <nb-select #reason_code="ngModel" name="reason_code" id="input-reason_code"  
                     [(ngModel)]="selectedReasonCode"
-                    placeholder="Reason Code" autofocus [status]="reason_code.dirty ? (reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
+                    placeholder="{{'mastercard_dialog_forms_component.text3' | translate}}" autofocus [status]="reason_code.dirty ? (reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
                     required >
                     <nb-option *ngFor="let item of reasonCodesArr" [value]="item.mastercard">
                         {{ item.mastercard }} - {{ item.description }}
@@ -26,17 +26,17 @@
             </div>
 
             <div class="msDialogItem">
-                <label>Dispute amount</label>
+                <label>{{'mastercard_dialog_forms_component.text4' | translate}}</label>
                   <input nbInput [(ngModel)]="disputAmount" #disput_amount="ngModel" name="disput_amount" id="input-disput_amount"  
-                    placeholder="Dispute amount" autofocus [status]="disput_amount.dirty ? (disput_amount.invalid  ? 'danger' : 'success') : 'basic'"  
+                    placeholder="{{'mastercard_dialog_forms_component.text4' | translate}}" autofocus [status]="disput_amount.dirty ? (disput_amount.invalid  ? 'danger' : 'success') : 'basic'"  
                     required maxlength="100" minlength="1">
               </div>
 
             <div class="msDialogItem">
-                <label>Currency</label>
+                <label>{{'mastercard_dialog_forms_component.text5' | translate}}</label>
                   <nb-select #current_currency="ngModel" name="current_currency" id="input-current_currency"  
                       [(ngModel)]="currentCurrency"
-                      placeholder="Currency" autofocus [status]="current_currency.dirty ? (current_currency.invalid  ? 'danger' : 'success') : 'basic'"  
+                      placeholder="{{'mastercard_dialog_forms_component.text5' | translate}}" autofocus [status]="current_currency.dirty ? (current_currency.invalid  ? 'danger' : 'success') : 'basic'"  
                       required >
                       <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
                         {{ item.caption }}
@@ -46,7 +46,7 @@
         </form>
     </nb-card-body>
     <nb-card-footer>
-        <button nbButton (click)="createClaim()">Create</button>
-      <button style="margin-left: 1em;" nbButton (click)="close(false)">Close Dialog</button>
+        <button nbButton (click)="createClaim()">{{'mastercard_dialog_forms_component.button1' | translate}}</button>
+      <button style="margin-left: 1em;" nbButton (click)="close(false)">{{'mastercard_dialog_forms_component.button2' | translate}}</button>
     </nb-card-footer>
 </nb-card>

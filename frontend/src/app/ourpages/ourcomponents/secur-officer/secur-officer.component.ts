@@ -9,6 +9,7 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 import { ErrorService } from '../../../share/services/error.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-secur-officer',
@@ -30,7 +31,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   userId: any;
 
   constructor(private transferService: TransferService,
-    private router: Router,
+    private router: Router, private translate: TranslateService,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.bank = new Bank();
     this.bankUserData = new Array<BankUser>();
@@ -39,8 +40,14 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
 
   bankUsersSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.generateStatusFields();
+      this.setSettingsGridBankUser(this.role); 
+      this.getBankEmployees(this.userId);
+    });
     this.role = localStorage.getItem('role');
     this.userId = localStorage.getItem('user_id');
     this.bankID = this.transferService.bankID.getValue();
@@ -77,6 +84,7 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.bankUsersSubscription.unsubscribe();
     this.subscription1.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
     //this.transferService.bankID.next('');
   }
 
@@ -97,35 +105,35 @@ export class SecurOfficerComponent implements OnInit, OnDestroy {
             //   type: 'string',
             // },
             userId: {
-              title: 'Користувач',
+              title: this.translate.instant('secur_officer_component.text1'),
               type: 'string',
             },
             role: {
-              title: 'Роль',
+              title: this.translate.instant('secur_officer_component.text2'),
               type: 'string',
             },
             first_name: {
-              title: "Ім'я",
+              title: this.translate.instant('secur_officer_component.text3'),
               type: 'string',
             },
             last_name: {
-              title: 'Прізвище',
+              title: this.translate.instant('secur_officer_component.text4'),
               type: 'string',
             },
             unit: {
-              title: 'Підрозділ',
+              title: this.translate.instant('secur_officer_component.text5'),
               type: 'string',
             },
             phone: {
-              title: 'Телефон',
+              title: this.translate.instant('secur_officer_component.text6'),
               type: 'string',
             },
             email: {
-              title: 'Пошта',
+              title: this.translate.instant('secur_officer_component.text7'),
               type: 'string',
             },
             registration_date:{
-              title: 'Реєстрація',
+              title: this.translate.instant('secur_officer_component.text8'),
               type: 'string',
             }
           },

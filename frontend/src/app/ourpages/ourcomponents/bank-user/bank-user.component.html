@@ -2,13 +2,14 @@
 
   <nb-card class="customCardHeight bankUserCard">
     <nb-card-header style="width: 100%; padding: 0.5em 1em;">
-      Реєстрація користувача банку
+      {{'bank_user_component.text1' | translate}}
     </nb-card-header>
 
     <nb-card-body style="padding-bottom: 0; overflow-y: auto; padding-top: 1em; display: flex; flex-direction: column; align-items: center;">
 
-      <input class="marginBankUser" nbInput placeholder="Користувач" [(ngModel)]="data.userId" maxlength="200">
-      <nb-select placeholder="Роль" class="selector-list marginBankUser" [(selected)]="data.role">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text2' | translate}}" [(ngModel)]="data.userId" maxlength="200">
+      <nb-select class="selector-list marginBankUser" [(selected)]="data.role"
+      placeholder="{{'bank_user_component.text10' | translate}}">
         <nb-option *ngFor="let item of listRole" [value]="item.caption">
           {{ item.caption }}
         </nb-option>
@@ -17,27 +18,27 @@
         <nb-select
           class="selector-list marginBankUser"
           [(ngModel)]="bankID"
-          placeholder="Банк">
+          placeholder="{{'bank_user_component.text3' | translate}}">
           <nb-option *ngFor="let item of banksList" [value]="item.id">
             {{ item.name_eng }}
           </nb-option>
         </nb-select>
       <!-- </div> -->
-      <input class="marginBankUser" nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
-      <input class="marginBankUser" nbInput placeholder="Прізвище" [(ngModel)]="data.last_name" maxlength="999">
-      <input class="marginBankUser" nbInput placeholder="Підрозділ" [(ngModel)]="data.unit" maxlength="200">
-      <input class="marginBankUser" nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13">
-      <input class="marginBankUser" nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999">
-      <input class="marginBankUser" nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text4' | translate}}" [(ngModel)]="data.first_name" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text5' | translate}}" [(ngModel)]="data.last_name" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text6' | translate}}" [(ngModel)]="data.unit" maxlength="200">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text7' | translate}}" [(ngModel)]="data.phone" maxlength="13">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text8' | translate}}" [(ngModel)]="data.email" maxlength="999">
+      <input class="marginBankUser" nbInput placeholder="{{'bank_user_component.text9' | translate}}" [(ngModel)]="data.password" maxlength="40">
 
     </nb-card-body>
 
     <nb-card-footer>
       <div class="button-enter">
-        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">{{'bank_user_component.button1' | translate}}</button>
         <button nbButton size="small" status="primary" style="margin-left: 10px;"
           [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
-                (click)="createBankUser()">Зареєструвати
+                (click)="createBankUser()">{{'bank_user_component.button2' | translate}}
         </button>
       </div>
     </nb-card-footer>

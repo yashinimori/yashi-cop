@@ -9,21 +9,21 @@
         <nb-card style="margin-bottom: 0.5em; max-height: 5em;">
             <nb-card-body style="padding: 0.5em; display: flex; align-items: center;">
                 <div class="filterItem">
-                    <input class="trInput" fieldSize="tiny" nbInput placeholder="PAN" [(ngModel)]="panInput">
-                    <input class="trInput" fieldSize="tiny" nbInput placeholder="ARN" [(ngModel)]="arnInput">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text1' | translate}}" [(ngModel)]="panInput">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text2' | translate}}" [(ngModel)]="arnInput">
                 </div>
                 <div class="filterItem">
-                    <input class="trInput" fieldSize="tiny" nbInput placeholder="Amount From"  [(ngModel)]="amountFrom">
-                    <input class="trInput" fieldSize="tiny" nbInput placeholder="Amount To"  [(ngModel)]="amountTo">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text3' | translate}}"  [(ngModel)]="amountFrom">
+                    <input class="trInput" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text4' | translate}}"  [(ngModel)]="amountTo">
                 </div>
                 <div class="filterItem">
-                    <input readonly style="cursor: pointer;" class="trInput" fieldSize="tiny" nbInput placeholder="Start Date" [(ngModel)]="startDate" [nbDatepicker]="formpicker1">
+                    <input readonly style="cursor: pointer;" class="trInput" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text5' | translate}}" [(ngModel)]="startDate" [nbDatepicker]="formpicker1">
                     <nb-datepicker #formpicker1 format="dd/MM/yyyy"></nb-datepicker>
-                    <input readonly class="trInput" style="cursor: pointer;" fieldSize="tiny" nbInput placeholder="End Date" [(ngModel)]="endDate" [nbDatepicker]="formpicker2">
+                    <input readonly class="trInput" style="cursor: pointer;" fieldSize="tiny" nbInput placeholder="{{'transaction_search_component.text6' | translate}}" [(ngModel)]="endDate" [nbDatepicker]="formpicker2">
                     <nb-datepicker #formpicker2 format="dd/MM/yyyy"></nb-datepicker>
                 </div>
                 <button class="trInputButton" nbButton size="small" 
-                status="primary" (click)="searchData()"> Search</button>
+                status="primary" (click)="searchData()"> {{'transaction_search_component.button1' | translate}}</button>
             </nb-card-body>
         </nb-card>
         <nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 60vh);">
@@ -35,11 +35,11 @@
         </nb-card>
         <nb-card style="max-height: 45%; margin-bottom: 0.5em;">
             <nb-tabset fullWidth class="tansactionSearchTabset">
-                <nb-tab tabTitle="Summary">
+                <nb-tab tabTitle="{{'transaction_search_component.text7' | translate}}">
                     <nb-card style="max-height: 45%; margin-bottom: 0.5em; height: calc(100vh - 5rem - 50vh);">
                         <nb-card-body style="padding: 0.5em; display: flex; justify-content: space-around;">
                             <div class="tansactionSearchTabsetItem">
-                                <p>authorizationSummary</p>
+                                <p>{{'transaction_search_component.text7' | translate}}</p>
                                 <div class="sumItem" *ngFor="let authS of this.authSummaryArr">
                                     <div class="sumTitle">
                                         {{authS.title}}
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="tansactionSearchTabsetItem">
-                                <p>clearingSummary:</p>
+                                <p>{{'transaction_search_component.text8' | translate}}</p>
                                 <div class="sumItem" *ngFor="let clearS of this.clearingSummaryArr">
                                     <div class="sumTitle">
                                         {{clearS.title}}
@@ -63,11 +63,11 @@
                         </nb-card-body>
                     </nb-card>
                 </nb-tab>
-                <nb-tab tabTitle="Authorization details">
-                  <p>Authorization details</p>
+                <nb-tab tabTitle="{{'transaction_search_component.text9' | translate}}">
+                  <p>{{'transaction_search_component.text9' | translate}}</p>
                 </nb-tab>
-                <nb-tab tabTitle="Clearing details">
-                    <p>Clearing details</p>
+                <nb-tab tabTitle="{{'transaction_search_component.text10' | translate}}">
+                    <p>{{'transaction_search_component.text10' | translate}}</p>
                   </nb-tab>
               </nb-tabset>
         </nb-card>

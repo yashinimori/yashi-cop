@@ -2,15 +2,15 @@
     <nb-card-header style="width: 100%; text-align: center;">
        
         <div [ngSwitch]="this.routeParamsStatus">
-            <ng-template ngSwitchCase="merchant">Реєстрація мерчантів</ng-template>
-            <ng-template ngSwitchCase="atm">Реєстрація АТМ</ng-template>
-            <ng-template ngSwitchCase="user">Реєстрація користувача банку</ng-template>
+            <ng-template ngSwitchCase="merchant">{{'register_user_component.text1' | translate}}</ng-template>
+            <ng-template ngSwitchCase="atm">{{'register_user_component.text2' | translate}}</ng-template>
+            <ng-template ngSwitchCase="user">{{'register_user_component.text3' | translate}}</ng-template>
           </div>
     </nb-card-header>  
     <nb-card-body >
         <div style="display: flex; flex-direction: column;">
             <div *ngIf="!selectedFile" style="display: flex;">
-                Завантажити файл &nbsp;&nbsp;
+                {{'register_user_component.text4' | translate}} &nbsp;&nbsp;
                 <input #fileInput  name="file_upload"
                 [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
                 type='file'  (change)="fileChanged($event)">
@@ -20,7 +20,7 @@
                 <div class="tableItem" *ngFor="let merch of merchantsArr; let i = index;">
                     <div class="tableColumn">
                     <div class="tableColumnTitle">
-                            Контактна персона
+                        {{'register_user_component.text5' | translate}}
                     </div> 
                     <div class="tableColumnBody">
                             {{merch.merchant.contact_person}}
@@ -28,7 +28,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Юридична назва
+                            {{'register_user_component.text6' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{merch.merchant.name_legal}}
@@ -36,7 +36,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Назва торговця в МПС
+                            {{'register_user_component.text7' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{merch.merchant.name_ips}}
@@ -44,7 +44,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            МСС
+                            {{'register_user_component.text8' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{merch.merchant.mcc}}
@@ -52,7 +52,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Email
+                            {{'register_user_component.text9' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{merch.email}}
@@ -60,7 +60,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Телефон
+                            {{'register_user_component.text10' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                                 {{merch.phone}}
@@ -68,7 +68,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Адреса
+                            {{'register_user_component.text11' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                                 {{merch.merchant.address}}
@@ -76,7 +76,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Опис
+                            {{'register_user_component.text12' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                                 {{merch.merchant.description}}
@@ -94,7 +94,7 @@
                 <div class="tableItem" *ngFor="let atm of atmsArr; let i = index;">
                     <div class="tableColumn">
                        <div class="tableColumnTitle">
-                            Контактна персона
+                        {{'register_user_component.text13' | translate}}
                        </div> 
                        <div class="tableColumnBody">
                             {{atm.contact_person}}
@@ -102,7 +102,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Юридична назва
+                            {{'register_user_component.text14' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{atm.name_legal}}
@@ -110,7 +110,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Назва торговця в МПС
+                            {{'register_user_component.text15' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{atm.name_ips}}
@@ -118,7 +118,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            МСС
+                            {{'register_user_component.text16' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{atm.mcc}}
@@ -126,7 +126,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Адреса
+                            {{'register_user_component.text17' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{atm.address}}
@@ -144,7 +144,7 @@
                 <div class="tableItem" *ngFor="let user of usersArr; let i = index;">
                     <div class="tableColumn">
                        <div class="tableColumnTitle">
-                            Ім'я
+                        {{'register_user_component.text18' | translate}}
                        </div> 
                        <div class="tableColumnBody">
                             {{user.first_name}}
@@ -152,7 +152,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Прізвище
+                            {{'register_user_component.text19' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.last_name}}
@@ -160,7 +160,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Роль
+                            {{'register_user_component.text20' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.role}}
@@ -168,7 +168,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Підрозділ
+                            {{'register_user_component.text21' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.bankemployee.unit}}
@@ -176,7 +176,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Email
+                            {{'register_user_component.text22' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.email}}
@@ -184,7 +184,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Телефон
+                            {{'register_user_component.text23' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.phone}}
@@ -192,7 +192,7 @@
                     </div>
                     <div class="tableColumn">
                         <div class="tableColumnTitle">
-                            Пароль
+                            {{'register_user_component.text24' | translate}}
                         </div> 
                         <div class="tableColumnBody">
                             {{user.password}}
@@ -209,8 +209,8 @@
         </div>
     </nb-card-body>
     <nb-card-footer>
-        <button *ngIf="this.merchantsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewMerchants()">Зареєструвати</button>
-        <button *ngIf="this.atmsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewAtm()">Зареєструвати</button>
-        <button *ngIf="this.usersArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewUser()">Зареєструвати</button>
+        <button *ngIf="this.merchantsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewMerchants()"> {{'register_user_component.button1' | translate}}</button>
+        <button *ngIf="this.atmsArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewAtm()">{{'register_user_component.button1' | translate}}</button>
+        <button *ngIf="this.usersArr.length != 0" [nbSpinner]="loadingCreate" nbSpinnerStatus="info" nbButton size="small" status="primary" (click)="createNewUser()">{{'register_user_component.button1' | translate}}</button>
     </nb-card-footer>
 </nb-card>

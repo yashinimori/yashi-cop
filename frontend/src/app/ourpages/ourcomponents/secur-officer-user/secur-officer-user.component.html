@@ -1,59 +1,57 @@
 <nb-card style="margin-bottom: 0.5em; border: unset;" class="secOfficerUser" status="info">
     <nb-card-header style="padding: 0.5em;">
-      <button nbButton size="small" status="basic" (click)="goBack()">Повернутись</button>
+      <button nbButton size="small" status="basic" (click)="goBack()">{{'secur_officer_user_component.button1' | translate}}</button>
     </nb-card-header>
 </nb-card>
       <div class="secOfficerUser" style="display: flex; height: 100%;">
           <nb-card class="card1" accent="info">
             <nb-card-header style="padding: 0.3em; text-align: center;">
-              Інформація
+              {{'secur_officer_user_component.text1' | translate}}
             </nb-card-header>
             <nb-card-body style="padding: 1em;">
               <div class="card1BodyDiv">
-
-              
               <div class="div-panel" >
-                <label class="label-caption">Ім'я</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text2' | translate}}</label> 
                 <label class="label-data">{{ userData.first_name }}</label>
               </div>
               
               <div class="div-panel" >
-                <label class="label-caption">Прізвище</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text3' | translate}}</label> 
                 <label class="label-data">{{ userData.last_name }}</label>
               </div>
               
               <div class="div-panel" >
-                <label class="label-caption">Підрозділ</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text4' | translate}}</label> 
                 <label class="label-data">{{ userData.unit }}</label>
               </div>
               
               <div class="div-panel" >
-                <label class="label-caption">Телефон</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text5' | translate}}</label> 
                 <label class="label-data">{{ userData.phone }}</label>
               </div>
               
               <div class="div-panel" >
-                <label class="label-caption">Email</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text6' | translate}}</label> 
                 <label class="label-data">{{ userData.email }}</label>
               </div>
 
               <div class="div-panel" >
-                <label class="label-caption">Роль</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text7' | translate}}</label> 
                 <label class="label-data">{{ userData.role }}</label>
               </div>
               <div class="div-panel" style="border-top: 2px solid #cacaca;">
-                <label class="label-caption">Email для зміни паролю</label> 
+                <label class="label-caption">{{'secur_officer_user_component.text8' | translate}}</label> 
                 <label class="label-data"><input nbInput fieldSize="small"
-                  placeholder="Email для зміни паролю" [(ngModel)]="userData.email" maxlength="999"></label>
+                  placeholder="{{'secur_officer_user_component.text8' | translate}}" [(ngModel)]="userData.email" maxlength="999"></label>
               </div>     
               <button nbButton size="small" status="primary"
-                (click)="sendMail()" [nbSpinner]="loadingSendEmail" nbSpinnerStatus="info">Надіслати</button>
+                (click)="sendMail()" [nbSpinner]="loadingSendEmail" nbSpinnerStatus="info">{{'secur_officer_user_component.button2' | translate}}</button>
               </div>
             </nb-card-body>
           </nb-card>
         <nb-card class="card2" accent="info">
           <nb-card-header style="padding: 0.3em; text-align: center;">
-            Логи
+            {{'secur_officer_user_component.text9' | translate}}
           </nb-card-header>
           <nb-card-body style="padding: 0.3em;">
             <ng2-smart-table class="secOfficerUserTable" [settings]="settingsLogs" [source]="sourceLogs">

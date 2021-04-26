@@ -11,6 +11,7 @@ import { MerchUser } from '../../../share/models/merch-user.model';
 import { ATM } from '../../../share/models/atm.model';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbTabComponent, NbTabsetComponent } from '@nebular/theme';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-bank-single',
@@ -33,7 +34,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   settingsATM: any;
   sourceATM: LocalDataSource;
 
-  constructor(private transferService: TransferService,
+  constructor(private transferService: TransferService, private translate: TranslateService,
     private router: Router, private cdr: ChangeDetectorRef,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.bank = new Bank();
@@ -59,6 +60,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   atmSubscription: Subscription = new Subscription();
   merchantSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
   isClearLocalStorage = true;
   tabTitle1 = 'Інфо';
   tabTitle2 = 'Користувачі';
@@ -67,6 +69,22 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
   tabTitle5 = 'Рахунки';
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.getTabsTitle();
+      this.getBankData(this.bankID);
+
+      this.generateStatusFields();
+
+      this.setSettingsGridBankUser(this.role);
+      this.getBankUserData(this.bankID);
+      
+      this.setSettingsGridMerch(this.role);
+      this.getMerchantData(this.bankID);
+      
+      this.setSettingsGridATM(this.role);
+      this.getAtmData(this.bankID);
+    });
+    this.getTabsTitle();
     this.role = localStorage.getItem('role');
     if(localStorage.getItem('bankID')) {
       this.bankID = localStorage.getItem('bankID');
@@ -87,6 +105,14 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.setSettingsGridATM(this.role);
     this.getAtmData(this.bankID);
+  }
+
+  getTabsTitle() {
+    this.tabTitle1 = this.translate.instant('bank_single_component.text10');
+    this.tabTitle2 = this.translate.instant('bank_single_component.text11');
+    this.tabTitle3 = this.translate.instant('bank_single_component.text12');
+    this.tabTitle4 = this.translate.instant('bank_single_component.text13');
+    this.tabTitle5 = this.translate.instant('bank_single_component.text14');
   }
 
   ngAfterViewInit(): void {
@@ -240,6 +266,7 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.setItem('bankID', this.bankID);
     }
     this.bankUsersSubscription.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
     this.atmSubscription.unsubscribe();
     this.merchantSubscription.unsubscribe();
     this.subscription1.unsubscribe();
@@ -266,35 +293,35 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
             //   type: 'string',
             // },
             userId: {
-              title: 'Користувач',
+              title: this.translate.instant('bank_single_component.text15'),
               type: 'string',
             },
             role: {
-              title: 'Роль',
+              title: this.translate.instant('bank_single_component.text16'),
               type: 'string',
             },
             first_name: {
-              title: "Ім'я",
+              title: this.translate.instant('bank_single_component.text17'),
               type: 'string',
             },
             last_name: {
-              title: 'Прізвище',
+              title: this.translate.instant('bank_single_component.text18'),
               type: 'string',
             },
             unit: {
-              title: 'Підрозділ',
+              title: this.translate.instant('bank_single_component.text19'),
               type: 'string',
             },
             phone: {
-              title: 'Телефон',
+              title: this.translate.instant('bank_single_component.text20'),
               type: 'string',
             },
             email: {
-              title: 'Пошта',
+              title: this.translate.instant('bank_single_component.text21'),
               type: 'string',
             },
             registration_date:{
-              title: 'Реєстрація',
+              title: this.translate.instant('bank_single_component.text22'),
               type: 'string',
 
             }
@@ -390,43 +417,43 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
             //   type: 'string',
             // },
             merch_id: {
-              title: 'Merchant ID',
+              title: this.translate.instant('bank_single_component.text23'),
               type: 'string',
             },
             name_legal: {
-              title: 'Юридична назва',
+              title: this.translate.instant('bank_single_component.text24'),
               type: 'string',
             },
             mcc: {
-              title: 'MCC',
+              title: this.translate.instant('bank_single_component.text25'),
               type: 'string',
             },
             description: {
-              title: 'Вид діяльності',
+              title: this.translate.instant('bank_single_component.text26'),
               type: 'string',
             },
             phone: {
-              title: 'Телефон',
+              title: this.translate.instant('bank_single_component.text27'),
               type: 'string',
             },
             email: {
-              title: 'Пошта',
+              title: this.translate.instant('bank_single_component.text28'),
               type: 'string',
             },
             name_ips: {
-              title: 'Назва торговця в МПС',
+              title: this.translate.instant('bank_single_component.text29'),
               type: 'string',
             },
             address: {
-              title: 'Адрес',
+              title: this.translate.instant('bank_single_component.text30'),
               type: 'string',
             },
             term_id: {
-              title: 'Terminal ID',
+              title: this.translate.instant('bank_single_component.text31'),
               type: 'string',
             },
             contact_person: {
-              title: 'Контактна особа',
+              title: this.translate.instant('bank_single_component.text32'),
               type: 'string',
             },
       
@@ -528,31 +555,31 @@ export class BankSingleComponent implements OnInit, OnDestroy, AfterViewInit {
             //   type: 'string',
             // },
             merch_id: {
-              title: 'Merchant ID',
+              title: this.translate.instant('bank_single_component.text33'),
               type: 'string',
             },
             name_legal: {
-              title: 'Юридична назва',
+              title: this.translate.instant('bank_single_component.text34'),
               type: 'string',
             },
             mcc: {
-              title: 'MCC',
+              title: this.translate.instant('bank_single_component.text35'),
               type: 'string',
             },
             description: {
-              title: 'Вид діяльності',
+              title: this.translate.instant('bank_single_component.text36'),
               type: 'string',
             },
             name_ips: {
-              title: 'Назва торговця в МПС',
+              title: this.translate.instant('bank_single_component.text37'),
               type: 'string',
             },
             address: {
-              title: 'Адрес',
+              title: this.translate.instant('bank_single_component.text38'),
               type: 'string',
             },
             contact_person: {
-              title: 'Контактна особа',
+              title: this.translate.instant('bank_single_component.text39'),
               type: 'string',
             },
       

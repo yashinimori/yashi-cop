@@ -19,6 +19,7 @@ import { ErrorService } from '../../../share/services/error.service';
 import { NbGlobalPhysicalPosition, NbPopoverDirective, NbToastrService } from '@nebular/theme';
 import {Location} from '@angular/common';
 import { ToastService } from '../../../share/services/toast.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-single-claim',
@@ -33,6 +34,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private datePipe: DatePipe,
               private transferService: TransferService,
               private httpService: HttpService,
+              private translate: TranslateService,
               private _location: Location, private toastService: ToastService,
               private router: Router, private toastrService: NbToastrService,
               private cdr: ChangeDetectorRef, private errorService: ErrorService) {
@@ -100,6 +102,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription8: Subscription = new Subscription();
   subscription9: Subscription = new Subscription();
   subscriptionNotification: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
   claimData: ClaimView;
   Timeline: Array<TimelineView>;
   //listMerchant: Array<SelectorData>;
@@ -187,7 +190,24 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
   readonlyReasonCodesArr: Array<any> = new Array<any>();
   isReasonCodeInputValid: boolean = false;
 
+  textToAst1:string;
+  textToAst2:string;
+
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setValuesInForm();
+      this.getListQuestions();
+      this.getTextToAst();
+      if(this.role == 'chargeback_officer') {
+        this.getReasonCodes();
+      }
+      if (this.claimId != '0') {
+        this.loadClaim();
+        this.timeline();
+      }
+    });
+    this.getTextToAst();
+    this.setValuesInForm();
     this.inputFormControlMerchUser = new FormControl();
     this.claimData = new ClaimView();
     this.Timeline = new Array<TimelineView>();
@@ -267,12 +287,42 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getDates();
     //this.loadClaimDocumsnts();
   }
+  
+  setValuesInForm() {
+    this.valNo = {val: 1, text: this.translate.instant('single_claim_component.textNo')};
+    this.valYes = {val: 2, text: this.translate.instant('single_claim_component.textYes')};
+    this.valYes2 = {val: 2, text: this.translate.instant('single_claim_component.text67')};
+    this.valYes3 = {val: 3, text: this.translate.instant('single_claim_component.text68')};
+    this.valWhereCard = {val: 1, text: this.translate.instant('single_claim_component.text69')};
+    this.valWhereCard2 = {val: 2, text: this.translate.instant('single_claim_component.text70')};
+    this.valNeedDocument = {val: 1, text: this.translate.instant('single_claim_component.textYes')};
+    this.valNeedDocument2 = {val: 2, text: this.translate.instant('single_claim_component.text71')};
+    this.valOperation = {val: 1, text: this.translate.instant('single_claim_component.textYes')};
+    this.valOperation2 = {val: 2, text: this.translate.instant('single_claim_component.text72')};
+    this.valMoney = {val: 1, text: this.translate.instant('single_claim_component.text73')};
+    this.valMoney2 = {val: 2, text: this.translate.instant('single_claim_component.textYes')};
+    this.valOll = {val: 1, text: this.translate.instant('single_claim_component.text74')};
+    this.valOll2 = {val: 2, text: this.translate.instant('single_claim_component.text75')};
+    this.valWhereOperation = {val: 1, text: this.translate.instant('single_claim_component.textYes')};
+    this.valWhereOperation2 = {val: 2, text: this.translate.instant('single_claim_component.textNo')};
+    this.valGet = {val: 1, text: this.translate.instant('single_claim_component.textNo')};
+    this.valGet2 = {val: 2, text: this.translate.instant('single_claim_component.textYes')};
+    this.valPay = {val: 1, text: this.translate.instant('single_claim_component.text76')};
+    this.valPay2 = {val: 2, text: this.translate.instant('single_claim_component.text77')};
+    this.valBack = {val: 1, text: this.translate.instant('single_claim_component.textYes')};
+    this.valBack2 = {val: 2, text: this.translate.instant('single_claim_component.textNo')};
+  }
 
   showToast() {
     this.toastrService.show(
-      'Завантажуйте лише фото або pdf файли',
-      `Такий тип файлу не підтримується.`,
+      this.textToAst1,
+      this.textToAst2,
       { position: NbGlobalPhysicalPosition.TOP_RIGHT, status: 'warning', duration: 5000 });
+  }
+
+  getTextToAst() {
+    this.textToAst1 = this.translate.instant('single_claim_component.text85');
+    this.textToAst2 = this.translate.instant('single_claim_component.text86');
   }
 
   onSelectionChangeMerch($event){
@@ -304,6 +354,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription7.unsubscribe();
     this.subscription8.unsubscribe();
     this.subscriptionNotification.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -921,13 +972,13 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getListQuestions(){
     this.listQuestions = new Array<SelectorData>();
-    this.listQuestions.push({id:1, caption:"Дублювання транзакцій"});
-    this.listQuestions.push({id:2, caption:"Оплату проведено іншим способом"});
-    this.listQuestions.push({id:3, caption:"Товар або послугу повернено, але немає повернення коштів"});
-    this.listQuestions.push({id:4, caption:"Підписка була скасована, але суму було списано"});
-    this.listQuestions.push({id:5, caption:"Отримані товари були пошкоджені, або не такі, як було описано в замовлені"});
-    this.listQuestions.push({id:6, caption:"Неправильна сума або валюта транзакція"});
-    this.listQuestions.push({id:7, caption:"Інша причина"});
+    this.listQuestions.push({id:1, caption:this.translate.instant('single_claim_component.text78')});
+    this.listQuestions.push({id:2, caption:this.translate.instant('single_claim_component.text79')});
+    this.listQuestions.push({id:3, caption:this.translate.instant('single_claim_component.text80')});
+    this.listQuestions.push({id:4, caption:this.translate.instant('single_claim_component.text81')});
+    this.listQuestions.push({id:5, caption:this.translate.instant('single_claim_component.text82')});
+    this.listQuestions.push({id:6, caption:this.translate.instant('single_claim_component.text83')});
+    this.listQuestions.push({id:7, caption:this.translate.instant('single_claim_component.text84')});
   }
 
   fileLogChanged(e) {

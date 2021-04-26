@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Bank } from '../../../share/models/bank.model';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ErrorService } from '../../../share/services/error.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 interface EventObject {
   event: string;
@@ -31,7 +32,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   pagerSize = 10;
 
   constructor(private transferService: TransferService,
-    private router: Router,
+    private router: Router, private translate: TranslateService,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.banksData = new Array<Bank>();
   }
@@ -39,6 +40,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   @ViewChild('table', { static: true }) table: APIDefinition;
 
   banksSubscription: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
   isUiLoad:boolean = false;
 
   public configuration: Config;
@@ -56,6 +58,11 @@ export class BankListComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsForTable();
+      this.setSettingsGrid(this.role);
+      this.getBanksData();
+    });
     this.setSettingsForTable();
     // ... etc.
     // this.columns = [
@@ -66,15 +73,15 @@ export class BankListComponent implements OnInit, OnDestroy {
     //   { key: 'isActive', title: 'STATUS' },
     // ];
     this.columns = [
-      {key: 'bin', title: 'BIN'},
-      {key: 'type', title: 'Тип'},
-      {key: 'name_eng', title: 'Назва банку англійською'},
-      {key: 'name_uk', title: 'Назва банку українською'},
-      {key: 'name_rus', title: 'Назва банку російською'},
-      {key: 'operator_name', title: 'Операційне ім’я'},
-      {key: 'contact_person', title: 'Контактна особа'},
-      {key: 'contact_telephone', title: 'Контактний телефон'},
-      {key: 'contact_email', title: 'Контактна пошта'},
+      {key: 'bin', title: this.translate.instant('bank_list_component.text11')},
+      {key: 'type', title: this.translate.instant('bank_list_component.text12')},
+      {key: 'name_eng', title: this.translate.instant('bank_list_component.text13')},
+      {key: 'name_uk', title: this.translate.instant('bank_list_component.text14')},
+      {key: 'name_rus', title: this.translate.instant('bank_list_component.text15')},
+      {key: 'operator_name', title: this.translate.instant('bank_list_component.text16')},
+      {key: 'contact_person', title: this.translate.instant('bank_list_component.text17')},
+      {key: 'contact_telephone', title: this.translate.instant('bank_list_component.text18')},
+      {key: 'contact_email', title: this.translate.instant('bank_list_component.text19')},
     ];
     this.columnsCopy = this.columns;
     this.parsePagination();
@@ -181,39 +188,39 @@ export class BankListComponent implements OnInit, OnDestroy {
             //   type: 'string',
             // },
             bin: {
-              title: 'BIN',
+              title: this.translate.instant('bank_list_component.text11'),
               type: 'string',
             },
             type: {
-              title: 'Тип',
+              title: this.translate.instant('bank_list_component.text12'),
               type: 'string',
             },
             name_eng: {
-              title: 'Назва банку англійською',
+              title: this.translate.instant('bank_list_component.text13'),
               type: 'string',
             },
             name_uk: {
-              title: 'Назва банку українською',
+              title: this.translate.instant('bank_list_component.text14'),
               type: 'string',
             },
             name_rus: {
-              title: 'Назва банку російською',
+              title: this.translate.instant('bank_list_component.text15'),
               type: 'string',
             },
             operator_name: {
-              title: 'Операційне ім’я ',
+              title: this.translate.instant('bank_list_component.text16'),
               type: 'string',
             },
             contact_person: {
-              title: 'Контактна особа',
+              title: this.translate.instant('bank_list_component.text17'),
               type: 'string',
             },
             contact_telephone: {
-              title: 'Контактний телефон',
+              title: this.translate.instant('bank_list_component.text18'),
               type: 'string',
             },
             contact_email: {
-              title: 'Контактна пошта',
+              title: this.translate.instant('bank_list_component.text19'),
               type: 'string',
             },
           },
@@ -282,5 +289,6 @@ export class BankListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.banksSubscription.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 }

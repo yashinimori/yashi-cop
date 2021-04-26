@@ -1,47 +1,47 @@
 <div *ngIf="role ==='cardholder'" class="button-enter">
-  <a nbButton size="small" status="primary" href="cop/cabinet/single-claim">Додати скаргу</a>
+  <a nbButton size="small" status="primary" href="cop/cabinet/single-claim">{{'bank_list_component.button1' | translate}}</a>
 </div>
 <nb-card style="height: calc(100vh - 8rem);
 margin-bottom: 0;">
   
     <nb-card-header style="padding: 0.5em;">
-      Список банків 
+      {{'bank_list_component.text1' | translate}} 
       <div style="display: flex; flex-wrap: wrap;">
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('bin')" />
-          <em class="form-icon"></em> bin
+          <em class="form-icon"></em> {{'bank_list_component.text2' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('type')" />
-          <em class="form-icon"></em> type
+          <em class="form-icon"></em> {{'bank_list_component.text3' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('name_eng')" />
-          <em class="form-icon"></em> name_eng
+          <em class="form-icon"></em> {{'bank_list_component.text4' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('name_uk')" />
-          <em class="form-icon"></em> name_uk
+          <em class="form-icon"></em> {{'bank_list_component.text5' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('name_rus')" />
-          <em class="form-icon"></em> name_rus
+          <em class="form-icon"></em> {{'bank_list_component.text6' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('operator_name')" />
-          <em class="form-icon"></em> operator_name
+          <em class="form-icon"></em> {{'bank_list_component.text7' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('contact_person')" />
-          <em class="form-icon"></em> contact_person
+          <em class="form-icon"></em> {{'bank_list_component.text8' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('contact_telephone')" />
-          <em class="form-icon"></em> contact_telephone
+          <em class="form-icon"></em> {{'bank_list_component.text9' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('contact_email')" />
-          <em class="form-icon"></em> contact_email
+          <em class="form-icon"></em> {{'bank_list_component.text10' | translate}}
         </label>
       </div>
     </nb-card-header>

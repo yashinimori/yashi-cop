@@ -1,37 +1,37 @@
 <nb-card class="mainCardSingleClaim" *ngIf="!isNewRecord" status="info">
     <nb-card-header>
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div>Скарга № {{claimData.id}}</div> 
+        <div>{{'single_claim_component.text1' | translate}} {{claimData.id}}</div> 
         <div style="display: flex; ">
           <div *ngIf="!isNewRecord" class="mainHeaderSingleClaimButtonsBlock">
               <button *ngIf="!isNewRecord && !fieldsStatus.button_escalation.invisible"
                 style="margin-left: 10px;" 
-                  nbTooltip="В разі незгоди з отриманим результатом Ви маєте можливість повторного розгляду вашої претензії" nbTooltipStatus="primary"
+                  nbTooltip="{{'single_claim_component.text2' | translate}}" nbTooltipStatus="primary"
                   nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                  nbButton size="small" status="basic" (click)="onClickEscalation()" >Ескалація</button>
+                  nbButton size="small" status="basic" (click)="onClickEscalation()" >{{'single_claim_component.button1' | translate}}</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_clarif.invisible"
-                  nbTooltip="Надайте додаткову інформацію по вашій претензії" nbTooltipStatus="primary"
+                  nbTooltip="{{'single_claim_component.text3' | translate}}" nbTooltipStatus="primary"
                   nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                  nbButton size="small" status="basic" (click)="onClickClarifications()" style="margin-left: 10px;" >Уточненя</button>
+                  nbButton size="small" status="basic" (click)="onClickClarifications()" style="margin-left: 10px;" >{{'single_claim_component.button2' | translate}}</button>
               <button *ngIf="!isNewRecord && !fieldsStatus.button_request_docs.invisible && (claimData.status == 'Chargeback/Second Presentment запрос торговцу'
                       || claimData.status == 'Chargeback опротестование сформировано') "
-                      nbButton size="small" status="basic" (click)="onClickRequestDocs()" style="margin-left: 10px;">Запит документів
+                      nbButton size="small" status="basic" (click)="onClickRequestDocs()" style="margin-left: 10px;">{{'single_claim_component.button3' | translate}}
               </button>
           </div>
           <div *ngIf="!isNewRecord" class="mainHeaderSingleClaimButtonsBlock" style='padding-left: 2em;'>
             
             <button size="small" *ngIf="!isNewRecord && !fieldsStatus.button_escal_add_responce.invisible"
-                nbButton status="basic"  >Додати Коментар</button>
+                nbButton status="basic"  >{{'single_claim_component.button4' | translate}}</button>
             <button *ngIf="!isNewRecord && !fieldsStatus.save_edit_claim.invisible"
                   style="margin-left: 10px;" [nbSpinner]="loadingSaveEdit" nbSpinnerStatus="info" 
-                  nbButton size="small" status="success" (click)="saveClaimUpdate()">Зберегти</button>
+                  nbButton size="small" status="success" (click)="saveClaimUpdate()">{{'single_claim_component.button5' | translate}}</button>
             <button  style="margin-left: 10px;"
-                nbTooltip="Повернутися до списку претензій" nbTooltipStatus="primary" nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                nbButton size="small" status="basic" (click)="goBack()">До списку</button>
+                nbTooltip="{{'single_claim_component.text4' | translate}}" nbTooltipStatus="primary" nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
+                nbButton size="small" status="basic" (click)="goBack()">{{'single_claim_component.button6' | translate}}</button>
             <button *ngIf="!isNewRecord && !fieldsStatus.button_escal_finish.invisible" style="margin-left: 10px;"
-                nbTooltip="Натисніть для завершення розгляду вашої претензії" nbTooltipStatus="primary"
+                nbTooltip="{{'single_claim_component.text5' | translate}}" nbTooltipStatus="primary"
                 nbTooltipTrigger="{{this.role == 'cardholder'?'hover':'noop'}}"
-                nbButton size="small" status="warning" (click)="onClickFinish()" >Завершити</button>
+                nbButton size="small" status="warning" (click)="onClickFinish()" >{{'single_claim_component.button7' | translate}}</button>
           </div>
         </div>
       </div>
@@ -56,12 +56,12 @@
 
         <nb-card class="cardDetails" accent="info">
             <nb-card-header>
-                Деталізація cкарги
+              {{'single_claim_component.text6' | translate}}
               </nb-card-header>
             <nb-card-body>
 
                 <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.pan.invisible">
-                  <label class="label-caption">Номер карти</label>
+                  <label class="label-caption">{{'single_claim_component.text7' | translate}}</label>
                     <label class="label-data customPopover">{{claimData.pan}} <button nbButton size="tiny" style="margin-left: 1em;" 
                       nbPopover="Copied!" nbPopoverTrigger="noop" nbPopoverPlacement="right"
                       (cdkCopyToClipboardCopied)="copyEmit($event)" [cdkCopyToClipboard]="claimData.pan"><nb-icon icon="save-outline"></nb-icon></button></label>
@@ -69,38 +69,38 @@
                 </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.fio.invisible">
-                <label class="label-caption">П.І.Б.</label>
+                <label class="label-caption">{{'single_claim_component.text8' | translate}}</label>
                 <label class="label-data">{{ getUserName }}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.transDate.invisible">
-                <label class="label-caption">Дата транзакції</label>
+                <label class="label-caption">{{'single_claim_component.text9' | translate}}</label>
                 <label class="label-data">{{getDateTrans}}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.currencyName.invisible && !fieldsStatus.amount.invisible">
-                <label class="label-caption">Cума</label>
+                <label class="label-caption">{{'single_claim_component.text10' | translate}}</label>
                 <label class="label-data">{{claimData.trans_currency}} {{claimData.trans_amount}}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.merchantName.invisible">
-                <label class="label-caption">Назва торговця</label>
+                <label class="label-caption">{{'single_claim_component.text11' | translate}}</label>
                 <label class="label-data">{{getClaimData_merch_name_ips}}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.rC.invisible">
-                <label class="label-caption">Причина диспуту</label>
+                <label class="label-caption">{{'single_claim_component.text12' | translate}}</label>
                 <label class="label-data">{{claimData.reason_code_group}}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.aRN.invisible">
-                <label class="label-caption">ARN</label>
+                <label class="label-caption">{{'single_claim_component.text13' | translate}}</label>
                 <label class="label-data">{{claimData.arn}}</label>
               </div>
 
               <div class="div-panel cardDetailsItem" *ngIf="!fieldsStatus.aRN_editor.invisible">
-                <label class="label-caption">ARN</label>
-                <input class="input-data" nbInput placeholder="ARN"
+                <label class="label-caption">{{'single_claim_component.text13' | translate}}</label>
+                <input class="input-data" nbInput placeholder="{{'single_claim_component.text13' | translate}}"
                        [required]="fieldsStatus.comment.required"
                        [readonly]="fieldsStatus.comment.readonly"
                        [(ngModel)]="claimData.arn"
@@ -109,7 +109,7 @@
                 >
               </div>
 
-                <a href="{{getUrlPDF}}" target="_blank" >Заява кардхолдера</a>
+                <a href="{{getUrlPDF}}" target="_blank" >{{'single_claim_component.text14' | translate}}</a>
 
             </nb-card-body>
 
@@ -119,18 +119,18 @@
     <div class="right-panel" *ngIf="role!='chargeback_officer'" >
         <nb-card class="cardProcess" accent="info">
             <nb-card-header>
-              Процес розгляду
+              {{'single_claim_component.text15' | translate}}
             </nb-card-header>
             <nb-card-body>
                 <div>
                   <div >
-                      <label class="cardProcessLabel">Результат</label>
+                      <label class="cardProcessLabel">{{'single_claim_component.text16' | translate}}</label>
                       <br>
                       <label class="cardProcessLabel">{{claimData.result}}</label>
                   </div>
 
                   <div >
-                      <label class="cardProcessLabel">Коментар</label>
+                      <label class="cardProcessLabel">{{'single_claim_component.text17' | translate}}</label>
                       <br>
                     <nb-list *ngIf="comments.length != 0">
                       <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
@@ -143,7 +143,7 @@
                   </div>
 
                   <div>
-                      <label class="cardProcessLabel">Документи</label>
+                      <label class="cardProcessLabel">{{'single_claim_component.text18' | translate}}</label>
                           <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
                           <br>
                           <nb-list *ngIf="documents.length != 0">
@@ -171,17 +171,17 @@
         <nb-card accent="info" class="cardProcess">
             <nb-tabset fullWidth class="chargeTabset">
 
-              <nb-tab tabTitle="Результат">
+              <nb-tab tabTitle="{{'single_claim_component.text16' | translate}}">
                 <nb-card style="width: 100%; border: 0; height: 15em;">
                   <nb-card-body>
                     <div >
-                        <label class="cardProcessLabel">Результат</label>
+                        <label class="cardProcessLabel">{{'single_claim_component.text16' | translate}}</label>
                         <br>
                         <label class="cardProcessLabel">{{claimData.result}}</label>
                     </div>
 
                     <div>
-                        <label class="cardProcessLabel">Документи</label>
+                        <label class="cardProcessLabel">{{'single_claim_component.text18' | translate}}</label>
                         <!-- <a style="font-weight: bold;" *ngFor="let document of claimData.documents" href="{{document.file}}">{{document.file.split('/').pop()}}<br></a> -->
                         <br>
                         <nb-list *ngIf="documents.length != 0">
@@ -202,12 +202,12 @@
                 </nb-card>
               </nb-tab>
 
-              <nb-tab tabTitle="Коментарі">
+              <nb-tab tabTitle="{{'single_claim_component.text19' | translate}}">
 
                 <nb-card style="width: 100%; border: 0; height: 15em;">
                   <nb-card-body>
                     <div >
-                      <label class="cardProcessLabel">Коментар</label>
+                      <label class="cardProcessLabel">{{'single_claim_component.text17' | translate}}</label>
                       <br>
                     <nb-list *ngIf="comments.length != 0">
                       <nb-list-item style="padding: 0.5em;" *ngFor="let item of comments">
@@ -223,48 +223,48 @@
 
               </nb-tab>
 
-              <nb-tab tabTitle="Dispute details">
+              <nb-tab tabTitle="{{'single_claim_component.text20' | translate}}">
                 <nb-card class="editClaimTab3Card">
                   <nb-card-body>
 
                     <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="width: 100%; max-width: 35em;"
-                           placeholder="Chb date"
+                           placeholder="{{'single_claim_component.text21' | translate}}"
                            [nbDatepicker]="formpicker_chargeback_date"
                            [(ngModel)]="claimData.chargeback_date" readonly>
                     <nb-datepicker #formpicker_chargeback_date format="dd/MM/yyyy"></nb-datepicker>
 
                     <input class="input-date center calendar-set tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
-                           placeholder="Sec Pres date"
+                           placeholder="{{'single_claim_component.text22' | translate}}"
                            [nbDatepicker]="formpicker_second_presentment_date"
                            [(ngModel)]="claimData.second_presentment_date" readonly>
                     <nb-datepicker #formpicker_second_presentment_date format="dd/MM/yyyy"></nb-datepicker>
 
                     <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
-                           placeholder="Pre Arb date"
+                           placeholder="{{'single_claim_component.text23' | translate}}"
                            [nbDatepicker]="formpicker_pre_arbitration_date"
                            [(ngModel)]="claimData.pre_arbitration_date" readonly>
                     <nb-datepicker #formpicker_pre_arbitration_date format="dd/MM/yyyy"></nb-datepicker>
 
                     <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
-                           placeholder="Pre Arb Resp date"
+                           placeholder="{{'single_claim_component.text24' | translate}}"
                            [nbDatepicker]="formpicker_pre_arbitration_response_date"
                            [(ngModel)]="claimData.pre_arbitration_response_date" readonly>
                     <nb-datepicker #formpicker_pre_arbitration_response_date format="dd/MM/yyyy"></nb-datepicker>
 
                     <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
-                           placeholder="Arb date"
+                           placeholder="{{'single_claim_component.text25' | translate}}"
                            [nbDatepicker]="formpicker_arbitration_date"
                            [(ngModel)]="claimData.arbitration_date" readonly>
                     <nb-datepicker #formpicker_arbitration_date format="dd/MM/yyyy"></nb-datepicker>
 
                     <input class="input-date center tabInput" nbInput style="cursor: pointer;"
                            style="margin-top: 10px; width: 100%; max-width: 35em;"
-                           placeholder="Arb Resp date"
+                           placeholder="{{'single_claim_component.text26' | translate}}"
                            [nbDatepicker]="formpicker_arbitration_response_date"
                            [(ngModel)]="claimData.arbitration_response_date" readonly>
                     <nb-datepicker #formpicker_arbitration_response_date format="dd/MM/yyyy"></nb-datepicker>
@@ -285,7 +285,7 @@
 
 <div  *ngIf="!isNewRecord" >
     <nb-card accent="info" class="col-12" style="min-height: 325px; height: calc(100vh - 440px); max-height: calc(100vh - 440px); padding-bottom: 1em; margin-bottom: 0;">
-        <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">Останні дії</nb-card-header>
+        <nb-card-header style="width: 100%; text-align: center; padding: 0.5em;">{{'single_claim_component.text27' | translate}}</nb-card-header>
         <nb-card-body style="padding: 0.5em 1em;">
             <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
                 <div style="width: 100%; height: 100%;" *ngIf="Timeline.length != 0">
@@ -325,7 +325,7 @@
     <nb-card-body style="padding: 0.4em 2em">
       <nb-stepper class="customStepper" orientation="horizontal" disableStepNavigation>
         <nb-step [label]="labelOne">
-          <ng-template #labelOne>Нове звернення</ng-template>
+          <ng-template #labelOne>{{'single_claim_component.text28' | translate}}</ng-template>
 
           <!--  *ngIf="stepNewRecord==1" -->
           
@@ -335,28 +335,28 @@
                 <form #form="ngForm" ngNativeValidate>    
                 
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.pan.invisible">
-                    <label class="label-caption">Номер карти</label>  
+                    <label class="label-caption">{{'single_claim_component.text29' | translate}}</label>  
                     <div style="width: 60%;">
                       <input class="input-data-valid" autocomplete="off" nbInput [(ngModel)]="claimData.pan" #pan="ngModel" name="pan" id="input-pan"  
-                        placeholder="Номер карти" pattern="^\d+$" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
+                        placeholder="{{'single_claim_component.text29' | translate}}" pattern="^\d+$" autofocus [status]="pan.dirty ? (pan.invalid  ? 'danger' : 'success') : 'basic'"  
                         required maxlength="16" minlength="16" (keyup)="checkPanForReasonCodeCb()">
                       <ng-container *ngIf="pan.invalid && pan.touched">
                         <p class="caption status-danger danger-warning" *ngIf="pan.errors?.required">
-                          Номер карти - обов'язкове поле для заповнення!
+                          {{'single_claim_component.text30' | translate}}
                         </p>
                       </ng-container>
                     </div>
                   </div>
         
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.transDate.invisible">
-                    <label class="label-caption">Дата транзакції</label>
+                    <label class="label-caption">{{'single_claim_component.text31' | translate}}</label>
                     <div style="width: 60%;">
                       <input class="input-data-valid" style="cursor: pointer;" nbInput [(ngModel)]="claimData.trans_date" #trans_date="ngModel" name="trans_date" id="input-trans_date"  
-                        placeholder="Дата транзакції" autofocus [status]="trans_date.dirty ? (claimData.trans_date == null ? 'danger' : 'success') : 'basic'"  
+                        placeholder="{{'single_claim_component.text31' | translate}}" autofocus [status]="trans_date.dirty ? (claimData.trans_date == null ? 'danger' : 'success') : 'basic'"  
                         [nbDatepicker]="formpicker" required minlength="10" maxlength="10" readonly>
                       <ng-container *ngIf="trans_date.invalid && trans_date.touched">
                         <p class="caption status-danger danger-warning" *ngIf="trans_date.errors?.required">
-                          Дата транзакції - обов'язкове поле для заповнення!
+                          {{'single_claim_component.text32' | translate}}
                         </p>
                       </ng-container>
                       <nb-datepicker #formpicker format="dd/MM/yyyy"></nb-datepicker>
@@ -364,11 +364,11 @@
                   </div>
         
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.merchantID.invisible">
-                    <label class="label-caption">Торгова точка</label>
+                    <label class="label-caption">{{'single_claim_component.text33' | translate}}</label>
                     <div style="width: 60%;">      
                       <input style="width: 100%;" name="merch_id" autocomplete="off"
                         [formControl]="inputFormControlMerchUser" nbInput type="text"
-                        placeholder="Введіть торгову точку"
+                        placeholder="{{'single_claim_component.text33' | translate}}"
                         [nbAutocomplete]="auto" />
                       <nb-autocomplete #auto (selectedChange)="onSelectionChangeMerch($event)">
                         <nb-option class="step1Card1ItemOption" *ngFor="let item of filteredControlOptionsMerchUser$ | async" [value]="item">
@@ -379,39 +379,39 @@
                   </div>
         
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.terminalID.invisible">
-                    <label class="label-caption">Номер терміналу</label>
+                    <label class="label-caption">{{'single_claim_component.text34' | translate}}</label>
                     <div style="width: 60%;">
                       <input class="input-data-valid" nbInput [(ngModel)]="claimData.term_id" #term_id="ngModel" name="term_id" id="input-term_id"  
-                        placeholder="Номер терміналу" autofocus [status]="term_id.dirty ? (term_id.invalid  ? 'danger' : 'success') : 'basic'"  
+                        placeholder="{{'single_claim_component.text34' | translate}}" autofocus [status]="term_id.dirty ? (term_id.invalid  ? 'danger' : 'success') : 'basic'"  
                         required maxlength="8" minlength="8">
                       <ng-container *ngIf="term_id.invalid && term_id.touched">
                         <p class="caption status-danger danger-warning" *ngIf="term_id.errors?.required">
-                          Номер терміналу - обов'язкове поле для заповнення!
+                          {{'single_claim_component.text35' | translate}}
                         </p>
                       </ng-container>
                     </div>
                   </div>
         
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.amount.invisible">
-                    <label class="label-caption">Cума операції</label>
+                    <label class="label-caption">{{'single_claim_component.text36' | translate}}</label>
                     <div style="width: 60%;">
                       <input class="input-data-valid" nbInput [(ngModel)]="claimData.trans_amount" #trans_amount="ngModel" name="trans_amount" id="input-trans_amount"  
-                        placeholder="Cума операції" autofocus [status]="trans_amount.dirty ? (trans_amount.invalid  ? 'danger' : 'success') : 'basic'"  
+                        placeholder="{{'single_claim_component.text36' | translate}}" autofocus [status]="trans_amount.dirty ? (trans_amount.invalid  ? 'danger' : 'success') : 'basic'"  
                         required maxlength="10" minlength="1">
                       <ng-container *ngIf="trans_amount.invalid && trans_amount.touched">
                         <p class="caption status-danger danger-warning" *ngIf="trans_amount.errors?.required">
-                          Cума операції - обов'язкове поле для заповнення!
+                          {{'single_claim_component.text37' | translate}}
                         </p>
                       </ng-container>
                     </div>
                   </div>
         
                   <div class="div-panel step1Card1Item " *ngIf="!fieldsStatus.currency.invisible">
-                    <label class="label-caption">Валюта операції</label>
+                    <label class="label-caption">{{'single_claim_component.text38' | translate}}</label>
                     <div style="width: 60%;">
                       <nb-select class="input-data-valid" [(selected)]="claimData.trans_currency" #trans_currency="ngModel" name="trans_currency" id="input-trans_currency"  
                           [(ngModel)]="claimData.trans_currency"
-                          placeholder="Валюта операції" autofocus [status]="trans_currency.dirty ? (trans_currency.invalid  ? 'danger' : 'success') : 'basic'"  
+                          placeholder="{{'single_claim_component.text38' | translate}}" autofocus [status]="trans_currency.dirty ? (trans_currency.invalid  ? 'danger' : 'success') : 'basic'"  
                           required >
                           <nb-option *ngFor="let item of listCurrency" [value]="item.caption">
                             {{ item.caption }}
@@ -419,17 +419,17 @@
                       </nb-select>
                         <ng-container *ngIf="trans_currency.invalid && trans_currency.touched">
                           <p class="caption status-danger danger-warning" *ngIf="trans_currency.errors?.required">
-                            Валюта операції - обов'язкове поле для заповнення!
+                            {{'single_claim_component.text39' | translate}}
                           </p>
                         </ng-container>
                     </div>
                   </div>
         
                   <div class="div-panel step1Card1Item" *ngIf="!fieldsStatus.authCode.invisible">
-                    <label class="label-caption">Код операції</label>
+                    <label class="label-caption">{{'single_claim_component.text40' | translate}}</label>
                     <div style="width: 60%;">
                       <input style="width: 100%;" class="input-data" nbInput name="trans_approval_code"
-                        placeholder="Код операції"
+                        placeholder="{{'single_claim_component.text40' | translate}}"
                         [required]="fieldsStatus.authCode.required"
                         [readonly]="fieldsStatus.authCode.readonly"
                         [(ngModel)]="claimData.trans_approval_code"
@@ -439,11 +439,11 @@
                     </div>
                   </div>
                   <div class="div-panel step1Card1Item" *ngIf="this.role == 'chargeback_officer'">
-                    <label class="label-caption">Reason code</label>        
+                    <label class="label-caption">{{'single_claim_component.text41' | translate}}</label>        
                     <div style="width: 60%;">
                       <nb-select class="input-data-valid" [disabled]="!isReasonCodeInputValid" #claim_reason_code="ngModel" name="claim_reason_code" id="input-claim_reason_code"  
                           [(ngModel)]="claimData.claim_reason_code"
-                          placeholder="Reason code" autofocus [status]="claim_reason_code.dirty ? (claim_reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
+                          placeholder="{{'single_claim_component.text41' | translate}}" autofocus [status]="claim_reason_code.dirty ? (claim_reason_code.invalid  ? 'danger' : 'success') : 'basic'"  
                           required >
                           <nb-option class="step1Card1ItemOption" *ngFor="let code of reasonCodesArr" [value]="code.code">
                             {{ code.description }}
@@ -451,7 +451,7 @@
                       </nb-select>
                         <ng-container *ngIf="claim_reason_code.invalid && claim_reason_code.touched">
                           <p class="caption status-danger danger-warning" *ngIf="claim_reason_code.errors?.required">
-                            Reason code - обов'язкове поле для заповнення!
+                            {{'single_claim_component.text42' | translate}}
                           </p>
                         </ng-container>
                     </div>
@@ -462,8 +462,8 @@
         
               <nb-card-footer style="padding: 0.5em;">
                 <div class="center">
-                  <button *ngIf="this.role != 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStep()" >До наступного кроку</button>
-                  <button *ngIf="this.role == 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStepCb()" >До наступного кроку</button>  
+                  <button *ngIf="this.role != 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStep()" >{{'single_claim_component.button8' | translate}}</button>
+                  <button *ngIf="this.role == 'chargeback_officer'" nbButton size="small" nbStepperNext status="primary" [disabled]="!getCheckData" (click)="onClickGoNextStepCb()" >{{'single_claim_component.button8' | translate}}</button>  
                 </div>
               </nb-card-footer>
             </nb-card>
@@ -472,7 +472,7 @@
 
         </nb-step>
         <nb-step [label]="labelTwo" *ngIf="this.role != 'chargeback_officer'">
-          <ng-template #labelTwo>Додаткова інформація</ng-template>
+          <ng-template #labelTwo>{{'single_claim_component.text43' | translate}}</ng-template>
 
             <!-- *ngIf="stepNewRecord==2" -->
           <nb-card class="card1CreateNewClaimStep2">
@@ -487,7 +487,7 @@
       
                 <ng-template #one>
                   <label class="label-question center">
-                    Ви підтверджуєте, що брали участь у транзакції?
+                    {{'single_claim_component.text44' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery1" formControlName="groupQuery1"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue1">
@@ -498,7 +498,7 @@
       
                 <ng-template #two>
                   <label class="label-question center">
-                    Чи Ви раніше робили транзакції у даного торговця?
+                    {{'single_claim_component.text45' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery2" formControlName="groupQuery2"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue2">
@@ -510,7 +510,7 @@
       
                 <ng-template #three>
                   <label class="label-question center">
-                    Де знаходиться картка?
+                    {{'single_claim_component.text46' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery3" formControlName="groupQuery3"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue3">
@@ -523,10 +523,10 @@
       
                 <ng-template #four>
                   <label class="label-question center">
-                    Вкажіть дату викрадення
+                    {{'single_claim_component.text47' | translate}}
                   </label>
                   <input class="control-input-questions" nbInput style="cursor: pointer;"
-                          placeholder="Вкажіть дату викрадення"
+                          placeholder="{{'single_claim_component.text47' | translate}}"
                           [nbDatepicker]="formpicker"
                           [(ngModel)]="claimData.transDate"
                           formControlName="groupQuery4" required readonly>
@@ -535,7 +535,7 @@
       
                 <ng-template #five>
                   <label class="label-question center">
-                    Вам потрібні документи по транзакції для власних потреб
+                    {{'single_claim_component.text48' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery5" formControlName="groupQuery5"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue5">
@@ -548,7 +548,7 @@
       
                 <ng-template #six>
                   <label class="label-question center">
-                    Операцію було проведено в банкоматі?
+                    {{'single_claim_component.text49' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery6" formControlName="groupQuery6"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue6">
@@ -561,7 +561,7 @@
       
                 <ng-template #seven>
                   <label class="label-question center">
-                    Кошти не були отримані?
+                    {{'single_claim_component.text50' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery7" formControlName="groupQuery7"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue7">
@@ -574,7 +574,7 @@
       
                 <ng-template #eight>
                   <label class="label-question center">
-                    В повному обсязі чи частково?
+                    {{'single_claim_component.text51' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery8" formControlName="groupQuery8"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue8">
@@ -587,16 +587,16 @@
       
                 <ng-template #nine>
                   <label class="label-question center">
-                    Вкажіть яку суму не отриманих коштів
+                    {{'single_claim_component.text52' | translate}}
                   </label>
-                  <input class="input-data" nbInput placeholder="Вкажіть яку суму не отриманих коштів"
+                  <input class="input-data" nbInput placeholder="{{'single_claim_component.text52' | translate}}"
                           name="groupQuery9" formControlName="groupQuery9"
                   >
                 </ng-template>
       
                 <ng-template #ten>
                   <label class="label-question center">
-                    Операція проведена в інтернеті?
+                    {{'single_claim_component.text53' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery10" formControlName="groupQuery10"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue10">
@@ -609,7 +609,7 @@
       
                 <ng-template #eleven>
                   <label class="label-question center">
-                    Чи товар був отриманий/послуга надана?
+                    {{'single_claim_component.text54' | translate}}
                   </label>
                   <nb-radio-group style="margin-bottom: 2em;" name="groupQuery11" formControlName="groupQuery11"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue11">
@@ -618,15 +618,12 @@
                     <nb-radio class="radioItem" [value]="valGet2">{{valGet2.text}}
                     </nb-radio>
                   </nb-radio-group>
-                  <nb-alert style="font-size: 12px;" outline="warning">Увага! Згідно правил Visa та MasterCard для повернення коштів
-                     власник картки повинен надати докази того, що раніше звертався до торговця
-                      з питанням про повернення коштів (пояснення, скріни, переписка, підтвердження
-                       повернення тощо)</nb-alert>
+                  <nb-alert style="font-size: 12px;" outline="warning">{{'single_claim_component.text55' | translate}}</nb-alert>
                 </ng-template>
       
                 <ng-template #twelve>
                   <label class="label-question center">
-                    Оберіть причину із списку
+                    {{'single_claim_component.text56' | translate}}
                   </label>
                     <div class="center_select">
                         <nb-select name="groupQuery12" formControlName="groupQuery12"
@@ -640,7 +637,7 @@
       
                 <ng-template #thirteen>
                   <label class="label-question center">
-                    Вкажіть яким чином було проведено оплату
+                    {{'single_claim_component.text57' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery13" formControlName="groupQuery13"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue13">
@@ -653,10 +650,10 @@
       
                 <ng-template #fourteen>
                   <label class="label-question center">
-                    Вказати дату повернення
+                    {{'single_claim_component.text58' | translate}}
                   </label>
                   <input class="input-date" nbInput
-                          placeholder="Вказати дату повернення"
+                          placeholder="{{'single_claim_component.text58' | translate}}"
                           [nbDatepicker]="formpicker"
                           name="groupQuery14" formControlName="groupQuery14"
                           [(ngModel)]="claimData.trans_date" style="cursor: pointer;" required readonly>
@@ -665,10 +662,10 @@
       
                 <ng-template #fiveteen>
                   <label class="label-question center">
-                    Вкажіть дату повернення
+                    {{'single_claim_component.text59' | translate}}
                   </label>
                   <input class="input-date" nbInput
-                          placeholder="Вкажіть дату повернення"
+                          placeholder="{{'single_claim_component.text59' | translate}}"
                           [nbDatepicker]="formpicker"
                           name="groupQuery15" formControlName="groupQuery15"
                           [(ngModel)]="claimData.comments" style="cursor: pointer;" required readonly>
@@ -677,9 +674,9 @@
       
                 <ng-template #sixteen>
                   <label class="label-question center">
-                    Вкажіть правильну суму та валюту
+                    {{'single_claim_component.text60' | translate}}
                   </label>
-                  <input class="control-input-questions" nbInput placeholder="Cума"
+                  <input class="control-input-questions" nbInput placeholder="{{'single_claim_component.text60' | translate}}"
                           name="groupQuery16" formControlName="groupQuery16">
                   <nb-select class="control-input-questions" [(selected)]="claimData.currency">
                     <nb-option style="font-size: 13px;" *ngFor="let item of listCurrency" [value]="item.id">
@@ -690,7 +687,7 @@
       
                 <ng-template #seventeen>
                   <label class="label-question center">
-                    Чи Ви робили повернення товару?
+                    {{'single_claim_component.text61' | translate}}
                   </label>
                   <nb-radio-group name="groupQuery17" formControlName="groupQuery17"
                                   class="input-radio" [(ngModel)]="radioGroupQueryValue15">
@@ -703,18 +700,18 @@
       
               </form>
 
-              <nb-alert *ngIf="isGoToNextStep" accent="warning">Дайте відповідь на запитання</nb-alert>
+              <nb-alert *ngIf="isGoToNextStep" accent="warning">{{'single_claim_component.text62' | translate}}</nb-alert>
             </nb-card-body>
       
             <nb-card-footer>
               <div class="center card1CreateNewClaimStep2Footer">
-                  <button  nbButton nbStepperPrevious status="primary" size="small" (click)="onClickBack()">Повернутися</button>
-                  <button *ngIf="isVisibleBackStepButton" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="onClickBackStep()">Назад</button>
-                  <button *ngIf="!isLastStep" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="change(this)">Далі</button>
+                  <button  nbButton nbStepperPrevious status="primary" size="small" (click)="onClickBack()">{{'single_claim_component.button9' | translate}}</button>
+                  <button *ngIf="isVisibleBackStepButton" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="onClickBackStep()">{{'single_claim_component.button10' | translate}}</button>
+                  <button *ngIf="!isLastStep" nbButton status="primary" size="small" style="margin-left: 10px;" (click)="change(this)">{{'single_claim_component.button11' | translate}}</button>
                   <!-- <button *ngIf="isLastStep" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button> -->
                   <button *ngIf="isLastStep" nbButton size="small" nbStepperNext status="primary" 
                     [disabled]="!getCheckData"
-                    style="margin-left: 10px;">До наступного кроку</button>
+                    style="margin-left: 10px;">{{'single_claim_component.button12' | translate}}</button>
               </div>
             </nb-card-footer>
           </nb-card>
@@ -723,25 +720,25 @@
 
         <nb-step [label]="labelThird">
 
-          <ng-template #labelThird>Відправити</ng-template>
+          <ng-template #labelThird>{{'single_claim_component.text63' | translate}}</ng-template>
 
           <nb-card class="card1CreateNewClaimStep3">
-            <nb-card-header style="text-align: center;">Додайте Ваші коментарі та документи, що стосуються операції</nb-card-header>
+            <nb-card-header style="text-align: center;">{{'single_claim_component.text64' | translate}}</nb-card-header>
             <nb-card-body>
               <div class="div-panel itemDisplayColumn" *ngIf="!fieldsStatus.comment.invisible">
-                <label class="label-caption">Коментарі</label>
+                <label class="label-caption">{{'single_claim_component.text65' | translate}}</label>
                 <textarea class="input-data" [required]="fieldsStatus.comment.required"
-                [readonly]="fieldsStatus.comment.readonly" placeholder="Ваші коментарі" name="ch_comments"
+                [readonly]="fieldsStatus.comment.readonly" placeholder="{{'single_claim_component.text65' | translate}}" name="ch_comments"
                 [(ngModel)]="claimData.ch_comments" rows="6" nbInput fullWidth></textarea>
                 <!-- <input class="input-data" nbInput placeholder="Ваші коментарі" name="ch_comments" 
                   > -->
               </div>
 
               <div class="div-panel" *ngIf="!fieldsStatus.docs.invisible">
-                <label class="label-caption">Додати документи</label>
+                <label class="label-caption">{{'single_claim_component.text66' | translate}}</label>
                 <input #fileInput  name="file_upload"
                     [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
-                    type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
+                    type='file' (change)="fileChanged($event)">
                 <nb-icon icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
                 <div style="display: flex; flex-direction: column;">
                   <div *ngFor="let file of filesArr" class="fileAttached">
@@ -754,9 +751,9 @@
 
             <nb-card-footer>
               <div class="center">
-                <button  nbButton nbStepperPrevious size="small" status="primary" >Повернутися</button>
+                <button  nbButton nbStepperPrevious size="small" status="primary" >{{'single_claim_component.button13' | translate}}</button>
                 <button *ngIf="isLastStep && getCheckData" [nbSpinner]="loadingCreateNewClaim" [disabled]="loadingCreateNewClaim"
-                 nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">Відправити</button>
+                 nbSpinnerStatus="info" size="small" nbButton status="primary" style="margin-left: 10px;" (click)="saveClaim()">{{'single_claim_component.button14' | translate}}</button>
               </div>
             </nb-card-footer>
 

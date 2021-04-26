@@ -3,13 +3,13 @@
       
         <nb-card-header style="padding: 0.5em; overflow-x: auto;">  
             <button nbButton size="tiny" 
-            status="primary" (click)="openDialog()">Create Case</button>
+            status="primary" (click)="openDialog()">{{'mastercard_transaction_info_component.button1' | translate}}</button>
         </nb-card-header>
       
         <nb-card-body style="padding: 0.5em;">
           <div style="display: flex;">
               <div class="mastercardTrInfoBlock1">
-                  <div class="mastercardTrInfoBlock1Title">Transaction Details</div>
+                  <div class="mastercardTrInfoBlock1Title">{{'mastercard_transaction_info_component.text1' | translate}}</div>
                   <div class="mastercardTrInfoBlock1Body">
                     <div class="mastercardTrInfoBlock1Element" *ngFor="let el of transactionDetailsArr">
                       <div class="mastercardTrInfoBlock1ElementTitle">{{el.title}}</div>
@@ -18,16 +18,16 @@
                   </div>
               </div>
               <div class="mastercardTrInfoBlock">
-                <div class="mastercardTrInfoBlockTitle">Dispute Details</div>
+                <div class="mastercardTrInfoBlockTitle">{{'mastercard_transaction_info_component.text2' | translate}}</div>
                 <div class="mastercardTrInfoBlockBody">
 
-                  <div class="mastercardTrInfoSubBlockTitle">Case ID</div>
+                  <div class="mastercardTrInfoSubBlockTitle">{{'mastercard_transaction_info_component.text3' | translate}}</div>
 
                   <div class="mastercardTrInfoBlockElement">
                     <div class="mastercardTrInfoBlockElementBody">{{caseId}}</div>
                   </div>
                   
-                  <div class="mastercardTrInfoSubBlockTitle">Chargeback</div>
+                  <div class="mastercardTrInfoSubBlockTitle">{{'mastercard_transaction_info_component.text4' | translate}}</div>
 
                   <div class="mastercardTrInfoBlockElement">
                     <div class="mastercardTrInfoBlockElementBody"> 14:40</div>
@@ -46,7 +46,7 @@
                     </div>
                   </div>
                   
-                  <div class="mastercardTrInfoSubBlockTitle">Retrieval</div>
+                  <div class="mastercardTrInfoSubBlockTitle">{{'mastercard_transaction_info_component.text5' | translate}}</div>
 
                   <div class="mastercardTrInfoBlockElement">
                     <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>
@@ -56,7 +56,7 @@
                     </div>
                   </div>
 
-                  <div class="mastercardTrInfoSubBlockTitle">Case</div>
+                  <div class="mastercardTrInfoSubBlockTitle">{{'mastercard_transaction_info_component.text6' | translate}}</div>
 
                   <div class="mastercardTrInfoBlockElement">
                     <div class="mastercardTrInfoBlockElementBody"> 17.12.2020</div>

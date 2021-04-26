@@ -1,50 +1,50 @@
 <nb-card class="customCardHeight" style="margin-bottom: 0.5em; border: unset;" status="info">
     <nb-card-header style="padding: 0.3em; text-align: center;">
-        {{isEdit?'Редагування мерчанта':'Перегляд мерчанта'}}
+        {{isEdit?('edit_merchant_component.text1' | translate): ('edit_merchant_component.text2' | translate)}}
     </nb-card-header>
     <nb-card-body>
         <div *ngIf="isUiLoad">
             <div class="div-panel">
-                <label class="label-caption">Контактна особа</label> 
+                <label class="label-caption">{{'edit_merchant_component.text3' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.contact_person}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Контактна особа" [(ngModel)]="editedMerchant.contact_person" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text3' | translate}}" [(ngModel)]="editedMerchant.contact_person" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">Merchant ID</label> 
+                <label class="label-caption">{{'edit_merchant_component.text4' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.merch_id}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Merchant ID" [(ngModel)]="editedMerchant.merch_id" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text4' | translate}}" [(ngModel)]="editedMerchant.merch_id" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">Юридична назва</label> 
+                <label class="label-caption">{{'edit_merchant_component.text5' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.name_legal}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Юридична назва" [(ngModel)]="editedMerchant.name_legal" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text5' | translate}}" [(ngModel)]="editedMerchant.name_legal" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">Назва торговця в МПС</label> 
+                <label class="label-caption">{{'edit_merchant_component.text6' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.name_ips}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Назва торговця в МПС" [(ngModel)]="editedMerchant.name_ips" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text6' | translate}}" [(ngModel)]="editedMerchant.name_ips" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">Вид діяльності</label> 
+                <label class="label-caption">{{'edit_merchant_component.text7' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.description}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Вид діяльності" [(ngModel)]="editedMerchant.description" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text7' | translate}}" [(ngModel)]="editedMerchant.description" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">MCC</label> 
+                <label class="label-caption">{{'edit_merchant_component.text8' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.mcc}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="MCC" [(ngModel)]="editedMerchant.mcc" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text8' | translate}}" [(ngModel)]="editedMerchant.mcc" maxlength="999">
             </div>
             <div class="div-panel">
-                <label class="label-caption">Адреса</label> 
+                <label class="label-caption">{{'edit_merchant_component.text9' | translate}}</label> 
                 <label *ngIf="!isEdit" class="label-data">{{currentMerchant.address}}</label>
-                <input *ngIf="isEdit" nbInput placeholder="Адреса" [(ngModel)]="editedMerchant.address" maxlength="999">
+                <input *ngIf="isEdit" nbInput placeholder="{{'edit_merchant_component.text9' | translate}}" [(ngModel)]="editedMerchant.address" maxlength="999">
             </div>
             <div *ngIf="!isEdit" class="div-panel">
-                <label class="label-caption">BIN</label> 
+                <label class="label-caption">{{'edit_merchant_component.text10' | translate}}</label> 
                 <label class="label-data">{{currentMerchant.bin}}</label>                
             </div>
             <div *ngIf="!isEdit" class="div-panel">
-                <label class="label-caption">Банк</label> 
+                <label class="label-caption">{{'edit_merchant_component.text11' | translate}}</label> 
                 <div class="banksDiv" style="display: flex;">
                     <label style="margin-right: 1em;" *ngFor="let bank of currentMerchant.bankCustom; let i = index;">
                         {{bank.name_eng}}<span *ngIf="i < currentMerchant.bankCustom.length - 1">,</span>
@@ -60,9 +60,9 @@
         </div>
     </nb-card-body>
     <nb-card-footer>
-        <button *ngIf="!isEdit" nbButton size="small" status="primary" (click)="goBack()">Повернутися до списку</button>
-        <button *ngIf="!isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="editMerchant()">Редагувати</button>
-        <button *ngIf="isEdit" nbButton size="small" status="primary" (click)="closeEditMerchant()">Відмінити</button>
-        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" [nbSpinner]="loadingUpdate" nbSpinnerStatus="info" (click)="updateMerchant()">Зберегти зміни</button>
+        <button *ngIf="!isEdit" nbButton size="small" status="primary" (click)="goBack()">{{'edit_merchant_component.button1' | translate}}</button>
+        <button *ngIf="!isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" (click)="editMerchant()">{{'edit_merchant_component.button2' | translate}}</button>
+        <button *ngIf="isEdit" nbButton size="small" status="primary" (click)="closeEditMerchant()">{{'edit_merchant_component.button3' | translate}}</button>
+        <button *ngIf="isEdit" style="margin-left: 1em;" nbButton size="small" status="primary" [nbSpinner]="loadingUpdate" nbSpinnerStatus="info" (click)="updateMerchant()">{{'edit_merchant_component.button4' | translate}}</button>
     </nb-card-footer>
 </nb-card>

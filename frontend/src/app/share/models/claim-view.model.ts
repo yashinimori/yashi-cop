@@ -5,6 +5,7 @@ export class ClaimView extends ClaimRegistration {
   merch_name_ips: string;
   reason_code_group: string;
   status: string;
+  transDate: any;
   //stage: string;
   action_needed: string;
   result: string;

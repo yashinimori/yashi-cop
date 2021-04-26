@@ -94,7 +94,7 @@ export class ChangeUserInfoComponent implements OnInit, OnDestroy {
         this.loading = false;
       }, 
       complete: () => {
-        this.showToast('success', 'bottom-end', 'Дані успішно оновлено');
+        this.showToast('success', 'bottom-end', 'Success');
         this.loading = false;
       }
     });
@@ -128,7 +128,7 @@ export class ChangeUserInfoComponent implements OnInit, OnDestroy {
         this.loadingPassword = false;
       }, 
       complete: () => {
-        this.showToast('success', 'bottom-end', 'Пароль успішно змінено');
+        this.showToast('success', 'bottom-end', 'Success');
         this.loadingPassword = false;
         this.oldPassword = '';
         this.newPassword = '';

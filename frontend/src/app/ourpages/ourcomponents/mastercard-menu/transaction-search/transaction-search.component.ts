@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { TransferService } from '../../../../share/services/transfer.service';
+import { Subscription } from 'rxjs';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-transaction-search',
   templateUrl: './transaction-search.component.html',
   styleUrls: ['./transaction-search.component.scss']
 })
-export class TransactionSearchComponent implements OnInit {
+export class TransactionSearchComponent implements OnInit, OnDestroy {
 
-  constructor(private datePipe: DatePipe, private router: Router, private transferService: TransferService) { }
+  constructor(private datePipe: DatePipe, private translate: TranslateService, private router: Router, private transferService: TransferService) { }
+ 
   pagerSize = 10;
   settings: any;
   source: LocalDataSource;
   isLoadTabsInfo: boolean = false;
+  translationChangeSubscription: Subscription = new Subscription();
 
   panInput:string;
   arnInput:string;
@@ -60,6 +64,9 @@ export class TransactionSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsForTable();
+    });
     this.authSummaryArr = this.parseObjectToArray(this.authSummaryObj);
     this.clearingSummaryArr = this.parseObjectToArray(this.clearingSummaryObj);
     this.setSettingsForTable();
@@ -72,6 +79,10 @@ export class TransactionSearchComponent implements OnInit {
     trans_amount: 100,
     trans_currency:  'usd',
     auth_code:  '2210'}]);
+  }
+
+  ngOnDestroy(): void {
+    this.translationChangeSubscription.unsubscribe();
   }
 
   parseObjectToArray(obj) {
@@ -113,11 +124,11 @@ export class TransactionSearchComponent implements OnInit {
       },
       columns: {
         pan: {
-          title: 'Номер карти',
+          title: this.translate.instant('transaction_search_component.text11'),
           type: 'string',
         },
         date: {
-          title: 'Дата транзакції',
+          title: this.translate.instant('transaction_search_component.text12'),
           // sort: true,
           // sortDirection: 'desc',
           valuePrepareFunction: (date) => {
@@ -128,19 +139,19 @@ export class TransactionSearchComponent implements OnInit {
           }
         },      
         merch_name_ips: {
-          title: "Назва торговця",
+          title: this.translate.instant('transaction_search_component.text13'),
           type: 'string',
         },
         trans_amount: {
-          title: "Cума",
+          title: this.translate.instant('transaction_search_component.text14'),
           type: 'number',
         },
         trans_currency: {
-          title: "Валюта",
+          title: this.translate.instant('transaction_search_component.text15'),
           type: 'string',
         },
         auth_code: {
-          title: "ARN",
+          title: this.translate.instant('transaction_search_component.text16'),
           type: 'string',
         },
       },

@@ -2,13 +2,13 @@
   
     <nb-card-header style="padding: 0.2em 1em;">
       <div *ngIf="routeParamsStatus == 'users'">
-        Користувачі
-        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createBankUser()">Зареєструвати</button>
+        {{'top_officer_component.text1' | translate}}
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createBankUser()">{{'top_officer_component.button1' | translate}}</button>
       </div>
 
       <div *ngIf="routeParamsStatus != 'users'">
-        Мерчанти
-        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createMerch()">Зареєструвати</button>
+        {{'top_officer_component.text2' | translate}}
+        <button nbButton size="tiny" status="primary" style="margin-left: 2em;" (click)="createMerch()">{{'top_officer_component.button1' | translate}}</button>
       </div>
 
     </nb-card-header>
@@ -28,12 +28,12 @@
 
       <ng-template #noResultsTemplate1>
         <td style="text-align: center;" *ngIf="!this.configuration1.isLoading" [attr.colspan]="columns1.length" class="no-results">
-          No results
+          {{'top_officer_component.text3' | translate}}
         </td>
       </ng-template>
       <ng-template #noResultsTemplate2>
         <td style="text-align: center;" *ngIf="!this.configuration2.isLoading" [attr.colspan]="columns2.length" class="no-results">
-          No results
+          {{'top_officer_component.text3' | translate}}
         </td>
       </ng-template>   
     </nb-card-body>

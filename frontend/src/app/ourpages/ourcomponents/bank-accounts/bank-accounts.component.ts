@@ -1,15 +1,17 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ngx-bank-accounts',
   templateUrl: './bank-accounts.component.html',
   styleUrls: ['./bank-accounts.component.scss']
 })
-export class BankAccountsComponent implements OnInit {
+export class BankAccountsComponent implements OnInit, OnDestroy {
 
-  constructor(private datePipe: DatePipe,) { }
+  constructor(private datePipe: DatePipe, private translate: TranslateService) { }
 
   settings: any;
   source: LocalDataSource;
@@ -18,10 +20,20 @@ export class BankAccountsComponent implements OnInit {
   role: string;
   pagerSize = 10;
 
+  translationChangeSubscription: Subscription = new Subscription();
+
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsGrid();
+      this.setCustomData();
+    });
     this.role = localStorage.getItem('role');
     this.setSettingsGrid();
     this.setCustomData();
+  }
+
+  ngOnDestroy(): void {
+    this.translationChangeSubscription.unsubscribe();
   }
 
   onUserRowSelect(event): void {
@@ -45,76 +57,76 @@ export class BankAccountsComponent implements OnInit {
     this.source2 = new LocalDataSource();
     this.source2.load([
       {
-        service: 'Ліцензія',
+        service: this.translate.instant('bank_accounts_component.text8'),
         count: '1',
         price: '5000',
         summ: '5000'
       },
       {
-        service: 'Імплементація',
+        service: this.translate.instant('bank_accounts_component.text9'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Плата за користувачів',
+        service: this.translate.instant('bank_accounts_component.text10'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Плата за користувачів понад пакет',
+        service: this.translate.instant('bank_accounts_component.text11'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Зареєстровано транзакцій',
+        service: this.translate.instant('bank_accounts_component.text12'),
         count: '3',
         price: '15',
         summ: '45'
       },
       ,
       {
-        service: 'Mediation',
+        service: this.translate.instant('bank_accounts_component.text13'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Mediation понад пакет',
+        service: this.translate.instant('bank_accounts_component.text14'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Us-On-Us',
+        service: this.translate.instant('bank_accounts_component.text15'),
         count: '3',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Us-On-Us понад пакет',
+        service: this.translate.instant('bank_accounts_component.text16'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Торговців',
+        service: this.translate.instant('bank_accounts_component.text17'),
         count: '0',
         price: '0',
         summ: '0'
       },
       ,
       {
-        service: 'Торговців понад пакет',
+        service: this.translate.instant('bank_accounts_component.text18'),
         count: '0',
         price: '0',
         summ: '0'
@@ -137,7 +149,7 @@ export class BankAccountsComponent implements OnInit {
           type: 'string',
         },
         date: {
-          title: 'Дата',
+          title: this.translate.instant('bank_accounts_component.text19'),
           valuePrepareFunction: (date) => {
             if(date)
               return this.datePipe.transform(new Date(date), 'dd-MM-yyyy');
@@ -146,7 +158,7 @@ export class BankAccountsComponent implements OnInit {
           }
         },
         period: {
-          title: 'Період',
+          title: this.translate.instant('bank_accounts_component.text20'),
           valuePrepareFunction: (period) => {
             if(period)
               return this.datePipe.transform(new Date(period), 'dd-MM-yyyy');
@@ -155,7 +167,7 @@ export class BankAccountsComponent implements OnInit {
           }
         },      
         summ: {
-          title: "Сума",
+          title: this.translate.instant('bank_accounts_component.text21'),
           type: 'string',
         }
       },
@@ -178,20 +190,20 @@ export class BankAccountsComponent implements OnInit {
         },
         columns: {
           service: {
-            title: 'Послуга',
+            title: this.translate.instant('bank_accounts_component.text22'),
             type: 'string',
           },
           count: {
-            title: 'Кількість',
+            title: this.translate.instant('bank_accounts_component.text23'),
             type: 'string'
           },
           price: {
-            title: 'Вартість',
+            title: this.translate.instant('bank_accounts_component.text24'),
             type: 'string'
           },
           summ: {
             editable: false,
-            title: 'Всього',
+            title: this.translate.instant('bank_accounts_component.text25'),
             type: 'string'
           }
         },
@@ -207,19 +219,19 @@ export class BankAccountsComponent implements OnInit {
         },
         columns: {
           service: {
-            title: 'Послуга',
+            title: this.translate.instant('bank_accounts_component.text22'),
             type: 'string',
           },
           count: {
-            title: 'Кількість',
+            title: this.translate.instant('bank_accounts_component.text23'),
             type: 'string'
           },
           price: {
-            title: 'Вартість',
+            title: this.translate.instant('bank_accounts_component.text24'),
             type: 'string'
           },
           summ: {
-            title: 'Всього',
+            title: this.translate.instant('bank_accounts_component.text25'),
             type: 'string'
           }
         },

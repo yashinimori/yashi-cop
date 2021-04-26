@@ -5,8 +5,8 @@
   <nb-card class="customCardHeight">
     
       <nb-card-header style="padding: 0.2em 1em;">
-        Статистика
-        <button *ngIf="this.role != 'top_level'" nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        {{'bank_statistic_component.text1' | translate}}
+        <button *ngIf="this.role != 'top_level'" nbButton size="small" status="primary" (click)="goBack()">{{'bank_statistic_component.button1' | translate}}</button>
       </nb-card-header>
     
       <nb-card-body>
@@ -14,18 +14,18 @@
       <div class="row" style="justify-content: space-around;">
 
         <nb-card class="smallCard" style="margin-left: 1em; margin-right: 1em; margin-bottom: 1em;">
-            <nb-card-header style="padding: 0.5em 1em;text-align: center;">блок 1</nb-card-header>
+            <nb-card-header style="padding: 0.5em 1em;text-align: center;">{{'bank_statistic_component.text2' | translate}}</nb-card-header>
             <nb-card-body>
                 <div style="display: flex; flex-direction: column; text-align: center;">
                   <div>
-                    Нові
+                    {{'bank_statistic_component.text3' | translate}}
                   </div>
                   <div style="font-size: 35px; margin-top: 20px;">
                     {{b1_new_claims}}
                   </div>
                   
                   <div style="margin-top: 15px;">
-                    Стежити
+                    {{'bank_statistic_component.text4' | translate}}
                   </div>
                   <div style="font-size: 35px; margin-top: 20px;">
                     {{b1_attend_to_claims}}
@@ -35,7 +35,7 @@
         </nb-card>
 
         <nb-card class="bigCard" style="margin-bottom: 1em;">
-            <nb-card-header style="padding: 0.5em 1em;text-align: center;">блок 2</nb-card-header>
+            <nb-card-header style="padding: 0.5em 1em;text-align: center;">{{'bank_statistic_component.text5' | translate}}</nb-card-header>
             <nb-card-body style="width: 100%;">
               <div style="text-align: center;">
                 <app-bank-chart-statistic-claims-stages></app-bank-chart-statistic-claims-stages>
@@ -50,7 +50,7 @@
       <div class="row" style="justify-content: space-around;">
         
         <nb-card class="bigCard" style="margin-bottom: 1em;">
-            <nb-card-header style="padding: 0.5em 1em;text-align: center;">блок 3</nb-card-header>
+            <nb-card-header style="padding: 0.5em 1em;text-align: center;">{{'bank_statistic_component.text6' | translate}}</nb-card-header>
             <nb-card-body>
                 <div style="text-align: center;">
                   <app-bank-chart-statistic-claims-rc-group></app-bank-chart-statistic-claims-rc-group>
@@ -59,11 +59,11 @@
         </nb-card>
 
         <nb-card class="smallCard" style="margin-bottom: 1em;">
-            <nb-card-header style="padding: 0.5em 1em;text-align: center;">блок 4</nb-card-header>
+            <nb-card-header style="padding: 0.5em 1em;text-align: center;">{{'bank_statistic_component.text7' | translate}}</nb-card-header>
             <nb-card-body>
               <div style="display: flex; flex-direction: column; text-align: center;">
                 <div>
-                  Активні користувачі
+                  {{'bank_statistic_component.text8' | translate}}
                 </div>
                 <div style="font-size: 35px; margin-top: 20px;">
                   {{b4_active_bank_users}}
