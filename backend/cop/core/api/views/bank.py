@@ -16,7 +16,7 @@ class BankViewSet(viewsets.ModelViewSet):
     filterset_fields = (
         'id',
         'bin',
-        'type'
+        'type',
         'name_eng',
         'name_uk',
         'name_rus',

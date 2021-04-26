@@ -9,6 +9,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'claim',
+            'user',
             'text',
             'is_active'
         )
