@@ -118,7 +118,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     claim_reason_code = serializers.CharField(source="claim_reason_code.code")
     user = UserSerializer(read_only=True)
     merchant = MerchantSerializer(read_only=True)
-    chargeback_officer = UserSerializerLite()
+    chargeback_officer = UserSerializerLite(required=False)
     pan = serializers.CharField(min_length=16, max_length=16, required=True)
 
     class Meta:
