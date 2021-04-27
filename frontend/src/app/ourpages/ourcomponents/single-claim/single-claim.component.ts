@@ -576,6 +576,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription5 = this.httpService.createNewClaim(this.claimData).subscribe({
       next: (response: any) => {
         data = response;
+        this.sendNotificationToEmail(response.id);
       },
       error: error => {
         this.loadingCreateNewClaim = false;
@@ -584,7 +585,7 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('There was an error!', error);
       },
       complete: () => {
-        this.sendNotificationToEmail();
+        
         this.toastService.showSuccessToast();
         this.loadingCreateNewClaim = false;
         this.isSaveClaimId = false;
@@ -594,8 +595,8 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  sendNotificationToEmail() {
-    this.subscriptionNotification = this.httpService.sendNotificationEmail(this.claimId, 'create').subscribe({
+  sendNotificationToEmail(id) {
+    this.subscriptionNotification = this.httpService.sendNotificationEmail(id, 'create').subscribe({
       next: (response: any) => {
       },
       error: error => {
