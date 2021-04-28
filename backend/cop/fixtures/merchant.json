@@ -32,6 +32,54 @@
     }
   },
   {
+    "model": "core.bank",
+    "pk": 3,
+    "fields": {
+      "bin": 555550,
+      "name_eng": "Bank555550",
+      "name_uk": "Банк555550",
+      "name_rus": "Банк555550",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": 777777777,
+      "contact_email": "john.doe@cop.cop",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.bank",
+    "pk": 4,
+    "fields": {
+      "bin": 555551,
+      "name_eng": "Bank555551",
+      "name_uk": "Банк555551",
+      "name_rus": "Банк555551",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": 777777777,
+      "contact_email": "john.doe@cop.cop",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
+    "model": "core.bank",
+    "pk": 5,
+    "fields": {
+      "bin": 706064,
+      "name_eng": "Bank706064",
+      "name_uk": "Банк706064",
+      "name_rus": "Банк706064",
+      "operator_name": "Bank operator",
+      "contact_person": "John Doe",
+      "contact_telephone": 777777777,
+      "contact_email": "john.doe@cop.cop",
+      "create_date": "2020-08-09T18:25:43.511Z",
+      "update_date": "2020-08-09T18:25:43.511Z"
+    }
+  },
+  {
     "model": "users.user",
     "pk": 5,
     "fields": {
@@ -80,6 +128,210 @@
       "term_id": "00000002",
       "address": "Address",
       "merchant": 1
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 21,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "1Merchant",
+      "last_name": "1Merchant",
+      "role": "merchant",
+      "phone": 77777777,
+      "email": "1merch@test.user",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.merchant",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 21,
+      "merch_id": "1merch",
+      "name_legal": "1Merchant",
+      "bin": "555550",
+      "name_ips": "1Merchant",
+      "mcc": "1234",
+      "description": "1Merchant",
+      "address": "1Merchant",
+      "contact_person": "1Merchant",
+      "bank": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 2,
+    "fields": {
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "1t555550",
+      "address": "Address",
+      "merchant": 2
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 22,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "2Merchant",
+      "last_name": "2Merchant",
+      "role": "merchant",
+      "phone": 77777777,
+      "email": "2merch@test.user",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.merchant",
+    "pk": 3,
+    "fields": {
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 22,
+      "merch_id": "2merch",
+      "name_legal": "2Merchant",
+      "bin": "555550",
+      "name_ips": "2Merchant",
+      "mcc": "1234",
+      "description": "2Merchant",
+      "address": "2Merchant",
+      "contact_person": "2Merchant",
+      "bank": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 3,
+    "fields": {
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "2t555550",
+      "address": "Address",
+      "merchant": 3
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 23,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "3Merchant",
+      "last_name": "3Merchant",
+      "role": "merchant",
+      "phone": 77777777,
+      "email": "3merch@test.user",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.merchant",
+    "pk": 4,
+    "fields": {
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 23,
+      "merch_id": "3merch",
+      "name_legal": "3Merchant",
+      "bin": "555551",
+      "name_ips": "3Merchant",
+      "mcc": "1234",
+      "description": "3Merchant",
+      "address": "3Merchant",
+      "contact_person": "3Merchant",
+      "bank": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 4,
+    "fields": {
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "1t555551",
+      "address": "Address",
+      "merchant": 4
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 24,
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-08-10T17:18:30Z",
+      "first_name": "4Merchant",
+      "last_name": "4Merchant",
+      "role": "merchant",
+      "phone": 77777777,
+      "email": "4merch@test.user",
+      "registration_date": "2020-08-10",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.merchant",
+    "pk": 5,
+    "fields": {
+      "create_date": "2020-08-13T10:21:07.636Z",
+      "update_date": "2020-08-13T10:21:07.636Z",
+      "user": 24,
+      "merch_id": "4merch",
+      "name_legal": "4Merchant",
+      "bin": "555551",
+      "name_ips": "4Merchant",
+      "mcc": "1234",
+      "description": "4Merchant",
+      "address": "4Merchant",
+      "contact_person": "4Merchant",
+      "bank": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "core.terminal",
+    "pk": 5,
+    "fields": {
+      "create_date": "2020-08-13T10:21:29.485Z",
+      "update_date": "2020-08-13T10:21:29.485Z",
+      "term_id": "2t555551",
+      "address": "Address",
+      "merchant": 5
     }
   }
 ]

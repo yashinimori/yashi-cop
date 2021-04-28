@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from djoser.compat import get_user_email
+from djoser.conf import settings as djoser_settings
 from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework import viewsets
@@ -88,3 +90,11 @@ class NotificationManagerView(APIView):
         print("Validation", serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
+        user = User.objects.get(id=data['user'])
+        to = [get_user_email(user)]
+        context = {
+            "user": user,
+            "text": data['text']
+        }
+        djoser_settings.EMAIL.notification(self.request, context).send(to)
+        
