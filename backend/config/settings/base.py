@@ -330,6 +330,7 @@ DJOSER = {
     'EMAIL': {
         "activation": "cop.users.api.email.CustomActivationEmail",
         "password_reset": "cop.users.api.email.CustomPasswordResetEmail",
+        "notification":  "cop.users.api.email.CustomNotificationEmail"
     },
     'PERMISSIONS': {
         'user_create': ['rest_framework.permissions.AllowAny',

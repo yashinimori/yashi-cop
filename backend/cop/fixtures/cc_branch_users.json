@@ -1,0 +1,42 @@
+[
+    {
+        "model": "users.user",
+        "pk": 61,
+        "fields": {
+          "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+          "last_login": null,
+          "is_superuser": false,
+          "is_staff": false,
+          "is_active": true,
+          "date_joined": "2020-08-10T17:18:30Z",
+          "first_name": "CC",
+          "last_name": "Branch",
+          "role": "сс_branch",
+          "phone": 77777777,
+          "email": "cc555550@test.user",
+          "registration_date": "2020-08-10",
+          "groups": [],
+          "user_permissions": []
+        }
+      },
+      {
+        "model": "users.user",
+        "pk": 62,
+        "fields": {
+          "password": "argon2$argon2i$v=19$m=512,t=2,p=2$dlhob2hKRGdpS2ly$wQkBY3IMV9XH2LzOUvJcjg",
+          "last_login": null,
+          "is_superuser": false,
+          "is_staff": false,
+          "is_active": true,
+          "date_joined": "2020-08-10T17:18:30Z",
+          "first_name": "CC",
+          "last_name": "Branch",
+          "role": "сс_branch",
+          "phone": 77777777,
+          "email": "cc555550@test.user",
+          "registration_date": "2020-08-10",
+          "groups": [],
+          "user_permissions": []
+        }
+      }
+]
