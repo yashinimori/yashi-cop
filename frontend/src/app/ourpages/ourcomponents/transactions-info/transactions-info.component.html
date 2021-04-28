@@ -1,39 +1,39 @@
 <nb-card class="customCardHeight" status="info">
     <nb-card-header style="padding: 0.3em;">
         <button  style="margin-left: 10px;"
-                nbButton size="small" status="basic" (click)="goBack()">До списку</button>
+                nbButton size="small" status="basic" (click)="goBack()">{{'transactions_info_component.button1' | translate}}</button>
     </nb-card-header>
     <nb-card-body style="padding: 0.5em;">
         <div class="div-panel">
-            <label class="label-caption">number</label>
+            <label class="label-caption">{{'transactions_info_component.text1' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.number }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">pan</label>
+            <label class="label-caption">{{'transactions_info_component.text2' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.pan }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">date</label>
+            <label class="label-caption">{{'transactions_info_component.text3' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.date }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">time</label>
+            <label class="label-caption">{{'transactions_info_component.text4' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.time }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">amnt</label>
+            <label class="label-caption">{{'transactions_info_component.text5' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.amnt }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">curr</label>
+            <label class="label-caption">{{'transactions_info_component.text6' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.curr }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">auth_code</label>
+            <label class="label-caption">{{'transactions_info_component.text7' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.auth_code }}</label>
         </div>
         <div class="div-panel">
-            <label class="label-caption">result</label>
+            <label class="label-caption">{{'transactions_info_component.text8' | translate}}</label>
             <label class="label-data">{{ selectedTransaction.result }}</label>
         </div>
     </nb-card-body>

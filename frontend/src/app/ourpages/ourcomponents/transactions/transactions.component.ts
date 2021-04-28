@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Subscription } from 'rxjs';
 import { TransferService } from '../../../share/services/transfer.service';
 
 @Component({
@@ -9,12 +11,16 @@ import { TransferService } from '../../../share/services/transfer.service';
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent implements OnInit, OnDestroy {
 
-  constructor(private datePipe: DatePipe, private router: Router, private transferService: TransferService) { }
+  constructor(private datePipe: DatePipe, 
+    private router: Router, 
+    private transferService: TransferService,
+    private translate: TranslateService) { }
 
   settings: any;
   source: LocalDataSource;
+  translationChangeSubscription: Subscription = new Subscription();
   role: string;
   pagerSize = 10;
   transactionsArr: Array<any> = [
@@ -32,8 +38,15 @@ export class TransactionsComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsForTable();
+    });
     this.setSettingsForTable();
     this.setCustomData();
+  }
+
+  ngOnDestroy(): void {
+    this.translationChangeSubscription.unsubscribe();
   }
 
   onUserRowSelect(event) {
@@ -61,11 +74,11 @@ export class TransactionsComponent implements OnInit {
           type: 'string',
         },  
         pan: {
-          title: "Номер карти",
+          title: this.translate.instant('transactions_component.text5'),
           type: 'string',
         },
         date: {
-          title: 'Дата',
+          title: this.translate.instant('transactions_component.text6'),
           valuePrepareFunction: (DATE) => {
             if(DATE)
               return this.datePipe.transform(new Date(DATE), 'dd-MM-yyyy');
@@ -74,23 +87,23 @@ export class TransactionsComponent implements OnInit {
           }
         },
         time: {
-          title: "Час",
+          title: this.translate.instant('transactions_component.text7'),
           type: 'string',
         },
         amnt: {
-          title: "AMNT",
+          title: this.translate.instant('transactions_component.text8'),
           type: 'string',
         },
         curr: {
-          title: "Валюта",
+          title: this.translate.instant('transactions_component.text9'),
           type: 'string',
         },
         auth_code: {
-          title: "AUTH CODE",
+          title: this.translate.instant('transactions_component.text10'),
           type: 'string',
         },
         result: {
-          title: "Результат",
+          title: this.translate.instant('transactions_component.text11'),
           type: 'string',
         }
       },

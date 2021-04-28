@@ -10,6 +10,7 @@ import { BankUser } from '../../../share/models/bank-user.model';
 import { MerchUser } from '../../../share/models/merch-user.model';
 import { ErrorService } from '../../../share/services/error.service';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-top-officer',
@@ -32,7 +33,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   routeParamsStatus: any;
 
   constructor(private transferService: TransferService,
-    private router: Router,
+    private router: Router, private translate: TranslateService,
     private httpServise: HttpService,
     private errorService: ErrorService,
     private activatedRoute: ActivatedRoute,) {
@@ -91,8 +92,13 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   subscription3: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setColumns();
+    });
+    this.setColumns();
     this.subscription3 = this.activatedRoute.params.subscribe(routeParams => {
       this.routeParamsStatus = routeParams.status;
       this.role = localStorage.getItem('role');
@@ -124,6 +130,32 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
         }
       });
     });
+  }
+
+  setColumns() {
+    this.columns1 = [
+      {key: 'userId', title: this.translate.instant('top_officer_component.text4')},
+      {key: 'role', title: this.translate.instant('top_officer_component.text5')},
+      {key: 'first_name', title: this.translate.instant('top_officer_component.text6')},
+      {key: 'last_name', title: this.translate.instant('top_officer_component.text7')},
+      {key: 'unit', title: this.translate.instant('top_officer_component.text8')},
+      {key: 'phone', title: this.translate.instant('top_officer_component.text9')},
+      {key: 'email', title: this.translate.instant('top_officer_component.text10')},
+      {key: 'registration_date', title: this.translate.instant('top_officer_component.text11')}
+    ];
+    this.columns2 = [
+      {key: 'merch_id', title: this.translate.instant('top_officer_component.text12')},
+      {key: 'name_legal', title: this.translate.instant('top_officer_component.text13')},
+      {key: 'mcc', title: this.translate.instant('top_officer_component.text14')},
+      {key: 'description', title: this.translate.instant('top_officer_component.text15')},
+      {key: 'phone', title: this.translate.instant('top_officer_component.text16')},
+      {key: 'email', title: this.translate.instant('top_officer_component.text17')},
+      {key: 'name_ips', title: this.translate.instant('top_officer_component.text18')},
+      {key: 'address', title: this.translate.instant('top_officer_component.text19')},
+      {key: 'term_id', title: this.translate.instant('top_officer_component.text20')},
+      {key: 'contact_person', title: this.translate.instant('top_officer_component.text21')}
+    ];
+    
   }
 
   setSettingsForTable() {
@@ -228,6 +260,7 @@ export class TopOfficerComponent implements OnInit, OnDestroy {
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();
     this.subscription3.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
     //this.transferService.bankID.next('');
   }
 

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 //import { MENU_ITEMS } from './ourpages-menu';
 import { Compiler } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'ngx-ourpages',
@@ -14,277 +16,323 @@ import { NbMenuItem } from '@nebular/theme';
     </ngx-one-column-layout>
   `,
 })
-export class OurPagesComponent {
+export class OurPagesComponent implements OnInit {
 
   //menu = MENU_ITEMS;
   menu: any;
   
-  constructor(private compiler: Compiler){
+  constructor(private compiler: Compiler, private translate: TranslateService){
+    if(localStorage.getItem('selectedLang')) {
+      this.translate.use(localStorage.getItem('selectedLang'));
+    } else {
+      this.translate.use(this.translate.defaultLang);
+    }
+  }
+  ngOnInit(): void {
     this.compiler.clearCache();
     this.menu = this.getMenu();
+    this.translateMenu();
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => { //Live reload
+      this.translateMenu();
+  });
   }
 
+  private translateMenu(): void {
+    this.menu.forEach((menuItem: any) => {
+        this.translateMenuTitle(menuItem);
+    });
+}
+
+/**
+ * Translates one root menu item and every nested children
+ * @param menuItem
+ * @param prefix
+ */
+private translateMenuTitle(menuItem: any, prefix: string = ''): void {
+    let key = '';
+    try {
+        key = (prefix !== '')
+            ? OurPagesComponent.getMenuItemKey(menuItem, prefix)
+            : OurPagesComponent.getMenuItemKey(menuItem);
+    }
+    catch (e) {
+        //Key not found, don't change the menu item
+        return;
+    }
+
+    this.translate.get(key).subscribe((translation: string) => {
+        menuItem.title = translation;
+    });
+    if (menuItem.children != null) {
+        //apply same on every child
+        menuItem.children.forEach((childMenuItem: any) => {
+            //We remove the nested key and then use it as prefix for every child
+            this.translateMenuTitle(childMenuItem);
+        });
+    }
+}
+
+/**
+ * Resolves the translation key for a menu item. The prefix must be supplied for every child menu item
+ * @param menuItem
+ * @param prefix
+ * @returns {string}
+ */
+private static getMenuItemKey(menuItem: any, prefix: string = 'menu'): string {
+    if (menuItem.key == null) {
+        throw new Error('Key not found');
+    }
+
+    const key = menuItem.key.toLowerCase();
+    // if (menuItem.children != null) {
+    //     return prefix + '.' + key + '.' + key; //Translation is nested
+    // }
+    return prefix + '.' + key;
+}
+
+/**
+ * Used to remove the nested key for translations
+ * @param key
+ * @returns {string}
+ */
+private static trimLastSelector(key: string): string {
+    const keyParts = key.split('.');
+    //console.log(key)
+    //keyParts.pop();
+    //return keyParts.join('.');
+    return keyParts[keyParts.length - 1];
+}
+
   getMenu(){
-    let m: NbMenuItem[] = [
+    let m: any[] = [
       {
-        title: 'Список скарг',
+        title: this.translate.instant('menu.claims_list'), 
         icon: 'layout-outline',
         link: '/cop/cabinet/claims/all',
+        key: "claims_list",
         hidden: this.setHiddenUser(),
       },
       {
-        title: 'Завершені',
+        title: this.translate.instant('menu.archive'),
         icon: 'inbox-outline',
         link: '/cop/cabinet/claims/archive',
+        key: "archive",
         hidden: this.setHiddenUser(),
       },
       {
-        title: 'Список скарг',
+        title: this.translate.get('menu.claims_list'),
         icon: 'layout-outline',
+        key: "claims_list",
         link: '/cop/cabinet/claims',
         hidden: this.setHiddenAdmin(),
       },
       {
-        title: 'Dashboard',
+        title: this.translate.get('menu.dashboard'),
         icon: 'layout-outline',
+        key: "dashboard",
         hidden: this.setHiddenChargebackOfficer(),
         link: '/cop/cabinet/chbo-dashboard'
       },
       {
-        title: 'Disputes',
+        title: this.translate.get('menu.disputes'),
         icon: 'layout-outline',
+        key: "disputes",
         hidden: this.setHiddenChargebackOfficer(),
         link: '/cop/cabinet/claims'
       },
       {
-        title: 'ATM Management',
+        title: this.translate.get('menu.atm_managment'),
         icon: 'layout-outline',
+        key: "atm_managment",
         hidden: this.setHiddenChargebackOfficer(),
         children: [
           {
-            title: 'ATM лог - новий',
+            title: this.translate.get('menu.atm_new'),
             link: '/cop/cabinet/atm-log-upload',
+            key: "atm_new",
             icon: 'file-add-outline'
           },
           {
-            title: 'ATM лог - перегляд',
+            title: this.translate.get('menu.atm_log'),
             link: '/cop/cabinet/atm-log-view',
+            key: "atm_log",
             icon: 'file-outline'
           },
           {
-            title: 'ATM лог - детальний',
+            title: this.translate.get('menu.atm_detail'),
             link: '/cop/cabinet/atm-log-view-detail',
+            key: "atm_detail",
             icon: 'file-text-outline'
           },
         ],
       },
       {
-        title: 'My Cases',
+        title: this.translate.get('menu.my_cases'),
+        key: "my_cases",
         icon: 'person-outline',
         hidden: this.setHiddenChargebackOfficer(),
         children: [
           {
-            title: 'pre-mediation',
+            title: this.translate.get('menu.my_cases_pre_mediation'),
+            key: "my_cases_pre_mediation",
             icon: 'book-open-outline',
             link: '/cop/cabinet/chbo-my-claims/pre_mediation',
           },
           {
-            title: 'mediation',
+            title: this.translate.get('menu.my_cases_mediation'),
+            key: "my_cases_mediation",
             icon: 'book-outline',
             link: '/cop/cabinet/chbo-my-claims/mediation',
           },
           {
-            title: 'chargebacks',
+            title: this.translate.get('menu.my_cases_chargebacks'),
+            key: "my_cases_chargebacks",
             icon: 'archive-outline',
             link: '/cop/cabinet/chbo-my-claims/chargeback',
           },
           {
-            title: 'archive',
+            title: this.translate.get('menu.my_cases_archive'),
+            key: "my_cases_archive",
             icon: 'inbox-outline',
             link: '/cop/cabinet/chbo-my-claims/closed',
           },
           {
-            title: 'Merchant requests',
+            title: this.translate.get('menu.my_cases_merchant_requests'),
             icon: 'file-text-outline',
+            key: "my_cases_merchant_requests",
             link: '/cop/cabinet/chbo-merchant-requests',
           },
           {
-            title: 'Tasks',
+            title: this.translate.get('menu.my_cases_tasks'),
             icon: 'file-text-outline',
+            key: "my_cases_tasks",
             link: '/cop/cabinet/chbo-tasks',
           },
         ],
       },
       {
-        title: 'Mastercard',
+        title: this.translate.get('menu.mastercard'),
+        key: "mastercard",
         icon: 'credit-card-outline',
         hidden: this.setHiddenChargebackOfficer(),
         children: [
           {
-            title: 'Transaction Search',
+            title: this.translate.get('menu.mastercard_transaction_search'),
             link: '/cop/cabinet/mastercard-transaction-search',
+            key: "mastercard_transaction_search",
             icon: 'cast-outline'
           },
           {
-            title: 'Chargebacks',
+            title: this.translate.get('menu.mastercard_chargebacks'),
             link: '/cop/cabinet/mastercard-chargebacks',
+            key: "mastercard_chargebacks",
             icon: 'book-open-outline'
           },
           {
-            title: 'Retrieval',
+            title: this.translate.get('menu.mastercard_retrieval'),
             link: '/cop/cabinet/mastercard-retrieval',
+            key: "mastercard_retrieval",
             icon: 'book-open-outline'
           },
           {
-            title: 'Fees',
+            title: this.translate.get('menu.mastercard_fees'),
             link: '/cop/cabinet/mastercard-fees',
+            key: "mastercard_fees",
             icon: 'book-open-outline'
           }
         ],
       },
-      // {
-      //   title: 'Dashboard',
-      //   icon: 'layout-outline',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      //   link: '/cop/cabinet/chbo-dashboard'
-      // },
-      // {
-      //   title: 'Disputes',
-      //   icon: 'layout-outline',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      //   link: '/cop/cabinet/claims'
-      // },
-      // {
-      //   title: 'ATM лог - новий',
-      //   icon: 'file-add-outline',
-      //   link: '/cop/cabinet/atm-log-upload',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'ATM лог - перегляд',
-      //   icon: 'file-outline',
-      //   link: '/cop/cabinet/atm-log-view',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'ATM лог - детальний',
-      //   icon: 'file-text-outline',
-      //   link: '/cop/cabinet/atm-log-view-detail',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'pre-mediation claims',
-      //   icon: 'book-open-outline',
-      //   link: '/cop/cabinet/chbo-my-claims/pre_mediation',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'mediation claims',
-      //   icon: 'book-outline',
-      //   link: '/cop/cabinet/chbo-my-claims/mediation',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'chargebacks claims',
-      //   icon: 'archive-outline',
-      //   link: '/cop/cabinet/chbo-my-claims/chargeback',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
-      // {
-      //   title: 'archive claims',
-      //   icon: 'inbox-outline',
-      //   link: '/cop/cabinet/chbo-my-claims/closed',
-      //   hidden: this.setHiddenChargebackOfficer(),
-      // },
       {
-        title: 'Звернення',
+        title: this.translate.get('menu.appeals'),
         icon: 'layout-outline',
+        key: "appeals",
         hidden: this.setHiddenMerchant(),
         link: '/cop/cabinet/claims/all',
       },
       {
-        title: 'Завершені',
+        title: this.translate.get('menu.closed'),
         icon: 'inbox-outline',
+        key: "closed",
         hidden: this.setHiddenMerchant(),
         link: '/cop/cabinet/claims/archive',
       },
       {
-        title: 'Transactions',
+        title: this.translate.get('menu.transactions'),
         icon: 'file-text',
+        key: "transactions",
         hidden: this.setHiddenMerchant(),
         link: '/cop/cabinet/transactions',
       },
       {
-        title: 'Список банків',
+        title: this.translate.get('menu.bank_list'),
         icon: 'layout-outline',
+        key: "bank_list",
         link: '/cop/cabinet/bank-list',
         hidden: this.setHiddenBank(),
       },
       {
-        title: 'Новий банк',
+        title: this.translate.get('menu.new_bank'),
         icon: 'plus-outline',
+        key: "new_bank",
         link: '/cop/cabinet/bank',
         hidden: this.setHiddenBank(),
       },
       {
-        title: 'Користувачі',
+        title: this.translate.get('menu.users'),
         icon: 'person-outline',
+        key: "users",
         link: '/cop/cabinet/top-officer/users',
         hidden: this.setHiddenTopOfficer(),
       },
       {
-        title: 'Мерчанти',
+        title: this.translate.get('menu.merchants'),
         icon: 'people-outline',
+        key: "merchants",
         link: '/cop/cabinet/top-officer/merchants',
         hidden: this.setHiddenTopOfficer(),
       },
       {
-        title: 'Статистика',
+        title: this.translate.get('menu.bank_statistic'),
         icon: 'bar-chart-outline',
+        key: "bank_statistic",
         link: '/cop/cabinet/bank-statistic',
         hidden: this.setHiddenTopOfficer(),
       },
       {
-        title: 'Рахунки',
+        title: this.translate.get('menu.bank_accounts'),
         icon: 'credit-card-outline',
+        key: "bank_accounts",
         link: '/cop/cabinet/bank-accounts',
         hidden: this.setHiddenTopOfficer(),
       },
       {
-        title: 'Користувачі',
+        title: this.translate.get('menu.secur_officer'),
         icon: 'person-outline',
+        key: "secur_officer",
         link: '/cop/cabinet/secur-officer',
         hidden: this.setHiddenSecurOfficer(),
       },
       {
-        title: 'Статистика',
+        title: this.translate.get('menu.statistic'),
         icon: 'bar-chart-outline',
+        key: "statistic",
         link: '/cop/cabinet/statistic',
         hidden: this.setHiddenStatistic(),
       },  
       {
-        title: 'Рахунки',
+        title: this.translate.get('menu.bank_accounts_chb'),
         icon: 'credit-card-outline',
+        key: "bank_accounts_chb",
         link: '/cop/cabinet/bank-accounts',
         hidden: this.setHiddenChargebackOfficer(),
       },
       {
-        title: 'Tutorials',
+        title: this.translate.get('menu.tutorials'),
         icon: 'book-outline',
+        key: "tutorials",
         link: '/cop/cabinet/tutorials',
         hidden: this.setHiddenTutorial(),
-      },
-      
-      // {
-      //   title: 'Messages',
-      //   icon: 'email-outline',
-      //   hidden: this.setHiddenMessages(),
-      // },
-      // {
-      //   title: 'Settings',
-      //   hidden: this.setHiddenSettings(),
-      // },
-      
+      },      
     ];
     return m;
   }

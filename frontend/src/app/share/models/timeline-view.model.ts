@@ -14,4 +14,6 @@ export class TimelineView extends TimelineRegistration {
     type: string;
     user_name: string;
     text: string;
+    data:any;
+    item_type: any;
 }

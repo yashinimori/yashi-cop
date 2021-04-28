@@ -9,6 +9,7 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import { BankUser } from '../../../share/models/bank-user.model';
 import { ErrorService } from '../../../share/services/error.service';
 import { ToastService } from '../../../share/services/toast.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-secur-officer-user',
@@ -28,7 +29,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   loadingSendEmail = false;
 
   constructor(private datePipe: DatePipe, 
-    private transferService: TransferService,
+    private transferService: TransferService, private translate: TranslateService,
     private router: Router, private toastService: ToastService,
     private httpServise: HttpService, private errorService: ErrorService) {
     this.logsData = new Array<BankUser>();
@@ -38,8 +39,15 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
   bankUsersSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.generateStatusFields();
+      this.setSettingsGridLogs(this.role);
+      this.getLogsData(this.userId);
+      this.getUserData(this.userId); 
+    });
     this.role = localStorage.getItem('role');
     this.userId = this.transferService.userID.getValue();
     this.bankID = this.transferService.bankID.getValue();
@@ -74,7 +82,7 @@ export class SecurOfficerUserComponent implements OnInit, OnDestroy {
           },
           columns: {
              id: {
-               title: 'ID',
+               title: this.translate.instant('secur_officer_user_component.text10'),
                type: 'string',
             },
             action_time: {

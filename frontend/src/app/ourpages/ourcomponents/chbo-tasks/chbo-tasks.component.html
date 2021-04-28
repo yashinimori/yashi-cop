@@ -9,10 +9,10 @@
   <div *ngIf="isFilterBlockOpen" [@inOutAnimation] style="display: flex; align-items: center;">
     <input nbInput fieldSize="tiny" style="margin-right: 1em; cursor: pointer;" placeholder="Pick Date Range" [nbDatepicker]="formpicker" [(ngModel)]="filterDate">
     <nb-rangepicker #formpicker></nb-rangepicker>
-    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterCards()">Apply</button>
-    <button nbButton style="margin-right: 2em;" size="tiny" (click)="clearFilters()">Clear</button>
-    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterMonth()">Month</button>
-    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterWeek()">Week</button>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterCards()">{{'chbo_tasks_component.button1' | translate}}</button>
+    <button nbButton style="margin-right: 2em;" size="tiny" (click)="clearFilters()">{{'chbo_tasks_component.button2' | translate}}</button>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterMonth()">{{'chbo_tasks_component.button3' | translate}}</button>
+    <button nbButton style="margin-right: 1em;" size="tiny" (click)="filterWeek()">{{'chbo_tasks_component.button4' | translate}}</button>
   </div>
   
   <!-- <button style="margin-right: 1em;" nbButton shape="round" size="small" (click)="openOrCloseSearchBlock()"><nb-icon icon="search-outline"></nb-icon></button> -->
@@ -67,7 +67,7 @@
       <button *ngIf="columnsProtected.indexOf(set.headerText) == -1" nbButton shape="round" size="tiny" (click)="removeColumn(i)"><nb-icon icon="close"></nb-icon></button>
     </div>
     <div>
-      <button *ngIf="!isCreatingNewColumn" (click)="addNewColumn()" nbButton>Add</button>
+      <button *ngIf="!isCreatingNewColumn" (click)="addNewColumn()" nbButton>{{'chbo_tasks_component.button5' | translate}}</button>
     </div>
     <div *ngIf="isCreatingNewColumn" style="display: flex; flex-direction: column;">
       <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnName" nbInput fieldSize="tiny" placeholder="Name">
@@ -77,8 +77,8 @@
          min="1" max="{{columns.length - 1}}">
       <!-- <input style="margin-bottom: 0.5em;" type="text" [(ngModel)]="createColumnPosition" nbInput fieldSize="tiny" placeholder="Position"> -->
       <div style="display: flex; justify-content: space-evenly;">
-        <button (click)="createColumn()" nbButton>Create</button>
-        <button (click)="cancelCreateColumn()" nbButton>Cancel</button>
+        <button (click)="createColumn()" nbButton>{{'chbo_tasks_component.button6' | translate}}</button>
+        <button (click)="cancelCreateColumn()" nbButton>{{'chbo_tasks_component.button7' | translate}}</button>
       </div>
       
     </div>
@@ -87,18 +87,18 @@
   <ng-template #dialogKanbanTemplate let-data >
     <div style="display: flex; flex-direction: column;">
       <div class="dialogDetailsKanbanItem" style="display: flex; justify-content: space-between; align-items: center;">
-        <div><div class="dialogDetailsKanbanItemTitle">Pan:</div>{{data.pan}}</div> 
+        <div><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text1' | translate}}</div>{{data.pan}}</div> 
         <button (click)="goToClaim(data)" style="cursor: pointer;" nbButton shape="round" size="small">
           <nb-icon icon="external-link-outline"></nb-icon>
         </button>
       </div>
-      <div class="dialogDetailsKanbanItem" style="display: flex; flex-direction: column;"><div class="dialogDetailsKanbanItemTitle">Resaon code</div> <div style="display: flex;"> <div *ngIf="data.reason_code">{{data.reason_code}} -</div>  <div>{{data.reason_code_group}}</div></div></div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Result</div> {{data.result}}</div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Status</div> {{data.status.name}}</div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Merchant name</div> {{data.merch_name_ips}}</div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Terminal id</div> {{data.term_id}}</div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Amount</div> {{data.trans_amount}} {{data.trans_currency}}</div>
-      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">Approcal code</div> {{data.trans_approval_code}}</div>
+      <div class="dialogDetailsKanbanItem" style="display: flex; flex-direction: column;"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text2' | translate}}</div> <div style="display: flex;"> <div *ngIf="data.reason_code">{{data.reason_code}} -</div>  <div>{{data.reason_code_group}}</div></div></div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text3' | translate}}</div> {{data.result}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text4' | translate}}</div> {{data.status.name}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text5' | translate}}</div> {{data.merch_name_ips}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text6' | translate}}</div> {{data.term_id}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text7' | translate}}</div> {{data.trans_amount}} {{data.trans_currency}}</div>
+      <div class="dialogDetailsKanbanItem"><div class="dialogDetailsKanbanItemTitle">{{'chbo_tasks_component.text8' | translate}}</div> {{data.trans_approval_code}}</div>
       <!-- <div style="display: flex; justify-content: space-between; margin-bottom: 0.5em;"><div style="margin-right: 0.5em; padding: 0.5em; font-size: 12px;" *ngFor="let tag of data.Tags.split(',');">{{tag}}</div></div> -->
       <div></div>
     </div>

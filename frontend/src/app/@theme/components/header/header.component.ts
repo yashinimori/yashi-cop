@@ -6,6 +6,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { TransferService } from '../../../share/services/transfer.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-header',
@@ -50,14 +51,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private searchService: NbSearchService,
               private router: Router,
               private transferService: TransferService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private translateService: TranslateService) {
   }
+  isSelectUKR: boolean = false;
+  isSelectENG: boolean = false;
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
     this.user_fio = localStorage.getItem('fio');
     if(!this.user_fio)
       this.user_fio = "no name.";
+
+    if(localStorage.getItem('selectedLang')) {
+      this.setLanguage(localStorage.getItem('selectedLang'));
+    } else {
+      this.setLanguage(this.translateService.defaultLang);
+    }
     
     this.currentTheme = this.themeService.currentTheme;
     this.onSearch();
@@ -82,6 +92,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => this.currentTheme = themeName);
 
       //this.user.name = this.user_fio;
+  }
+
+  setLanguage(languageCode: string) {
+    this.translateService.use(languageCode);
+    localStorage.setItem('selectedLang', languageCode);
+    this.setSelectedLanguageSelector(languageCode);
+  }
+
+  setSelectedLanguageSelector(languageCode: string) {
+    this.isSelectUKR = false;
+    this.isSelectENG = false;
+
+    if(languageCode == 'ukr') this.isSelectUKR = true;
+    else this.isSelectENG = true;
   }
 
   ngOnDestroy() {

@@ -1,7 +1,7 @@
 <div *ngIf="isShowGrid">
   <nb-card class="customCardHeight">
     <nb-card-header  style="padding: 0.5em; text-align: center;">
-      Список транзакцій
+      {{'atm_log_view_details_component.text1' | translate}}
     </nb-card-header>
   
     <nb-card-body style="padding: 0.5em;">
@@ -15,96 +15,96 @@
 <div *ngIf="!isShowGrid">
   <nb-card class="customCardHeight">
     <nb-card-header  style="padding: 0.5em; text-align: center;">
-      Транзакція
+      {{'atm_log_view_details_component.text2' | translate}}
     </nb-card-header>
 
     <nb-card-body style="padding: 0.5em;">
       <div class="div-panel" >
-          <label class="label-caption">Початок транзакції</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text3' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.trans_start)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Номер карти </label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text4' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.pan}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">PIN</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text5' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.pin_entered)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Запит грошей</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text6' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.cash_request)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Сума</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text7' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.trans_amount}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Baлюта</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text8' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.currency}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Код затвердження</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text9' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.approval_code}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Готівка представлена</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text10' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.cash_presented)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Готівка отримана</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text11' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.cash_taken)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Кількість готівки</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text12' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.cash_count}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Картка отримана</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text13' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.card_taken)}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Відмома</label> 
+          <label class="label-caption">{{'atm_log_view_details_component.text14' | translate}}</label> 
           <label class="label-data">{{getDateFormat(atmTransactionsDataItem.cash_retracted)}}</label>
       </div>
 
       <div class="div-panel" >
-        <label class="label-caption">Кінец транзакції</label> 
+        <label class="label-caption">{{'atm_log_view_details_component.text15' | translate}}</label> 
         <label class="label-data">{{getDateFormat(atmTransactionsDataItem.trans_end)}}</label>
       </div>
 
       <div class="div-panel" >
-        <label class="label-caption">Помилки</label> 
+        <label class="label-caption">{{'atm_log_view_details_component.text16' | translate}}</label> 
         <label class="label-data">{{atmTransactionsDataItem.error}}</label>
       </div>
 
       <div class="div-panel" >
-        <label class="label-caption">Результат</label> 
+        <label class="label-caption">{{'atm_log_view_details_component.text17' | translate}}</label> 
         <label class="label-data">{{atmTransactionsDataItem.result}}</label>
       </div>
 
       <div class="div-panel" >
-        <label class="label-caption">RAW</label> 
+        <label class="label-caption">{{'atm_log_view_details_component.text18' | translate}}</label> 
         <label class="label-data">{{atmTransactionsDataItem.raw}}</label>
       </div>
 
 
-    </nb-card-body>
+    </nb-card-body> 
 
     <nb-card-footer>
       <div class="center-screen">
-        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">{{'atm_log_view_details_component.button1' | translate}}</button>
       </div>
     </nb-card-footer>
 

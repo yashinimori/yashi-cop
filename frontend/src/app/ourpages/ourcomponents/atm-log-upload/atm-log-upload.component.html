@@ -1,19 +1,19 @@
 <nb-card class="customCardHeight logUploadCard" style="margin: auto;">
     <nb-card-header>
       <label>
-        Додати файл лога
+        {{'atm_log_upload_component.text1' | translate}}
       </label>
-      <input #fileInput [hidden]="true" placeholder="Додати файл" onclick="this.value=null"
+      <input #fileInput [hidden]="true" placeholder="{{'atm_log_upload_component.text1' | translate}}" onclick="this.value=null"
         type='file' [accept]="acceptFiles" (change)="fileChanged($event)">
         <nb-icon style="margin-left: 0.5em;" icon="attach-outline" (click)="fileInput.click()"></nb-icon>&nbsp;&nbsp;
       <button *ngIf="filesArr.length > 0" style="margin-left: 1em;" nbButton size="small" status="primary" 
-        (click)="onClickUploadLogs()" [nbSpinner]="loadingUpload" nbSpinnerStatus="info">Завантажити обрані файли</button>
+        (click)="onClickUploadLogs()" [nbSpinner]="loadingUpload" nbSpinnerStatus="info">{{'atm_log_upload_component.button1' | translate}}</button>
     </nb-card-header>
   
     <nb-card-body>
       <div>
 
-        
+         
       <div *ngFor="let file of filesArr" class="fileAttached">
           <div>{{file.name}}</div>
           <nb-icon icon="close-outline" style="margin-left: 1em;" (click)="deleteAttachedFile(file)"></nb-icon>

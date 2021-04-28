@@ -11,6 +11,7 @@ import {SingleClaimForms} from '../../../share/models/single-claim-forms.model';
 import {SelectorDataStr} from '../../../share/models/selector-data-str.model';
 import { ErrorService } from '../../../share/services/error.service';
 import { ToastService } from '../../../share/services/toast.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-single-claim-forms',
@@ -47,6 +48,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
               private transferService: TransferService,
               private httpService: HttpService,
               private toastService: ToastService,
+              private translate: TranslateService,
               private router: Router, private errorService: ErrorService) {
   }
 
@@ -55,11 +57,18 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   subscription3: Subscription = new Subscription();
   subscription4: Subscription = new Subscription();
   subscriptionNotification: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
 
   isUploadedDoc: boolean = false;
   isUploadedComment: boolean = false;
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.getReasonClosing();
+      this.getDecision();
+      this.getResponce();
+      this.loadClaim();
+    });
     this.role = localStorage.getItem('role');
     this.generateStatusFields();
     this.singleClaimFormsData = new SingleClaimForms();
@@ -87,6 +96,7 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
     this.subscription3.unsubscribe();
     this.subscription4.unsubscribe();
     this.subscriptionNotification.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 
   loadClaim() {
@@ -315,44 +325,45 @@ export class SingleClaimFormsComponent implements OnInit, OnDestroy {
   getReasonClosing() {
     this.reasonClosing = new Array<SelectorData>();
     if (this.role == 'cardholder' || this.role == 'cc_branch') {
-      this.reasonClosing.push({id: 1, caption: 'я отримав необхідні документи та згоден завершити розгляд'});
-      this.reasonClosing.push({id: 2, caption: 'я згоден з результатами розгляду'});
-      this.reasonClosing.push({id: 3, caption: 'мою скаргу задоволено'});
+      this.reasonClosing.push({id: 1, caption: this.translate.instant('single_claim_forms_component.text22')});
+      this.reasonClosing.push({id: 2, caption: this.translate.instant('single_claim_forms_component.text23')});
+      this.reasonClosing.push({id: 3, caption: this.translate.instant('single_claim_forms_component.text24')});
       this.reasonClosing.push({
         id: 4,
-        caption: 'я ознайомився з результатами та не буду продовжувати розгляд претензії',
+        caption: this.translate.instant('single_claim_forms_component.text25'),
       });
-      this.reasonClosing.push({id: 5, caption: 'інше'});
+      this.reasonClosing.push({id: 5, caption: this.translate.instant('single_claim_forms_component.text26')});
     } else if (this.role == 'chargeback_officer') {
-      this.reasonClosing.push({id: 1, caption: 'претензію розглянуто'});
-      this.reasonClosing.push({id: 2, caption: 'претензію відхилено, неправомірна заява'});
-      this.reasonClosing.push({id: 3, caption: 'претензію відхилено, некоректні дані'});
+      this.reasonClosing.push({id: 1, caption: this.translate.instant('single_claim_forms_component.text27')});
+      this.reasonClosing.push({id: 2, caption: this.translate.instant('single_claim_forms_component.text28')});
+      this.reasonClosing.push({id: 3, caption: this.translate.instant('single_claim_forms_component.text29')});
     }
   }
 
   getDecision() {
     this.decision = new Array<SelectorData>();
+    
     if (this.role == 'merchant') {
-      this.decision.push({id: 1, caption: 'згодні прийняти претензію та зробити повернення'});
-      this.decision.push({id: 2, caption: 'претензію відхилено'});
+      this.decision.push({id: 1, caption: this.translate.instant('single_claim_forms_component.text30')});
+      this.decision.push({id: 2, caption: this.translate.instant('single_claim_forms_component.text31')});
     } else if (this.role == 'chargeback_officer') {
-      this.decision.push({id: 1, caption: 'повернення погоджено, очікуйте зарахування'});
-      this.decision.push({id: 2, caption: 'часткове погоджено, очікуйте зарахування'});
-      this.decision.push({id: 3, caption: 'в поверненні відмовлено, документи додаються'});
-      this.decision.push({id: 4, caption: 'в поверненні відмовлено, коментарі додаються'});
+      this.decision.push({id: 1, caption: this.translate.instant('single_claim_forms_component.text32')});
+      this.decision.push({id: 2, caption: this.translate.instant('single_claim_forms_component.text33')});
+      this.decision.push({id: 3, caption: this.translate.instant('single_claim_forms_component.text34')});
+      this.decision.push({id: 4, caption: this.translate.instant('single_claim_forms_component.text35')});
     }
   }
 
   getResponce() {
     this.responce = new Array<SelectorData>();
     if (this.role == 'merchant') {
-      this.responce.push({id: 1, caption: 'документи в наявності, надаємо чек'});
-      this.responce.push({id: 2, caption: 'документи в наявності, доказ участі клієнта у транзакції'});
-      this.responce.push({id: 3, caption: 'повернення товарів підтверджено, кошти будуть повернені'});
-      this.responce.push({id: 4, caption: 'послугу було надано, підтвердження надаємо'});
-      this.responce.push({id: 5, caption: 'товар було отримано, підтвердження надаємо'});
-      this.responce.push({id: 6, caption: 'переказ був помилковим, кошти будуть повернені'});
-      this.responce.push({id: 7, caption: 'претензію прийнято, кошти будуть повернені'});
+      this.responce.push({id: 1, caption: this.translate.instant('single_claim_forms_component.text36')});
+      this.responce.push({id: 2, caption: this.translate.instant('single_claim_forms_component.text37')});
+      this.responce.push({id: 3, caption: this.translate.instant('single_claim_forms_component.text38')});
+      this.responce.push({id: 4, caption: this.translate.instant('single_claim_forms_component.text39')});
+      this.responce.push({id: 5, caption: this.translate.instant('single_claim_forms_component.text40')});
+      this.responce.push({id: 6, caption: this.translate.instant('single_claim_forms_component.text41')});
+      this.responce.push({id: 7, caption: this.translate.instant('single_claim_forms_component.text42')});
     }
   }
 

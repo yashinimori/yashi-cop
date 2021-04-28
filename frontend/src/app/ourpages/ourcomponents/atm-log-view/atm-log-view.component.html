@@ -1,7 +1,7 @@
 <div *ngIf="isShowGrid">
   <nb-card class="customCardHeight">
     <nb-card-header style="padding: 0.5em; text-align: center;">
-      Список транзакцій
+      {{'atm_log_view_component.text1' | translate}}
     </nb-card-header>
     <nb-card-body style="padding: 0.5em;">
       <ng2-smart-table [settings]="settings" [source]="source" 
@@ -10,11 +10,11 @@
     </nb-card-body>
   </nb-card>
 </div>
-
+ 
 <div *ngIf="!isShowGrid">
   <nb-card class="customCardHeight">
     <nb-card-header style="padding: 0.5em; text-align: center;">
-      Транзакція
+      {{'atm_log_view_component.text2' | translate}}
     </nb-card-header>
 
     <nb-card-body style="padding: 0.5em;">
@@ -24,7 +24,7 @@
       </div> -->
 
       <div class="div-panel" >
-          <label class="label-caption">Номер карти </label> 
+          <label class="label-caption">{{'atm_log_view_component.text3' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.pan}}</label>
       </div>
 
@@ -39,17 +39,17 @@
       </div> -->
 
       <div class="div-panel" >
-          <label class="label-caption">Сума</label> 
+          <label class="label-caption">{{'atm_log_view_component.text4' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.trans_amount}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Baлюта</label> 
+          <label class="label-caption">{{'atm_log_view_component.text5' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.currency}}</label>
       </div>
 
       <div class="div-panel" >
-          <label class="label-caption">Код затвердження</label> 
+          <label class="label-caption">{{'atm_log_view_component.text6' | translate}}</label> 
           <label class="label-data">{{atmTransactionsDataItem.approval_code}}</label>
       </div>
 
@@ -79,12 +79,12 @@
       </div> -->
 
       <div class="div-panel" >
-        <label class="label-caption">Результат</label> 
+        <label class="label-caption">{{'atm_log_view_component.text7' | translate}}</label> 
         <label class="label-data">{{atmTransactionsDataItem.result}}</label>
       </div>
 
       <div class="div-panel" >
-        <label class="label-caption">RAW</label> 
+        <label class="label-caption">{{'atm_log_view_component.text8' | translate}}</label> 
         <label class="label-data">{{atmTransactionsDataItem.raw}}</label>
       </div>
 
@@ -92,7 +92,7 @@
 
     <nb-card-footer>
       <div class="center-screen">
-        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">{{'atm_log_view_component.button1' | translate}}</button>
       </div>
     </nb-card-footer>
 

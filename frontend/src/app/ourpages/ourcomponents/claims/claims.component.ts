@@ -10,8 +10,8 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
 import { ErrorService } from '../../../share/services/error.service';
 import { NbSearchService } from '@nebular/theme';
-import { SolarService } from '../../../@core/mock/solar.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-claims',
@@ -43,15 +43,17 @@ export class ClaimsComponent implements OnInit, OnDestroy {
     private router: Router,
     private searchService: NbSearchService,
     private sanitizer: DomSanitizer,
-    private httpServise: HttpService, private errorService: ErrorService) {
+    private httpServise: HttpService, private errorService: ErrorService,
+    private translate: TranslateService) {
     this.claimsData = new Array<ClaimView>();
   }
 
   claimsSubscription: Subscription = new Subscription();
   searchSubscription: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription(); 
 
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm(this.translate.instant('claims_component.text3'))) {
       event.confirm.resolve();
     } else {
       event.confirm.reject();
@@ -75,16 +77,20 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event, el?: number): void {
-    console.log(event)
-    // if (el == 2) {
-    //   this.transferService.cOPClaimID.next(event.id);
-    // } else {
-    //   this.transferService.cOPClaimID.next(event.data.id);
-    // }
-    // this.router.navigate(['cop', 'cabinet', 'single-claim']);
+    if (el == 2) {
+      this.transferService.cOPClaimID.next(event.id);
+    } else {
+      this.transferService.cOPClaimID.next(event.data.id);
+    }
+    this.router.navigate(['cop', 'cabinet', 'single-claim']);
   }
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsGrid(this.role);
+      this.getClaimsData();
+      this.hideColumnForUser(this.role);
+    });
     this.role = localStorage.getItem('role');
     this.searchSubscription = this.transferService.searchValue.subscribe(data => {
       this.searchValue = data;
@@ -139,11 +145,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             pan: {
-              title: 'Номер карти',
+              title: this.translate.instant('claims_component.text_card_number'),
               type: 'string',
             },
             trans_date: {
-              title: 'Дата транзакції',
+              title: this.translate.instant('claims_component.text_date_tr'),
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
@@ -154,35 +160,35 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             merch_name_ips: {
-              title: "Назва торговця",
+              title: this.translate.instant('claims_component.text_merch_name'),
               type: 'string',
             },
             term_id: {
-              title: "Ім'я терміналу",
+              title: this.translate.instant('claims_component.text_term_id'),
               type: 'string',
             },
             trans_amount: {
-              title: "Cума",
+              title: this.translate.instant('claims_component.text_trans_amount'),
               type: 'number',
             },
             trans_currency: {
-              title: "Валюта",
+              title: this.translate.instant('claims_component.text_trans_currency'),
               type: 'string',
             },
             auth_code: {
-              title: "Код авторизації",
+              title: this.translate.instant('claims_component.text_auth_code'),
               type: 'number',
             },
             claim_reason_code: {
-              title: "Reason Code",
+              title: this.translate.instant('claims_component.text_claim_reason_code'),
               type: 'number',
             },
             status: {
-              title: "Статус",
+              title: this.translate.instant('claims_component.text_status'),
               type: 'string',
             },
             action_needed: {
-              title: "Дії",
+              title: this.translate.instant('claims_component.text_action_needed'),
               //type: 'string',
               valuePrepareFunction: (action_needed) => {
                 if (action_needed && action_needed == true)
@@ -192,11 +198,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             result: {
-              title: "Результат",
+              title: this.translate.instant('claims_component.text_result'),
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії',
+              title: this.translate.instant('claims_component.text_due_date'),
               valuePrepareFunction: (due_date) => {
                 if (due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
@@ -205,7 +211,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },            
             flag: {
-              title: 'Приоритет',
+              title: this.translate.instant('claims_component.text_flag'),
               type: 'html',
               valuePrepareFunction: (due_date) => {
                 if (due_date) {
@@ -223,7 +229,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             chargeback_officer: {
-              title: 'Chargeback officer',
+              title: this.translate.instant('claims_component.text_chb'),
               valuePrepareFunction: (chargeback_officer) => {
                 if (chargeback_officer) {
                   return chargeback_officer.email;
@@ -252,12 +258,12 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             pan: {
-              title: 'Номер карти',
+              title: this.translate.instant('claims_component.text_card_number'),
               type: 'string',
               width: '100px'
             },
             trans_date: {
-              title: 'Дата транзакції',
+              title: this.translate.instant('claims_component.text_date_tr'),
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
@@ -269,35 +275,35 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             merch_name_ips: {
-              title: "Назва торговця",
+              title: this.translate.instant('claims_component.text_merch_name'),
               type: 'string',
             },
             term_id: {
-              title: "Ім'я терміналу",
+              title: this.translate.instant('claims_component.text_term_id'),
               type: 'string',
             },
             trans_amount: {
-              title: "Cума",
+              title: this.translate.instant('claims_component.text_trans_amount'),
               type: 'number',
             },
             trans_currency: {
-              title: "Валюта",
+              title: this.translate.instant('claims_component.text_trans_currency'),
               type: 'string',
             },
             auth_code: {
-              title: "Код авторизації",
+              title: this.translate.instant('claims_component.text_auth_code'),
               type: 'number',
             },
             claim_reason_code: {
-              title: "Reason Code",
+              title: this.translate.instant('claims_component.text_claim_reason_code'),
               type: 'number',
             },
             status: {
-              title: "Статус",
+              title: this.translate.instant('claims_component.text_status'),
               type: 'string',
             },
             action_needed: {
-              title: "Дії",
+              title: this.translate.instant('claims_component.text_action_needed'),
               valuePrepareFunction: (action_needed) => {
                 if (action_needed && action_needed == true)
                   return 'Y';
@@ -306,11 +312,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             result: {
-              title: "Результат",
+              title: this.translate.instant('claims_component.text_result'),
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії',
+              title: this.translate.instant('claims_component.text_due_date'),
               valuePrepareFunction: (due_date) => {
                 if (due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
@@ -319,7 +325,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             chb: {
-              title: "Чарджбек офіцер",
+              title: this.translate.instant('claims_component.text_chb'),
               type: 'string',
             }
           },
@@ -343,11 +349,11 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               type: 'string',
             },
             pan: {
-              title: 'Номер карти',
+              title: this.translate.instant('claims_component.text_card_number'),
               type: 'string',
             },
             trans_date: {
-              title: 'Дата транзакції',
+              title: this.translate.instant('claims_component.text_date_tr'),
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
@@ -359,31 +365,31 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             merch_name_ips: {
-              title: "Назва торговця",
+              title: this.translate.instant('claims_component.text_merch_name'),
               type: 'string',
             },
             term_id: {
-              title: "Ім'я терміналу",
+              title: this.translate.instant('claims_component.text_term_id'),
               type: 'string',
             },
             trans_amount: {
-              title: "Cума",
+              title: this.translate.instant('claims_component.text_trans_amount'),
               type: 'number',
             },
             trans_currency: {
-              title: "Валюта",
+              title: this.translate.instant('claims_component.text_trans_currency'),
               type: 'string',
             },
             auth_code: {
-              title: "Код авторизації",
+              title: this.translate.instant('claims_component.text_auth_code'),
               type: 'number',
             },
             result: {
-              title: "Результат",
+              title: this.translate.instant('claims_component.text_result'),
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії',
+              title: this.translate.instant('claims_component.text_due_date'),
               valuePrepareFunction: (due_date) => {
                 if (due_date) {
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy');
@@ -393,7 +399,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
               }
             },
             flag: {
-              title: 'Приоритет',
+              title: this.translate.instant('claims_component.text_flag'),
               type: 'html',
               valuePrepareFunction: (due_date) => {
                 if (due_date) {
@@ -573,6 +579,7 @@ export class ClaimsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 
   generateStatusFields() {
@@ -595,24 +602,24 @@ export class ClaimsComponent implements OnInit, OnDestroy {
       this.loadingReport = true;
       let str = '';
 
-      str += 'ID;';
-      str += 'Номер карти;';
-      str += 'Дата транзакції;';
-      str += 'Назва торговця;';
-      str += "Ім'я терміналу;";
-      str += 'Cума;';
-      str += 'Валюта;';
-      str += 'Код авторизації;';
+      str += this.translate.instant('claims_component.text_report1');
+      str += this.translate.instant('claims_component.text_report2');
+      str += this.translate.instant('claims_component.text_report3');
+      str += this.translate.instant('claims_component.text_report4');
+      str += this.translate.instant('claims_component.text_report5');
+      str += this.translate.instant('claims_component.text_report6');
+      str += this.translate.instant('claims_component.text_report7');
+      str += this.translate.instant('claims_component.text_report8');
 
       if (this.role != 'merchant' && this.role != 'cardholder' && this.role != 'user') {
-        str += 'Reason Code;';
-        str += 'Статус;';
-        str += 'Дії;';
-        str += 'flag;';
+        str += this.translate.instant('claims_component.text_report9');
+        str += this.translate.instant('claims_component.text_report10');
+        str += this.translate.instant('claims_component.text_report11');
+        str += this.translate.instant('claims_component.text_report12');
       }
 
-      str += 'Результат;';
-      str += 'Кінцевий термін претензії';
+      str += this.translate.instant('claims_component.text_report13');
+      str += this.translate.instant('claims_component.text_report14');
       str += '\r\n';
 
       this.claimsData.forEach(el => {

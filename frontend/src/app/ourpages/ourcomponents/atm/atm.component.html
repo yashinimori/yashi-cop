@@ -1,6 +1,6 @@
   <nb-card class="customCardHeight" style="width: 80%; margin: auto; ">
     <nb-card-header style="width: 100%; text-align: center;">
-      Реєстрація ATM
+      {{'atm_component.text1' | translate}}
     </nb-card-header>
     
     <nb-card-body style="display: flex; flex-direction: column; align-items: center; padding: 0.5em; overflow: auto;">
@@ -8,26 +8,26 @@
       <!-- <input nbInput placeholder="Ім'я" [(ngModel)]="data.first_name" maxlength="999">
       <input nbInput placeholder="Призвище" [(ngModel)]="data.last_name" maxlength="999"> -->
       
-      <input nbInput placeholder="Merchant ID" [(ngModel)]="data.merch_id" maxlength="999">
-      <input nbInput placeholder="Юридична назва" [(ngModel)]="data.name_legal" maxlength="999">
-      <input nbInput placeholder="MCC" [(ngModel)]="data.mcc" maxlength="999">
-      <input nbInput placeholder="Вид діяльності" [(ngModel)]="data.description" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text2' | translate}}" [(ngModel)]="data.merch_id" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text3' | translate}}" [(ngModel)]="data.name_legal" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text4' | translate}}" [(ngModel)]="data.mcc" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text5' | translate}}" [(ngModel)]="data.description" maxlength="999">
       <!-- <input nbInput placeholder="Телефон" [(ngModel)]="data.phone" maxlength="13"> -->
       <!-- <input nbInput placeholder="Email" [(ngModel)]="data.email" maxlength="999"> -->
-      <input nbInput placeholder="Назва торговця в МПС" [(ngModel)]="data.name_ips" maxlength="999">
-      <input nbInput placeholder="Адрес" [(ngModel)]="data.address" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text6' | translate}}" [(ngModel)]="data.name_ips" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text7' | translate}}" [(ngModel)]="data.address" maxlength="999">
       <!-- <input nbInput placeholder="Terminal ID" [(ngModel)]="data.term_id" maxlength="999"> -->
-      <input nbInput placeholder="Контактна особа" [(ngModel)]="data.contact_person" maxlength="999">
+      <input nbInput placeholder="{{'atm_component.text8' | translate}}" [(ngModel)]="data.contact_person" maxlength="999">
       <!-- <input nbInput placeholder="Password" [(ngModel)]="data.password" maxlength="40"> -->
 
     </nb-card-body>
 
     <nb-card-footer style="padding: 0.5em;">
       <div class="button-enter">
-        <button nbButton size="small" status="primary" (click)="goBack()">Повернутись</button>
+        <button nbButton size="small" status="primary" (click)="goBack()">{{'atm_component.button1' | translate}}</button>
         <button nbButton size="small" status="primary" style="margin-left: 10px;"
         [nbSpinner]="loadingCreate" nbSpinnerStatus="info"
-          (click)="createATM()">Зареєструвати</button>
+          (click)="createATM()">{{'atm_component.button2' | translate}}</button>
       </div>
     </nb-card-footer>
 

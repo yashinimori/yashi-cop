@@ -48,6 +48,8 @@
     "@nebular/moment": "^6.2.1",
     "@nebular/security": "5.0.0",
     "@nebular/theme": "5.0.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@swimlane/ngx-charts": "^13.0.2",
     "@syncfusion/ej2-angular-buttons": "^18.4.33",
     "@syncfusion/ej2-angular-dropdowns": "^18.4.32",

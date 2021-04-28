@@ -10,6 +10,7 @@ import { FieldsStatus } from '../../../share/models/fieldsStatus.model';
 import * as FileSaver from 'file-saver';
 import { ErrorService } from '../../../share/services/error.service';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private datePipe: DatePipe, 
     private transferService: TransferService,
-    private router: Router,
+    private router: Router, private translate: TranslateService,
     private httpServise: HttpService,
     private activatedRoute: ActivatedRoute, private errorService: ErrorService) {
     this.claimsData = new Array<ClaimView>();
@@ -84,6 +85,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   claimsSubscription: Subscription = new Subscription();
   subscription1: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
   
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -99,22 +101,38 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.isUiLoad = false
+    this.isUiLoad = false;
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setColumns();
+      this.getRouteParams();
+    });
+    this.setColumns();
+    this.getRouteParams();
+
+    // this.generateStatusFields();
+    // this.setSettingsGrid(this.role);
+    // this.getClaimsData();
+  }
+
+  setColumns() {
     this.columns = [
-      {key: 'id', title: 'ID'},
-      {key: 'pan', title: 'Номер карти'},
-      {key: 'trans_date', title: 'Дата транзакції'},
-      {key: 'merch_name_ips', title: 'Назва торговця'},
-      {key: 'term_id', title: "Ім'я терміналу"},
-      {key: 'trans_amount', title: 'Cума'},
-      {key: 'trans_currency', title: 'Валюта'},
-      {key: 'auth_code', title: 'Код авторизації'},
-      {key: 'claim_reason_code', title: 'Reason Code'},
-      {key: 'status', title: 'Статус'},
-      {key: 'action_needed', title: 'Індикатор'},
-      {key: 'result', title: 'Результат'},
-      {key: 'due_date', title: 'Кінцевий термін претензії'}
+      {key: 'id', title: this.translate.instant('chbo_my_claims_component.text16')},
+      {key: 'pan', title: this.translate.instant('chbo_my_claims_component.text17')},
+      {key: 'trans_date', title: this.translate.instant('chbo_my_claims_component.text18')},
+      {key: 'merch_name_ips', title: this.translate.instant('chbo_my_claims_component.text19')},
+      {key: 'term_id', title: this.translate.instant('chbo_my_claims_component.text20')},
+      {key: 'trans_amount', title: this.translate.instant('chbo_my_claims_component.text21')},
+      {key: 'trans_currency', title: this.translate.instant('chbo_my_claims_component.text22')},
+      {key: 'auth_code', title: this.translate.instant('chbo_my_claims_component.text23')},
+      {key: 'claim_reason_code', title: this.translate.instant('chbo_my_claims_component.text24')},
+      {key: 'status', title: this.translate.instant('chbo_my_claims_component.text25')},
+      {key: 'action_needed', title: this.translate.instant('chbo_my_claims_component.text26')},
+      {key: 'result', title: this.translate.instant('chbo_my_claims_component.text27')},
+      {key: 'due_date', title: this.translate.instant('chbo_my_claims_component.text28')}
     ];
+  }
+
+  getRouteParams() {
     this.subscription1 = this.activatedRoute.params.subscribe(routeParams => {
       // (routeParams.id);
       this.setSettingsForTable();
@@ -128,10 +146,6 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.setSettingsGrid(this.role);
       this.getClaimsData(this.routeParamsStatus);
     });
-
-    // this.generateStatusFields();
-    // this.setSettingsGrid(this.role);
-    // this.getClaimsData();
   }
 
   ngAfterViewInit(): void {
@@ -205,15 +219,15 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
           },
           columns: {
             id: {
-              title: 'ID',
+              title: this.translate.instant('chbo_my_claims_component.text16'),
               type: 'string',
             },
             pan: {
-              title: 'Номер карти',
+              title: this.translate.instant('chbo_my_claims_component.text17'),
               type: 'string',
             },
             trans_date: {
-              title: 'Дата транзакції',
+              title: this.translate.instant('chbo_my_claims_component.text18'),
               sort: true,
               sortDirection: 'desc',
               valuePrepareFunction: (trans_date) => {
@@ -224,43 +238,43 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             },      
             merch_name_ips: {
-              title: "Назва торговця",
+              title: this.translate.instant('chbo_my_claims_component.text19'),
               type: 'string',
             },
             term_id: {
-              title: "Ім'я терміналу",
+              title: this.translate.instant('chbo_my_claims_component.text20'),
               type: 'string',
             },
             trans_amount: {
-              title: "Cума",
+              title: this.translate.instant('chbo_my_claims_component.text21'),
               type: 'number',
             },
             trans_currency: {
-              title: "Валюта",
+              title: this.translate.instant('chbo_my_claims_component.text22'),
               type: 'string',
             },
             auth_code: {
-              title: "Код авторизації",
+              title: this.translate.instant('chbo_my_claims_component.text23'),
               type: 'number',
             },
             claim_reason_code: {
-              title: "Reason Code",
+              title: this.translate.instant('chbo_my_claims_component.text24'),
               type: 'number',
             },
             status: {
-              title: "Статус",
+              title: this.translate.instant('chbo_my_claims_component.text25'),
               type: 'string',
             },
             action_needed: {
-              title: "Індикатор",
+              title: this.translate.instant('chbo_my_claims_component.text26'),
               type: 'string',
             },
             result: {
-              title: "Результат",
+              title: this.translate.instant('chbo_my_claims_component.text27'),
               type: 'string',
             },
             due_date: {
-              title: 'Кінцевий термін претензії',
+              title: this.translate.instant('chbo_my_claims_component.text28'),
               valuePrepareFunction: (due_date) => {
                 if(due_date)
                   return this.datePipe.transform(new Date(due_date), 'dd-MM-yyyy hh:mm:ss');
@@ -340,6 +354,7 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.claimsSubscription.unsubscribe();
     this.subscription1.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 
   generateStatusFields() {
@@ -351,19 +366,19 @@ export class ChboMyClaimsComponent implements OnInit, OnDestroy, AfterViewInit {
     if(this.claimsData){
       this.loadingReport = true;
       let str = '';
-      str += 'ID;';
-      str += 'Номер карти;';
-      str += 'Дата транзакції;';
-      str += 'Назва торговця;';
-      str += "Ім'я терміналу;";
-      str += 'Cума;';
-      str += 'Валюта;';
-      str += 'Код авторизації;';
-      str += 'Reason Code;';
-      str += 'Статус;';
-      str += 'Індикатор;';
-      str += 'Результат;';
-      str += 'Кінцевий термін претензії';
+      str += this.translate.instant('chbo_my_claims_component.text16') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text17') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text18') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text19') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text20') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text21') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text22') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text23') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text24') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text25') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text26') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text27') + ';';
+      str += this.translate.instant('chbo_my_claims_component.text28') + ';';
       str += '\r\n';
       this.claimsData.forEach(el=>{
 

@@ -29,41 +29,42 @@ const routes: Routes = [
     // { path: '', redirectTo: 'pages', pathMatch: 'full' },
     // { path: '**', redirectTo: 'pages' },
 
+    
+    {
+      path: 'auth',
+      component: NbAuthComponent,
+      children: [
+        {
+          path: '',
+          component: LoginComponent,
+        },
+        {
+          path: 'login',
+          component: LoginComponent,
+        },
+        {
+          path: 'reset-password',
+          component: PasswordComponent,
+        },
+        {
+          path: 'registration',
+          component: RegistrationComponent,
+        },
+        {
+          path: 'password/:uid/:token',
+          component: PasswordComponent,
+        },
+        {
+          path: 'activation/:uid/:token',
+          component: ActivationComponent,
+        },
+      ],
+    },
     {
       path: 'cop',
       loadChildren: () => import('./ourpages/ourpages.module')
         .then(m => m.OurPagesModule),
         canActivate: [AuthGuard]
-    },
-    {
-    path: 'auth',
-    component: NbAuthComponent,
-    children: [
-      {
-        path: '',
-        component: LoginComponent,
-      },
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'reset-password',
-        component: PasswordComponent,
-      },
-      {
-        path: 'registration',
-        component: RegistrationComponent,
-      },
-      {
-        path: 'password/:uid/:token',
-        component: PasswordComponent,
-      },
-      {
-        path: 'activation/:uid/:token',
-        component: ActivationComponent,
-      },
-    ],
     },
     // {
     //   path: 'auth',

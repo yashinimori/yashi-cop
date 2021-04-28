@@ -103,6 +103,7 @@ import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { KanbanAllModule } from '@syncfusion/ej2-angular-kanban';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -126,6 +127,7 @@ import { KanbanAllModule } from '@syncfusion/ej2-angular-kanban';
     NbListModule,
     NbContextMenuModule,
     NbAccordionModule,
+    TranslateModule,
     NbUserModule,
     OurComponentsRoutingModule,
     NbDateFnsDateModule.forRoot({

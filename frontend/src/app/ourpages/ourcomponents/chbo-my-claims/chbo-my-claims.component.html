@@ -1,68 +1,68 @@
 <nb-card class="chboMyClaimsCard">
     <nb-card-header>
       <div style="display: flex;">
-        Список скарг
+        {{'chbo_my_claims_component.text1' | translate}}
         <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
           <button  nbButton size="tiny" style="width: 90%;"
-            status="primary" (click)="refresh_claim()" [nbSpinner]="loadingRefresh" nbSpinnerStatus="info">Оновити</button>
+            status="primary" (click)="refresh_claim()" [nbSpinner]="loadingRefresh" nbSpinnerStatus="info">{{'chbo_my_claims_component.button1' | translate}}</button>
         </div>
         <div class="button-enter button-set" style="margin-left:10px;width: 150px;">
           <button  nbButton size="tiny" style="width: 100%;" 
-            status="primary" (click)="createReport()" [nbSpinner]="loadingReport" nbSpinnerStatus="info">Звіт</button>
+            status="primary" (click)="createReport()" [nbSpinner]="loadingReport" nbSpinnerStatus="info">{{'chbo_my_claims_component.button2' | translate}}</button>
         </div>
       </div> 
       <div style="display: flex; flex-wrap: wrap;">
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('id')" />
-          <em class="form-icon"></em> id
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text2' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('pan')" />
-          <em class="form-icon"></em> pan
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text3' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('trans_date')" />
-          <em class="form-icon"></em> trans_date
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text4' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('merch_name_ips')" />
-          <em class="form-icon"></em> merch_name_ips
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text5' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('term_id')" />
-          <em class="form-icon"></em> term_id
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text6' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('trans_amount')" />
-          <em class="form-icon"></em> trans_amount
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text7' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('trans_currency')" />
-          <em class="form-icon"></em> trans_currency
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text8' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('auth_code')" />
-          <em class="form-icon"></em> auth_code
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text9' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('claim_reason_code')" />
-          <em class="form-icon"></em> claim_reason_code
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text10' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('status')" />
-          <em class="form-icon"></em> status
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text11' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('action_needed')" />
-          <em class="form-icon"></em> action_needed
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text12' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('result')" />
-          <em class="form-icon"></em> result
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text13' | translate}}
         </label>
         <label class="form-checkbox form-inline">
           <input type="checkbox" [checked]="true" (change)="toggle('due_date')" />
-          <em class="form-icon"></em> due_date
+          <em class="form-icon"></em> {{'chbo_my_claims_component.text14' | translate}}
         </label>
         
       </div>
@@ -80,7 +80,7 @@
 
     <ng-template #noResultsTemplate>
       <td style="text-align: center;" *ngIf="!this.configuration.isLoading" [attr.colspan]="columns.length" class="no-results">
-        No results
+        {{'chbo_my_claims_component.text15' | translate}}
       </td>
     </ng-template>
 

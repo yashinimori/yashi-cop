@@ -1,60 +1,60 @@
 <div class="center-screen">
     <nb-card class="customCardHeight" style="width: 70%; margin: auto; overflow: auto; max-width: 500px;">
         <nb-card-header style="width: 100%; padding: 0.5em 1em; text-align: center;">
-            Особиста інформація
+            {{'change_user_info_component.text1' | translate}}
         </nb-card-header>
   
         <nb-card-body style="padding-bottom: 0; overflow-y: auto; padding-top: 1em; display: flex; flex-direction: column; align-items: center;">
             <form [formGroup]="reactiveForm" #userForm style="display: flex; flex-direction: column;
                  align-items: center; width: 100%;">
                 <div class="changeUserInfoField">
-                    <div class="changeUserInfoLabel">Ім'я</div>
-                    <input nbInput class="changeUserInfoInput" placeholder="Ім'я"
+                    <div class="changeUserInfoLabel">{{'change_user_info_component.text2' | translate}}</div>
+                    <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text2' | translate}}"
                     [status]="reactiveForm.controls.firstName.dirty ? (reactiveForm.controls.firstName.invalid  ? 'danger' : 'success') : (reactiveForm.controls.firstName.invalid  ? 'danger' : 'basic')"
                     #firstName formControlName="firstName" required id="firstName" name="firstName">
                 </div>
                 <div class="changeUserInfoField">
-                    <div class="changeUserInfoLabel">Прізвище</div>
-                    <input nbInput class="changeUserInfoInput" placeholder="Прізвище"
+                    <div class="changeUserInfoLabel">{{'change_user_info_component.text3' | translate}}</div>
+                    <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text3' | translate}}"
                     [status]="reactiveForm.controls.lastName.dirty ? (reactiveForm.controls.lastName.invalid  ? 'danger' : 'success') : (reactiveForm.controls.lastName.invalid  ? 'danger' : 'basic')"
                     #lastName formControlName="lastName" required id="lastName" name="lastName">
                 </div>
                 <div class="changeUserInfoField">
-                    <div class="changeUserInfoLabel">Телефон</div>
-                    <input nbInput class="changeUserInfoInput" placeholder="Телефон"
+                    <div class="changeUserInfoLabel">{{'change_user_info_component.text4' | translate}}</div>
+                    <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text4' | translate}}"
                     [status]="reactiveForm.controls.phone.dirty ? (reactiveForm.controls.phone.invalid  ? 'danger' : 'success') : (reactiveForm.controls.phone.invalid  ? 'danger' : 'basic')"
                     #phone formControlName="phone" required id="phone" name="phone">
                 </div>
                 <div class="changeUserInfoField">
-                    <div class="changeUserInfoLabel">Email</div>
-                    <input nbInput class="changeUserInfoInput" placeholder="Email"
+                    <div class="changeUserInfoLabel">{{'change_user_info_component.text5' | translate}}</div>
+                    <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text5' | translate}}"
                     #email formControlName="email" required id="email" name="email" readonly>
                 </div>
-                <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isUdateError">Сталася помилка</nb-alert> 
+                <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isUdateError">{{'change_user_info_component.text6' | translate}}</nb-alert> 
                 <button [nbSpinner]="loading" nbSpinnerStatus="info" style="margin-top: 0.5em; width: 10em;" #submit
-                [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="saveUserInfo()">Зберегти</button> 
+                [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="saveUserInfo()">{{'change_user_info_component.button1' | translate}}</button> 
             </form>
 
             <div class="changeUserInfoField">
-                <div class="changeUserInfoLabel">Старий пароль</div>
-                <input nbInput class="changeUserInfoInput" placeholder="Старий пароль"
+                <div class="changeUserInfoLabel">{{'change_user_info_component.text7' | translate}}</div>
+                <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text7' | translate}}"
                 required id="oldPass" name="oldPass" [(ngModel)]="oldPassword">
             </div>
             <div class="changeUserInfoField">
-                <div class="changeUserInfoLabel">Новий пароль</div>
-                <input nbInput class="changeUserInfoInput" placeholder="Новий пароль"
+                <div class="changeUserInfoLabel">{{'change_user_info_component.text8' | translate}}</div>
+                <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text8' | translate}}"
                 required id="newPass" name="newPass" [(ngModel)]="newPassword">
             </div>
             <div class="changeUserInfoField">
-                <div class="changeUserInfoLabel">Повторіть новий пароль</div>
-                <input nbInput class="changeUserInfoInput" placeholder="Повторіть новий пароль"
+                <div class="changeUserInfoLabel">{{'change_user_info_component.text9' | translate}}</div>
+                <input nbInput class="changeUserInfoInput" placeholder="{{'change_user_info_component.text9' | translate}}"
                 required id="newPassR" name="newPassR" [(ngModel)]="newPasswordRepeat">
             </div>
-            <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isPasswordDifferent">Паролі не співпадають</nb-alert> 
-            <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isPasswordError">Сталася помилка</nb-alert> 
+            <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isPasswordDifferent">{{'change_user_info_component.text10' | translate}}</nb-alert> 
+            <nb-alert class="updateUserInfoAlert" status="danger" *ngIf="isPasswordError">{{'change_user_info_component.text11' | translate}}</nb-alert> 
             
             <button style="margin-top: 0.5em; width: 10em; margin-bottom: 2em;"
-                nbButton status="primary" (click)="updatePassword()">Зберегти</button> 
+                nbButton status="primary" (click)="updatePassword()">{{'change_user_info_component.button1' | translate}}</button> 
         </nb-card-body>
     </nb-card>
 </div>  

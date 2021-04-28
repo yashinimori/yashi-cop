@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { HttpService } from '../../../share/services/http.service';
 import { Subscription } from 'rxjs';
 import { ErrorService } from '../../../share/services/error.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-atm-log-view-detail',
@@ -23,12 +24,13 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   isShowGrid = true;
   atmTransactionsDataItem: AtmTransactionView;
 
-  constructor(private datePipe: DatePipe,
+  constructor(private datePipe: DatePipe, private translate: TranslateService,
     private httpService: HttpService, private errorService: ErrorService) {    
       this.atmTransactionsDataItem = new AtmTransactionView();
   }
 
   atmLogViewDetailSubscription: Subscription = new Subscription();
+  translationChangeSubscription: Subscription = new Subscription();
   
   onUserRowSelect(event): void {
     //this.transferService.cOPClaimID.next(event.data.id);
@@ -39,6 +41,11 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.translationChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setSettingsGrid(this.role);
+      this.getTransactionsData();
+      this.hideColumnForUser(this.role);
+    });
     this.isShowGrid = true;
     this.atmTransactionsDataItem = new AtmTransactionView();
 
@@ -70,7 +77,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
           },
           columns: {
             trans_start: {
-              title: 'TRANSACTION START',
+              title: this.translate.instant('atm_log_view_details_component.text19'),
               valuePrepareFunction: (trans_date) => {
                 if(trans_date)
                   return this.datePipe.transform(new Date(trans_date), 'dd-MM-yyyy hh:mm:ss');
@@ -79,11 +86,11 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
               }
             }, 
             pan: {
-              title: 'PAN',
+              title: this.translate.instant('atm_log_view_details_component.text20'),
               type: 'string',
             },
             pin_entered:{
-              title: 'PIN ENTERED',
+              title: this.translate.instant('atm_log_view_details_component.text21'),
                 valuePrepareFunction: (pin_entered) => {
                   if(pin_entered)
                     return this.datePipe.transform(new Date(pin_entered), 'dd-MM-yyyy hh:mm:ss');
@@ -92,7 +99,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                 }
             },
             cash_request:{
-              title: 'CASH REQUEST',
+              title: this.translate.instant('atm_log_view_details_component.text22'),
                 valuePrepareFunction: (cash_request) => {
                   if(cash_request)
                     return this.datePipe.transform(new Date(cash_request), 'dd-MM-yyyy hh:mm:ss');
@@ -101,19 +108,19 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                 }
             },
             trans_amount: {
-              title: 'Transaction Amount',
+              title: this.translate.instant('atm_log_view_details_component.text23'),
               type: 'string',
             },
             currency: {
-              title: 'Transaction Currency',
+              title: this.translate.instant('atm_log_view_details_component.text24'),
               type: 'string',
             },
             approval_code: {
-              title: 'Approval Code',
+              title: this.translate.instant('atm_log_view_details_component.text25'),
               type: 'string',
             },
             cash_presented:{
-              title: 'CASH PRESENTED',
+              title: this.translate.instant('atm_log_view_details_component.text26'),
                 valuePrepareFunction: (cash_presented) => {
                   if(cash_presented)
                     return this.datePipe.transform(new Date(cash_presented), 'dd-MM-yyyy hh:mm:ss');
@@ -122,7 +129,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                 }
             },
             cash_taken:{
-              title: 'CASH TAKEN',
+              title: this.translate.instant('atm_log_view_details_component.text27'),
                 valuePrepareFunction: (cash_taken) => {
                   if(cash_taken)
                     return this.datePipe.transform(new Date(cash_taken), 'dd-MM-yyyy hh:mm:ss');
@@ -131,11 +138,11 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                 }
             },
             cash_count: {
-              title: 'CASH Count',
+              title: this.translate.instant('atm_log_view_details_component.text28'),
               type: 'string',
             },
             card_taken:{
-              title: 'CARD TAKEN',
+              title: this.translate.instant('atm_log_view_details_component.text29'),
                 valuePrepareFunction: (card_taken) => {
                   if(card_taken)
                     return this.datePipe.transform(new Date(card_taken), 'dd-MM-yyyy hh:mm:ss');
@@ -144,7 +151,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                 }
             },
             cash_retracted:{
-              title: 'Cash Retracted',
+              title: this.translate.instant('atm_log_view_details_component.text30'),
                valuePrepareFunction: (cash_retracted) => {
                  if(cash_retracted)
                    return this.datePipe.transform(new Date(cash_retracted), 'dd-MM-yyyy hh:mm:ss');
@@ -153,11 +160,11 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                }
             },
             error: {
-              title: 'ERROR',
+              title: this.translate.instant('atm_log_view_details_component.text31'),
               type: 'string',
             },
             trans_end:{
-              title: 'TRANSACTION END',
+              title: this.translate.instant('atm_log_view_details_component.text32'),
                valuePrepareFunction: (trans_end) => {
                  if(trans_end)
                    return this.datePipe.transform(new Date(trans_end), 'dd-MM-yyyy hh:mm:ss');
@@ -166,7 +173,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
                }
             },
             result: {
-              title: 'RESULT',
+              title: this.translate.instant('atm_log_view_details_component.text33'),
               type: 'string',
             },
           },
@@ -207,6 +214,7 @@ export class ATMlogViewerDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.atmLogViewDetailSubscription.unsubscribe();
+    this.translationChangeSubscription.unsubscribe();
   }
 
   goBack(){
