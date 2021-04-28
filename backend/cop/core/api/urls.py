@@ -12,7 +12,8 @@ from cop.core.api.views.reason_codes import ReasonCodeListAPIView
 from cop.core.api.views.report import ReportCreateCreateView
 from cop.core.api.views.stage_history import StageHistoryView
 from cop.core.api.views.statistic import BankStats, BankUpdatedClaimsStatistics, ClaimsStatistics, \
-    UpdatedClaimsStatistics, ClaimsStatisticsByStatusStage, ClaimsStatisticsByRcGroup, ClaimsStatisticsBySupportChoices
+    UpdatedClaimsStatistics, ClaimsStatisticsByStatusStage, ClaimsStatisticsByRcGroup, \
+    ClaimsStatisticsBySupportChoices, InvoiceClaimsStatistics
 from cop.core.api.views.surveyquestion import SurveyQuestionViewSet
 from cop.core.api.views.terminal import TerminalViewSet
 from cop.core.api.views.transaction import TransactionViewSet
@@ -45,4 +46,5 @@ urlpatterns = router.urls + [
     path('stats/by-status-stages/', ClaimsStatisticsByStatusStage.as_view()),
     path('stats/by-rc-group/', ClaimsStatisticsByRcGroup.as_view()),
     path('stats/by-support/', ClaimsStatisticsBySupportChoices.as_view()),
+    path('stats/invoice/', InvoiceClaimsStatistics.as_view()),
 ]

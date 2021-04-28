@@ -37,6 +37,7 @@ class Bank(BaseModel):
     contact_person = models.CharField(max_length=999)
     contact_telephone = models.CharField(max_length=999)
     contact_email = models.EmailField(max_length=999)
+    license = models.ForeignKey('License', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.name_eng
@@ -490,3 +491,52 @@ class Report(BaseModel):
             raise ValidationError('This file already exists')
 
         self.log_hash = log_hash
+
+
+class License(BaseModel):
+    class TypeLicenses:
+        BASIC = 'basic'
+        STANDARD = 'standard'
+        PREMIUM = 'premium'
+        CUSTOM = 'custom'
+        CHOICES = (
+            (BASIC, 'Basic'),
+            (STANDARD, 'Standard'),
+            (PREMIUM, 'Premium'),
+            (CUSTOM, 'Custom'),
+        )
+
+    type_license = models.CharField(choices=TypeLicenses.CHOICES, max_length=32, null=True, blank=True)
+    license_cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    implemented_cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_user_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_officer_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    officers_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_officer_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_merchant_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    merchants_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_merchant_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_atm_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_pre_mediation_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    pre_mediation_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_pre_mediation_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_mediation_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    mediation_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_mediation_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_chargeback_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    chargeback_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_chargeback_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    per_us_on_us_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    us_on_us_before_cost_up = models.IntegerField(null=True, blank=True)
+    per_us_on_us_up_fee = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return f'License: {self.type_license}'

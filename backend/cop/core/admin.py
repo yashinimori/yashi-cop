@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from cop.core.models import Claim, Bank, Transaction, Terminal, Comment, SurveyQuestion, \
-    ReasonCodeGroup, ClaimDocument, Report, StageChangesHistory, Status, ATM
+    ReasonCodeGroup, ClaimDocument, Report, StageChangesHistory, Status, ATM, License
 from cop.users.models import Merchant, BankEmployee
 
 
@@ -60,8 +60,11 @@ class ReportAdmin(admin.ModelAdmin):
     pass
 
 
-
-
 @admin.register(ATM)
 class ReportAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(License)
+class LicenseAdmin(admin.ModelAdmin):
     pass

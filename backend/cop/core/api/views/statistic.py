@@ -261,3 +261,26 @@ class ClaimsStatisticsBySupportChoices(APIView):
             "us_on_us": annotate_by_support["us_on_us"],
         }
         return Response(data)
+
+
+class InvoiceClaimsStatistics(APIView):
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
+                          AllowTopLevelPermission)
+
+    def get(self, request):
+        start_date = request.query_params.get('start-date', None)
+        end_date = request.query_params.get('end-date', None)
+        invoice_date = timezone.now()
+        qs = Claim.objects.filter()
+
+        if start_date:
+            qs = qs.filter(create_date__gte=start_date)
+        if end_date:
+            qs = qs.filter(create_date__lte=end_date)
+
+        data = {
+            "invoice_date": invoice_date,
+            "A": "test",
+            "B": "test",
+        }
+        return Response(data)
