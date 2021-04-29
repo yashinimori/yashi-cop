@@ -11,6 +11,11 @@ from cop.core.api.permissions.base import AllowCopManagerPermission, \
     AllowTopLevelPermission, AllowChargebackOfficerPermission
 from cop.core.models import Claim, Status, ReasonCodeGroup
 
+from cop.users.models import BankEmployee
+
+from cop.core.api.serializers.bank_employee import BankEmployeeSerializer
+from cop.core.api.serializers.bank import BankSerializer
+
 User = get_user_model()
 
 
@@ -270,17 +275,96 @@ class InvoiceClaimsStatistics(APIView):
     def get(self, request):
         start_date = request.query_params.get('start-date', None)
         end_date = request.query_params.get('end-date', None)
-        invoice_date = timezone.now()
-        qs = Claim.objects.filter()
+
+        user_is_authenticated = request.user.is_authenticated
+        user = request.user
+        request_user = user.email
+
+        bank_employee = BankEmployee.objects.select_related('bank').get(user=user)
+        payer = bank_employee.bank
+        payer_name_eng = payer.name_eng
+        license_type = payer.license.type_license
+        # We can add more parameters (license) to the response! If we need.
+
+        # The amount of all claims of the bank for the period
+        # TODO: period year month
+        pk = payer.id
+        qs = Claim.objects.filter(bank__id=pk)
 
         if start_date:
             qs = qs.filter(create_date__gte=start_date)
         if end_date:
             qs = qs.filter(create_date__lte=end_date)
+        number_all_claims = qs.count()
+
+        # Stats by-rc-group
+        annotate_by_rc_group = qs.aggregate(
+            fraud=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.FRAUD) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.FRAUD)
+            )),
+            authorization=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.AUTHORIZATION) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.AUTHORIZATION)
+            )),
+            point_of_interaction_error=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.POINT_OF_INTERACTION_ERROR)
+            )),
+            cardholder_disputes=Count('claim_reason_code', filter=(
+                Q(claim_reason_code__group_visa=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES) | Q(
+                claim_reason_code__group_mastercard=ReasonCodeGroup.Group.CARDHOLDER_DISPUTES)
+            )),
+        )
+
+        stats_by_rc_group = {
+            "fraud_claims": annotate_by_rc_group["fraud"],
+            "authorization_claims": annotate_by_rc_group["authorization"],
+            "point_of_interaction_error_claims": annotate_by_rc_group["point_of_interaction_error"],
+            "cardholder_disputes_claims": annotate_by_rc_group["cardholder_disputes"],
+        }
+
+        # Cost of licenses and implementations
+        # You need to know the number of hours of implementation and how many times it should be displayed ???
+        license_cost = payer.license.license_cost
+        hours_implemented = 2
+        implemented_cost = payer.license.implemented_cost * hours_implemented
+
+        # User fees
+        ee = BankEmployee.objects.select_related('bank__role').filter(bank=pk)
+        bank_employees = BankEmployee.objects.select_related('bank').filter(bank=pk).count()
+        base_employees_fee = payer.license.per_user_fee * bank_employees
+
+        officers = BankEmployee.objects.all().filter(bank=pk) \
+            .select_related("bank", "user").filter(user__role='chargeback_officer').count()
+        if officers <= payer.license.officers_before_cost_up:
+            officers_fee = payer.license.per_officer_fee * officers
+        else:
+            officers_fee = payer.license.per_officer_up_fee * officers
+
+        invoice_date = timezone.now().date()
+
+        # TODO: Invoice number ?
 
         data = {
+            "invoice_number": 1,
             "invoice_date": invoice_date,
-            "A": "test",
-            "B": "test",
+            "period": {
+                "start_date": start_date,
+                "end_date": end_date,
+            },
+            "user_is_authenticated": user_is_authenticated,
+            "request_user": request_user,
+            "payer_name_eng": payer_name_eng,
+            "license_type": license_type,
+            "number_all_claims": number_all_claims,
+            "stats_by_rc_group": stats_by_rc_group,
+            "implemented_cost": implemented_cost,
+            "bank_employees": bank_employees,
+            "base_employees_fee": base_employees_fee,
+            "license_cost": license_cost,
+            "officers": officers,
+            "officers_fee": officers_fee
+
         }
         return Response(data)
