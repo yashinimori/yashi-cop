@@ -55,7 +55,8 @@ class NotificationManagerView(APIView):
                 data['user'] = request.user.id
             self.create_notification(data, role)
         print("Claim", self.claim, "Merchant", self.claim.merchant)
-        return Response(data)
+        print("Notifications created")
+        return Response(data=data)
 
     def create_notification(self, data, role):
         text = {
@@ -88,12 +89,15 @@ class NotificationManagerView(APIView):
         serializer = NotificationSerializer(data=data)
         print("Validation", serializer.is_valid())
         if serializer.is_valid():
+            print("status 1")
             serializer.save()
         user = User.objects.get(id=data['user'])
+        print("User", user)
         to = [get_user_email(user)]
         context = {
             "user": user,
             "text": data['text']
         }
-        djoser_settings.EMAIL.notification(self.request, context).send(to)
-        
+        print("To and context", to, context)
+        djoser_settings.EMAIL.notification(self.request, context).send(to)        
+        print("status 2")
