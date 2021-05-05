@@ -14,13 +14,16 @@ from weasyprint import HTML
 
 from cop.core.api.permissions.claim import HasMerchantClaimUpdatePermission
 from cop.core.api.serializers.claim import ClaimSerializer, ClaimListSerializer, ClaimDocumentSerializer, \
-    ClaimDocumentReportsSerializer, ClaimDocumentNestedSerializer, ClaimRetrieveSerializer
+    ClaimDocumentReportsSerializer, ClaimDocumentNestedSerializer, ClaimRetrieveSerializer, ClaimStatusResultSerializer
 from cop.core.api.serializers.comment import CommentListSerializer
 from cop.core.api.serializers.stage_history import StageHistorySerializerLite
 from cop.core.models import Claim, ClaimDocument, ReasonCodeGroup, SurveyQuestion, Comment, StageChangesHistory
 from cop.users.models import Merchant
 
 from itertools import chain
+
+from cop.core.api.permissions.base import AllowCopManagerPermission, \
+    AllowTopLevelPermission, AllowChargebackOfficerPermission
 
 User = get_user_model()
 
@@ -175,3 +178,14 @@ class ClaimTimelineView(APIView):
             results.append({'item_type': item_type, 'data': serializer.data})
 
         return results
+
+
+class ClaimStatusResultView(APIView):
+    permission_classes = (IsAuthenticated, AllowChargebackOfficerPermission | AllowCopManagerPermission |
+                          AllowTopLevelPermission)
+
+    def get(self, request, pk):
+        pk = self.kwargs['pk']
+        claim = Claim.objects.get(pk=pk)
+        serializer = ClaimStatusResultSerializer(claim)
+        return Response(serializer.data)

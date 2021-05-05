@@ -5,7 +5,8 @@ from cop.core.api.views.atm import ATMViewSet
 from cop.core.api.views.bank import BankViewSet
 from cop.core.api.views.bank_employee import BankEmployeeList, BankEmployeeRetrieveUpdate
 from cop.core.api.views.claim import ClaimFormToPDFView, ClaimTimelineView
-from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
+from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView, \
+    ClaimStatusResultView
 from cop.core.api.views.comment import CommentCreateView
 from cop.core.api.views.merchant import MerchantViewSet
 from cop.core.api.views.reason_codes import ReasonCodeListAPIView
@@ -34,6 +35,7 @@ urlpatterns = router.urls + [
     path('atm-logs/', ReportCreateCreateView.as_view()),
     path('claim/<pk>/stage-history/', StageHistoryView.as_view()),
     path('claim/<pk>/comments/', CommentCreateView.as_view()),
+    path('claim/<pk>/status-result/', ClaimStatusResultView.as_view()),
     path('claim/<pk>/timeline/', ClaimTimelineView.as_view()),
     path('bank-employees/', BankEmployeeList.as_view()),
     path('bank-employees/<pk>/', BankEmployeeRetrieveUpdate.as_view()),

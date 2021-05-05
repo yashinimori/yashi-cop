@@ -255,3 +255,14 @@ class ClaimListSerializer(serializers.ModelSerializer):
 
     def is_chargeback_officer(self):
         return self.context["request"].user.is_chargeback_officer
+
+
+class ClaimStatusResultSerializer(serializers.ModelSerializer):
+    status = StatusSerializer(read_only=True)
+
+    class Meta:
+        model = Claim
+        fields = (
+            "status",
+            "result",
+        )
