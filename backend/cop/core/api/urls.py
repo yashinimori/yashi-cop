@@ -7,6 +7,7 @@ from cop.core.api.views.notification import NotificationViewSet, NotificationMan
 from cop.core.api.views.bank_employee import BankEmployeeList, BankEmployeeRetrieveUpdate
 from cop.core.api.views.claim import ClaimFormToPDFView, ClaimTimelineView
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
+from cop.core.api.views.message import MessageViewSet, MessageFileViewSet
 from cop.core.api.views.comment import CommentCreateView
 from cop.core.api.views.merchant import MerchantViewSet
 from cop.core.api.views.reason_codes import ReasonCodeListAPIView
@@ -27,6 +28,7 @@ router.register(r'atms', ATMViewSet, basename='atms')
 router.register(r'terminals', TerminalViewSet, basename='terminals')
 router.register(r'transactions', TransactionViewSet, basename='transactions')
 router.register(r'claims', ClaimViewSet, basename='claims')
+router.register(r'messages', MessageViewSet, basename='messages')
 router.register(r'references/survey-questions', SurveyQuestionViewSet, basename='survey-questions')
 
 
@@ -37,6 +39,7 @@ urlpatterns = router.urls + [
     path('claim/<pk>/stage-history/', StageHistoryView.as_view()),
     path('claim/<pk>/comments/', CommentCreateView.as_view()),
     path('claim/<pk>/timeline/', ClaimTimelineView.as_view()),
+    path('message-files/', MessageFileViewSet.as_view()),
     path('bank-employees/', BankEmployeeList.as_view()),
     path('bank-employees/<pk>/', BankEmployeeRetrieveUpdate.as_view()),
     path('claim/<pk>/pdf/', ClaimFormToPDFView.as_view()),

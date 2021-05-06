@@ -240,6 +240,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
     status = StatusSerializer(read_only=True)
     pan = serializers.SerializerMethodField()
 
+
     class Meta:
         model = Claim
         fields = (

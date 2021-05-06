@@ -360,6 +360,12 @@ class Claim(BaseModel):
         )
 
 
+class ChatSettings(BaseModel):
+    merch_id = models.CharField(max_length=15, null=True, blank=True)
+    chargeback_officer_id = models.CharField(max_length=15, null=True, blank=True)
+    cardholder_id = models.CharField(max_length=15, null=True, blank=True)
+
+
 class Notification(BaseModel):
     ACTIONS = (
         ('create', 'create'),
@@ -410,6 +416,16 @@ class Comment(BaseModel):
 
     def __str__(self):
         return self.text
+
+
+class Message(BaseModel):
+    text = models.CharField(max_length=999, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+
+
+class MessageFile(BaseModel):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='message_files')
+    upload_to = models.FileField(upload_to='message-files/')
 
 
 class Status(BaseModel):
