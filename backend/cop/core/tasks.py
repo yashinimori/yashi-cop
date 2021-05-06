@@ -113,7 +113,8 @@ def process_report_task(report_id):
                 continue
 
             transaction.report = report
-            transaction.bank = Bank.objects.filter(bin__startswith=transaction.pan[0:6]).first()
+            if transaction.pan:
+                transaction.bank = Bank.objects.filter(bin__startswith=transaction.pan[0:6]).first()
             transaction.save()
             transactions.append(transaction)
         report.status = 'finished'
@@ -128,7 +129,7 @@ def process_report_task(report_id):
 
 
 def parse_transaction(transaction_lines, previous_transaction=None):
-    from .models import Transaction, Claim
+    from .models import Transaction, Claim, ATM, Terminal
 
     transaction = Transaction()
     transaction.raw = '\n'.join(transaction_lines)
@@ -145,6 +146,10 @@ def parse_transaction(transaction_lines, previous_transaction=None):
     cash_count_str = None
 
     for line in transaction_lines:
+        terminal_match = re.search('ATM: ([^\r\n ]+)', line, re.M)
+        if terminal_match:
+            transaction.terminal = Terminal.objects.filter(term_id=terminal_match.group(1)).first()
+
         pan_match = re.search('[0-9]{6}[X*]{6}[0-9]{4}', line, re.M)
         if pan_match:
             transaction.pan = pan_match.group(0)
@@ -180,9 +185,12 @@ def parse_transaction(transaction_lines, previous_transaction=None):
         if cash_count_match:
             cash_count_list = re.sub('[1-4],', '', cash_count_match.group(0).rstrip(';'), count=0).split(';')
             for i in range(4):
-                if cash_count_list[i][0] != str(i + 1):
-                    cash_count_list.insert(i, str(i + 1) + ':0')
-                    cash_count_str = '; '.join(cash_count_list) + ';'
+                if len(cash_count_list) > i:
+                    if cash_count_list[i][0] != str(i + 1):
+                        cash_count_list.insert(i, str(i + 1) + ':0')
+                else:
+                    cash_count_list.append(str(i + 1) + ':0')
+            cash_count_str = '; '.join(cash_count_list) + ';'
             transaction.cash_count = cash_count_str
 
         # available_match = re.search('AVAILABLE BALANCE  ([0-9]+\.[0-9]+)', line, re.M)
