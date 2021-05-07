@@ -121,7 +121,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     chargeback_officer = UserSerializerLite(required=False)
     pan = serializers.CharField(min_length=16, max_length=16, required=True)
-    chat_settings = ChatSettingsSerializer(read_only=True, required=False)
+    chat_settings = ChatSettingsSerializer(read_only=True, required=False, many=True)
 
     class Meta:
         model = Claim
