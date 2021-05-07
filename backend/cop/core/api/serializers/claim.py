@@ -10,6 +10,7 @@ from cop.users.models import Merchant
 from cop.core.services.claim_routing_service import ClaimRoutingService
 from cop.core.services.status_service import AllocationStatusService, CardholderStatusService, \
     StatusServiceLite
+from cop.core.api.serializers.chat_settings import ChatSettingsSerializer
 from cop.users.api.serializers.user import UserSerializer, UserSerializerLite
 
 User = get_user_model()
@@ -120,6 +121,7 @@ class ClaimSerializer(serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     chargeback_officer = UserSerializerLite(required=False)
     pan = serializers.CharField(min_length=16, max_length=16, required=True)
+    chat_settings = ChatSettingsSerializer(read_only=True, required=False)
 
     class Meta:
         model = Claim
