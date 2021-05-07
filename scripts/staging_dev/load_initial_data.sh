@@ -9,4 +9,4 @@ docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtu
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/ch_users.json
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/security_users.json
 docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/test_chargeback_officer.json
-
+docker-compose -f staging_dev.yml run --rm django ./manage.py loaddata cop/fixtures/top_users.json
