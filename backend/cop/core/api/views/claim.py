@@ -52,6 +52,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "result",
         "comments",
         "due_date",
+        "chat_settings",
     )
 
     search_fields = [
@@ -73,6 +74,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "action_needed",
         "result",
         "due_date",
+        "chat_settings",
     ]
 
     def get_queryset(self):

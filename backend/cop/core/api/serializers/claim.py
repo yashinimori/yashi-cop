@@ -154,7 +154,8 @@ class ClaimSerializer(serializers.ModelSerializer):
             "chargeback_date",
             "second_presentment_date",
             "arn",
-            "flag"
+            "flag",
+            "chat_settings"
         )
 
     def create(self, validated_data):
@@ -262,6 +263,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "result",
             "status",
             "create_date",
+            "chat_settings",
         )
 
     def get_pan(self, instance):

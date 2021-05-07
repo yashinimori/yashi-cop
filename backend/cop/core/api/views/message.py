@@ -14,7 +14,7 @@ User = get_user_model()
 
 
 class MessageViewSet(viewsets.ModelViewSet):
-    permission_classes = IsAuthenticated
+    permission_classes = (IsAuthenticated,)
     serializer_class = MessageSerializer
     queryset = Message.objects \
         .select_related('user') \
@@ -36,5 +36,5 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 
 class MessageFileViewSet(CreateAPIView):
-    serializer_class = MessageSerializer
+    serializer_class = MessageFileSerializer
     queryset = MessageFile.objects.all()

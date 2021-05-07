@@ -361,6 +361,7 @@ class Claim(BaseModel):
 
 
 class ChatSettings(BaseModel):
+    claim = models.ForeignKey(Claim, on_delete=models.CASCADE, related_name='chat_settings')
     merch_id = models.CharField(max_length=15, null=True, blank=True)
     chargeback_officer_id = models.CharField(max_length=15, null=True, blank=True)
     cardholder_id = models.CharField(max_length=15, null=True, blank=True)
