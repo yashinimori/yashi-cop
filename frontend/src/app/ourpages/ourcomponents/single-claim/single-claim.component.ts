@@ -989,13 +989,12 @@ export class SingleClaimComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  get getUrlPDF() {
+  getDocument() {
     let url = '';
     if (this.claimId) {
       url = `${MAIN_URL}/api/v1/claim/${this.claimId}/pdf/`;
     }
-
-    return url;
+    this.httpService.downloadDocument(url);
   }
 
   goBack(){

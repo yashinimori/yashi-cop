@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { URL_GET_CLAIM_LIST,
+import {
+  URL_GET_CLAIM_LIST,
   URL_GET_MERCHANTS,
   URL_CREATE_CLAIM,
   URL_GET_TRANSACTIONS_LIST,
@@ -38,7 +39,9 @@ import { URL_GET_CLAIM_LIST,
 })
 export class HttpService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
   }
 
   createClaimMastercardApi(body:any) {
@@ -420,5 +423,17 @@ export class HttpService {
     return this.http.get(req, this.getHeaders());
   }
 
+  downloadDocument(url: string) {
+    this.http.get(url, {responseType: 'blob', headers: new HttpHeaders({
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      })}).subscribe(data => {
+      const blob = new Blob([data], {type: 'application/pdf'});
+      const downloadURL = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = 'Заява_кардхолдера.pdf';
+      link.click();
+    });
+  }
 
 }
