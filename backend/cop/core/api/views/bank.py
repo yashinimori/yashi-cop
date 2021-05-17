@@ -1,11 +1,20 @@
 from django_filters import rest_framework as django_filters
-from rest_framework import filters
+from rest_framework import filters, mixins
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from cop.core.api.permissions.bank import BankPermission
-from cop.core.api.serializers.bank import BankSerializer
-from cop.core.models import Bank
+from cop.core.api.serializers.bank import BankSerializer, BankBinSerializer
+from cop.core.models import Bank, BankBin
+
+
+class BankBinViewSet(
+        mixins.CreateModelMixin,
+        mixins.DestroyModelMixin,
+        viewsets.GenericViewSet):
+    permission_classes = [IsAuthenticated, BankPermission]
+    serializer_class = BankBinSerializer
+    queryset = BankBin.objects.all()
 
 
 class BankViewSet(viewsets.ModelViewSet):
@@ -15,7 +24,7 @@ class BankViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, django_filters.DjangoFilterBackend]
     filterset_fields = (
         'id',
-        'bin',
+        'bins',
         'type',
         'name_eng',
         'name_uk',
@@ -28,7 +37,7 @@ class BankViewSet(viewsets.ModelViewSet):
 
     search_fields = [
         'id',
-        'bin',
+        'bins',
         'type',
         'name_eng',
         'name_uk',

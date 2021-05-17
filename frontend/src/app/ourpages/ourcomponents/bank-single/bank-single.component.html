@@ -17,9 +17,36 @@
 
                   <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
                     <label class="label-caption">BIN</label> 
-                    <label class="label-data">{{bank.bin}}</label>
+                    <label class="label-data">
+                      <p *ngFor="let bin of bank.bin;">{{bin.bin}}</p></label>
                   </div>
-                  
+                  <div class="div-panel"  >
+                    <label class="label-caption"></label>
+                    <label class="label-data">
+                      <form *ngIf="binFormIsVisible" id="newBinForm" [formGroup]="newBinForm" (ngSubmit)="submitBinForm()">
+                        <input formControlName="bin" class="d-block mb-2" nbInput placeholder="введіть BIN"
+                               maxlength="8" required>
+                        <div class="w-50 alert alert-danger"
+                             *ngIf="newBinForm.controls.bin.errors?.required && newBinForm.controls.bin.touched">
+                          Bin обовʼязкове поле
+                        </div>
+                        <input formControlName="productCode" class="d-block mb-2" nbInput
+                               placeholder="введіть Product code"
+                               maxlength="8">
+                      </form>
+                      <button *ngIf="!binFormIsVisible" (click)="toggleForm()" nbButton status="primary">
+                        Додати bin
+                      </button>
+                      <div *ngIf="binFormIsVisible">
+                        <button class="mr-2" (click)="this.binFormIsVisible=false" nbButton status="danger">Скасувати
+                        </button>
+                        <button [disabled]="!newBinForm.valid" class="mr-2" type="submit" form="newBinForm" nbButton
+                                status="success">Додати
+                        </button>
+                      </div>
+                    </label>
+
+                  </div>
                   <div class="div-panel" *ngIf="!fieldsStatus.bank_single_view.invisible">
                     <label class="label-caption">Тип</label> 
                     <label class="label-data">{{bank.type}}</label>

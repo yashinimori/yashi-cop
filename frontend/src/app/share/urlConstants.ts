@@ -83,3 +83,5 @@ export const URL_CREATE_NEW_ATM = `${MAIN_URL}/api/v1/atms/`;
 export const URL_GET_ATMS = `${MAIN_URL}/api/v1/atms/`;
 
 export const URL_GET_LOGGER = `${MAIN_URL}/api/v1/logger/`;
+
+export const URL_CREATE_BIN = `${MAIN_URL}/api/v1/bins/`;

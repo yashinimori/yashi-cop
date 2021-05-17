@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
-from cop.core.models import Claim
+from cop.core.models import Claim, BankBin
 from cop.core.utils.claim_reason_codes import ClaimReasonCodes as crc
 
 User = get_user_model()
@@ -70,7 +70,9 @@ class ClaimRoutingService:
         from cop.core.models import Bank
 
         bank_bin = self.claim.hidden_pan[0:6]
-        self.claim.bank = Bank.objects.filter(bin__startswith=bank_bin).first()
+        if bank_bin := BankBin.objects.filter(bin__startswith=bank_bin).first():
+            self.claim.bank = bank_bin.bank
+
 
     def assign_atm(self, merch_id):
         from cop.core.models import ATM

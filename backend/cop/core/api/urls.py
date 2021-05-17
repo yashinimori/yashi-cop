@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from cop.core.api.views.atm import ATMViewSet
-from cop.core.api.views.bank import BankViewSet
+from cop.core.api.views.bank import BankViewSet, BankBinViewSet
 from cop.core.api.views.bank_employee import BankEmployeeList, BankEmployeeRetrieveUpdate
 from cop.core.api.views.claim import ClaimFormToPDFView, ClaimTimelineView
 from cop.core.api.views.claim import ClaimViewSet, ClaimDocumentCreateView, ClaimDocumentReportsCreateView
@@ -19,6 +19,7 @@ from cop.core.api.views.transaction import TransactionViewSet
 
 router = DefaultRouter()
 router.register(r'banks', BankViewSet, basename='banks')
+router.register(r'bins', BankBinViewSet, basename='banks')
 router.register(r'merchants', MerchantViewSet, basename='merchants')
 router.register(r'atms', ATMViewSet, basename='atms')
 router.register(r'terminals', TerminalViewSet, basename='terminals')

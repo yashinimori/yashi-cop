@@ -1,11 +1,16 @@
 from django.contrib import admin
 
-from cop.core.models import Claim, Bank, Transaction, Terminal, Comment, SurveyQuestion, \
+from cop.core.models import Claim, Bank, BankBin, Transaction, Terminal, Comment, SurveyQuestion, \
     ReasonCodeGroup, ClaimDocument, Report, StageChangesHistory, Status, ATM
 from cop.users.models import Merchant, BankEmployee
 
 
 @admin.register(Bank)
+class BankAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(BankBin)
 class BankAdmin(admin.ModelAdmin):
     pass
 

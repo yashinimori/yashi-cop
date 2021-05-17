@@ -31,6 +31,7 @@ import {
   URL_USER_INFO,
   URL_SET_PASS,
   URL_GET_REASON_CODES,
+  URL_CREATE_BIN,
 
 } from '../urlConstants';
 
@@ -436,4 +437,7 @@ export class HttpService {
     });
   }
 
+  addNewBin(data) {
+    return this.http.post(URL_CREATE_BIN, data, this.getHeaders());
+  }
 }

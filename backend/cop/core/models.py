@@ -27,7 +27,6 @@ class Bank(BaseModel):
         ('ISS', 'ISS'),
         ('BOTH', 'BOTH'),
     )
-
     bin = models.CharField(max_length=8, unique=True)
     type = models.CharField(choices=TYPE, max_length=4)
     name_eng = models.CharField(max_length=999)
@@ -40,6 +39,12 @@ class Bank(BaseModel):
 
     def __str__(self):
         return self.name_eng
+
+
+class BankBin(BaseModel):
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="bins")
+    bin = models.CharField(max_length=8, unique=True, primary_key=True)
+    product_code = models.CharField(max_length=999, blank=True, null=True)
 
 
 class ATM(BaseModel):
