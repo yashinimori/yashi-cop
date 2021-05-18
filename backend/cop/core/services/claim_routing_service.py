@@ -72,6 +72,7 @@ class ClaimRoutingService:
         bank_bin = self.claim.hidden_pan[0:6]
         if bank_bin := BankBin.objects.filter(bin__startswith=bank_bin).first():
             self.claim.bank = bank_bin.bank
+            self.claim.save()
 
 
     def assign_atm(self, merch_id):
