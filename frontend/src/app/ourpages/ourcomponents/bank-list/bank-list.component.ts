@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
-import { TransferService } from '../../../share/services/transfer.service';
-import { HttpService } from '../../../share/services/http.service';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Bank } from '../../../share/models/bank.model';
-import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { ErrorService } from '../../../share/services/error.service';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {LocalDataSource} from 'ng2-smart-table';
+import {TransferService} from '../../../share/services/transfer.service';
+import {HttpService} from '../../../share/services/http.service';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {Bank} from '../../../share/models/bank.model';
+import {API, APIDefinition, Columns, Config, DefaultConfig} from 'ngx-easy-table';
+import {ErrorService} from '../../../share/services/error.service';
 
 interface EventObject {
   event: string;
@@ -31,21 +31,21 @@ export class BankListComponent implements OnInit, OnDestroy {
   pagerSize = 10;
 
   constructor(private transferService: TransferService,
-    private router: Router,
-    private httpServise: HttpService, private errorService: ErrorService) {
+              private router: Router,
+              private httpServise: HttpService, private errorService: ErrorService) {
     this.banksData = new Array<Bank>();
   }
 
-  @ViewChild('table', { static: true }) table: APIDefinition;
+  @ViewChild('table', {static: true}) table: APIDefinition;
 
   banksSubscription: Subscription = new Subscription();
-  isUiLoad:boolean = false;
+  isUiLoad: boolean = false;
 
   public configuration: Config;
   public columns: Columns[];
   public data = new Array();
   checked = new Set(['bin', 'type', 'name_eng', 'name_uk', 'name_rus',
-   'operator_name', 'contact_person', 'contact_telephone', 'contact_email']);
+    'operator_name', 'contact_person', 'contact_telephone', 'contact_email']);
   columnsCopy: Columns[] = [];
   public pagination = {
     limit: 10,
@@ -78,7 +78,6 @@ export class BankListComponent implements OnInit, OnDestroy {
     ];
     this.columnsCopy = this.columns;
     this.parsePagination();
-    
     this.role = localStorage.getItem('role');
     this.setSettingsGrid(this.role);
     this.getBanksData();
@@ -86,7 +85,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   setSettingsForTable() {
-    this.configuration = { ...DefaultConfig };
+    this.configuration = {...DefaultConfig};
     this.configuration.columnReorder = true;
     this.configuration.orderEnabled = true;
     this.configuration.threeWaySort = true;
@@ -109,7 +108,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
-    if(localStorage.getItem('activeTab')) {
+    if (localStorage.getItem('activeTab')) {
       localStorage.removeItem('activeTab');
     }
     this.transferService.bankID.next(event.data.id);
@@ -131,9 +130,9 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   eventEmitted($event: { event: string; value: any }): void {
-    switch($event.event) {
+    switch ($event.event) {
       case 'onClick':
-        if(localStorage.getItem('activeTab')) {
+        if (localStorage.getItem('activeTab')) {
           localStorage.removeItem('activeTab');
         }
         this.transferService.bankID.next($event.value.row.id);
@@ -147,7 +146,7 @@ export class BankListComponent implements OnInit, OnDestroy {
 
   parsePagination(): void {
     let onOrder = localStorage.getItem('onOrder');
-    if(onOrder) {
+    if (onOrder) {
       let parsedOnOrder = JSON.parse(onOrder);
       this.pagination.sort = parsedOnOrder.key ? parsedOnOrder.key : this.pagination.sort;
       this.pagination.order = parsedOnOrder.order ? parsedOnOrder.order : this.pagination.order;
@@ -159,18 +158,18 @@ export class BankListComponent implements OnInit, OnDestroy {
     // this.pagination = { ...this.pagination };
     // const pagination = `_limit=${this.pagination.limit}&_page=${this.pagination.offset}`;
     // const sort = `&_sort=${this.pagination.sort}&_order=${this.pagination.order}`;
-    
+
   }
-  
-  setSettingsGrid(role:string){
-    switch(role){
+
+  setSettingsGrid(role: string) {
+    switch (role) {
       case 'admin':
       case 'cop_manager':
-      case 'chargeback_officer':  {
+      case 'chargeback_officer': {
         this.settings = {
-          pager:{perPage: this.pagerSize},
+          pager: {perPage: this.pagerSize},
           //hideSubHeader: true,
-          actions:{
+          actions: {
             add: false,
             edit: false,
             delete: false,
@@ -219,10 +218,10 @@ export class BankListComponent implements OnInit, OnDestroy {
           },
         };
       }
-      break;
+        break;
       default: {
         this.settings = {
-          actions:{
+          actions: {
             add: false,
             edit: false,
             delete: false,
@@ -242,30 +241,31 @@ export class BankListComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         let data: any;
 
-        if(pageSize > 0 && pageNumber > 0)
+        if (pageSize > 0 && pageNumber > 0)
           data = response.results;
         else
           data = response;
         this.data = new Array();
         data.forEach(el => {
-          let t = new Bank();
-    
-          t.id = el['id'];
-          t.bin = el['bin'];
-          t.type = el['type'];
-          t.name_eng = el['name_eng'];
-          t.name_uk = el['name_uk'];
-          t.name_rus = el['name_rus'];
-          t.operator_name = el['operator_name'];
-          t.contact_person = el['contact_person'];
-          t.contact_telephone = el['contact_telephone'];
-          t.contact_email = el['contact_email'];
-
-          this.data.push(t);
-          self.banksData.push(t);
+          const bank = new Bank();
+          const bins = el['bins'];
+          if (bins.length !== 0) {
+            bank.bin = bins[0]['bin'];
+          }
+          bank.id = el['id'];
+          bank.type = el['type'];
+          bank.name_eng = el['name_eng'];
+          bank.name_uk = el['name_uk'];
+          bank.name_rus = el['name_rus'];
+          bank.operator_name = el['operator_name'];
+          bank.contact_person = el['contact_person'];
+          bank.contact_telephone = el['contact_telephone'];
+          bank.contact_email = el['contact_email'];
+          this.data.push(bank);
+          self.banksData.push(bank);
         });
         self.source = new LocalDataSource();
-        self.source.load(self.banksData);  
+        self.source.load(self.banksData);
       },
       error: error => {
         this.errorService.handleError(error);
@@ -276,8 +276,7 @@ export class BankListComponent implements OnInit, OnDestroy {
         //this.parsePagination();
         this.configuration.isLoading = false;
         this.isUiLoad = true;
-      }
-    });
+      }});
   }
 
   ngOnDestroy(): void {

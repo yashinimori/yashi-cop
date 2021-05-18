@@ -110,29 +110,29 @@ def save_user_action(sender, instance, created, **kwargs):
             )
 
 
-@receiver(post_delete, sender=User)
-@receiver(post_delete, sender=Bank)
-@receiver(post_delete, sender=BankEmployee)
-@receiver(post_delete, sender=Merchant)
-@receiver(post_delete, sender=ATM)
-@receiver(post_delete, sender=Terminal)
-@receiver(post_delete, sender=Transaction)
-@receiver(post_delete, sender=ReasonCodeGroup)
-@receiver(post_delete, sender=Comment)
-@receiver(post_delete, sender=Status)
-@receiver(post_delete, sender=Report)
-@receiver(post_delete, sender=Claim)
-def save_user_deletion(sender, instance, using, **kwargs):
-    user_data = get_user_data()
-    message = f'{user_data["user"].full_name} user with ID {user_data["user"].id} deleted {sender.__name__} with ID {instance.id}  {timezone.now()}. ' \
-              f'User IP: {user_data["ip"]}'
-    content_type = ContentType.objects.get_for_model(sender)
-
-    LoggerEntry.objects.create(
-        content_type=content_type,
-        object_id=instance.id,
-        user=user_data["user"],
-        ip=user_data["ip"],
-        change_message=message,
-        action_flag=DELETION
-    )
+# @receiver(post_delete, sender=User)
+# @receiver(post_delete, sender=Bank)
+# @receiver(post_delete, sender=BankEmployee)
+# @receiver(post_delete, sender=Merchant)
+# @receiver(post_delete, sender=ATM)
+# @receiver(post_delete, sender=Terminal)
+# @receiver(post_delete, sender=Transaction)
+# @receiver(post_delete, sender=ReasonCodeGroup)
+# @receiver(post_delete, sender=Comment)
+# @receiver(post_delete, sender=Status)
+# @receiver(post_delete, sender=Report)
+# @receiver(post_delete, sender=Claim)
+# def save_user_deletion(sender, instance, using, **kwargs):
+#     user_data = get_user_data()
+#     message = f'{user_data["user"].full_name} user with ID {user_data["user"].id} deleted {sender.__name__} with ID {instance.id}  {timezone.now()}. ' \
+#               f'User IP: {user_data["ip"]}'
+#     content_type = ContentType.objects.get_for_model(sender)
+#
+#     LoggerEntry.objects.create(
+#         content_type=content_type,
+#         object_id=instance.id,
+#         user=user_data["user"],
+#         ip=user_data["ip"],
+#         change_message=message,
+#         action_flag=DELETION
+#     )
