@@ -248,6 +248,7 @@ class ClaimListSerializer(serializers.ModelSerializer):
             "result",
             "status",
             "create_date",
+            "update_date",
         )
 
     def get_pan(self, instance):

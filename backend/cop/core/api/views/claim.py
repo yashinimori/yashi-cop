@@ -51,6 +51,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
         "result",
         "comments",
         "due_date",
+        "create_date",
+        "update_date",
     )
 
     search_fields = [
