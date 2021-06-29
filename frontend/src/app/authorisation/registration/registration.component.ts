@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
               //private formBuilder: FormBuilder
               private dialogService: NbDialogService ) {
     this.data = new Registration();
-    this.siteKey = '6Lfr30sbAAAAAIse1EHcwWVVKNZO7EzjAQ9FGySV';
+    this.siteKey = '6LfPhWQbAAAAAJLyhujnY5VTSFx_cUHX9h7EsMKm';
 
     this.reactiveForm = new FormGroup({
       first_name: new FormControl(null, Validators.required),
