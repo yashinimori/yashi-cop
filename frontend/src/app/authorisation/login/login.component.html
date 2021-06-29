@@ -10,7 +10,7 @@
           <input nbInput placeholder="Email"
           #email formControlName="email" required id="email" name="email">
           <input nbInput type="password" #password formControlName="password" required placeholder="Password">
-          <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></re-captcha>
+          <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6Lfr30sbAAAAAIse1EHcwWVVKNZO7EzjAQ9FGySV"></re-captcha>
           <nb-alert style="margin-top: 0.5em; margin-bottom: 0;" status="danger" *ngIf="isLoginDataError">Невірний логін або пароль</nb-alert> 
           <button [nbSpinner]="loading" nbSpinnerStatus="info" style="margin-top: 0.5em; width: 10em;" #submit [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="enter()">Логін</button> 
         </form>

@@ -86,7 +86,7 @@
                   </p>
                 </ng-container>
 
-                <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></re-captcha>
+                <re-captcha formControlName="recaptchaReactive" required name="captcha" (resolved)="resolved($event)" siteKey="6Lfr30sbAAAAAIse1EHcwWVVKNZO7EzjAQ9FGySV"></re-captcha>
                 
                 <nb-alert style="margin-top: 0.5em; margin-bottom: 0;" status="danger" *ngIf="isPasswordDifferent">Паролі не співпадають!</nb-alert> 
 
@@ -95,7 +95,7 @@
                 <button style="margin-top: 0.5em; width: 10em;" [disabled]="reactiveForm.invalid" nbButton type="submit" status="primary" (click)="createUser()">Реєстрація</button>
 
             </form>
-            <!-- <div class="g-recaptcha" data-sitekey="6LfplMYZAAAAAGz2M_VNGdAAW_6H7YFhab7-871I"></div> -->
+            <!-- <div class="g-recaptcha" data-sitekey="6Lfr30sbAAAAAIse1EHcwWVVKNZO7EzjAQ9FGySV"></div> -->
             <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"></ngx-recaptcha2> -->
           </nb-card-body>
           <!-- <nb-card-footer>
