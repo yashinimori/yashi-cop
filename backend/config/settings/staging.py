@@ -151,8 +151,8 @@ ANYMAIL = {
         # "aws_access_key_id": env("AWS_ACCESS_KEY_FOR_ANYMAIL_SES"),
         # "aws_secret_access_key": env("AWS_SECRET_KEY_FOR_ANYMAIL_SES"),
         "region_name": env("DJANGO_AWS_S3_REGION_NAME", default="eu-central-1"),
-        "aws_access_key_id": env("DJANGO_AWS_ACCESS_KEY_ID", default="AKIA2SYEOX6VXVEXJQP3"),
-        "aws_secret_access_key": env("DJANGO_AWS_SECRET_ACCESS_KEY", default="BB1Cr4pyr+pytV6d9u5Fed2RxdRFAS8GTiF/sP9dpWG/"),
+        "aws_access_key_id": env("DJANGO_AWS_ACCESS_KEY_ID", default="AKIA2SYEOX6V6YVD5SRE"),
+        "aws_secret_access_key": env("DJANGO_AWS_SECRET_ACCESS_KEY", default="BFePHPiNwcoBT6r6DQRodhpXDn1ChqrEN1tjAjV2sCyH"),
     },
 }
 
