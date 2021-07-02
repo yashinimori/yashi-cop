@@ -76,7 +76,7 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
-    "channels",
+#    "channels",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
@@ -347,12 +347,12 @@ MASTERCOM_KEY_PASSWORD = env('MASTERCOM_KEY_PASSWORD')
 MASTERCOM_KEY = os.path.join(ROOT_DIR, 'keys', 'bankparser-sandbox.p12')
 
 # DJANGO-CHANNELS
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("redis", 6379)],
-        },
-    },
-}
-ASGI_APPLICATION = "cop.notifications.routing.application"
+#CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels_redis.core.RedisChannelLayer",
+#        "CONFIG": {
+#            "hosts": [("redis", 6379)],
+#        },
+#    },
+#}
+#ASGI_APPLICATION = "cop.notifications.routing.application"
